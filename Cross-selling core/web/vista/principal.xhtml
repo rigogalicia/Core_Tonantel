@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Cross-selling Core</title>
+        <h:outputStylesheet name="./css/bootstrap.min.css"/>
+        <h:outputStylesheet name="./css/bootstrap-theme.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/font-awesome.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/ionicons.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/AdminLTE.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/_all-skins.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/morris.css"/>
+        <h:outputStylesheet name="./plantilla/css/jquery-jvectormap.css"/>
+        <h:outputStylesheet name="./plantilla/css/bootstrap-datepicker.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/daterangepicker.css"/>
+        <h:outputStylesheet name="./plantilla/css/bootstrap3-wysihtml5.min.css"/>
+        <h:outputStylesheet name="./plantilla/css/Google_Fonts.css"/>
+    </h:head>
+
+    <h:body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+            <div id="top">
+                <ui:insert name="top">
+                    <header class="main-header">
+                        <a href="#" class="logo">
+                            <span class="logo-mini"><b>C</b>SC</span>
+                            <span class="logo-lg"><b>Cross-Selling</b>&nbsp;CORE</span>
+                        </a>
+                        <nav class="navbar navbar-static-top">
+                            <a href="#" data-toggle="push-menu" role="button">
+                                <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>
+                            </a>
+                            <div class="navbar-custom-menu">
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown user user-menu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <h:form>
+                                                <span class="hidden-xs">#{principal.nombreUsuario}</span>
+                                            </h:form>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </header>
+                </ui:insert>
+            </div>
+            <div id="left">
+                <ui:insert name="left">
+                    <aside class="main-sidebar">
+                        <section class="sidebar">
+                            <div class="user-panel">
+                                <div class="pull-left image">
+                                    <h:graphicImage name="./img/logo_micoope.png"/> 
+                                </div>
+                                <div class="pull-left info">
+                                    <p>Cooperativa Tonantel R.L</p>
+                                    <a href="#"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Micoope</a>
+                                </div>
+                            </div>
+                            <h:form>
+                                <ul class="sidebar-menu" data-widget="tree">
+                                    <li class="header">NAVEGACIÓN PRINCIPAL</li>
+                                    
+                                    <!-- Menu para el modulo de Administración -->
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> <span>Administración</span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><h:commandLink value=" + Agencias" action="/vista/administracion/agencias.xhtml"/></li>
+                                            <li><h:commandLink value=" + Departamentos" action="/vista/administracion/departamentos.xhtml"/></li>
+                                            <li><h:commandLink value=" + Puestos" action="/vista/administracion/puestos.xhtml"/></li>
+                                            <li><h:commandLink value=" + Colaboradores" action="/vista/administracion/colaboradores.xhtml"/></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <!-- Menu para el modulo de estado patrimonial -->
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> <span>Estado Patrimonial</span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><h:commandLink value=" + Actualizar Datos" action="/vista/estado_patrimonial/registrar.xhtml"/></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <!-- Menu para el modulo de Rally Tonantel -->
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> <span>Rally</span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><h:commandLink value=" + Referir" action="/vista/rally/referir.xhtml"/></li>
+                                            <li><h:commandLink value=" + Mis Referencias" action="/vista/rally/mis_referencias.xhtml"/></li>
+                                            <li><h:commandLink value=" + Asignarme" action="/vista/rally/referencias_para_asignar.xhtml"/></li>
+                                            <li><h:commandLink value=" + Consultar Cartera" action="/vista/rally/cartera.xhtml"/></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li class="header">SISTEMA</li>
+                                    <li><h:commandLink value="Cerrar Sesión&nbsp;" action="#{principal.cerrarSesion()}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></h:commandLink></li>
+                                </ul> 
+                            </h:form>
+                        </section>
+                    </aside>
+                </ui:insert>
+            </div>
+            <div id="content">
+                <ui:insert name="content">
+                    <div class="content-wrapper">
+                        <section class="content">
+                           <!-- Boton para ingresar al formulario de actualizacion de estado patrimonial -->
+                            <div class="jumbotron">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-md-12">
+                                                <a href="#" class="thumbnail">
+                                                    <h:graphicImage name="./img/logo.png"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h1>Cross-selling CORE </h1>
+                                        <p>Nuestra nueva plataforma de gestión..</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <footer class="main-footer">
+                        <div class="pull-right hidden-xs">
+                            <b>Versión</b> #{version.numero}
+                        </div>
+                        <strong>Copyright &copy; 2018</strong> #{version.autor}
+                        <strong>#{version.institucion}</strong>
+                    </footer>
+                </ui:insert>
+            </div>
+        </div>
+        <h:outputScript name="./plantilla/js/jquery.min.js"/>
+        <h:outputScript name="./plantilla/js/jquery-ui.min.js"/>
+        <h:outputScript name="./js/bootstrap.min.js"/>
+        <h:outputScript name="./plantilla/js/raphael.min.js"/>
+        <h:outputScript name="./plantilla/js/jquery.sparkline.min.js"/>
+        <h:outputScript name="./plantilla/js/jquery-jvectormap-1.2.2.min.js"/>
+        <h:outputScript name="./plantilla/js/jquery-jvectormap-world-mill-en.js"/>
+        <h:outputScript name="./plantilla/js/jquery.knob.min.js"/>
+        <h:outputScript name="./plantilla/js/moment.min.js"/>
+        <h:outputScript name="./plantilla/js/bootstrap-datepicker.min.js"/>
+        <h:outputScript name="./plantilla/js/bootstrap3-wysihtml5.all.min.js"/>
+        <h:outputScript name="./plantilla/js/jquery.slimscroll.min.js"/>
+        <h:outputScript name="./plantilla/js/fastclick.js"/>
+        <h:outputScript name="./plantilla/js/adminlte.min.js"/>
+        <h:outputScript name="./plantilla/js/dashboard.js"/>
+        <h:outputScript name="./plantilla/js/demo.js"/>
+    </h:body>
+
+</html>

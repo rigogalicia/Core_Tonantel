@@ -1,0 +1,547 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <h:messages style="color: red"></h:messages>
+                        <!-- Formulario para Datos personales -->
+                        <h:form id="formPatrimonio">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Datos Personales</h2>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-2">
+                                            <h:outputLabel for="anio">Año:</h:outputLabel>
+                                            <h:selectOneMenu class="form-control" id="anio" value="#{registrar.estadoPatrimonialPk.anio}">
+                                                <f:selectItems value="#{registrar.listaAnio}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="dpi">DPI: (No colocar espacios)</h:outputLabel>
+                                            <h:inputText class="form-control" id="dpi" value="#{registrar.colaborador.dpi}" required="true" maxlength="20" autocomplete="off">
+                                                <f:validateLength minimum="10" maximum="20"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandButton class="form-control btn-info" value="Consultar Datos" actionListener="#{registrar.consultarPatrimonio()}">
+                                                <f:ajax execute="anio dpi" render="formPatrimonio formBienes"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="nombre">Nombres y Apellidos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="nombre" value="#{registrar.colaborador.nombre}" required="true" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="domicilio">Dirección:</h:outputLabel>
+                                            <h:inputText class="form-control" id="domicilio" value="#{registrar.colaborador.domicilio}" required="true" maxlength="100" autocomplete="off">
+                                                <f:validateLength minimum="5" maximum="100"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="nit">NIT:</h:outputLabel>
+                                            <h:inputText class="form-control" id="nit" value="#{registrar.colaborador.nit}" maxlength="15" autocomplete="off">
+                                                <f:validateLength minimum="5" maximum="15"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="edad">Edad:</h:outputLabel>
+                                            <h:inputText class="form-control" id="edad" value="#{registrar.colaborador.edad}" required="true" autocomplete="off">
+                                                <f:validateLongRange minimum="18" maximum="100"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="dependientes">Dependientes:</h:outputLabel>
+                                            <h:inputText class="form-control" id="dependientes" value="#{registrar.colaborador.dependientes}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="departamento">Departamento en que labora:</h:outputLabel>
+                                            <h:selectOneMenu class="form-control" id="departamento" value="#{registrar.colaborador.departamento}">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{registrar.listaDepartamentos}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h:outputLabel for="telefono1">Teléfono 1:</h:outputLabel>
+                                            <h:inputText class="form-control" id="telefono1" value="#{registrar.colaborador.telefono1}" required="true" maxlength="15" autocomplete="off">
+                                                <f:validateLength minimum="8" maximum="15"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h:outputLabel for="telefono2">Teléfono 2:</h:outputLabel>
+                                            <h:inputText class="form-control" id="telefono2" value="#{registrar.colaborador.telefono2}" maxlength="15" autocomplete="off">
+                                                <f:validateLength minimum="8" maximum="15"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="estado_civil">Estado Civil:</h:outputLabel>
+                                            <h:selectOneMenu id="estado_civil" value="#{registrar.colaborador.estadoCivil}" class="form-control">
+                                                <f:selectItem itemValue="s" itemLabel="Soltero (a)"/>
+                                                <f:selectItem itemValue="c" itemLabel="Casado (a)"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <h:outputLabel for="conyuge">Nombre del Conyuge:</h:outputLabel>
+                                            <h:inputText class="form-control" id="conyuge" value="#{registrar.colaborador.conyuge}" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Formulario para agregar la informacion academica -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Información Académica</h2>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="profesion">Profesión:</h:outputLabel>
+                                            <h:inputText class="form-control" id="profesion" value="#{registrar.colaborador.profesion}" required="true" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="grado">Nivel que actualmente cursa:</h:outputLabel>
+                                            <h:inputText class="form-control" id="grado" value="#{registrar.colaborador.gradoactual}" maxlength="45" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="45"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="carrera">Carrera que cursa:</h:outputLabel>
+                                            <h:inputText class="form-control" id="carrera" value="#{registrar.colaborador.carrera}" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="centro_estudio">Centro de estudio:</h:outputLabel>
+                                            <h:inputText class="form-control" id="centro_estudio" value="#{registrar.colaborador.centroestudio}" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulario para agregar la informacion del activo -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Activo</h2>
+                                    </div>
+                                    <h:inputHidden id="idactivo" value="#{registrar.activo.idactivo}"/>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="caja">Caja (Dinero en efectivo):</h:outputLabel>
+                                            <h:inputText class="form-control" id="caja" value="#{registrar.activo.caja}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaAhorroTonantel">Cuenta de Ahorro en Tonantael:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaAhorroTonantel" value="#{registrar.activo.cuentaAhorroTonantel}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaPlazoFijoTonantel">Cuenta a Plazo Fijo Tonantel:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaPlazoFijoTonantel" value="#{registrar.activo.cuentaPlazoFijoTonantel}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaAportacionesTonantel">Cuenta en Aportaciones en Tonantel:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaAportacionesTonantel" value="#{registrar.activo.cuentaAportacionesTonantel}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaAhorroBancos">Cuenta de Ahorro en Bancos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaAhorroBancos" value="#{registrar.activo.cuentaAhorroBancos}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaFondoRetiro">Cuenta de Fondo de Retiro:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaFondoRetiro" value="#{registrar.activo.cuentaFondoRetiro}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaMiPromesa">Cuenta Mi Promesa:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaMiPromesa" value="#{registrar.activo.mipromesa}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaChequesBancos">Cuenta de Cheques en Bancos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaChequesBancos" value="#{registrar.activo.cuentaChequesBancos}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cultivos">Cultivos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cultivos" value="#{registrar.activo.cultivos}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="ganado">Ganado:</h:outputLabel>
+                                            <h:inputText class="form-control" id="ganado" value="#{registrar.activo.ganado}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="mercaderia">Mercaderia:</h:outputLabel>
+                                            <h:inputText class="form-control" id="mercaderia" value="#{registrar.activo.mercaderia}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="cuentaPorCobrar">Cuentas Por Cobrar:</h:outputLabel>
+                                            <h:inputText class="form-control" id="cuentaPorCobrar" value="#{registrar.activo.cuentaPorCobrar}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="mobiliario">Mobiliario:</h:outputLabel>
+                                            <h:inputText class="form-control" id="mobiliario" value="#{registrar.activo.mobiliario}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="maquinariaEquipo">Maquinaria y Equipo:</h:outputLabel>
+                                            <h:inputText class="form-control" id="maquinariaEquipo" value="#{registrar.activo.maquinariaEquipo}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="terrenos">Terrenos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="terrenos" value="#{registrar.activo.terrenos}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="vivienda">Vivienda:</h:outputLabel>
+                                            <h:inputText class="form-control" id="vivienda" value="#{registrar.activo.vivienda}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="vehiculos">Vehiculos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="vehiculos" value="#{registrar.activo.vehiculos}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="materiasPrimas">Materias Primas:</h:outputLabel>
+                                            <h:inputText class="form-control" id="materiasPrimas" value="#{registrar.activo.materiaPrima}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="menajeCristaleria">Menaje y Cristaleria:</h:outputLabel>
+                                            <h:inputText class="form-control" id="menajeCristaleria" value="#{registrar.activo.menajeCristaleria}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="otrosActivos">Otros Activos:</h:outputLabel>
+                                            <h:inputText class="form-control" id="otrosActivos" value="#{registrar.activo.otrosActivos}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulario para agregar la informacion del pasivo -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Pasivo</h2>
+                                    </div>
+                                    <h:inputHidden id="idpasivo" value="#{registrar.pasivo.idpasivo}"/>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="prestamosCortoLagoPlazo">Prestamos a Corto y Largo Plazo:</h:outputLabel>
+                                            <h:inputText class="form-control" id="prestamosCortoLagoPlazo" value="#{registrar.pasivo.prestamoCortoLargoPlazo}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="proveedor">Proveedores:</h:outputLabel>
+                                            <h:inputText class="form-control" id="proveedor" value="#{registrar.pasivo.proveedores}" autocomplete="off" required="true"/>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="creditosCasaComerciales">Cuenta a Plazo Fijo Tonantel:</h:outputLabel>
+                                            <h:inputText class="form-control" id="creditosCasaComerciales" value="#{registrar.pasivo.creditosCasaComercial}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="deudasConParticulares">Deudas Con Particulares:</h:outputLabel>
+                                            <h:inputText class="form-control" id="deudasConParticulares" value="#{registrar.pasivo.deudaParticulares}" autocomplete="off" required="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4"/>
+                                <div class="col-sm-4">
+                                    <h:commandLink class="form-control btn btn-success" value="Guardar Datos" action="#{registrar.guardarPatrimonio()}"/><br/><b/>
+                                </div>
+                                <div class="col-sm-4"/>
+                            </div>
+                        </h:form>
+                        <h:form id="formBienes">
+                            <h:inputHidden value="#{registrar.estadoPatrimonialPk.anio}"/>
+                            <h:inputHidden value="#{registrar.colaborador.dpi}"/>
+                            
+                            <!-- Formulario para agregar la informacion de bienes muebles -->
+                            <div class="panel panel-default" style="margin-top: 20px">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Bienes Muebles</h2>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="tipo">Tipo (Automovil, Motocicleta, etc.):</h:outputLabel>
+                                            <h:selectOneMenu id="tipo" class="form-control" value="#{registrar.bienesMuebles.tipo}">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItems value="#{registrar.listaTipoBienMueble}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h:outputLabel for="marca">Marca:</h:outputLabel>
+                                            <h:inputText class="form-control" id="marca" value="#{registrar.bienesMuebles.marca}" maxlength="45" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="45"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <h:outputLabel for="modelo">Modelo:</h:outputLabel>
+                                            <h:inputText class="form-control" id="modelo" value="#{registrar.bienesMuebles.modelo}" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <h:outputLabel for="anioBien">Año:</h:outputLabel>
+                                            <h:inputText class="form-control" id="anioBien" value="#{registrar.bienesMuebles.anio}" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandLink class="btn btn-info form-control" action="#{registrar.agregarBienesMuebles()}">
+                                                <f:ajax execute="tipo marca modelo anioBien" render="formBienes"/>
+                                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                    <h:dataTable class="table table-striped" id="datosBienes" value="#{registrar.listaBienesmuebles}" var="bienesMuebles" rendered="#{registrar.listaBienesmuebles.size() > 0 eq true}">
+                                        <h:column>
+                                            <f:facet name="header">Tipo</f:facet>
+                                            #{bienesMuebles.tipo}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Marca</f:facet>
+                                            #{bienesMuebles.marca}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Modelo</f:facet>
+                                            #{bienesMuebles.modelo}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Año</f:facet>
+                                            #{bienesMuebles.anio}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink action="#{registrar.quitarBienesMuebles(bienesMuebles)}" immediate="true">
+                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div>
+                            </div>
+                          
+                            <!-- Formulario para agregar la informacion de bienes inmuebles -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Bienes Inmuebles</h2>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-3">
+                                            <h:outputLabel for="tipoBien">Tipo:</h:outputLabel>
+                                            <h:selectOneMenu class="form-control" id="tipoBien" value="#{registrar.bienesInmuebles.tipo}">
+                                                <f:selectItem itemLabel="" itemValue=""/>
+                                                <f:selectItem itemLabel="Casa" itemValue="c"/>
+                                                <f:selectItem itemLabel="Terreno" itemValue="t"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h:outputLabel for="ubicacion">Ubicación:</h:outputLabel>
+                                            <h:inputText class="form-control" id="ubicacion" value="#{registrar.bienesInmuebles.ubicacion}" maxlength="100" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="100"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h:outputLabel for="medida">Medidas (Metros cuadrados):</h:outputLabel>
+                                            <h:inputText class="form-control" id="medida" value="#{registrar.bienesInmuebles.medidas}" maxlength="45" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="45"/>
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-3">
+                                            <h:outputLabel for="hipotecado">Hipotecado:</h:outputLabel>
+                                            <h:selectOneRadio class="table" id="hipotecado" value="#{registrar.bienesInmuebles.hipotecado}">
+                                                <f:selectItem itemValue="s" itemLabel="&nbsp; Si"/>
+                                                <f:selectItem itemValue="n" itemLabel="&nbsp; No"/>
+                                            </h:selectOneRadio>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <h:outputLabel for="hipoteca">Lugar de Hipoteca:</h:outputLabel>
+                                            <h:inputText class="form-control" id="hipoteca" value="#{registrar.bienesInmuebles.lugarHipoteca}" maxlength="100" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="100"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandLink class="btn btn-info form-control" action="#{registrar.agregarBienesInmuebles()}">
+                                                <f:ajax execute="tipoBien ubicacion medida hipotecado hipoteca" render="formBienes"/>
+                                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                    <h:dataTable class="table table-striped" id="datosInmuebles" value="#{registrar.listaBienesInmuebles}" var="bienesInmuebles" rendered="#{registrar.listaBienesInmuebles.size() > 0 eq true}">
+                                        <h:column>
+                                            <f:facet name="header">Ubicación</f:facet>
+                                            #{bienesInmuebles.ubicacion}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Medidas</f:facet>
+                                            #{bienesInmuebles.medidas}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink action="#{registrar.quitarBienesInmuebles(bienesInmuebles)}" immediate="true">
+                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div>
+                            </div>
+                            
+                            <!-- Formulario para agregar la informacion de prestamos -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Prestamos</h2>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-5">
+                                            <h:outputLabel for="institucion">Institución:</h:outputLabel>
+                                            <h:inputText class="form-control" id="institucion" value="#{registrar.prestamo.institucion}" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <h:outputLabel for="monto">Monto:</h:outputLabel>
+                                            <h:inputText class="form-control" id="monto" value="#{registrar.prestamo.monto}" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <h:outputLabel for="saldo">Saldo:</h:outputLabel>
+                                            <h:inputText class="form-control" id="saldo" value="#{registrar.prestamo.saldo}" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <h:outputLabel for="fecha">Fecha: dd-MM-yyyy</h:outputLabel>
+                                            <h:inputText class="form-control" id="fecha" value="#{registrar.prestamo.fechaVencimiento}">
+                                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandLink class="btn btn-info form-control" action="#{registrar.agregarPrestamos()}">
+                                                <f:ajax execute="institucion monto saldo fecha" render="formBienes"/>
+                                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                    <h:dataTable class="table table-striped" id="datosPrestamos" value="#{registrar.listaPrestamo}" var="prestamos" rendered="#{registrar.listaPrestamo.size() > 0 eq true}">
+                                        <h:column>
+                                            <f:facet name="header">Institución</f:facet>
+                                            #{prestamos.institucion}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Monto</f:facet>
+                                            #{prestamos.monto}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Saldo</f:facet>
+                                            #{prestamos.saldo}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink actionListener="#{registrar.quitarPrestamos(prestamos)}" immediate="true">
+                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div>
+                            </div>
+                            
+                            <!-- Formulario para agregar la informacion de tarjetas de credito -->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <h2>Tarjetas de Crédito</h2>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-7">
+                                            <h:outputLabel for="instituciont">Institución:</h:outputLabel>
+                                            <h:inputText class="form-control" id="instituciont" value="#{registrar.tarjeta.institucion}" maxlength="75" autocomplete="off">
+                                                <f:validateLength minimum="3" maximum="75"/>
+                                            </h:inputText>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h:outputLabel for="limite">Limite:</h:outputLabel>
+                                            <h:inputText class="form-control" id="limite" value="#{registrar.tarjeta.limite}" autocomplete="off"/>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandLink class="btn btn-info form-control" action="#{registrar.agregarTarjeta()}">
+                                                <f:ajax execute="instituciont limite" render="formBienes"/>
+                                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                    <h:dataTable class="table table-striped" id="datosTarjeta" value="#{registrar.listaTarjeta}" var="tarjetas" rendered="#{registrar.listaTarjeta.size() > 0 eq true}">
+                                        <h:column>
+                                            <f:facet name="header">Institución</f:facet>
+                                            #{tarjetas.institucion}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Limite</f:facet>
+                                            #{tarjetas.limite}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink actionListener="#{registrar.quitarTarjetas(tarjetas)}" immediate="true">
+                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4"/>
+                                <div class="col-sm-4">
+                                    <h:commandLink class="form-control btn btn-warning" value="Imprimir Datos" action="#{registrar.imprimirDatos()}"/><br/><b/>
+                                </div>
+                                <div class="col-sm-4"/>
+                            </div>  
+                        </h:form>  
+                    </section>
+                </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+                
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
