@@ -5,10 +5,7 @@
  */
 package admin.modelo;
 
-import java.util.ArrayList;
-import org.apache.commons.codec.digest.DigestUtils;
 import rally.modelo.Asignar;
-import rally.modelo.Referencia;
 
 /**
  *
@@ -17,9 +14,14 @@ import rally.modelo.Referencia;
 public class Main {
     
     public static void main(String args[]){
-        Asignar a = new Asignar();
-        a.setUserConect("todesaragb");
-        a.consultarRefParaAsignarme();
+//        Asignar a = new Asignar();
+//        a.setUserConect("todesaragb");
+//        a.consultarRefParaAsignarme();
+
+        Departamento dep = new Departamento();
+        for(Departamento d : dep.mostrarDepartamentos()){
+            System.out.println("Nombre: " + d.getNombre());
+        }
     }
     
 }
