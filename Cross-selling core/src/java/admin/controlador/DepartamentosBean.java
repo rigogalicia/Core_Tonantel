@@ -12,6 +12,7 @@ import javax.faces.event.ActionEvent;
 public class DepartamentosBean {
     private Departamento departamento =  new Departamento();
     private ArrayList<Departamento> listaDepartamentos = new ArrayList<>();
+    private boolean edit= false;
 
     public DepartamentosBean() {
         consultarDepartamento();
@@ -32,6 +33,15 @@ public class DepartamentosBean {
     public void setListaDepartamentos(ArrayList<Departamento> listaDepartamentos) {
         this.listaDepartamentos = listaDepartamentos;
     }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+    
     private void consultarDepartamento(){
         listaDepartamentos.clear();
         listaDepartamentos = departamento.mostrarDepartamentos();
@@ -45,9 +55,16 @@ public class DepartamentosBean {
         departamento.update();
         consultarDepartamento();
         departamento = new Departamento();
+        edit = false;
     }
     public void seleccionarDepartamento(Departamento a){
+        edit = true;
         departamento = a;
+    }
+    public void cancelarActualizar(ActionEvent event){
+        edit = false;
+        departamento = new Departamento();
+        
     }
     
 
