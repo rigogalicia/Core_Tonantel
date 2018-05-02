@@ -1,7 +1,6 @@
 package rally.modelo;
 
-import admin.modelo.ProductosTonantel;
-import admin.modelo.Usuario;
+import admin.modelo.Colaborador;
 import dao.RallyAsociado;
 import dao.RallyProducto;
 import dao.RallyReferencia;
@@ -32,12 +31,12 @@ public class Asignar {
         this.userConect = userConect;
     }
     
-    /* Este metodo es utilizado para consultar las referencias para poder asignarme */
+    /* Este metodo es utilizado para consultar las referencias para poder asignarme 
     public void consultarRefParaAsignarme(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        Usuario user = new Usuario();
+        Colaborador user = new Colaborador();
         user.mostrarUsuario(this.userConect);
         String productosAsignar = "";
         for(ProductosTonantel pt : user.getProductosAsignar()){
@@ -86,4 +85,5 @@ public class Asignar {
         em.close();
         emf.close();
     }
+*/
 }

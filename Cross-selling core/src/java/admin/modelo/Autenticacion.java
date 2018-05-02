@@ -45,7 +45,7 @@ public class Autenticacion {
     
     // Valida que el usuario se encuentre en la base de datos
     public void ingresar() throws IOException{
-        Usuario user = new Usuario();
+        Colaborador user = new Colaborador();
         user.setUsuario(this.usuario);
         user.setClave(this.clave);
         

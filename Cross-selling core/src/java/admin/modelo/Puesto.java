@@ -68,4 +68,23 @@ public class Puesto {
         }
         return listaPuestos;
     }
+    
+    public ArrayList<Puesto> puestosPorDepartamento(){
+        ArrayList<Puesto> listaPuestos = new ArrayList<>();
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("puestos");
+        MongoCursor<Document> cursor = coleccion.find(eq("idDepartamento", idDepartamento)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document siguiente = cursor.next();
+                Puesto p = new Puesto();
+                p.setId(siguiente.getObjectId("_id"));
+                p.setNombre(siguiente.getString("nombre"));
+                p.setIdDepartamento(siguiente.getString("idDepartamento"));
+                listaPuestos.add(p);
+            }
+        }finally{
+            cursor.close();
+        }
+        return listaPuestos;
+    }
 }
