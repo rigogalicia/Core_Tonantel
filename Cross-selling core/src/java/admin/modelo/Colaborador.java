@@ -83,7 +83,7 @@ public class Colaborador {
     }
     
     public void insertar(){
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("usuarios");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         
         Document doc = new Document("_id", this.usuario)
                 .append("clave", DigestUtils.md5Hex(this.clave))
@@ -98,7 +98,7 @@ public class Colaborador {
     }
     
     public void update(){
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("usuarios");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         coleccion.updateOne(eq("_id", this.usuario), 
                 new Document("$set", new Document("clave", DigestUtils.md5Hex(this.clave))
                 .append("nombre", this.nombre)
@@ -111,7 +111,7 @@ public class Colaborador {
     
     public ArrayList<Colaborador> mostrarColaboradores(){
         ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("usuarios");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         MongoCursor<Document> cursor = coleccion.find().iterator();
         try{
             while(cursor.hasNext()){
@@ -134,7 +134,7 @@ public class Colaborador {
     }
     
     public boolean estaAutorizado(){
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("usuarios");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         Document doc = coleccion.find(and(eq("_id", this.usuario), eq("clave", DigestUtils.md5Hex(this.clave)))).first();
         if(doc != null){
             this.nombre = doc.getString("nombre");
