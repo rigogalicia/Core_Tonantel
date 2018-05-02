@@ -74,5 +74,6 @@ public class AgenciasBean {
     public void cancelarActualizar(ActionEvent event){
         edit = false;
         agencia = new Agencia();
+        consultarAgencias();
     }
 }

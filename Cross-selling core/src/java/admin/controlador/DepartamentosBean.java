@@ -46,28 +46,30 @@ public class DepartamentosBean {
         listaDepartamentos.clear();
         listaDepartamentos = departamento.mostrarDepartamentos();
     }
+    
     public void insertarDepartamento(ActionEvent event){
         departamento.insertar();
         consultarDepartamento();
         departamento = new Departamento();
     }
+    
     public void actualizarDepartamento(ActionEvent event){
         departamento.update();
         consultarDepartamento();
         departamento = new Departamento();
         edit = false;
     }
+    
     public void seleccionarDepartamento(Departamento a){
         edit = true;
         departamento = a;
     }
+    
     public void cancelarActualizar(ActionEvent event){
         edit = false;
         departamento = new Departamento();
-        
+        consultarDepartamento();
     }
-    
-
 
 }
     

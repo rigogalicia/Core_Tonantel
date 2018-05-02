@@ -5,6 +5,7 @@
  */
 package admin.modelo;
 
+import org.bson.types.ObjectId;
 import rally.modelo.Asignar;
 
 /**
@@ -18,10 +19,6 @@ public class Main {
 //        a.setUserConect("todesaragb");
 //        a.consultarRefParaAsignarme();
 
-        Departamento dep = new Departamento();
-        for(Departamento d : dep.mostrarDepartamentos()){
-            System.out.println("Nombre: " + d.getNombre());
-        }
     }
     
 }
