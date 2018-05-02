@@ -85,6 +85,7 @@ public class ColaboradoresBean {
     }
     
     private void consultar(){
+        colaboradores.clear();
         colaboradores = colaborador.mostrarColaboradores();
     }
     
@@ -124,6 +125,6 @@ public class ColaboradoresBean {
     public void cancelar(ActionEvent event){
         colaborador = new Colaborador();
         select = false;
-        colaboradores.clear();
+        consultar();
     }
 }
