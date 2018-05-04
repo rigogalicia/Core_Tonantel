@@ -100,8 +100,7 @@ public class Colaborador {
     public void update(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         coleccion.updateOne(eq("_id", this.usuario), 
-                new Document("$set", new Document("clave", DigestUtils.md5Hex(this.clave))
-                .append("nombre", this.nombre)
+                new Document("$set", new Document("nombre", this.nombre)
                 .append("correo", this.correo)
                 .append("operador", this.operador)
                 .append("agencia", this.agencia)
