@@ -6,77 +6,89 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="./../principal.xhtml">
-
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
                         <div class="panel panel-default">
-                            <div class="panel-heading">Administracion Privilegios</div>
+                            <div class="panel-heading">Administración Privilegios</div>
                             <div class="panel-body">
                                 <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="panel panel-default">
-                                      <div class="panel-body">
-                                          <div class="form-group">
-                                            <label for="exampleInputEmail1">Descripcion</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Descripcion"></input>
-                                          </div>
-                                          <div class="form-group">
-                                            <label for="exampleInputEmail1">Forma</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Forma"></input>
-                                          </div>
-                                          <div class="form-group">
-                                            <h:outputLabel for="idRol">Rol:</h:outputLabel>
-                                                <h:selectOneMenu id="idRol" class="form-control">
-                                                    <f:selectItem itemValue="" itemLabel=""/>
-                                                    <f:selectItems/>
-                                                </h:selectOneMenu>
-                                          </div>
-                                            <div class="row">
-                                            <div class="col-md-6">
-                                                <button type="button" class="btn btn-success">Agregar Rol</button>
-                                                <button type="button" class="btn btn-primary">Actualizar</button>
-                                            </div>
-                                            <div class="col-md-6">
-                                                 <button type="button" class="btn btn-danger">Cancelar</button>   
-                                            </div>
-                                            </div>
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="panel panel-default">
-                                        <h:form class="form-horizontal">
-                                      <div class="panel-body">
-                                        <div class="form-group">
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" placeholder="Buscar..."></input>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <button type="submit" class="btn btn-primary">
-                                                    <span class="glyphicon glyphicon-search"></span> Buscar
-                                                </button>
+                                    <div class="col-xs-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <h:form>
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="descripcion">Descripción:</h:outputLabel>
+                                                        <h:inputText id="descripcion" class="form-control" value="#{privilegios.privilegio.descripcion}" autocomplete="off" required="true">
+                                                            <f:validateLength minimum="3"/>
+                                                        </h:inputText>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="forma">Forma:</h:outputLabel>
+                                                        <h:inputText id="forma" class="form-control" value="#{privilegios.privilegio.forma}" autocomplete="off" required="true"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="rol">Rol:</h:outputLabel>
+                                                        <h:selectOneMenu id="rol" class="form-control" value="#{privilegios.privilegio.idRol}">
+                                                            <f:selectItem itemValue="" itemLabel=""/>
+                                                            <f:selectItems value="#{privilegios.itemRoles}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h:commandButton class="form-control btn btn-success" value="Agregar Rol" actionListener="#{privilegios.insertar}" rendered="#{privilegios.select == false eq true}"/>
+                                                            <h:commandButton class="form-control btn btn-primary" value="Actualizar" actionListener="#{privilegios.actualizar}" rendered="#{privilegios.select eq true}"/>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h:commandButton class="form-control btn btn-danger" value="Cancelar" actionListener="#{privilegios.cancelar}" rendered="#{privilegios.select eq true}"/>  
+                                                        </div>
+                                                    </div>
+                                                </h:form>
                                             </div>
                                         </div>
-                                          <div style="max-height: 400px; overflow-y: auto">
-                                                <table class="table table-striped">
-                                                    <td>ddsdsdssddss</td>
-                                                </table>
-                                          </div>
-                                      </div>
-                                            </h:form>
                                     </div>
-                                </div>
+                                    <div class="col-xs-6">
+                                        <div class="panel panel-default">
+                                            <h:form class="form-horizontal">
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" placeholder="Buscar..."></input>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <span class="glyphicon glyphicon-search"></span> Buscar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div style="max-height: 400px; overflow-y: auto">
+                                                    <h:dataTable class="table table-striped" value="#{privilegios.privilegios}" var="p">
+                                                        <h:column>
+                                                            <f:facet name="header">Descripción</f:facet>
+                                                            #{p.descripcion}
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">Forma</f:facet>
+                                                            #{p.forma}
+                                                        </h:column>
+                                                        <h:column>
+                                                            <h:commandLink actionListener="#{privilegios.seleccionar(p)}">
+                                                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                            </h:commandLink>
+                                                        </h:column>
+                                                    </h:dataTable>
+                                                </div>
+                                            </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
             </ui:define>
-
         </ui:composition>
-
     </body>
 </html>
