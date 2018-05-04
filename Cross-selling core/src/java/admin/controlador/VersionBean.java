@@ -1,4 +1,4 @@
-package admin.modelo;
+package admin.controlador;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
