@@ -71,6 +71,7 @@ public class RolesBean {
     /* Metodo para realizar la opcion de cancelar */
     public void cancelar(ActionEvent event){
         rol = new Rol();
+        select = false;
         consultarDatos();
     }
     
