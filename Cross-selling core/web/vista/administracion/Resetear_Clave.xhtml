@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!-- Inicia pannel principal-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Resetear Clave</h3>
+                            </div>
+                        <div class="panel-body">
+                            <!-- columna para centrar el contenido -->
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <!-- Panel del formulario -->
+                                    <div class="panel panel-default">
+                                       <div class="panel-body">
+                                            <!-- contenido del formulario-->
+                                            <form class="form-horizontal">
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                          <div class="form-group">
+                                                            <label for="inputPassword" class="col-sm-3 control-label">Operador:</label>
+                                                            <div class="col-sm-9">
+                                                            <input type="password" class="form-control" id="inputPassword" placeholder="Operador"></input>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <button type="submit" class="btn btn-primary">Buscar</button>  
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                        <div class="form-group">
+                                                            <label for="inputPassword" class="col-sm-3 control-label">Usuario:</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="password" class="form-control" id="inputPassword" placeholder="Operador"></input>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                          <div class="form-group">
+                                                            <label for="inputPassword" class="col-sm-3 control-label">Clave:</label>
+                                                            <div class="col-sm-9">
+                                                            <input type="password" class="form-control" id="inputPassword" placeholder="Clave"></input>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <button type="submit" class="btn btn-success">Generar Clave</button> 
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <button type="submit" class="btn btn-success">Actualizar</button> 
+                                                        <button type="submit" class="btn btn-danger">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!-- Termina formulario -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- Termina Panel -->
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
