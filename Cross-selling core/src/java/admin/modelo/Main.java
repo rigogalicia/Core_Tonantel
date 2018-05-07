@@ -5,6 +5,8 @@
  */
 package admin.modelo;
 
+import javax.swing.JOptionPane;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.types.ObjectId;
 import rally.modelo.Asignar;
 
@@ -15,12 +17,8 @@ import rally.modelo.Asignar;
 public class Main {
     
     public static void main(String args[]){
-        Privilegio p = new Privilegio();
-        p.setId(new ObjectId("5aeb63eb84e9dd036d15e1f4"));
-        p.setDescripcion("otra cosa");
-        p.setForma("Tambien");
-        p.update();
-
+        String clave = JOptionPane.showInputDialog("Ingrese Clave");
+        System.out.println(DigestUtils.md5Hex(clave));
     }
     
 }
