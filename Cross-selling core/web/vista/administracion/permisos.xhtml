@@ -11,6 +11,7 @@
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
+                        <!-- Panel Principal -->
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Permisos</h3>
@@ -39,127 +40,74 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">Roles</div>
-                                                <div class="panel-body">
-                                                    <h:form class="form-horizontal">
-                                                  <div class="row">   
-                                                    <div class="col-md-5">
-                                                     <div style="max-height: 400px; overflow-y: auto">
-                                                        <table class="table table-striped">
-                                                            <tr>Lista de Roles</tr> 
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..."></input>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>dsdsdsdsdsd</td>
-                                                        </table>
-                                                     </div>
-                                                    </div>
-                                                      
-                                                <div class="col-md-2">
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br>
-                                                      <button type="button" class="btn btn-success">
-                                                          <span class=" glyphicon glyphicon-forward" aria-hidden="true"></span>
-                                                      </button>                                 
-                                                  </br>
-                                                  <br>
-                                                      <button type="button" class="btn btn-success">
-                                                        <span class=" glyphicon glyphicon-backward" aria-hidden="true"></span>  
-                                                      </button>
-                                                  </br>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div style="max-height: 400px; overflow-y: auto">
-                                                    <table class="table table-striped">
-                                                        <tr>Roles Asignados</tr> 
-                                                        <td>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..."></input>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>dsdsdsdsdsd</td>
-                                                    </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </h:form>
-                                                </div>
-                                            </div>                              
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="panel panel-default">
-                                          <div class="panel-heading">Privilegios</div>
-                                          <div class="panel-body">
-                                            <h:form class="form-horizontal">
-                                                  <div class="row">   
-                                                    <div class="col-md-5">
-                                                     <div style="max-height: 400px; overflow-y: auto">
-                                                        <table class="table table-striped">
-                                                            <tr>Lista de Privilegios</tr> 
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    <label>
-                                                                    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..."></input>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td>dsdsdsdsdsd</td>
-                                                        </table>
-                                                     </div>
-                                                    </div>
-                                                      
-                                                <div class="col-md-2">
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br></br>
-                                                  <br>
-                                                      <button type="button" class="btn btn-success">
-                                                          <span class=" glyphicon glyphicon-forward" aria-hidden="true"></span>
-                                                      </button>                                 
-                                                  </br>
-                                                  <br>
-                                                      <button type="button" class="btn btn-success">
-                                                          <span class=" glyphicon glyphicon-backward" aria-hidden="true"></span>
-                                                      </button>
-                                                  </br>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div style="max-height: 400px; overflow-y: auto">
-                                                    <table class="table table-striped">
-                                                        <tr>Privilegios Asignados</tr> 
-                                                        <td>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..."></input>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td>dsdsdsdsdsd</td>
-                                                    </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </h:form>
-                                          </div>
-                                        </div>
-                                             
+                                    <!-- inicio del formulario que contiene las tablas -->
+                                    <div class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">Lista de Roles</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="panel-body">
+                                                                <table class="table table-striped" style="height: 200px">
 
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">Roles Asignados</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="panel-body">
+                                                                <table class="table table-striped" style="height: 200px">
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">Lista de Roles</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="panel-body">
+                                                                <table class="table table-striped" style="height: 200px">
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">Roles Asignados</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="panel-body">
+                                                                <table class="table table-striped" style="height: 200px">
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
