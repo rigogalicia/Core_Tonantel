@@ -17,8 +17,10 @@ import rally.modelo.Asignar;
 public class Main {
     
     public static void main(String args[]){
-        String clave = JOptionPane.showInputDialog("Ingrese Clave");
-        System.out.println(DigestUtils.md5Hex(clave));
+        Colaborador c = new Colaborador();
+        c.setOperador(394);
+        Colaborador resultado = c.datosColaborador();
+        System.out.println(resultado.getNombre());
     }
     
 }

@@ -87,4 +87,28 @@ public class Privilegio {
         
         return resultado;
     }
+    
+    /* Metodo utilizado para consultar los registro de privilegios filtrado por rol */
+    public ArrayList<Privilegio> privilegiosPorRol(){
+        ArrayList<Privilegio> resultado = new ArrayList<>();
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("privilegios");
+        MongoCursor<Document> cursor = coleccion.find(eq("idRol", idRol)).iterator();
+        
+        try{
+            while(cursor.hasNext()){
+                Document siguiente = cursor.next();
+                Privilegio p = new Privilegio();
+                p.setId(siguiente.getObjectId("_id"));
+                p.setDescripcion(siguiente.getString("descripcion"));
+                p.setForma(siguiente.getString("forma"));
+                p.setIdRol(siguiente.getString("idRol"));
+
+                resultado.add(p);
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return resultado;
+    }
 }

@@ -132,6 +132,30 @@ public class Colaborador {
         return listaUsuarios;
     }
     
+    /* Metodo para mostrar los datos del colaborador */
+    public Colaborador datosColaborador(){
+        Colaborador resultado = new Colaborador();
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("operador", operador)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                resultado.setUsuario(next.getString("_id"));
+                resultado.setClave(next.getString("clave"));
+                resultado.setNombre(next.getString("nombre"));
+                resultado.setCorreo(next.getString("correo"));
+                resultado.setOperador(next.getInteger("operador"));
+                resultado.setAgencia(next.getString("agencia"));
+                resultado.setDepartamento(next.getString("departamento"));
+                resultado.setPuesto(next.getString("puesto"));
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return resultado;
+    }
+    
     public boolean estaAutorizado(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         Document doc = coleccion.find(and(eq("_id", this.usuario), eq("clave", DigestUtils.md5Hex(this.clave)))).first();

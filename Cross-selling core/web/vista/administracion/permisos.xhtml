@@ -17,31 +17,31 @@
                                 <h3 class="panel-title">Permisos</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
+                                <h:form id="formPermisos">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="panel panel-default">
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                              <div class="form-group">
-                                                                <label for="exampleInputEmail1">Operador:</label>
-                                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></input>
-                                                              </div>
+                                                            <div class="form-group">
+                                                                <h:outputLabel for="operador">Operador:</h:outputLabel>
+                                                                <h:inputText id="operador" class="form-control" value="#{permisos.colaborador.operador}" autocomplete="off"/>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-4">
-                                                              <div class="form-group">
-                                                                <label for="exampleInputEmail1">Nombre:</label>
-                                                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></input>
-                                                              </div> 
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <h:outputLabel for="nombre">Nombre:</h:outputLabel>
+                                                                <h:inputText id="nombre" class="form-control" value="#{permisos.colaborador.nombre}" disabled="true"/>
+                                                            </div> 
                                                         </div>
+                                                        <h:commandButton actionListener="#{permisos.consultarColaborador()}" style="visibility: hidden"/>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- inicio del formulario que contiene las tablas -->
-                                    <div class="form-horizontal">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="row">
@@ -50,12 +50,17 @@
                                                         <div class="panel-heading">
                                                             <h3 class="panel-title">Lista de Roles</h3>
                                                         </div>
-                                                        <div class="panel-body">
-                                                            <div class="panel-body">
-                                                                <table class="table table-striped" style="height: 200px">
-
-                                                                </table>
-                                                            </div>
+                                                        <div class="panel-body" style="height: 300px; overflow-y: auto">
+                                                            <h:dataTable class="table table-striped" value="#{permisos.roles}" var="r">
+                                                                <h:column>
+                                                                    #{r.descripcion}
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <h:commandLink actionListener="#{permisos.asignarRol(r)}">
+                                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                </h:column>
+                                                            </h:dataTable>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -64,12 +69,20 @@
                                                         <div class="panel-heading">
                                                             <h3 class="panel-title">Roles Asignados</h3>
                                                         </div>
-                                                        <div class="panel-body">
-                                                            <div class="panel-body">
-                                                                <table class="table table-striped" style="height: 200px">
-
-                                                                </table>
-                                                            </div>
+                                                        <div class="panel-body" style="height: 300px; overflow-y: auto">
+                                                            <h:dataTable class="table table-striped" value="#{permisos.rolesAsignados}" var="ra">
+                                                                <h:column>
+                                                                    #{ra.descripcion}
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <h:commandLink actionListener="#{permisos.eliminarRol(ra)}">
+                                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink actionListener="#{permisos.consultarPrivilegios(ra)}">
+                                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                </h:column>
+                                                            </h:dataTable>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,36 +93,48 @@
                                                 <div class="col-md-6">
                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title">Lista de Roles</h3>
+                                                            <h3 class="panel-title">Lista de Privilegios</h3>
                                                         </div>
-                                                        <div class="panel-body">
-                                                            <div class="panel-body">
-                                                                <table class="table table-striped" style="height: 200px">
-
-                                                                </table>
-                                                            </div>
+                                                        <div class="panel-body" style="height: 300px; overflow-y: auto">
+                                                            <h:dataTable class="table table-striped" value="#{permisos.privilegios}" var="p">
+                                                                <h:column>
+                                                                    #{p.descripcion}
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <h:commandLink actionListener="#{permisos.asignarPrivilegios(p)}">
+                                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                </h:column>
+                                                            </h:dataTable>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title">Roles Asignados</h3>
+                                                            <h3 class="panel-title">Privilegios Asignados</h3>
                                                         </div>
-                                                        <div class="panel-body">
-                                                            <div class="panel-body">
-                                                                <table class="table table-striped" style="height: 200px">
-
-                                                                </table>
-                                                            </div>
+                                                        <div class="panel-body" style="height: 300px; overflow-y: auto">
+                                                            <h:dataTable class="table table-striped" value="#{permisos.privilegiosAsignados}" var="pa">
+                                                                <h:column>
+                                                                    #{pa.descripcion}
+                                                                </h:column>
+                                                                <h:column>
+                                                                    <h:commandLink actionListener="#{permisos.eliminarPrivilegio(pa)}">
+                                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink>
+                                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                </h:column>
+                                                            </h:dataTable>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    </div>
-                                </div>
+                                </h:form>
                             </div>
                         </div>
                     </section>
