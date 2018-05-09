@@ -105,9 +105,8 @@ public class PermisosBean {
         Privilegio priv = new Privilegio();
         priv.setIdRol(p.getId().toString());
         privilegios = priv.privilegiosPorRol();
-        permiso.consultarPermiso();
         privilegiosAsignados.clear();
-        privilegiosAsignados = permiso.getPrivilegios();
+        privilegiosAsignados = permiso.consultarPrivilegios();
     }
     
     /* Metodo para asignar los privilegios */
@@ -115,9 +114,8 @@ public class PermisosBean {
         privilegiosAsignados.add(p);
         permiso.setPrivilegios(privilegiosAsignados);
         permiso.asignarPrivilegio();
-        permiso.consultarPermiso();
         privilegiosAsignados.clear();
-        privilegiosAsignados = permiso.getPrivilegios();
+        privilegiosAsignados = permiso.consultarPrivilegios();
     }
     
     /* Metodo para eliminar los privilegios */
@@ -125,9 +123,8 @@ public class PermisosBean {
         privilegiosAsignados.remove(p);
         permiso.setPrivilegios(privilegiosAsignados);
         permiso.asignarPrivilegio();
-        permiso.consultarPermiso();
         privilegiosAsignados.clear();
-        privilegiosAsignados = permiso.getPrivilegios();
+        privilegiosAsignados = permiso.consultarPrivilegios();
     }
     
 }

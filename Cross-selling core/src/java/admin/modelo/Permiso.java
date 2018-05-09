@@ -81,15 +81,17 @@ public class Permiso extends Rol{
                 p.setForma(next.getString("formaRol"));
                 
                 ArrayList<Document> listPrivilegios = (ArrayList<Document>) next.get("privilegios");
-                privilegios = new ArrayList<>();
+                ArrayList<Privilegio> misPrivilegios = new ArrayList<>();
                 if(listPrivilegios != null){
                     for(Document docPrivilegios : listPrivilegios){
                         Privilegio priv = new Privilegio();
                         priv.setDescripcion(docPrivilegios.getString("descripcionPrivilegios"));
                         priv.setForma(docPrivilegios.getString("formaPrivilegios"));
-                        privilegios.add(priv);
+                        misPrivilegios.add(priv);
                     }
                 }
+                
+                p.setPrivilegios(misPrivilegios);
 
                 resultado.add(p);
             }
@@ -99,34 +101,27 @@ public class Permiso extends Rol{
         return resultado;
     }
     
-    /* Metodo para consultar los roles asignados por usuario */
-    public void consultarPermiso(){
+    /* Metodo para consultar los privilegios asignados por rol */
+    public ArrayList<Privilegio> consultarPrivilegios(){
+        ArrayList<Privilegio> resultado = new ArrayList<>();
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("permisos");
         MongoCursor<Document> cursor = coleccion.find(and(eq("idUsuario", idUsuario), eq("idRol", super.getId().toString()))).iterator();
         try{
             while(cursor.hasNext()){
                 Document next = cursor.next();
-                Permiso p = new Permiso();
-                p.setIdPermiso(next.getObjectId("_id"));
-                p.setIdUsuario(next.getString("idUsuario"));
-                p.setId(new ObjectId(next.getString("idRol")));
-                p.setDescripcion(next.getString("descripcionRol"));
-                p.setForma(next.getString("formaRol"));
-
                 ArrayList<Document> listPrivilegios = (ArrayList<Document>) next.get("privilegios");
-                privilegios = new ArrayList<>();
                 if(listPrivilegios != null){
                     for(Document docPrivilegios : listPrivilegios){
                         Privilegio priv = new Privilegio();
                         priv.setDescripcion(docPrivilegios.getString("descripcionPrivilegios"));
                         priv.setForma(docPrivilegios.getString("formaPrivilegios"));
-                        privilegios.add(priv);
+                        resultado.add(priv);
                     }
                 }
-                
             }
         }finally{
             cursor.close();
         }
+        return resultado;
     }
 }

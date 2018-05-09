@@ -21,6 +21,13 @@
                                             <div class="panel-body">
                                                 <h:form>
                                                     <div class="form-group">
+                                                        <h:outputLabel for="rol">Rol:</h:outputLabel>
+                                                        <h:selectOneMenu id="rol" class="form-control" value="#{privilegios.privilegio.idRol}">
+                                                            <f:selectItem itemValue="" itemLabel=""/>
+                                                            <f:selectItems value="#{privilegios.itemRoles}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <h:outputLabel for="descripcion">Descripción:</h:outputLabel>
                                                         <h:inputText id="descripcion" class="form-control" value="#{privilegios.privilegio.descripcion}" autocomplete="off" required="true">
                                                             <f:validateLength minimum="3"/>
@@ -29,13 +36,6 @@
                                                     <div class="form-group">
                                                         <h:outputLabel for="forma">Forma:</h:outputLabel>
                                                         <h:inputText id="forma" class="form-control" value="#{privilegios.privilegio.forma}" autocomplete="off" required="true"/>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <h:outputLabel for="rol">Rol:</h:outputLabel>
-                                                        <h:selectOneMenu id="rol" class="form-control" value="#{privilegios.privilegio.idRol}">
-                                                            <f:selectItem itemValue="" itemLabel=""/>
-                                                            <f:selectItems value="#{privilegios.itemRoles}"/>
-                                                        </h:selectOneMenu>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">

@@ -17,10 +17,13 @@ import rally.modelo.Asignar;
 public class Main {
     
     public static void main(String args[]){
-        Colaborador c = new Colaborador();
-        c.setOperador(394);
-        Colaborador resultado = c.datosColaborador();
-        System.out.println(resultado.getNombre());
+        Permiso per = new Permiso();
+        per.setIdUsuario("todesaragb");
+        for(Permiso p : per.mostrarPermisos()){
+            for(Privilegio l : p.getPrivilegios()){
+                System.out.println(l.getDescripcion());
+            }
+        }
     }
     
 }

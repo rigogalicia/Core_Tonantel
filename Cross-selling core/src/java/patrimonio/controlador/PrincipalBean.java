@@ -1,6 +1,9 @@
 package patrimonio.controlador;
 
+import admin.modelo.Permiso;
+import admin.modelo.Privilegio;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -10,11 +13,15 @@ import javax.servlet.http.HttpSession;
 @RequestScoped
 public class PrincipalBean {
     private String nombreUsuario;
+    private ArrayList<Permiso> permisos = new ArrayList<>();
     
     public PrincipalBean() {
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if(sesion.getAttribute("nombreUsuario") != null){
             nombreUsuario = sesion.getAttribute("nombreUsuario").toString();
+            Permiso p = new Permiso();
+            p.setIdUsuario(sesion.getAttribute("userConect").toString());
+            permisos = p.mostrarPermisos();
         }
         else{
             try {
@@ -31,6 +38,14 @@ public class PrincipalBean {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public ArrayList<Permiso> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(ArrayList<Permiso> permisos) {
+        this.permisos = permisos;
     }
     
     public void cerrarSesion(){
