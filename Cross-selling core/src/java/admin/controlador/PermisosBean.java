@@ -83,18 +83,21 @@ public class PermisosBean {
     
     /* Metodo utilizado para asignar roles */
     public void asignarRol(Rol r){
-        Permiso permiso = new Permiso();
-        permiso.setIdUsuario(colaborador.getUsuario());
-        permiso.setId(r.getId());
-        permiso.setDescripcion(r.getDescripcion());
-        permiso.setForma(r.getForma());
-        permiso.asignarRol();
-        rolesAsignados = permiso.mostrarPermisos();
+        Permiso per = new Permiso();
+        per.setIdUsuario(colaborador.getUsuario());
+        per.setId(r.getId());
+        per.setDescripcion(r.getDescripcion());
+        per.setForma(r.getForma());
+        per.asignarRol();
+        rolesAsignados = per.mostrarPermisos();
     }
     
     /* Metodo utilizado para eliminar un rol asignado */
     public void eliminarRol(Permiso p){
         p.eliminarRol();
+        privilegios.clear();
+        privilegiosAsignados.clear();
+        rolesAsignados.clear();
         rolesAsignados = p.mostrarPermisos();
     }
     
