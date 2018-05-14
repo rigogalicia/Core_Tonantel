@@ -12,6 +12,7 @@ public class AgenciasBean {
     private Agencia agencia = new Agencia();
     private ArrayList<Agencia> listaAgencias = new ArrayList<>();
     private boolean edit = false;
+    private String nombreBuscar;
     
     public AgenciasBean() {
         consultarAgencias();
@@ -39,6 +40,14 @@ public class AgenciasBean {
 
     public void setEdit(boolean edit) {
         this.edit = edit;
+    }
+
+    public String getNombreBuscar() {
+        return nombreBuscar;
+    }
+
+    public void setNombreBuscar(String nombreBuscar) {
+        this.nombreBuscar = nombreBuscar;
     }
     
     /* Este metodo es utilizado para mostrar las agencias registradas 
@@ -75,5 +84,17 @@ public class AgenciasBean {
         edit = false;
         agencia = new Agencia();
         consultarAgencias();
+    }
+    
+    /* Metodo utilizado para filtrar los registros por nombre */
+    public void buscarAgencias(){
+        if(!nombreBuscar.isEmpty()){
+            listaAgencias.clear();
+            listaAgencias = Agencia.buscarAgencias(nombreBuscar);
+        }else{
+            nombreBuscar = new String();
+            consultarAgencias();
+        }
+        
     }
 }

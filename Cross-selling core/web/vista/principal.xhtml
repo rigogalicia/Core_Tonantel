@@ -93,47 +93,6 @@
                                             </ul>
                                         </li>
                                     </ui:repeat>
-
-                                    <!-- Menu para el modulo de Administración -->
-                                    <li class="treeview">
-                                        <a href="#">
-                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> <span>Administración</span>
-                                        </a>
-                                        <ul class="treeview-menu">
-                                            <li><h:commandLink value=" + Agencias" action="/vista/administracion/agencias.xhtml"/></li>
-                                            <li><h:commandLink value=" + Departamentos" action="/vista/administracion/departamentos.xhtml"/></li>
-                                            <li><h:commandLink value=" + Puestos" action="/vista/administracion/puestos.xhtml"/></li>
-                                            <li><h:commandLink value=" + Colaboradores" action="/vista/administracion/colaboradores.xhtml"/></li>
-                                            <li><h:commandLink value=" + Roles" action="/vista/administracion/roles.xhtml"/></li>
-                                            <li><h:commandLink value=" + Privilegios" action="/vista/administracion/privilegios.xhtml"/></li>
-                                            <li><h:commandLink value=" + Permisos" action="/vista/administracion/permisos.xhtml"/></li>
-                                            <li><h:commandLink value=" + Resetear Clave" action="/vista/administracion/resetearClave.xhtml"/></li>
-                                        </ul>
-                                    </li>
-                                    
-                                    <!-- Menu para el modulo de estado patrimonial -->
-                                    <li class="treeview">
-                                        <a href="#">
-                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> <span>Estado Patrimonial</span>
-                                        </a>
-                                        <ul class="treeview-menu">
-                                            <li><h:commandLink value=" + Actualizar Datos" action="/vista/estado_patrimonial/registrar.xhtml"/></li>
-                                        </ul>
-                                    </li>
-                                    
-                                    <!-- Menu para el modulo de Rally Tonantel -->
-                                    <li class="treeview">
-                                        <a href="#">
-                                            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> <span>Rally</span>
-                                        </a>
-                                        <ul class="treeview-menu">
-                                            <li><h:commandLink value=" + Referir" action="/vista/rally/referir.xhtml"/></li>
-                                            <li><h:commandLink value=" + Mis Referencias" action="/vista/rally/mis_referencias.xhtml"/></li>
-                                            <li><h:commandLink value=" + Asignarme" action="/vista/rally/referencias_para_asignar.xhtml"/></li>
-                                            <li><h:commandLink value=" + Consultar Cartera" action="/vista/rally/cartera.xhtml"/></li>
-                                        </ul>
-                                    </li>
-                                    
                                     <li class="header">SISTEMA</li>
                                     <li><h:commandLink value="Cerrar Sesión&nbsp;" action="#{principal.cerrarSesion()}"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></h:commandLink></li>
                                 </ul> 

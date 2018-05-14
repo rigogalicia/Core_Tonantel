@@ -22,17 +22,17 @@
                                                 <h:form>
                                                     <h:messages style="color: red"/>
                                                     <div class="form-group">
-                                                        <h:outputLabel for="nombre">Nombre Puesto</h:outputLabel>
-                                                        <h:inputText id="nombre" class="form-control" required="true" autocomplete="off" value="#{puestos.puesto.nombre}">
-                                                            <f:validateLength minimum="3"/>
-                                                        </h:inputText>
-                                                    </div>
-                                                    <div class="form-group">
                                                         <h:outputLabel for="idDepartamento">Departamento:</h:outputLabel>
                                                         <h:selectOneMenu id="idDepartamento" class="form-control" value="#{puestos.puesto.idDepartamento}" required="true">
                                                             <f:selectItem itemValue="" itemLabel=""/>
                                                             <f:selectItems value="#{puestos.itemDepartamentos}"/>
                                                         </h:selectOneMenu>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="nombre">Nombre Puesto</h:outputLabel>
+                                                        <h:inputText id="nombre" class="form-control" required="true" autocomplete="off" value="#{puestos.puesto.nombre}">
+                                                            <f:validateLength minimum="3"/>
+                                                        </h:inputText>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="row">
