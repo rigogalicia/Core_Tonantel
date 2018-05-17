@@ -12,6 +12,7 @@ public class RolesBean {
     private Rol rol = new Rol();
     private ArrayList<Rol> roles = new ArrayList<>();
     private boolean select = false;
+    private String nombreBuscar;
     
     public RolesBean() {
         consultarDatos();
@@ -40,6 +41,15 @@ public class RolesBean {
     public void setSelect(boolean select) {
         this.select = select;
     }
+
+    public String getNombreBuscar() {
+        return nombreBuscar;
+    }
+
+    public void setNombreBuscar(String nombreBuscar) {
+        this.nombreBuscar = nombreBuscar;
+    }
+    
     
     /* Metodo utilizado para consultar los registros de rol */
     private void consultarDatos(){
@@ -74,5 +84,15 @@ public class RolesBean {
         select = false;
         consultarDatos();
     }
-    
+    /* Metodo utilizado para filtrar por nombre*/
+    public void buscarRoles(){
+        if(!nombreBuscar.isEmpty()){
+            roles.clear();
+            roles = Rol.buscarRoles(nombreBuscar);
+        }
+        else{
+            nombreBuscar = new String();
+            consultarDatos();
+        }
+    }
 }

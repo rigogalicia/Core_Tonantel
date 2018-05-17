@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -23,38 +24,31 @@
                                     <div class="panel panel-default">
                                        <div class="panel-body">
                                             <!-- contenido del formulario-->
-                                            <form class="form-horizontal">
+                                            <h:form id="formResetear">
                                                 <div class="row">
                                                     <div class="col-md-7">
                                                           <div class="form-group">
-                                                            <label for="inputPassword" class="col-sm-3 control-label">Operador:</label>
-                                                            <div class="col-sm-9">
-                                                            <input type="password" class="form-control" id="inputPassword" placeholder="Operador"></input>
-                                                            </div>
+                                                             <h:outputLabel for="operador">Operador:</h:outputLabel>
+                                                             <h:inputText id="operador" class="form-control" value="#{resetear.colaborador.operador}" autocomplete="off"/>
                                                             </div>
                                                     </div>
-                                                    <div class="col-md-5">
-                                                        <button type="submit" class="btn btn-primary">Buscar</button>  
-                                                    </div>
+                                                    <h:commandButton actionListener="#{resetear.consultarUsuraio()}" style="visibility: hidden"/>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-7">
                                                         <div class="form-group">
-                                                            <label for="inputPassword" class="col-sm-3 control-label">Usuario:</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="password" class="form-control" id="inputPassword" placeholder="Operador"></input>
-                                                        </div>
+                                                             <h:outputLabel for="usuario">Usuario:</h:outputLabel>
+                                                             <h:inputText id="usuario" class="form-control" value="#{resetear.colaborador.usuario}" autocomplete="off"/> 
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-7">
-                                                          <div class="form-group">
-                                                            <label for="inputPassword" class="col-sm-3 control-label">Clave:</label>
-                                                            <div class="col-sm-9">
-                                                            <input type="password" class="form-control" id="inputPassword" placeholder="Clave"></input>
-                                                            </div>
-                                                            </div>
+                                                        <div class="form-group">
+                                                            <h:outputLabel for="clave">Clave:</h:outputLabel>
+                                                            <h:inputText id="clave" class="form-control" value="#{resetear.colaborador.clave}" autocomplete="off"/>
+                                                        </div>
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <div class="checkbox">
@@ -70,7 +64,7 @@
                                                         <button type="submit" class="btn btn-danger">Cancelar</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </h:form>
                                             <!-- Termina formulario -->
                                         </div>
                                     </div>

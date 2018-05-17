@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Filters.eq;
+import java.util.regex.Pattern;
 
 public class Departamento {
     private ObjectId id;
@@ -61,5 +62,27 @@ public class Departamento {
             cursor.close();
         }
         return listaDepartamentos;
+    }
+    /* Metodo utilizado para buscar un registro de la coleccion */
+    public static ArrayList<Departamento> buscarDepartamentos(String nombreBuscar){
+       ArrayList<Departamento> listaDepartamentos = new ArrayList<>();
+       MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("departamentos");
+       MongoCursor<Document> cursor = collection.find(new Document("nombre", Pattern.compile(nombreBuscar))).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Departamento d = new Departamento();
+                d.setId(siguiente.getObjectId("_Id"));
+                d.setNombre(siguiente.getString("nombre"));
+                listaDepartamentos.add(d);
+            }
+            
+        } 
+        finally{
+            cursor.close();
+        }
+       
+       
+       return listaDepartamentos;
     }
 }

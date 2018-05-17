@@ -13,6 +13,7 @@ public class DepartamentosBean {
     private Departamento departamento =  new Departamento();
     private ArrayList<Departamento> listaDepartamentos = new ArrayList<>();
     private boolean edit= false;
+    private String nombreBuscar;
 
     public DepartamentosBean() {
         consultarDepartamento();
@@ -41,6 +42,15 @@ public class DepartamentosBean {
     public void setEdit(boolean edit) {
         this.edit = edit;
     }
+
+    public String getNombreBuscar() {
+        return nombreBuscar;
+    }
+
+    public void setNombreBuscar(String nombreBuscar) {
+        this.nombreBuscar = nombreBuscar;
+    }
+    
     
     private void consultarDepartamento(){
         listaDepartamentos.clear();
@@ -69,6 +79,17 @@ public class DepartamentosBean {
         edit = false;
         departamento = new Departamento();
         consultarDepartamento();
+    }
+    /* Metodo utilizado para filtrar los registros por nombre */
+    public void buscarDepartamentos(){
+        if(!nombreBuscar.isEmpty()){
+            listaDepartamentos.clear();
+            listaDepartamentos = Departamento.buscarDepartamentos(nombreBuscar);
+        }
+        else{
+           nombreBuscar = new String();
+           consultarDepartamento();
+        }
     }
 
 }

@@ -15,9 +15,10 @@ public class PrivilegiosBean {
     private ArrayList<Privilegio> privilegios = new ArrayList<>();
     private ArrayList<SelectItem> itemRoles = new ArrayList<>();
     private boolean select = false;
+    private String nombreBuscar;
     
     public PrivilegiosBean() {
-        consutarDatos();
+        consultarDatos();
     }
 
     public Privilegio getPrivilegio() {
@@ -35,6 +36,15 @@ public class PrivilegiosBean {
     public void setPrivilegios(ArrayList<Privilegio> privilegios) {
         this.privilegios = privilegios;
     }
+
+    public String getNombreBuscar() {
+        return nombreBuscar;
+    }
+
+    public void setNombreBuscar(String nombreBuscar) {
+        this.nombreBuscar = nombreBuscar;
+    }
+    
 
     public ArrayList<SelectItem> getItemRoles() {
         itemRoles.clear();
@@ -58,7 +68,7 @@ public class PrivilegiosBean {
     }
     
     /* Metodo utilizado para consultar registro de privilegios */
-    private void consutarDatos(){
+    private void consultarDatos(){
         privilegios.clear();
         privilegios = privilegio.mostrarPrivilegios();
     }
@@ -67,13 +77,13 @@ public class PrivilegiosBean {
     public void insertar(ActionEvent event){
         privilegio.insert();
         privilegio = new Privilegio();
-        consutarDatos();
+        consultarDatos();
     }
     
     /* Metodo utilizado para actualizar un registro de privilegios */
     public void actualizar(ActionEvent event){
         privilegio.update();
-        consutarDatos();
+        consultarDatos();
         privilegio = new Privilegio();
         select = false;
     }
@@ -88,7 +98,17 @@ public class PrivilegiosBean {
     public void cancelar(ActionEvent event){
         privilegio = new Privilegio();
         select = false;
-        consutarDatos();
+        consultarDatos();
+    }
+    public void buscarRoles(){
+        if(!nombreBuscar.isEmpty()){
+            privilegios.clear();
+            privilegios = Privilegio.buscarPrivilegios(nombreBuscar);
+        }
+        else{
+            nombreBuscar = new String();
+            consultarDatos();
+        }
     }
 }
 

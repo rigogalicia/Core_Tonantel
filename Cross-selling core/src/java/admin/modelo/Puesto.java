@@ -1,9 +1,12 @@
 package admin.modelo;
 
+import com.mongodb.Mongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
+import com.sun.corba.se.spi.orb.OperationFactory;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -87,4 +90,28 @@ public class Puesto {
         }
         return listaPuestos;
     }
+    /*Metodo utilizado para filtrar registros de la collecion*/
+    public static ArrayList<Puesto> buscarPuestos(String nombreBuscar){
+       ArrayList<Puesto> listaPuestos = new ArrayList<>();
+       MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("puestos");
+       MongoCursor<Document> cursor = collection.find(new Document("nombre", Pattern.compile(nombreBuscar))).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Puesto p = new Puesto();
+                p.setId(siguiente.getObjectId("_Id"));
+                p.setNombre(siguiente.getString("nombre"));
+                listaPuestos.add(p);
+            }
+            
+        } 
+        finally{
+            cursor.close();
+        }
+       
+       
+       return listaPuestos;
+    }
+    
+    
 }

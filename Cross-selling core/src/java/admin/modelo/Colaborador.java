@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.apache.commons.codec.digest.DigestUtils;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import java.util.regex.Pattern;
 
 public class Colaborador {
     private String usuario;
@@ -127,6 +128,24 @@ public class Colaborador {
                 listaUsuarios.add(u);
             }
         }finally{
+            cursor.close();
+        }
+        return listaUsuarios;
+    }
+    /* Metodo utilizado para buscar un registro de la coleccion */
+    public static ArrayList<Colaborador> buscarColaboradores(String nombreBuscar){
+        ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
+        MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = collection.find(new Document("nombre", Pattern.compile(nombreBuscar))).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Colaborador c = new Colaborador();
+                c.setNombre(siguiente.getString("nombre"));
+                listaUsuarios.add(c);
+                
+            }
+        } finally{
             cursor.close();
         }
         return listaUsuarios;

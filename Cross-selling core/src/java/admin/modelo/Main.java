@@ -17,13 +17,20 @@ import rally.modelo.Asignar;
 public class Main {
     
     public static void main(String args[]){
-        Permiso per = new Permiso();
+        Resetear re = new Resetear();
+        re.setOperador(1);
+        System.out.println("Hola aaaaa");
+        System.out.println(re.getUsuario());
+        System.out.println(re.getOperador());
+        System.out.println(re.getClave());
+        System.out.println(re.ConsultarDatos());
+        /* Permiso per = new Permiso();
         per.setIdUsuario("todesaragb");
         for(Permiso p : per.mostrarPermisos()){
             for(Privilegio l : p.getPrivilegios()){
                 System.out.println(l.getDescripcion());
             }
-        }
+        }*/
     }
     
 }
