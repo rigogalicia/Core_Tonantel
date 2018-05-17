@@ -55,12 +55,10 @@
                                                 <h:form class="form-horizontal">
                                                     <div class="form-group">
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" placeholder="Buscar..."></input>
+                                                            <h:inputText id="buscar" class="form-control" autocomplete="off" value="#{puestos.nombreBuscar}"></h:inputText>
                                                         </div>
                                                         <div class="col-sm-2">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                 <span class="glyphicon glyphicon-search"></span> Buscar
-                                                            </button>
+                                                            <h:commandButton class="btn btn-primary" value="Buscar" actionListener="#{puestos.buscarPuestos()}"></h:commandButton>
                                                         </div>
                                                     </div>
                                                     <div style="max-height: 400px; overflow-y: auto">

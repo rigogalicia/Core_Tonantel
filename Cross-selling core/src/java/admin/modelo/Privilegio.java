@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -110,5 +111,25 @@ public class Privilegio {
         }
         
         return resultado;
+    }
+    public static ArrayList<Privilegio> buscarPrivilegios(String nombreBuscar){
+        ArrayList<Privilegio> listaRoles = new ArrayList<>();
+        MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("privilegios");
+        MongoCursor<Document> cursor = collection.find(new Document("descripcion", Pattern.compile(nombreBuscar))).iterator();
+        
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Privilegio p = new Privilegio();
+                p.setId(siguiente.getObjectId("_id"));
+                p.setDescripcion(siguiente.getString("descripcion"));
+                p.setForma(siguiente.getString("forma")); 
+                listaRoles.add(p);
+            }
+        }finally{
+            cursor.close();
+        }
+        return listaRoles;
+        
     }
 }

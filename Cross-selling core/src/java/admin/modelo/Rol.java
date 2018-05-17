@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -70,6 +71,26 @@ public class Rol {
             cursor.close();
         }
         return resultado;
+    }
+    /* Metodo utilizado para filtrar registros de la coleccion*/
+    public static ArrayList<Rol> buscarRoles(String nombreBuscar){
+        ArrayList<Rol> listaRoles = new ArrayList<>();
+        MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("roles");
+        MongoCursor<Document> cursor = collection.find(new Document("descripcion", Pattern.compile(nombreBuscar))).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Rol r = new Rol();
+                r.setId(siguiente.getObjectId("_id"));
+                r.setDescripcion(siguiente.getString("descripcion"));
+                r.setForma(siguiente.getString("forma"));
+                listaRoles.add(r);  
+            }
+        }finally{
+            cursor.close();
+        }
+     
+        return listaRoles;
     }
     
 }

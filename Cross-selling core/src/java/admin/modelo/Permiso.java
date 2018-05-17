@@ -56,6 +56,7 @@ public class Permiso extends Rol{
             .append("formaPrivilegios", p.getForma()));        
         }
         coleccion.updateOne(eq("_id", idPermiso), new Document("$set", new Document("privilegios", docPrivilegios)));
+        
     }
     
     /* Metodo para eliminar un registro de rol asignado */
@@ -124,4 +125,5 @@ public class Permiso extends Rol{
         }
         return resultado;
     }
+
 }

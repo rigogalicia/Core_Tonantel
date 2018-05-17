@@ -20,7 +20,10 @@ public class ColaboradoresBean {
     private ArrayList<SelectItem> itemsAgencias = new ArrayList<>();
     private ArrayList<SelectItem> itemsDepartamentos = new ArrayList<>();
     private ArrayList<SelectItem> itemsPuestos = new ArrayList<>();
+   // private ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
     private boolean select = false;
+    private String nombreBuscar;
+    
     
     public ColaboradoresBean(){
         consultar();
@@ -83,6 +86,17 @@ public class ColaboradoresBean {
     public void setSelect(boolean select) {
         this.select = select;
     }
+
+
+
+    public String getNombreBuscar() {
+        return nombreBuscar;
+    }
+
+    public void setNombreBuscar(String nombreBuscar) {
+        this.nombreBuscar = nombreBuscar;
+    }
+    
     
     private void consultar(){
         colaboradores.clear();
@@ -126,5 +140,16 @@ public class ColaboradoresBean {
         colaborador = new Colaborador();
         select = false;
         consultar();
+    }
+    /* Metodo utilizado para filtrar los registros por nombre */
+    public void buscarColaboradores(){
+        if(!nombreBuscar.isEmpty()){
+            colaboradores.clear();
+            colaboradores = Colaborador.buscarColaboradores(nombreBuscar);
+        }
+        else{
+            nombreBuscar = new String();
+            consultar();
+        }
     }
 }

@@ -15,6 +15,7 @@ public class PuestosBean {
     private ArrayList<SelectItem> itemDepartamentos = new ArrayList<>();
     private ArrayList<Puesto> puestos = new ArrayList<>();
     public boolean select = false;
+    private String nombreBuscar;
     
     public PuestosBean(){
         consultarPuestos();
@@ -56,7 +57,14 @@ public class PuestosBean {
     public void setSelect(boolean select) {
         this.select = select;
     }
-    
+
+    public String getNombreBuscar() {
+        return nombreBuscar;
+    }
+
+    public void setNombreBuscar(String nombreBuscar) {
+        this.nombreBuscar = nombreBuscar;
+    }
     /* Metodo utilizado para consultar los registro de puesto */
     private void consultarPuestos(){
         puestos = puesto.mostrarPuesto();
@@ -88,5 +96,16 @@ public class PuestosBean {
         puesto = new Puesto();
         select = false;
         consultarPuestos();
+    }
+    /*Metodo utilizado para filtrar por nombre*/
+    public void buscarPuestos(){
+        if(!nombreBuscar.isEmpty()){
+            puestos.clear();
+            puestos = Puesto.buscarPuestos(nombreBuscar);
+        }
+        else{
+            nombreBuscar = new String();
+            consultarPuestos();
+        }
     }
 }
