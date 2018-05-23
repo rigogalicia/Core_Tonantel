@@ -29,16 +29,16 @@
                                                     <div class="col-md-7">
                                                           <div class="form-group">
                                                              <h:outputLabel for="operador">Operador:</h:outputLabel>
-                                                             <h:inputText id="operador" class="form-control" value="#{resetear.colaborador.operador}" autocomplete="off"/>
+                                                             <h:inputText id="operador" class="form-control" value="#{resetear.resetear.colaborador.operador}" autocomplete="off"/>
                                                             </div>
                                                     </div>
-                                                    <h:commandButton actionListener="#{resetear.consultarUsuraio()}" style="visibility: hidden"/>
+                                                    <h:commandButton actionListener="#{resetear.consultarDatos}" style="visibility: hidden"/>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                              <h:outputLabel for="usuario">Usuario:</h:outputLabel>
-                                                             <h:inputText id="usuario" class="form-control" value="#{resetear.colaborador.usuario}" autocomplete="off"/> 
+                                                             <h:inputText id="usuario" class="form-control" value="#{resetear.resetear.colaborador.usuario}" autocomplete="off"/> 
                                                         </div>
                                                     </div>
                                                     
@@ -47,24 +47,31 @@
                                                     <div class="col-md-7">
                                                         <div class="form-group">
                                                             <h:outputLabel for="clave">Clave:</h:outputLabel>
-                                                            <h:inputText id="clave" class="form-control" value="#{resetear.colaborador.clave}" autocomplete="off"/>
+                                                            <h:inputText id="clave" class="form-control" autocomplete="off" value="#{resetear.resetear.nuevaClave}"/>
+                                                            
                                                         </div>
                                                     </div>
-                                                    <div class="col-xs-4">
-                                                        <div class="checkbox">
-                                                            <label>
-                                                            <input type="checkbox">Generar Clave</input>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div> 
                                                 <div class="row">
-                                                    <div class="col-xs-6">
-                                                        <button type="submit" class="btn btn-success">Actualizar</button> 
-                                                        <button type="submit" class="btn btn-danger">Cancelar</button>
+                                                    <div class="col-xs-3 col-md-3">
+                                                        <h:commandButton value="Acturalizar" class="btn btn-success" actionListener="#{resetear.actualizarClave}"></h:commandButton>
+                                                    </div>
+                                                    <div class="col-xs-3 col-md-3">
+                                                        <h:commandButton value="Cancelar" class="btn btn-danger" actionListener="#{resetear.cancelar}"></h:commandButton>  
                                                     </div>
                                                 </div>
-                                            </h:form>
+                                                <br></br>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                    <h:form rendered="#{resetear.resetear.error != null eq true}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                    #{resetear.resetear.error}
+                                                    </div>
+                                                    </h:form>  
+                                                    </div>
+                                                </div>
+                                                
+                                                </h:form>
                                             <!-- Termina formulario -->
                                         </div>
                                     </div>

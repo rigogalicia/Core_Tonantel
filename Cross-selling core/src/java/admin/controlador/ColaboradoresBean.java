@@ -20,7 +20,6 @@ public class ColaboradoresBean {
     private ArrayList<SelectItem> itemsAgencias = new ArrayList<>();
     private ArrayList<SelectItem> itemsDepartamentos = new ArrayList<>();
     private ArrayList<SelectItem> itemsPuestos = new ArrayList<>();
-   // private ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
     private boolean select = false;
     private String nombreBuscar;
     
