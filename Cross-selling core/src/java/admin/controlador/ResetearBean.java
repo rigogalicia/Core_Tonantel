@@ -7,11 +7,8 @@ package admin.controlador;
 
 import admin.modelo.Colaborador;
 import admin.modelo.Resetear;
-import java.awt.Event;
-import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.event.ActionListener;
 
 /**
  *
@@ -23,8 +20,6 @@ public class ResetearBean {
     private Resetear  resetear = new Resetear();
     private Colaborador colaborador = new Colaborador();
 
-            
-    
     public ResetearBean() {
         
     }
@@ -50,5 +45,4 @@ public class ResetearBean {
         resetear.ConsultarDatos();
     }
 
-    
 }

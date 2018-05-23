@@ -18,48 +18,55 @@
                                     <h1><small>&nbsp;! No se ha encontrado ningún registro en su cartera ...</small></h1>
                                 </div>
                             </h:form>
-                            <h:dataTable class="table table-striped" value="#{cartera.listCartera}" var="c" rendered="#{cartera.listCartera.size() > 0 eq true}">
-                                <h:column>
-                                    <f:facet name="header">CIF</f:facet>
-                                    #{c.codigoCliente}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">NOMBRE</f:facet>
-                                    #{c.nombreCliente}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">TELEFONO</f:facet>
-                                    #{c.celular}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">No. PRESTAMO</f:facet>
-                                    #{c.numeroPrestamo}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">MORA</f:facet>
-                                    #{c.indicadorMoroso}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">DIAS MORA</f:facet>
-                                    #{c.diasMora}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">PROXIMO PAGO</f:facet>
-                                    #{c.fechaProximoPago}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">MONTO ORIGINAL</f:facet>
-                                    #{c.montoOriginal}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">CAPITAL</f:facet>
-                                    #{c.capitalDesembolsado}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">SALDO</f:facet>
-                                    #{c.saldoActual}
-                                </h:column>
-                            </h:dataTable>
+                            <h:form>
+                                <h:dataTable class="table table-striped" value="#{cartera.listCartera}" var="c" rendered="#{cartera.listCartera.size() > 0 eq true}">
+                                    <h:column>
+                                        <f:facet name="header">CIF</f:facet>
+                                        #{c.codigoCliente}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">NOMBRE</f:facet>
+                                        #{c.nombreCliente}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">TELEFONO</f:facet>
+                                        #{c.celular}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">No. PRESTAMO</f:facet>
+                                        #{c.numeroPrestamo}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">MORA</f:facet>
+                                        #{c.indicadorMoroso}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">DIAS MORA</f:facet>
+                                        #{c.diasMora}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">PROXIMO PAGO</f:facet>
+                                        #{c.fechaProximoPago}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">MONTO ORIGINAL</f:facet>
+                                        #{c.montoOriginal}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">CAPITAL</f:facet>
+                                        #{c.capitalDesembolsado}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">SALDO</f:facet>
+                                        #{c.saldoActual}
+                                    </h:column>
+                                    <h:column>
+                                        <h:commandLink class="form-control">
+                                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
                         </div>
                     </section>
                 </div>

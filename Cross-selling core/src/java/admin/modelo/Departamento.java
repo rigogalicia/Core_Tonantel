@@ -63,6 +63,7 @@ public class Departamento {
         }
         return listaDepartamentos;
     }
+    
     /* Metodo utilizado para buscar un registro de la coleccion */
     public static ArrayList<Departamento> buscarDepartamentos(String nombreBuscar){
        ArrayList<Departamento> listaDepartamentos = new ArrayList<>();
