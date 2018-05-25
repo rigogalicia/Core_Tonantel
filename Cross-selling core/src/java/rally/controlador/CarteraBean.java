@@ -12,14 +12,12 @@ import rally.modelo.Cartera;
 @ManagedBean(name = "cartera")
 @RequestScoped
 public class CarteraBean {
-     private String nombreUsuario;
      private int operador;
      private ArrayList<RallyCartera> listCartera = new ArrayList<>();
      
     public CarteraBean() {
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        if(sesion.getAttribute("nombreUsuario") != null){
-            nombreUsuario = sesion.getAttribute("nombreUsuario").toString();
+        if(sesion.getAttribute("operador") != null){
             operador = Integer.parseInt(sesion.getAttribute("operador").toString());
             
             obtenerDatos();

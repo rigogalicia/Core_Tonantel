@@ -84,6 +84,7 @@ public class RolesBean {
         select = false;
         consultarDatos();
     }
+    
     /* Metodo utilizado para filtrar por nombre*/
     public void buscarRoles(){
         if(!nombreBuscar.isEmpty()){

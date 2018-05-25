@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!--Inicia panel principar que contendtra la informacion del credido -->
+                        <div class="panel panel-default">     
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Seguimiento</h3>
+                                <h:form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-3 col-md-offset-11">
+                                        <h:commandLink  action="/vista/rally/cartera.xhtml" style="font-size: large">
+                                          <span class="glyphicon glyphicon-share-alt" aria-hidden="true">Atras</span> 
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                                </h:form>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-3">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">No.Creditos:</label>
+                                                <div class="col-sm-4">
+                                                    <f:param name="cartera" value="#{cartera.listCartera}" id="cartera"></f:param>
+                                                    <h:outputText value="#{seguimiento.numerocartera}"></h:outputText>
+                                                    
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-8">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Nombre Asociado:</label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static">Erick Noel Perez Monterroso</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                                <!--Panel que contiene el comentario y fecha -->
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                    <div class="col-xs-6 col-sm-4">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">Comentario:</label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static">24/05/2018</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <button type="button" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-send">Enviar</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Panel que tendra el listado de comentarios-->
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                    Basic panel example
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

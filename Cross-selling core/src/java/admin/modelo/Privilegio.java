@@ -112,6 +112,8 @@ public class Privilegio {
         
         return resultado;
     }
+    
+    /* Metodo para buscar un registro dentro del documento */
     public static ArrayList<Privilegio> buscarPrivilegios(String nombreBuscar){
         ArrayList<Privilegio> listaRoles = new ArrayList<>();
         MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("privilegios");
@@ -123,7 +125,9 @@ public class Privilegio {
                 Privilegio p = new Privilegio();
                 p.setId(siguiente.getObjectId("_id"));
                 p.setDescripcion(siguiente.getString("descripcion"));
-                p.setForma(siguiente.getString("forma")); 
+                p.setForma(siguiente.getString("forma"));
+                p.setIdRol(siguiente.getString("idRol"));
+                
                 listaRoles.add(p);
             }
         }finally{

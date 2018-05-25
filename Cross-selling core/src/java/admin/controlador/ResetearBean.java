@@ -10,7 +10,9 @@ import admin.modelo.Password;
 import admin.modelo.Resetear;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+
 import javax.faces.event.ActionEvent;
+
 
 /**
  *
@@ -22,8 +24,9 @@ public class ResetearBean {
     private Resetear  resetear = new Resetear();
     private Password pas = new Password();
     private Colaborador colaborador = new Colaborador();
+
     private String NuevaClave;
-    
+
     public ResetearBean() {
     }
 
@@ -72,4 +75,5 @@ public class ResetearBean {
           resetear.update();
 
     }
+
 }

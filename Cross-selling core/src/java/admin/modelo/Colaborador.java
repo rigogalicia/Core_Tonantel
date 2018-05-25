@@ -132,6 +132,7 @@ public class Colaborador {
         }
         return listaUsuarios;
     }
+    
     /* Metodo utilizado para buscar un registro de la coleccion */
     public static ArrayList<Colaborador> buscarColaboradores(String nombreBuscar){
         ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
@@ -140,10 +141,16 @@ public class Colaborador {
         try {
             while (cursor.hasNext()) {
                 Document siguiente = cursor.next();
-                Colaborador c = new Colaborador();
-                c.setNombre(siguiente.getString("nombre"));
-                listaUsuarios.add(c);
-                
+                Colaborador u = new Colaborador();
+                u.setUsuario(siguiente.getString("_id"));
+                u.setClave(siguiente.getString("clave"));
+                u.setNombre(siguiente.getString("nombre"));
+                u.setCorreo(siguiente.getString("correo"));
+                u.setOperador(siguiente.getInteger("operador"));
+                u.setAgencia(siguiente.getString("agencia"));
+                u.setDepartamento(siguiente.getString("departamento"));
+                u.setPuesto(siguiente.getString("puesto"));
+                listaUsuarios.add(u);
             }
         } finally{
             cursor.close();

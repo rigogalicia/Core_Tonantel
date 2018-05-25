@@ -471,7 +471,7 @@ public class RegistrarPatrimonioBean {
         
         Class.forName("com.mysql.jdbc.Driver");
         Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
-        JasperPrint jasperPrint = JasperFillManager.fillReport("/Users/RigoGalicia/JaspersoftWorkspace/Cross-selling core/Estado Patrimonial/Patrimonio_Personal.jasper", parametros, conexion);
+        JasperPrint jasperPrint = JasperFillManager.fillReport("/var/lib/tomcat7/webapps/Report/Patrimonio_Personal.jasper", parametros, conexion);
         
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.addHeader("Content-Disposition","attachment; filename=Estado_Patrimonial.pdf");

@@ -97,6 +97,7 @@ public class PuestosBean {
         select = false;
         consultarPuestos();
     }
+    
     /*Metodo utilizado para filtrar por nombre*/
     public void buscarPuestos(){
         if(!nombreBuscar.isEmpty()){

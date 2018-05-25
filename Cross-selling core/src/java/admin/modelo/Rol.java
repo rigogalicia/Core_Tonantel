@@ -72,6 +72,7 @@ public class Rol {
         }
         return resultado;
     }
+    
     /* Metodo utilizado para filtrar registros de la coleccion*/
     public static ArrayList<Rol> buscarRoles(String nombreBuscar){
         ArrayList<Rol> listaRoles = new ArrayList<>();
