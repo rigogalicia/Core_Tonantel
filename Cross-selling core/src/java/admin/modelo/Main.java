@@ -5,6 +5,8 @@
  */
 package admin.modelo;
 
+import rally.modelo.Cartera;
+
 /**
  *
  * @author RigoGalicia
@@ -12,7 +14,7 @@ package admin.modelo;
 public class Main {
     
     public static void main(String args[]){
-
+        Cartera.consultarSeguimiento("2342342");
     }
     
 }

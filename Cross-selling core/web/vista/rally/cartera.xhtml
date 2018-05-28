@@ -61,8 +61,10 @@
                                         #{c.saldoActual}
                                     </h:column>
                                     <h:column>
-                                        <h:commandLink class="form-control" action="/vista/rally/seguimiento.xhtml" rendered="#{cartera.listCartera.size() > 0 eq true}" >
+                                        <h:commandLink class="form-control" action="/vista/rally/seguimiento.xhtml" rendered="#{c.diasMora > 0 eq true}">
                                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                            <f:param name="numeroCredito" value="#{c.numeroPrestamo}"/>
+                                            <f:param name="nombreAsociado" value="#{c.nombreCliente}"/>
                                         </h:commandLink>
                                     </h:column>
                                 </h:dataTable>

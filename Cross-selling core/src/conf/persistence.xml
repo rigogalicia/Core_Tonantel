@@ -21,9 +21,16 @@
     <class>dao.RallyMeta</class>
     <class>dao.RallyAsociado</class>
     <class>dao.RallyProvicional</class>
+    <class>dao.RallySeguimientoCartera</class>
+    <class>dao.GcSolicitud</class>
+    <class>dao.GcAsociado</class>
+    <class>dao.GcTramite</class>
+    <class>dao.GcTipo</class>
+    <class>dao.GcRiesgo</class>
+    <class>dao.GcDestino</class>
+    <class>dao.GcGestion</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      
         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology?zeroDateTimeBehavior=convertToNull"/>
         <property name="javax.persistence.jdbc.user" value="root"/>
         <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

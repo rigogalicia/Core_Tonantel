@@ -33,9 +33,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">No.Creditos:</label>
                                                 <div class="col-sm-4">
-                                                    <f:param name="cartera" value="#{cartera.listCartera}" id="cartera"></f:param>
-                                                    <h:outputText value="#{seguimiento.numerocartera}"></h:outputText>
-                                                    
+                                                    <p class="form-control-static">#{seguimiento.numeroPrestamo}</p>
                                                 </div>
                                             </div>
                                         </form>
@@ -45,47 +43,59 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Nombre Asociado:</label>
                                                 <div class="col-sm-6">
-                                                    <p class="form-control-static">Erick Noel Perez Monterroso</p>
+                                                    <p class="form-control-static">#{seguimiento.nombreAsociado}</p>
                                                 </div>
                                             </div>
                                         </form>
-                                        
                                     </div>
                                 </div>
                                 <!--Panel que contiene el comentario y fecha -->
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                    <div class="col-xs-6 col-sm-4">
-                                        <form class="form-horizontal">
-                                            <div class="form-group">
-                                                <label class="col-sm-4 control-label">Comentario:</label>
-                                                <div class="col-sm-6">
-                                                    <p class="form-control-static">24/05/2018</p>
+                                        <div class="col-xs-6 col-sm-4">
+                                            <form class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Comentario:</label>
+                                                    <div class="col-sm-6">
+                                                        <p class="form-control-static">#{seguimiento.fecha}</p>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <h:form>
+                                            <h:messages style="color: red"/>
+                                            <h:inputTextarea id="comentario" class="form-control" rows="3" value="#{seguimiento.seguimientoCartera.comentario}" required="true">
+                                                <f:validateLength minimum="3" maximum="500"/>
+                                            </h:inputTextarea>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <h:commandButton value="Enviar" class="btn btn-primary" actionListener="#{seguimiento.agregarSeguimiento}"/>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                        <br/>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <button type="button" class="btn btn-primary">
-                                                    <span class="glyphicon glyphicon-send">Enviar</span>
-                                                </button>
-                                            </div>
-                                        </div>
+                                        </h:form>
                                     </div>
                                 </div>
                                 <!--Panel que tendra el listado de comentarios-->
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                    Basic panel example
+                                <ui:repeat value="#{seguimiento.listaSeguimiento}" var="s">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            #{s.fecha}<br/>
+                                            #{s.comentario}
+                                        </div>
                                     </div>
-                                </div>
+                                </ui:repeat>
                             </div>
                         </div>
                     </section>
                 </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
             </ui:define>
 
         </ui:composition>

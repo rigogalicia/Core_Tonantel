@@ -19,9 +19,9 @@ import javax.persistence.criteria.Root;
  *
  * @author Rgalicia
  */
-public class RallyProvicionalJpaController implements Serializable {
+public class RallySeguimientoCarteraJpaController implements Serializable {
 
-    public RallyProvicionalJpaController(EntityManagerFactory emf) {
+    public RallySeguimientoCarteraJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -30,12 +30,12 @@ public class RallyProvicionalJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(RallyProvicional rallyProvicional) {
+    public void create(RallySeguimientoCartera rallySeguimientoCartera) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(rallyProvicional);
+            em.persist(rallySeguimientoCartera);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -44,19 +44,19 @@ public class RallyProvicionalJpaController implements Serializable {
         }
     }
 
-    public void edit(RallyProvicional rallyProvicional) throws NonexistentEntityException, Exception {
+    public void edit(RallySeguimientoCartera rallySeguimientoCartera) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            rallyProvicional = em.merge(rallyProvicional);
+            rallySeguimientoCartera = em.merge(rallySeguimientoCartera);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = rallyProvicional.getIdprovicional();
-                if (findRallyProvicional(id) == null) {
-                    throw new NonexistentEntityException("The rallyProvicional with id " + id + " no longer exists.");
+                Integer id = rallySeguimientoCartera.getId();
+                if (findRallySeguimientoCartera(id) == null) {
+                    throw new NonexistentEntityException("The rallySeguimientoCartera with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -72,14 +72,14 @@ public class RallyProvicionalJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            RallyProvicional rallyProvicional;
+            RallySeguimientoCartera rallySeguimientoCartera;
             try {
-                rallyProvicional = em.getReference(RallyProvicional.class, id);
-                rallyProvicional.getIdprovicional();
+                rallySeguimientoCartera = em.getReference(RallySeguimientoCartera.class, id);
+                rallySeguimientoCartera.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The rallyProvicional with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The rallySeguimientoCartera with id " + id + " no longer exists.", enfe);
             }
-            em.remove(rallyProvicional);
+            em.remove(rallySeguimientoCartera);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -88,19 +88,19 @@ public class RallyProvicionalJpaController implements Serializable {
         }
     }
 
-    public List<RallyProvicional> findRallyProvicionalEntities() {
-        return findRallyProvicionalEntities(true, -1, -1);
+    public List<RallySeguimientoCartera> findRallySeguimientoCarteraEntities() {
+        return findRallySeguimientoCarteraEntities(true, -1, -1);
     }
 
-    public List<RallyProvicional> findRallyProvicionalEntities(int maxResults, int firstResult) {
-        return findRallyProvicionalEntities(false, maxResults, firstResult);
+    public List<RallySeguimientoCartera> findRallySeguimientoCarteraEntities(int maxResults, int firstResult) {
+        return findRallySeguimientoCarteraEntities(false, maxResults, firstResult);
     }
 
-    private List<RallyProvicional> findRallyProvicionalEntities(boolean all, int maxResults, int firstResult) {
+    private List<RallySeguimientoCartera> findRallySeguimientoCarteraEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(RallyProvicional.class));
+            cq.select(cq.from(RallySeguimientoCartera.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -112,20 +112,20 @@ public class RallyProvicionalJpaController implements Serializable {
         }
     }
 
-    public RallyProvicional findRallyProvicional(Integer id) {
+    public RallySeguimientoCartera findRallySeguimientoCartera(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(RallyProvicional.class, id);
+            return em.find(RallySeguimientoCartera.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getRallyProvicionalCount() {
+    public int getRallySeguimientoCarteraCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<RallyProvicional> rt = cq.from(RallyProvicional.class);
+            Root<RallySeguimientoCartera> rt = cq.from(RallySeguimientoCartera.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
