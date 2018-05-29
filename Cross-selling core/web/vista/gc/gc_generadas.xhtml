@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!--Panel principal de Generadas -->
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Generadas</h3>
+                          </div>
+                          <div class="panel-body">
+                            <!--Panel de contenido-->
+                            <div class="panel panel-default">
+                              <div class="panel-body">
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </section>
+                </div>
+                <!--Contiene la version del sistema-->
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

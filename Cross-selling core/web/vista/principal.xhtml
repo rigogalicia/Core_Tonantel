@@ -89,6 +89,10 @@
                                                     
                                                     <!-- Privilegios que corresponden al modulo de rally -->
                                                     <li><h:commandLink value=" + Consultar Cartera" action="/vista/rally/cartera.xhtml" rendered="#{b.forma == 'rallyCartera' eq true}"/></li>
+                                                    
+                                                    <!-- Privilegios que corresponde al modulo gc -->
+                                                    <li><h:commandLink value=" + Generar Solicitud" action="/vista/gc/gc_solicitud.xhtml" rendered="#{b.forma == 'gcSolicitud' eq true}"/></li>
+                                                    <li><h:commandLink value=" + Generadas" action="/vista/gc/gc_generadas.xhtml" rendered="#{b.forma == 'gcGeneradas' eq true}"/></li>
                                                 </ui:repeat>
                                             </ul>
                                         </li>

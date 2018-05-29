@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!--Panel principal de formulario GC -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Generar Solicitud</h3>
+                            </div>
+                            <div class="panel-body">
+                                <!--columnas que contienen Cif,Nombre -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Cif:</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Cif"></input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Nombre:</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Nombre"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Termina columnas que contiene Cif,nombre-->
+                                <!--Columnas que contienen num.solicitud,monto,Origen-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Numero Solicitud:</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Num.Solicitud"></input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Monto:</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Monto"></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Termina columnas-->
+                                <!--Columas que contienen destino,tipo,origen-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Destino:</label>
+                                        <select class="form-control">
+                                        </select>
+                                      </div>
+                                    </div> 
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo:</label>
+                                        <select class="form-control">
+                                        </select>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Origen de Tramite:</label>
+                                        <select class="form-control">
+                                        </select>
+                                      </div>
+                                    </div> 
+                                </div>
+                                <!--Termina las columnas que contiene Destino,Tipo,Tramite-->     
+                                <!--Seccion de Botones-->
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <button type="button" class="btn btn-success">Generar Solicitud</button>
+                                        <button type="button" class="btn btn-danger">Cancelar</button>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button type="button" class="btn btn-primary">Actualizar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
