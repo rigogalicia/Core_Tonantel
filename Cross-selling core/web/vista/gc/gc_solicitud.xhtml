@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -16,75 +18,82 @@
                                 <h3 class="panel-title">Generar Solicitud</h3>
                             </div>
                             <div class="panel-body">
-                                <!--columnas que contienen Cif,Nombre -->
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Cif:</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Cif"></input>
+                                <h:form id="formSolicitud">
+                                    <h:messages style="color: red"/>
+                                    <!--columnas que contienen Cif,Nombre -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="cif">* Cif:</h:outputLabel>
+                                                <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true">
+                                                    <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formSolicitud"/>
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <h:outputLabel for="nombre">* Nombre:</h:outputLabel>
+                                                <h:inputText id="nombre" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.nombre}" required="true"/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nombre:</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Nombre"></input>
+                                    <!--Termina columnas que contiene Cif,nombre-->
+                                    <!--Columnas que contienen num.solicitud,monto,Origen-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
+                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.numeroSolicitud}" required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel>* Monto:</h:outputLabel>
+                                                <h:inputText id="monto" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.monto}" required="true"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Termina columnas que contiene Cif,nombre-->
-                                <!--Columnas que contienen num.solicitud,monto,Origen-->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Numero Solicitud:</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Num.Solicitud"></input>
+                                    <!--Termina columnas-->
+                                    <!--Columas que contienen destino,tipo,origen-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="destinoCredito">* Destino:</h:outputLabel>
+                                                <h:selectOneMenu id="destinoCredito" class="form-control" value="#{gc_solicitud.solicitud.destinoGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_solicitud.destinoCredito}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel>* Tipo:</h:outputLabel>
+                                                <h:selectOneMenu id="tipoCredito" class="form-control" value="#{gc_solicitud.solicitud.tipoGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_solicitud.tipoCredito}"/>
+                                                </h:selectOneMenu>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Monto:</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Monto"></input>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="tramiteCredito">* Origen de Tramite:</h:outputLabel>
+                                                <h:selectOneMenu id="tramiteCredito" class="form-control" value="#{gc_solicitud.solicitud.tramiteGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_solicitud.tramiteCredito}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <!--Termina las columnas que contiene Destino,Tipo,Tramite-->     
+                                    <!--Seccion de Botones-->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <h:commandButton class="btn btn-success form-control" value="Generar Solicitud" actionListener="#{gc_solicitud.generarSolicutid}"/>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Termina columnas-->
-                                <!--Columas que contienen destino,tipo,origen-->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label for="exampleInputEmail1">Destino:</label>
-                                        <select class="form-control">
-                                        </select>
-                                      </div>
-                                    </div> 
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label for="exampleInputEmail1">Tipo:</label>
-                                        <select class="form-control">
-                                        </select>
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label for="exampleInputEmail1">Origen de Tramite:</label>
-                                        <select class="form-control">
-                                        </select>
-                                      </div>
-                                    </div> 
-                                </div>
-                                <!--Termina las columnas que contiene Destino,Tipo,Tramite-->     
-                                <!--Seccion de Botones-->
-                                <div class="row">
-                                    <div class="col-xs-4">
-                                        <button type="button" class="btn btn-success">Generar Solicitud</button>
-                                        <button type="button" class="btn btn-danger">Cancelar</button>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <button type="button" class="btn btn-primary">Actualizar</button>
-                                    </div>
-                                </div>
+                                </h:form>
                             </div>
                         </div>
                     </section>

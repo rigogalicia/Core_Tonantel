@@ -38,6 +38,9 @@ public class GcDestino implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
+    @Basic(optional = false)
+    @Column(name = "estado")
+    private Character estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "destinoId")
     private List<GcSolicitud> gcSolicitudList;
 
@@ -48,9 +51,10 @@ public class GcDestino implements Serializable {
         this.id = id;
     }
 
-    public GcDestino(Integer id, String descripcion) {
+    public GcDestino(Integer id, String descripcion, Character estado) {
         this.id = id;
         this.descripcion = descripcion;
+        this.estado = estado;
     }
 
     public Integer getId() {
@@ -67,6 +71,14 @@ public class GcDestino implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Character getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Character estado) {
+        this.estado = estado;
     }
 
     public List<GcSolicitud> getGcSolicitudList() {

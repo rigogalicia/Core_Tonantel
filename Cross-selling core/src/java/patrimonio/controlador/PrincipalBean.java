@@ -1,7 +1,6 @@
 package patrimonio.controlador;
 
 import admin.modelo.Permiso;
-import admin.modelo.Privilegio;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
