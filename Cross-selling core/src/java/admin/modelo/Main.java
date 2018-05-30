@@ -5,7 +5,7 @@
  */
 package admin.modelo;
 
-import rally.modelo.Cartera;
+import gc.modelo.SolicitudesGeneradas;
 
 /**
  *
@@ -14,7 +14,11 @@ import rally.modelo.Cartera;
 public class Main {
     
     public static void main(String args[]){
-        Cartera.consultarSeguimiento("2342342");
+        SolicitudesGeneradas sg = new SolicitudesGeneradas();
+        sg.setEstadoId("a");
+        for(SolicitudesGeneradas s : sg.mostrarDatos("todesaragb")){
+            System.out.println(s.getNombreAsociado());
+        }
     }
     
 }
