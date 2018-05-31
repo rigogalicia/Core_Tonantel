@@ -75,24 +75,25 @@
                                             <ul class="treeview-menu">
                                                 <ui:repeat value="#{a.privilegios}" var="b">
                                                     <!-- Privilegios que corresponden al modulo de Administración -->
-                                                    <li><h:commandLink value=" + Agencias" action="/vista/administracion/agencias.xhtml" rendered="#{b.forma == 'adminAgencia' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Departamentos" action="/vista/administracion/departamentos.xhtml" rendered="#{b.forma == 'adminDepartamento' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Puestos" action="/vista/administracion/puestos.xhtml" rendered="#{b.forma == 'adminPuesto' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Colaboradores" action="/vista/administracion/colaboradores.xhtml" rendered="#{b.forma == 'adminColaborador' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Roles" action="/vista/administracion/roles.xhtml" rendered="#{b.forma == 'adminRol' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Privilegios" action="/vista/administracion/privilegios.xhtml" rendered="#{b.forma == 'adminPrivilegio' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Permisos" action="/vista/administracion/permisos.xhtml" rendered="#{b.forma == 'adminPermiso' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Resetear Clave" action="/vista/administracion/resetearClave.xhtml" rendered="#{b.forma == 'adminResetClave' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/agencias.xhtml" rendered="#{b.forma == 'adminAgencia' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/departamentos.xhtml" rendered="#{b.forma == 'adminDepartamento' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/puestos.xhtml" rendered="#{b.forma == 'adminPuesto' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/colaboradores.xhtml" rendered="#{b.forma == 'adminColaborador' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/roles.xhtml" rendered="#{b.forma == 'adminRol' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/privilegios.xhtml" rendered="#{b.forma == 'adminPrivilegio' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/permisos.xhtml" rendered="#{b.forma == 'adminPermiso' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/resetearClave.xhtml" rendered="#{b.forma == 'adminResetClave' eq true}"/></li>
                                                     
                                                     <!-- Privilegios que corresponden al modulo de Estado Patrimonial -->
-                                                    <li><h:commandLink value=" + Actualizar Datos" action="/vista/estado_patrimonial/registrar.xhtml" rendered="#{b.forma == 'estpaActualizarDatos' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/estado_patrimonial/registrar.xhtml" rendered="#{b.forma == 'estpaActualizarDatos' eq true}"/></li>
                                                     
                                                     <!-- Privilegios que corresponden al modulo de rally -->
-                                                    <li><h:commandLink value=" + Consultar Cartera" action="/vista/rally/cartera.xhtml" rendered="#{b.forma == 'rallyCartera' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/rally/cartera.xhtml" rendered="#{b.forma == 'rallyCartera' eq true}"/></li>
                                                     
                                                     <!-- Privilegios que corresponde al modulo gc -->
-                                                    <li><h:commandLink value=" + Generar Solicitud" action="/vista/gc/gc_solicitud.xhtml" rendered="#{b.forma == 'gcSolicitud' eq true}"/></li>
-                                                    <li><h:commandLink value=" + Generadas" action="/vista/gc/gc_generadas.xhtml" rendered="#{b.forma == 'gcGeneradas' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_solicitud.xhtml" rendered="#{b.forma == 'gcSolicitud' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_generadas.xhtml" rendered="#{b.forma == 'gcGeneradas' eq true}"/></li>
+                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_recibidas.xhtml" rendered="#{b.forma == 'gcRecibidas' eq true}"/></li>
                                                 </ui:repeat>
                                             </ul>
                                         </li>
