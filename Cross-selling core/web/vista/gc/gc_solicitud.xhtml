@@ -25,7 +25,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="cif">* Cif:</h:outputLabel>
-                                                <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true">
+                                                <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true" autocomplete="off">
                                                     <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formSolicitud"/>
                                                 </h:inputText>
                                             </div>
@@ -33,7 +33,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <h:outputLabel for="nombre">* Nombre:</h:outputLabel>
-                                                <h:inputText id="nombre" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.nombre}" required="true"/>
+                                                <h:inputText id="nombre" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.nombre}" required="true" autocomplete="off"/>
                                             </div>
                                         </div>
                                     </div>
@@ -43,13 +43,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
-                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.numeroSolicitud}" required="true"/>
+                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.numeroSolicitud}" required="true" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel>* Monto:</h:outputLabel>
-                                                <h:inputText id="monto" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.monto}" required="true"/>
+                                                <h:inputText id="monto" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.monto}" required="true" autocomplete="off"/>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                     <!--Seccion de Botones-->
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <h:commandButton class="btn btn-success form-control" value="Generar Solicitud" actionListener="#{gc_solicitud.generarSolicutid}"/>
+                                            <h:commandButton class="btn btn-success" value="Generar" actionListener="#{gc_solicitud.generarSolicutid}"/>
                                         </div>
                                     </div>
                                 </h:form>

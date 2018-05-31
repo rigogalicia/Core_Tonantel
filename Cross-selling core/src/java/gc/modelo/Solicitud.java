@@ -2,6 +2,7 @@ package gc.modelo;
 
 import dao.GcAsociado;
 import dao.GcDestino;
+import dao.GcEstado;
 import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTramite;
@@ -85,7 +86,8 @@ public class Solicitud {
         
         solicitudGc.setAsesorFinanciero(userConect);
         solicitudGc.setFecha(new Date());
-        solicitudGc.setEstado('a');
+        GcEstado est = new GcEstado("a");
+        solicitudGc.setEstadoId(est);
         solicitudGc.setAsociadoCif(asociadoGc);
         solicitudGc.setDestinoId(destinoGc);
         solicitudGc.setTipoId(tipoGc);

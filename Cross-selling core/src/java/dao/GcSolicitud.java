@@ -49,11 +49,11 @@ public class GcSolicitud implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Basic(optional = false)
-    @Column(name = "estado")
-    private Character estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
     private List<GcGestion> gcGestionList;
+    @JoinColumn(name = "estado_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GcEstado estadoId;
     @JoinColumn(name = "asociado_cif", referencedColumnName = "cif")
     @ManyToOne(optional = false)
     private GcAsociado asociadoCif;
@@ -74,12 +74,11 @@ public class GcSolicitud implements Serializable {
         this.numeroSolicitud = numeroSolicitud;
     }
 
-    public GcSolicitud(String numeroSolicitud, BigDecimal monto, String asesorFinanciero, Date fecha, Character estado) {
+    public GcSolicitud(String numeroSolicitud, BigDecimal monto, String asesorFinanciero, Date fecha) {
         this.numeroSolicitud = numeroSolicitud;
         this.monto = monto;
         this.asesorFinanciero = asesorFinanciero;
         this.fecha = fecha;
-        this.estado = estado;
     }
 
     public String getNumeroSolicitud() {
@@ -114,20 +113,20 @@ public class GcSolicitud implements Serializable {
         this.fecha = fecha;
     }
 
-    public Character getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Character estado) {
-        this.estado = estado;
-    }
-
     public List<GcGestion> getGcGestionList() {
         return gcGestionList;
     }
 
     public void setGcGestionList(List<GcGestion> gcGestionList) {
         this.gcGestionList = gcGestionList;
+    }
+
+    public GcEstado getEstadoId() {
+        return estadoId;
+    }
+
+    public void setEstadoId(GcEstado estadoId) {
+        this.estadoId = estadoId;
     }
 
     public GcAsociado getAsociadoCif() {

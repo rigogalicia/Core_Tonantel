@@ -29,14 +29,15 @@
     <class>dao.GcRiesgo</class>
     <class>dao.GcDestino</class>
     <class>dao.GcGestion</class>
+    <class>dao.GcEstado</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology?zeroDateTimeBehavior=convertToNull"/>
-        <property name="javax.persistence.jdbc.user" value="root"/>
-        <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-        <property name="javax.persistence.jdbc.password" value="root"/>
-        <property name="javax.persistence.schema-generation.database.action" value="create"/>
-        <!--
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <!--
         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://34.197.122.60:3306/coretecnology?zeroDateTimeBehavior=convertToNull"/>
         <property name="javax.persistence.jdbc.user" value="AppTonantel"/>
         <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
