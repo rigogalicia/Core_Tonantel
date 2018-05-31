@@ -12,26 +12,32 @@
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
-                        <!--Panel principal de Generadas -->
+                        <!--Inicia Panel Principal -->
                         <div class="panel panel-default">
-                          <div class="panel-heading">
-                            <h3 class="panel-title">Generadas</h3>
-                          </div>
-                          <div class="panel-body">
-                            <h:form>
-                            <!--Panel de contenido-->
-                            <div style="max-height: 400px; overflow-y: auto">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Solicitudes en Proceso</h3>
+                            </div>
+                            <div class="panel-body">
+                                <h:form>
+                                <!--Panel de contenido e incio de la tabla -->
+                                <div style="max-height: 400px; overflow-y: auto">
                                 <h:dataTable class="table table-striped">
                                     <h:column>
                                         <f:facet name="header" >
                                             <h:outputLabel for="nombre">No.Solicitud</h:outputLabel>
-                                            <h:inputText ></h:inputText>   
+                                            <h:inputText size="10"></h:inputText>   
                                         </f:facet>
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">
                                             <h:outputLabel for="nombre">Nombre</h:outputLabel>
                                             <h:inputText></h:inputText>
+                                        </f:facet>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header" >
+                                            <h:outputLabel for="cif">Cif</h:outputLabel>
+                                            <h:inputText size="8"></h:inputText>   
                                         </f:facet>
                                     </h:column>
                                     <h:column>
@@ -65,13 +71,11 @@
                                         </f:facet>
                                     </h:column>
                                     <h:column>
-                                        <f:facet name="header">
-                                            <h:outputLabel for="nombre">Estatus</h:outputLabel>
-                                            <h:selectOneMenu>
-                                                <f:selectItem itemLabel="-" itemValue=""/>
-                                                <f:selectItem itemLabel="No. Solicitud1" itemValue=""/>
-                                                <f:selectItem itemLabel="No. Solicitud2" itemValue=""/>
-                                            </h:selectOneMenu>
+                                        <f:facet name="header" >
+                                            <h:outputLabel for="monto" >Monto</h:outputLabel>
+                                            <fieldset disabled="monto">
+                                                <h:inputText size="10" id="disabledTextInput"></h:inputText>   
+                                            </fieldset>
                                         </f:facet>
                                     </h:column>
                                     <h:column>
@@ -82,11 +86,11 @@
                                 </h:dataTable>
                             </div>
                             </h:form>
-                          </div>
+                            </div>
                         </div>
                     </section>
                 </div>
-                <!--Contiene la version del sistema-->
+            <!--Contiene la version del sistema-->
                 <footer class="main-footer">
                     <div class="pull-right hidden-xs">
                         <b>Versión</b> #{version.numero}
