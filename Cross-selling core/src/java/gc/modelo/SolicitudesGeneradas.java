@@ -6,6 +6,7 @@ import dao.GcEstado;
 import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTramite;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -24,6 +25,7 @@ public class SolicitudesGeneradas {
     private String origenTramite;
     private String estadoId;
     private String estado;
+    private String monto;
     
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -104,6 +106,14 @@ public class SolicitudesGeneradas {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public String getMonto() {
+        return monto;
+    }
+
+    public void setMonto(String monto) {
+        this.monto = monto;
+    }
     
     public ArrayList<SolicitudesGeneradas> mostrarDatos(String asesorFinanciero){
         ArrayList<SolicitudesGeneradas> result = new ArrayList<>();
@@ -167,6 +177,8 @@ public class SolicitudesGeneradas {
             sg.setDestino(d.getDescripcion());
             sg.setOrigenTramite(f.getDescripcion());
             sg.setEstado(e.getDescripcion());
+            DecimalFormat formato = new DecimalFormat("0,000.00");
+            sg.setMonto(formato.format(s.getMonto().doubleValue()));
             
             result.add(sg);
         }

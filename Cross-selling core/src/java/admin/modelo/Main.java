@@ -5,7 +5,7 @@
  */
 package admin.modelo;
 
-import gc.modelo.SolicitudesGeneradas;
+import gc.modelo.SolicitudesRecibidas;
 
 /**
  *
@@ -14,10 +14,10 @@ import gc.modelo.SolicitudesGeneradas;
 public class Main {
     
     public static void main(String args[]){
-        SolicitudesGeneradas sg = new SolicitudesGeneradas();
-        sg.setEstadoId("a");
-        for(SolicitudesGeneradas s : sg.mostrarDatos("todesaragb")){
-            System.out.println(s.getNombreAsociado());
+        SolicitudesRecibidas recibidas = new SolicitudesRecibidas();
+        recibidas.setTramiteId(1);
+        for(SolicitudesRecibidas r : recibidas.mostrarDatos()){
+            System.out.println(r.getNombreAsociado() + " " + r.getMonto());
         }
     }
     

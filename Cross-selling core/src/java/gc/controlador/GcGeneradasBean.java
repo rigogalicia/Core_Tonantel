@@ -130,7 +130,7 @@ public class GcGeneradasBean {
     /* Metodo utilizado para borrar los filtros */
     public void borrarFiltros(){
         filter = false;
-        generadas.setNombreAsociado(null);
+        generadas.setNumeroSolicitud(null);
         generadas.setNombreAsociado(null);
         generadas.setTipoId(0);
         generadas.setDestinoId(0);
