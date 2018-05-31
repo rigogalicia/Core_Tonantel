@@ -121,7 +121,7 @@ public class SolicitudesGeneradas {
         
         if(numeroSolicitud != null){
             if(!numeroSolicitud.isEmpty()){
-                instruccion += "AND s.numeroSolicitud = "+numeroSolicitud+" ";
+                instruccion += "AND s.numeroSolicitud = '"+numeroSolicitud+"' ";
             }
         }
         
