@@ -22,6 +22,8 @@ public class GcRecibidasBean {
     private ArrayList<SelectItem> destinoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tramiteCredito = new ArrayList<>();
     private boolean filter = false;
+    private boolean isChat = false;
+    private int panel1 = 12;
     
     public GcRecibidasBean() {
         listaRecibidas = recibidas.mostrarDatos();
@@ -88,6 +90,28 @@ public class GcRecibidasBean {
 
     public void setFilter(boolean filter) {
         this.filter = filter;
+    }
+
+    public boolean isIsChat() {
+        return isChat;
+    }
+
+    public void setIsChat(boolean isChat) {
+        this.isChat = isChat;
+    }
+
+    public int getPanel1() {
+        return panel1;
+    }
+
+    public void setPanel1(int panel1) {
+        this.panel1 = panel1;
+    }
+    
+    /* Metodo para activar la opcion del chat */
+    public void activarChat(){
+        isChat = true;
+        panel1 = 8;
     }
     
     /* Metodo utilizado para activar los filtros */

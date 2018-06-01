@@ -12,107 +12,115 @@
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
-                        <!--Inicia Panel Principal -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <h3 class="panel-title">Solicitudes Recibidas</h3>
+                        <div class="row">
+                            <div class="col-md-#{gc_recibidas.panel1}">
+                                <!--Inicia Panel Principal -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h3 class="panel-title">Solicitudes Recibidas</h3>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h:form>
+                                                    <h:commandLink value="Activar Filtros" actionListener="#{gc_recibidas.activarFiltros()}" rendered="#{gc_recibidas.filter == false eq true}">
+                                                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <h:commandLink value="Borrar Filtros" actionListener="#{gc_recibidas.borrarFiltros()}" rendered="#{gc_recibidas.filter eq true}">
+                                                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                </h:form>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <h:form>
-                                            <h:commandLink value="Activar Filtros" actionListener="#{gc_recibidas.activarFiltros()}" rendered="#{gc_recibidas.filter == false eq true}">
-                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                            </h:commandLink>
-                                        </h:form>
-                                        <h:form>
-                                            <h:commandLink value="Borrar Filtros" actionListener="#{gc_recibidas.borrarFiltros()}" rendered="#{gc_recibidas.filter eq true}">
-                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                            </h:commandLink>
+                                    <div class="panel-body" style="height: 13cm; overflow-y: auto">
+                                        <h:form id="recibidas">
+                                            <!--Panel de contenido e incio de la tabla -->
+                                            <h:dataTable class="table table-striped" value="#{gc_recibidas.listaRecibidas}" var="r">
+                                                <h:column>
+                                                    <f:facet name="header" >
+                                                        <h:outputLabel for="numeroSolicitud">No.Solicitud</h:outputLabel>
+                                                        <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_recibidas.recibidas.numeroSolicitud}" rendered="#{gc_recibidas.filter eq true}">
+                                                            <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="numeroSolicitud" render="recibidas"/> 
+                                                        </h:inputText>   
+                                                    </f:facet>
+                                                    #{r.numeroSolicitud}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="nombreAsociado">Nombre</h:outputLabel>
+                                                        <h:inputText id="nombreAsociado" class="form-control" value="#{gc_recibidas.recibidas.nombreAsociado}" rendered="#{gc_recibidas.filter eq true}">
+                                                            <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="nombreAsociado" render="recibidas"/>
+                                                        </h:inputText>
+                                                    </f:facet>
+                                                    #{r.nombreAsociado}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header" >
+                                                        <h:outputLabel for="cif">Cif</h:outputLabel>
+                                                        <h:inputText id="cif" class="form-control" value="#{gc_recibidas.recibidas.cif}" rendered="#{gc_recibidas.filter eq true}">
+                                                            <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="cif" render="recibidas"/>
+                                                        </h:inputText>   
+                                                    </f:facet>
+                                                    #{r.cif}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="tipo">Tipo</h:outputLabel>
+                                                        <h:selectOneMenu id="tipo" class="form-control" value="#{gc_recibidas.recibidas.tipoId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_recibidas.mostrarPorTipo}" rendered="#{gc_recibidas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="0"/>
+                                                            <f:selectItems value="#{gc_recibidas.tipoCredito}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{r.tipo}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="destino">Destino</h:outputLabel>
+                                                        <h:selectOneMenu id="destino" class="form-control" value="#{gc_recibidas.recibidas.destinoId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_recibidas.mostrarPorDestino}" rendered="#{gc_recibidas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="0"/>
+                                                            <f:selectItems value="#{gc_recibidas.destinoCredito}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{r.destino}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="tramite">Origen Tramite</h:outputLabel>
+                                                        <h:selectOneMenu id="tramite" class="form-control" value="#{gc_recibidas.recibidas.tramiteId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_recibidas.mostrarPorTramite}" rendered="#{gc_recibidas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="0"/>
+                                                            <f:selectItems value="#{gc_recibidas.tramiteCredito}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{r.tramite}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header" >
+                                                        <h:outputLabel for="monto" >Monto</h:outputLabel>
+                                                        <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_recibidas.filter eq true}"/>  
+                                                    </f:facet>
+                                                    #{r.monto}
+                                                </h:column>
+                                                <h:column>
+                                                    <h:commandLink actionListener="#{gc_recibidas.activarChat()}">
+                                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                </h:column>
+                                            </h:dataTable>
                                         </h:form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
-                                <h:form id="recibidas">
-                                    <!--Panel de contenido e incio de la tabla -->
-                                    <h:dataTable class="table table-striped" value="#{gc_recibidas.listaRecibidas}" var="r">
-                                        <h:column>
-                                            <f:facet name="header" >
-                                                <h:outputLabel for="numeroSolicitud">No.Solicitud</h:outputLabel>
-                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_recibidas.recibidas.numeroSolicitud}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="numeroSolicitud" render="recibidas"/> 
-                                                </h:inputText>   
-                                            </f:facet>
-                                            #{r.numeroSolicitud}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputLabel for="nombreAsociado">Nombre</h:outputLabel>
-                                                <h:inputText id="nombreAsociado" class="form-control" value="#{gc_recibidas.recibidas.nombreAsociado}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="nombreAsociado" render="recibidas"/>
-                                                </h:inputText>
-                                            </f:facet>
-                                            #{r.nombreAsociado}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header" >
-                                                <h:outputLabel for="cif">Cif</h:outputLabel>
-                                                <h:inputText id="cif" class="form-control" value="#{gc_recibidas.recibidas.cif}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="cif" render="recibidas"/>
-                                                </h:inputText>   
-                                            </f:facet>
-                                            #{r.cif}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputLabel for="tipo">Tipo</h:outputLabel>
-                                                <h:selectOneMenu id="tipo" class="form-control" value="#{gc_recibidas.recibidas.tipoId}" onchange="submit()"
-                                                                 valueChangeListener="#{gc_recibidas.mostrarPorTipo}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:selectItem itemLabel="" itemValue="0"/>
-                                                    <f:selectItems value="#{gc_recibidas.tipoCredito}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{r.tipo}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputLabel for="destino">Destino</h:outputLabel>
-                                                <h:selectOneMenu id="destino" class="form-control" value="#{gc_recibidas.recibidas.destinoId}" onchange="submit()"
-                                                                 valueChangeListener="#{gc_recibidas.mostrarPorDestino}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:selectItem itemLabel="" itemValue="0"/>
-                                                    <f:selectItems value="#{gc_recibidas.destinoCredito}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{r.destino}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputLabel for="tramite">Origen Tramite</h:outputLabel>
-                                                <h:selectOneMenu id="tramite" class="form-control" value="#{gc_recibidas.recibidas.tramiteId}" onchange="submit()"
-                                                                 valueChangeListener="#{gc_recibidas.mostrarPorTramite}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:selectItem itemLabel="" itemValue="0"/>
-                                                    <f:selectItems value="#{gc_recibidas.tramiteCredito}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{r.tramite}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header" >
-                                                <h:outputLabel for="monto" >Monto</h:outputLabel>
-                                                <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_recibidas.filter eq true}"/>  
-                                            </f:facet>
-                                            #{r.monto}
-                                        </h:column>
-                                        <h:column>
-                                            <h:commandLink >
-                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                        </h:commandLink>
-                                        </h:column>
-                                    </h:dataTable>
-                                </h:form>
-                            </div>
+                            <h:form id="chat" rendered="#{gc_recibidas.isChat eq true}">
+                                <div class="col-md-4">
+                                    asdfasdf
+                                </div>
+                            </h:form>
                         </div>
+                        
                     </section>
                 </div>
             <!--Contiene la version del sistema-->
