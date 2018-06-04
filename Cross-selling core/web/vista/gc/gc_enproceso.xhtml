@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Solicitudes en Proceso</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel-body" style="height: 13cm; overflow-y: auto">
+                                    <!--Panel de contenido-->
+                                    <div>
+                                        <h:form id="solGeneradas">
+                                            <h:dataTable class="table table-striped" value="#{gc_generadas.listGeneradas}" var="g">
+                                                <h:column>
+                                                    <f:facet name="header" >
+                                                        <h:outputLabel for="ns">No.Solicitud</h:outputLabel>
+                                                        <h:inputText id="ns" class="form-control" value="#{gc_generadas.generadas.numeroSolicitud}" rendered="#{gc_generadas.filter eq true}" autocomplete="off">
+                                                            <f:ajax event="blur" listener="#{gc_generadas.mostrarPorCampo()}" execute="ns" render="solGeneradas"/>
+                                                        </h:inputText>
+                                                    </f:facet>
+                                                    #{g.numeroSolicitud}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="na">Nombre</h:outputLabel>
+                                                        <h:inputText id="na" class="form-control" value="#{gc_generadas.generadas.nombreAsociado}" rendered="#{gc_generadas.filter eq true}" autocomplete="off">
+                                                            <f:ajax event="blur" listener="#{gc_generadas.mostrarPorCampo()}" execute="na" render="solGeneradas"/>
+                                                        </h:inputText>
+                                                    </f:facet>
+                                                    #{g.nombreAsociado}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="t">Tipo</h:outputLabel>
+                                                        <h:selectOneMenu id="t" class="form-control" value="#{gc_generadas.generadas.tipoId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_generadas.mostrarPorTipo}" rendered="#{gc_generadas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="0"/>
+                                                            <f:selectItems value="#{gc_generadas.listTipo}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{g.tipo}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="d">Destino</h:outputLabel>
+                                                        <h:selectOneMenu id="d" class="form-control" value="#{gc_generadas.generadas.destinoId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_generadas.mostrarPorDestino}" rendered="#{gc_generadas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="0"/>
+                                                            <f:selectItems value="#{gc_generadas.listDestino}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{g.destino}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="nombre">Origen Tramite</h:outputLabel>
+                                                        <h:selectOneMenu id="f" class="form-control" value="#{gc_generadas.generadas.tramiteId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_generadas.mostrarPorTramite}" rendered="#{gc_generadas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="0"/>
+                                                            <f:selectItems value="#{gc_generadas.listTramite}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{g.origenTramite}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="e">Estado</h:outputLabel>
+                                                        <h:selectOneMenu id="e" class="form-control" value="#{gc_generadas.generadas.estadoId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_generadas.mostrarPorEstado}" rendered="#{gc_generadas.filter eq true}">
+                                                            <f:selectItem itemLabel="" itemValue="-"/>
+                                                            <f:selectItems value="#{gc_generadas.listEstado}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{g.estado}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        <h:outputLabel for="monto">Monto</h:outputLabel>
+                                                        <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_generadas.filter eq true}"></h:inputText>
+                                                    </f:facet>
+                                                    #{g.monto}
+                                                </h:column>
+                                                <h:column>
+                                                    <h:commandLink actionListener="#{gc_generadas.activarChat()}">
+                                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
+                                                </h:column>
+                                            </h:dataTable>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div> 
+                <!--Contiene la version del sistema-->
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -11,6 +12,73 @@
                 <div class="content-wrapper">
                     <section class="content">
                         <div class="row">
+                            <!-- inicia columna que contendra los datos-->
+                            <div class="col-md-8">
+                                <div class="panel panel-default">
+                                  <div class="panel-body">
+                                      <div class="page-header">
+                                        <h4>Datos de Solicitud</h4>
+                                      </div>
+                                      <h:form class="form-horizontal">
+                                      <div class="row">
+                                          <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">No.Solicitud:</label>
+                                                <div class="col-sm-9">
+                                                    <p class="form-control-static">12345678912</p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Nombre:</label>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control-static">Erick Noel Perez Monterroso</p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Tipo:</label>
+                                                <div class="col-sm-9">
+                                                    <p class="form-control-static">12345678912</p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Destino:</label>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control-static">Agricola</p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Origen Tramite:</label>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control-static">Restructuracion</p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Monto:</label>
+                                                <div class="col-sm-10">
+                                                    <p class="form-control-static">Q12000</p>
+                                                </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                      </h:form>
+                                  </div>
+                                </div> 
+                            </div>
+                            <!--termina el panel de la segunda columna-->
                             <div class="col-md-4">
                                 <!-- DIRECT CHAT -->
                                 <div class="box box-warning direct-chat direct-chat-warning">
@@ -28,7 +96,7 @@
                                     <!-- /.box-header -->
                                     <div class="box-body">
                                         <!-- Conversations are loaded here -->
-                                        <div class="direct-chat-messages">
+                                        <div class="direct-chat-messages" style="height: 12cm">
                                             <!-- Message. Default to the left -->
                                             <div class="direct-chat-msg">
                                                 <div class="direct-chat-info clearfix">
