@@ -34,6 +34,8 @@ public class GcEstado implements Serializable {
     private String id;
     @Column(name = "descripcion")
     private String descripcion;
+    @OneToMany(mappedBy = "estadoId")
+    private List<GcGestion> gcGestionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoId")
     private List<GcSolicitud> gcSolicitudList;
 
@@ -58,6 +60,14 @@ public class GcEstado implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<GcGestion> getGcGestionList() {
+        return gcGestionList;
+    }
+
+    public void setGcGestionList(List<GcGestion> gcGestionList) {
+        this.gcGestionList = gcGestionList;
     }
 
     public List<GcSolicitud> getGcSolicitudList() {

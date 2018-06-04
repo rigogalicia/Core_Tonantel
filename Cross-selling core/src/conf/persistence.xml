@@ -30,6 +30,8 @@
     <class>dao.GcDestino</class>
     <class>dao.GcGestion</class>
     <class>dao.GcEstado</class>
+    <class>dao.GcTipocliente</class>
+    <class>dao.GcSeguimiento</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology?zeroDateTimeBehavior=convertToNull"/>
