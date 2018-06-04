@@ -7,7 +7,9 @@ package dao;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,21 +44,17 @@ public class GcGestion implements Serializable {
     @Column(name = "analista")
     private String analista;
     @Basic(optional = false)
-    @Column(name = "fecha_asignacion")
+    @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaAsignacion;
-    @Column(name = "fecha_espera")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaEspera;
-    @Column(name = "fecha_cierre")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaCierre;
+    private Date fecha;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gestionId")
+    private List<GcSeguimiento> gcSeguimientoList;
     @JoinColumn(name = "solicitud_numero_solicitud", referencedColumnName = "numero_solicitud")
     @ManyToOne(optional = false)
     private GcSolicitud solicitudNumeroSolicitud;
-    @JoinColumn(name = "riesgo_id", referencedColumnName = "id")
+    @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne
-    private GcRiesgo riesgoId;
+    private GcEstado estadoId;
 
     public GcGestion() {
     }
@@ -64,10 +63,10 @@ public class GcGestion implements Serializable {
         this.id = id;
     }
 
-    public GcGestion(Integer id, String analista, Date fechaAsignacion) {
+    public GcGestion(Integer id, String analista, Date fecha) {
         this.id = id;
         this.analista = analista;
-        this.fechaAsignacion = fechaAsignacion;
+        this.fecha = fecha;
     }
 
     public Integer getId() {
@@ -86,28 +85,20 @@ public class GcGestion implements Serializable {
         this.analista = analista;
     }
 
-    public Date getFechaAsignacion() {
-        return fechaAsignacion;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFechaAsignacion(Date fechaAsignacion) {
-        this.fechaAsignacion = fechaAsignacion;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
-    public Date getFechaEspera() {
-        return fechaEspera;
+    public List<GcSeguimiento> getGcSeguimientoList() {
+        return gcSeguimientoList;
     }
 
-    public void setFechaEspera(Date fechaEspera) {
-        this.fechaEspera = fechaEspera;
-    }
-
-    public Date getFechaCierre() {
-        return fechaCierre;
-    }
-
-    public void setFechaCierre(Date fechaCierre) {
-        this.fechaCierre = fechaCierre;
+    public void setGcSeguimientoList(List<GcSeguimiento> gcSeguimientoList) {
+        this.gcSeguimientoList = gcSeguimientoList;
     }
 
     public GcSolicitud getSolicitudNumeroSolicitud() {
@@ -118,12 +109,12 @@ public class GcGestion implements Serializable {
         this.solicitudNumeroSolicitud = solicitudNumeroSolicitud;
     }
 
-    public GcRiesgo getRiesgoId() {
-        return riesgoId;
+    public GcEstado getEstadoId() {
+        return estadoId;
     }
 
-    public void setRiesgoId(GcRiesgo riesgoId) {
-        this.riesgoId = riesgoId;
+    public void setEstadoId(GcEstado estadoId) {
+        this.estadoId = estadoId;
     }
 
     @Override

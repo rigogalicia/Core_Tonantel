@@ -8,6 +8,7 @@ package dao;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +24,10 @@ import javax.persistence.Table;
  * @author Rgalicia
  */
 @Entity
-@Table(name = "gc_riesgo")
+@Table(name = "gc_tipocliente")
 @NamedQueries({
-    @NamedQuery(name = "GcRiesgo.findAll", query = "SELECT g FROM GcRiesgo g")})
-public class GcRiesgo implements Serializable {
+    @NamedQuery(name = "GcTipocliente.findAll", query = "SELECT g FROM GcTipocliente g")})
+public class GcTipocliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,17 +41,17 @@ public class GcRiesgo implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado")
     private Character estado;
-    @OneToMany(mappedBy = "riesgoId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoclienteId")
     private List<GcSolicitud> gcSolicitudList;
 
-    public GcRiesgo() {
+    public GcTipocliente() {
     }
 
-    public GcRiesgo(Integer id) {
+    public GcTipocliente(Integer id) {
         this.id = id;
     }
 
-    public GcRiesgo(Integer id, String descripcion, Character estado) {
+    public GcTipocliente(Integer id, String descripcion, Character estado) {
         this.id = id;
         this.descripcion = descripcion;
         this.estado = estado;
@@ -98,10 +99,10 @@ public class GcRiesgo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof GcRiesgo)) {
+        if (!(object instanceof GcTipocliente)) {
             return false;
         }
-        GcRiesgo other = (GcRiesgo) object;
+        GcTipocliente other = (GcTipocliente) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +111,7 @@ public class GcRiesgo implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.GcRiesgo[ id=" + id + " ]";
+        return "dao.GcTipocliente[ id=" + id + " ]";
     }
     
 }

@@ -6,27 +6,30 @@
 package dao;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author Rgalicia
  */
 @Entity
-@Table(name = "gc_riesgo")
+@Table(name = "gc_seguimiento")
 @NamedQueries({
-    @NamedQuery(name = "GcRiesgo.findAll", query = "SELECT g FROM GcRiesgo g")})
-public class GcRiesgo implements Serializable {
+    @NamedQuery(name = "GcSeguimiento.findAll", query = "SELECT g FROM GcSeguimiento g")})
+public class GcSeguimiento implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,25 +38,27 @@ public class GcRiesgo implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "fecha")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
     @Basic(optional = false)
-    @Column(name = "estado")
-    private Character estado;
-    @OneToMany(mappedBy = "riesgoId")
-    private List<GcSolicitud> gcSolicitudList;
+    @Column(name = "comentario")
+    private String comentario;
+    @JoinColumn(name = "gestion_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GcGestion gestionId;
 
-    public GcRiesgo() {
+    public GcSeguimiento() {
     }
 
-    public GcRiesgo(Integer id) {
+    public GcSeguimiento(Integer id) {
         this.id = id;
     }
 
-    public GcRiesgo(Integer id, String descripcion, Character estado) {
+    public GcSeguimiento(Integer id, Date fecha, String comentario) {
         this.id = id;
-        this.descripcion = descripcion;
-        this.estado = estado;
+        this.fecha = fecha;
+        this.comentario = comentario;
     }
 
     public Integer getId() {
@@ -64,28 +69,28 @@ public class GcRiesgo implements Serializable {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
-    public Character getEstado() {
-        return estado;
+    public String getComentario() {
+        return comentario;
     }
 
-    public void setEstado(Character estado) {
-        this.estado = estado;
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
-    public List<GcSolicitud> getGcSolicitudList() {
-        return gcSolicitudList;
+    public GcGestion getGestionId() {
+        return gestionId;
     }
 
-    public void setGcSolicitudList(List<GcSolicitud> gcSolicitudList) {
-        this.gcSolicitudList = gcSolicitudList;
+    public void setGestionId(GcGestion gestionId) {
+        this.gestionId = gestionId;
     }
 
     @Override
@@ -98,10 +103,10 @@ public class GcRiesgo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof GcRiesgo)) {
+        if (!(object instanceof GcSeguimiento)) {
             return false;
         }
-        GcRiesgo other = (GcRiesgo) object;
+        GcSeguimiento other = (GcSeguimiento) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +115,7 @@ public class GcRiesgo implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.GcRiesgo[ id=" + id + " ]";
+        return "dao.GcSeguimiento[ id=" + id + " ]";
     }
     
 }

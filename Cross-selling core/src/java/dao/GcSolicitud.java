@@ -66,6 +66,12 @@ public class GcSolicitud implements Serializable {
     @JoinColumn(name = "tramite_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private GcTramite tramiteId;
+    @JoinColumn(name = "tipocliente_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GcTipocliente tipoclienteId;
+    @JoinColumn(name = "riesgo_id", referencedColumnName = "id")
+    @ManyToOne
+    private GcRiesgo riesgoId;
 
     public GcSolicitud() {
     }
@@ -159,6 +165,22 @@ public class GcSolicitud implements Serializable {
 
     public void setTramiteId(GcTramite tramiteId) {
         this.tramiteId = tramiteId;
+    }
+
+    public GcTipocliente getTipoclienteId() {
+        return tipoclienteId;
+    }
+
+    public void setTipoclienteId(GcTipocliente tipoclienteId) {
+        this.tipoclienteId = tipoclienteId;
+    }
+
+    public GcRiesgo getRiesgoId() {
+        return riesgoId;
+    }
+
+    public void setRiesgoId(GcRiesgo riesgoId) {
+        this.riesgoId = riesgoId;
     }
 
     @Override
