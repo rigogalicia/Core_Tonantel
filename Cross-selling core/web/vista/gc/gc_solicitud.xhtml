@@ -84,7 +84,16 @@
                                                     <f:selectItems value="#{gc_solicitud.tramiteCredito}"/>
                                                 </h:selectOneMenu>
                                             </div>
-                                        </div> 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="tipoCliente">* Tipo de Cliente:</h:outputLabel>
+                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_solicitud.solicitud.clienteGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_solicitud.tipoCliente}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!--Termina las columnas que contiene Destino,Tipo,Tramite-->     
                                     <!--Seccion de Botones-->

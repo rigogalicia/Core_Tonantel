@@ -2,10 +2,12 @@ package gc.controlador;
 
 import dao.GcDestino;
 import dao.GcTipo;
+import dao.GcTipocliente;
 import dao.GcTramite;
 import gc.modelo.Destino;
 import gc.modelo.Solicitud;
 import gc.modelo.Tipo;
+import gc.modelo.Tipocliente;
 import gc.modelo.Tramite;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class GcSolicitudBean {
     private ArrayList<SelectItem> destinoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tipoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tramiteCredito = new ArrayList<>();
+    private ArrayList<SelectItem> tipoCliente = new ArrayList<>();
     
     public GcSolicitudBean() {
         
@@ -72,6 +75,19 @@ public class GcSolicitudBean {
 
     public void setTramiteCredito(ArrayList<SelectItem> tramiteCredito) {
         this.tramiteCredito = tramiteCredito;
+    }
+
+    public ArrayList<SelectItem> getTipoCliente() {
+        tipoCliente.clear();
+        for(GcTipocliente t : Tipocliente.mostrarDatos()){
+            SelectItem itemTipocliente = new SelectItem(t.getId(), t.getDescripcion());
+            tipoCliente.add(itemTipocliente);
+        }
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(ArrayList<SelectItem> tipoCliente) {
+        this.tipoCliente = tipoCliente;
     }
     
     /* Metodo utilizado para generar una nueva solicitud */
