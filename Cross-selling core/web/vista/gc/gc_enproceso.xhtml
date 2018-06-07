@@ -116,8 +116,9 @@
                                                         #{p.monto}
                                                     </h:column>
                                                     <h:column>
-                                                        <h:commandLink>
+                                                        <h:commandLink action="/vista/gc/gc_detalle.xhtml">
                                                             <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
+                                                            <f:param name="numeroSolicitud" value="#{p.numeroSolicitud}"/>
                                                         </h:commandLink>
                                                         &nbsp;
                                                         &nbsp;

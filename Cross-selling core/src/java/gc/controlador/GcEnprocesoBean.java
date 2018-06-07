@@ -46,7 +46,6 @@ public class GcEnprocesoBean {
                 ex.printStackTrace(System.out);
             }
         }
-        
     }
 
     public SolicitudesEnproceso getEnProceso() {

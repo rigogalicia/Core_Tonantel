@@ -20,12 +20,20 @@
                                            <!-- <h4>Detalle de Solicitud</h4>-->
                                             <div class="row">
                                                 <div class="col-xs-12">
-                                                      <h4 class="panel-title">
-                                                          <button type="button" class="btn btn-primary" id="button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                              <span class="glyphicon glyphicon-comment"></span>
-                                                          </button>
-                                                          <label for="button">Comentario</label>
-                                                      </h4>
+                                                    <h4 class="panel-title">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <button type="button" class="btn btn-primary" id="button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                    <span class="glyphicon glyphicon-comment"></span>
+                                                                </button>
+                                                                <label for="button">Comentario</label>
+                                                            </div>
+                                                            <div class="col-md-3"/>
+                                                            <div class="col-md-3">
+                                                                <label for="button">Comentario</label>
+                                                            </div>
+                                                        </div>
+                                                    </h4>
                                                     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                                                       <div class="panel-body">
                                                         <textarea class="form-control" rows="3"></textarea>
@@ -41,67 +49,76 @@
                                             </div>
                                         </div>
                                         <h:form>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="numeroSolicitud">No.Solicitud</h:outputLabel>
-                                                <h:inputText id="numeroSolicitud" class="form-control" disabled="true"></h:inputText>
+                                            <h:messages style="color: red"/>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="numeroSolicitud">No. Solicitud</h:outputLabel>
+                                                        <h:inputText id="numeroSolicitud" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.numeroSolicitud}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="cif">Cif:</h:outputLabel>
+                                                        <h:inputText id="cif" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.cif}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h:outputLabel for="nombre">Nombre:</h:outputLabel>
+                                                        <h:inputText id="nombre" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.nombre}"></h:inputText>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="cif">Cif:</h:outputLabel>
-                                                <h:inputText id="cif" class="form-control" disabled="true"></h:inputText>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="monto">Monto:</h:outputLabel>
+                                                        <h:inputText id="monto" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.monto}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="fecha">Fecha:</h:outputLabel>
+                                                        <h:inputText id="fecha" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.fecha}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="tipoCredito">Tipo:</h:outputLabel>
+                                                        <h:inputText id="tipoCredito" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.tipo}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="clienteCredito">Tipo Cliente:</h:outputLabel>
+                                                        <h:inputText id="clienteCredito" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.tipoCliente}"></h:inputText>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="monto">Monto:</h:outputLabel>
-                                                <h:inputText id="monto" class="form-control" disabled="true"></h:inputText>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="destinoCredito">Destino:</h:outputLabel>
+                                                        <h:inputText id="destinoCredito" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.destino}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="tramiteCredito">Origen de Tramite:</h:outputLabel>
+                                                        <h:inputText id="tramiteCredito" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.tramite}"></h:inputText>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="estado">Estado:</h:outputLabel>
+                                                        <h:selectOneMenu id="estado" class="form-control" value="#{gc_detallesolicitud.estado.id}">
+                                                            <f:selectItems value="#{gc_detallesolicitud.estadoItem}"/>
+                                                        </h:selectOneMenu>      
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:outputLabel for="riesgo">Riesgo:</h:outputLabel>
+                                                        <h:selectOneMenu id="riesgo" class="form-control" value="#{gc_detallesolicitud.riesgo.id}">
+                                                            <f:selectItems value="#{gc_detallesolicitud.riesgoItem}"/>
+                                                        </h:selectOneMenu> 
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="fecha">Fecha:</h:outputLabel>
-                                                <h:inputText id="fecha" class="form-control" disabled="true"></h:inputText>
+                                            <!-- Inicia Consertina-->
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h:commandButton id="btnAceptar" class="btn btn-success form-control" value="Aceptar" actionListener="#{gc_detallesolicitud.cambiarEstado()}"/>                              
+                                                    </div>   
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="tipoCredito">Tipo:</h:outputLabel>
-                                                <h:inputText id="tipoCredito" class="form-control" disabled="true"></h:inputText>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h:outputLabel for="nombre">Nombre:</h:outputLabel>
-                                                <h:inputText id="nombre" class="form-control" disabled="true"></h:inputText>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="clienteCredito">Tipo Cliente:</h:outputLabel>
-                                                <h:inputText id="clienteCredito" class="form-control" disabled="true"></h:inputText>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="destinoCredito">Destino:</h:outputLabel>
-                                                <h:inputText id="destinoCredito" class="form-control" disabled="true"></h:inputText>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h:outputLabel for="tramiteCredito">Origen de Tramite:</h:outputLabel>
-                                                <h:inputText id="tramiteCredito" class="form-control" disabled="true"></h:inputText>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h:selectOneMenu class="form-control">
-                                                    <h:outputLabel for="na">Estado:</h:outputLabel>
-                                                </h:selectOneMenu>      
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h:selectOneMenu class="form-control">
-                                                    <h:outputLabel for="na">Riesgo:</h:outputLabel>
-                                                </h:selectOneMenu> 
-                                            </div>
-                                        </div>
-                                        <br/>
-                                        <!-- Inicia Consertina-->
-                                        <div class="row">
-                                            <div class="col-xs-1">
-                                                <button type="button" class="btn btn-success">Aceptar</button>
-                                            </div>                                        
-                                        </div>
-                                        <br/>
-
+                                            <br/>
                                         </h:form>
                                     </div>
                                 </div>
