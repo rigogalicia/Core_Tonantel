@@ -29,6 +29,8 @@ public class GcEnprocesoBean {
     private ArrayList<SelectItem> estado = new ArrayList<>();
     private String userConect;
     private boolean filter = false;
+    private boolean isChat = false;
+    private int panel1 = 12;
     
     public GcEnprocesoBean() {
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -122,6 +124,34 @@ public class GcEnprocesoBean {
     public void setFilter(boolean filter) {
         this.filter = filter;
     }
+
+    public boolean isIsChat() {
+        return isChat;
+    }
+
+    public void setIsChat(boolean isChat) {
+        this.isChat = isChat;
+    }
+
+    public int getPanel1() {
+        return panel1;
+    }
+
+    public void setPanel1(int panel1) {
+        this.panel1 = panel1;
+    }
+    
+    /* Metodo para activar la opcion del chat */
+    public void activarChat(){
+        isChat = true;
+        panel1 = 8;
+    }
+    
+    /* Metodo para desactivar la opcion del chat */
+    public void desactivarChat(){
+        isChat = false;
+        panel1 = 12;
+    }
     
     /* Metodo utilizado para activar los filtros */
     public void activarFiltros(){
@@ -138,6 +168,7 @@ public class GcEnprocesoBean {
         enProceso.setDestinoId(0);
         enProceso.setTramiteId(0);
         enProceso.setEstadoId(null);
+        listEnproceso = enProceso.mostrarDatos();
     }
     
     /* Reliza la busqueda por medio de campos de texto */
