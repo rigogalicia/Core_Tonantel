@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -16,7 +17,28 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">                                        
                                         <div class="page-header">
-                                            <h4>Detalle de Solicitud</h4>
+                                           <!-- <h4>Detalle de Solicitud</h4>-->
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                      <h4 class="panel-title">
+                                                          <button type="button" class="btn btn-primary" id="button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                              <span class="glyphicon glyphicon-comment"></span>
+                                                          </button>
+                                                          <label for="button">Comentario</label>
+                                                      </h4>
+                                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                      <div class="panel-body">
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <br/>
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <button type="button" class="btn btn-primary">Agregar</button>
+                                                            </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <h:form>
                                         <div class="row">
@@ -39,16 +61,16 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <h:outputLabel for="estado">Estado:</h:outputLabel>
-                                                <h:inputText id="estado" class="form-control" disabled="true"></h:inputText>
+                                                <h:outputLabel for="tipoCredito">Tipo:</h:outputLabel>
+                                                <h:inputText id="tipoCredito" class="form-control" disabled="true"></h:inputText>
                                             </div>
                                             <div class="col-md-6">
                                                 <h:outputLabel for="nombre">Nombre:</h:outputLabel>
                                                 <h:inputText id="nombre" class="form-control" disabled="true"></h:inputText>
                                             </div>
                                             <div class="col-md-3">
-                                                <h:outputLabel for="tipoCredito">Tipo:</h:outputLabel>
-                                                <h:inputText id="tipoCredito" class="form-control" disabled="true"></h:inputText>
+                                                <h:outputLabel for="clienteCredito">Tipo Cliente:</h:outputLabel>
+                                                <h:inputText id="clienteCredito" class="form-control" disabled="true"></h:inputText>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -61,28 +83,25 @@
                                                 <h:inputText id="tramiteCredito" class="form-control" disabled="true"></h:inputText>
                                             </div>
                                             <div class="col-md-3">
-                                                <h:outputLabel for="clienteCredito">Tipo Cliente:</h:outputLabel>
-                                                <h:inputText id="clienteCredito" class="form-control" disabled="true"></h:inputText>
+                                                <h:selectOneMenu class="form-control">
+                                                    <h:outputLabel for="na">Estado:</h:outputLabel>
+                                                </h:selectOneMenu>      
                                             </div>
                                             <div class="col-md-3">
-                                                <h:outputLabel for="riesgoCredito">Riesgo:</h:outputLabel>
-                                                <h:inputText id="riesgoCredito" class="form-control" disabled="true"></h:inputText>
+                                                <h:selectOneMenu class="form-control">
+                                                    <h:outputLabel for="na">Riesgo:</h:outputLabel>
+                                                </h:selectOneMenu> 
                                             </div>
                                         </div>
                                         <br/>
+                                        <!-- Inicia Consertina-->
                                         <div class="row">
-                                            <div class="col-xs-3">
-                                                <button type="button" class="btn btn-success">Comentario</button>
-                                            </div>
+                                            <div class="col-xs-1">
+                                                <button type="button" class="btn btn-success">Aceptar</button>
+                                            </div>                                        
                                         </div>
                                         <br/>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                        <br/>
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </div>
-                                        </div>
+
                                         </h:form>
                                     </div>
                                 </div>
