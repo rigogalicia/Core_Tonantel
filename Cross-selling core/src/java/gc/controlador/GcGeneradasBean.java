@@ -140,7 +140,7 @@ public class GcGeneradasBean {
         this.panel1 = panel1;
     }
     
-     /* Metodo para activar la opcion del chat */
+    /* Metodo para activar la opcion del chat */
     public void activarChat(){
         isChat = true;
         panel1 = 8;

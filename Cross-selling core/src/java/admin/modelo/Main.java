@@ -1,16 +1,15 @@
 package admin.modelo;
 
+import gc.modelo.DetalleSolicitud;
 import gc.modelo.SolicitudesEnproceso;
 
 public class Main {
     
     public static void main(String args[]){
-        SolicitudesEnproceso se = new SolicitudesEnproceso();
-        se.setUserConect("todesaragb");
-        se.setTramiteId(1);
-        for(SolicitudesEnproceso s : se.mostrarDatos()){
-            System.out.println(s.getNombreAsociado());
-        }
+        
+        DetalleSolicitud d = new DetalleSolicitud("54321");
+        d.consultarDatos();
+//        System.out.println(d.getNombre());
     }
     
 }
