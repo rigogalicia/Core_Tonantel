@@ -5,6 +5,7 @@ import dao.GcDestino;
 import dao.GcEstado;
 import dao.GcSolicitud;
 import dao.GcTipo;
+import dao.GcTipocliente;
 import dao.GcTramite;
 import java.io.IOException;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Solicitud {
     private GcDestino destinoGc = new GcDestino();
     private GcTipo tipoGc = new GcTipo();
     private GcTramite tramiteGc = new GcTramite();
+    private GcTipocliente clienteGc = new GcTipocliente();
     private String userConect;
     
     public Solicitud(){
@@ -76,6 +78,14 @@ public class Solicitud {
     public void setTramiteGc(GcTramite tramiteGc) {
         this.tramiteGc = tramiteGc;
     }
+
+    public GcTipocliente getClienteGc() {
+        return clienteGc;
+    }
+
+    public void setClienteGc(GcTipocliente clienteGc) {
+        this.clienteGc = clienteGc;
+    }
     
     /* Metodo utilizado para generar una solicitud */
     public void generar(){
@@ -92,6 +102,7 @@ public class Solicitud {
         solicitudGc.setDestinoId(destinoGc);
         solicitudGc.setTipoId(tipoGc);
         solicitudGc.setTramiteId(tramiteGc);
+        solicitudGc.setTipoclienteId(clienteGc);
         em.merge(asociadoGc);
         em.persist(solicitudGc);
         

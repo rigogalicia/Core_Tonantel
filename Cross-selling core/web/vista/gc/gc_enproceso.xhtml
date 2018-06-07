@@ -14,92 +14,110 @@
                     <section class="content">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Solicitudes en Proceso</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="panel-body" style="height: 13cm; overflow-y: auto">
-                                    <!--Panel de contenido-->
-                                    <div>
-                                        <h:form id="solGeneradas">
-                                            <h:dataTable class="table table-striped" value="#{gc_generadas.listGeneradas}" var="g">
-                                                <h:column>
-                                                    <f:facet name="header" >
-                                                        <h:outputLabel for="ns">No.Solicitud</h:outputLabel>
-                                                        <h:inputText id="ns" class="form-control" value="#{gc_generadas.generadas.numeroSolicitud}" rendered="#{gc_generadas.filter eq true}" autocomplete="off">
-                                                            <f:ajax event="blur" listener="#{gc_generadas.mostrarPorCampo()}" execute="ns" render="solGeneradas"/>
-                                                        </h:inputText>
-                                                    </f:facet>
-                                                    #{g.numeroSolicitud}
-                                                </h:column>
-                                                <h:column>
-                                                    <f:facet name="header">
-                                                        <h:outputLabel for="na">Nombre</h:outputLabel>
-                                                        <h:inputText id="na" class="form-control" value="#{gc_generadas.generadas.nombreAsociado}" rendered="#{gc_generadas.filter eq true}" autocomplete="off">
-                                                            <f:ajax event="blur" listener="#{gc_generadas.mostrarPorCampo()}" execute="na" render="solGeneradas"/>
-                                                        </h:inputText>
-                                                    </f:facet>
-                                                    #{g.nombreAsociado}
-                                                </h:column>
-                                                <h:column>
-                                                    <f:facet name="header">
-                                                        <h:outputLabel for="t">Tipo</h:outputLabel>
-                                                        <h:selectOneMenu id="t" class="form-control" value="#{gc_generadas.generadas.tipoId}" onchange="submit()"
-                                                                         valueChangeListener="#{gc_generadas.mostrarPorTipo}" rendered="#{gc_generadas.filter eq true}">
-                                                            <f:selectItem itemLabel="" itemValue="0"/>
-                                                            <f:selectItems value="#{gc_generadas.listTipo}"/>
-                                                        </h:selectOneMenu>
-                                                    </f:facet>
-                                                    #{g.tipo}
-                                                </h:column>
-                                                <h:column>
-                                                    <f:facet name="header">
-                                                        <h:outputLabel for="d">Destino</h:outputLabel>
-                                                        <h:selectOneMenu id="d" class="form-control" value="#{gc_generadas.generadas.destinoId}" onchange="submit()"
-                                                                         valueChangeListener="#{gc_generadas.mostrarPorDestino}" rendered="#{gc_generadas.filter eq true}">
-                                                            <f:selectItem itemLabel="" itemValue="0"/>
-                                                            <f:selectItems value="#{gc_generadas.listDestino}"/>
-                                                        </h:selectOneMenu>
-                                                    </f:facet>
-                                                    #{g.destino}
-                                                </h:column>
-                                                <h:column>
-                                                    <f:facet name="header">
-                                                        <h:outputLabel for="nombre">Origen Tramite</h:outputLabel>
-                                                        <h:selectOneMenu id="f" class="form-control" value="#{gc_generadas.generadas.tramiteId}" onchange="submit()"
-                                                                         valueChangeListener="#{gc_generadas.mostrarPorTramite}" rendered="#{gc_generadas.filter eq true}">
-                                                            <f:selectItem itemLabel="" itemValue="0"/>
-                                                            <f:selectItems value="#{gc_generadas.listTramite}"/>
-                                                        </h:selectOneMenu>
-                                                    </f:facet>
-                                                    #{g.origenTramite}
-                                                </h:column>
-                                                <h:column>
-                                                    <f:facet name="header">
-                                                        <h:outputLabel for="e">Estado</h:outputLabel>
-                                                        <h:selectOneMenu id="e" class="form-control" value="#{gc_generadas.generadas.estadoId}" onchange="submit()"
-                                                                         valueChangeListener="#{gc_generadas.mostrarPorEstado}" rendered="#{gc_generadas.filter eq true}">
-                                                            <f:selectItem itemLabel="" itemValue="-"/>
-                                                            <f:selectItems value="#{gc_generadas.listEstado}"/>
-                                                        </h:selectOneMenu>
-                                                    </f:facet>
-                                                    #{g.estado}
-                                                </h:column>
-                                                <h:column>
-                                                    <f:facet name="header">
-                                                        <h:outputLabel for="monto">Monto</h:outputLabel>
-                                                        <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_generadas.filter eq true}"></h:inputText>
-                                                    </f:facet>
-                                                    #{g.monto}
-                                                </h:column>
-                                                <h:column>
-                                                    <h:commandLink actionListener="#{gc_generadas.activarChat()}">
-                                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                                    </h:commandLink>
-                                                    <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
-                                                </h:column>
-                                            </h:dataTable>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">Solicitudes En Proceso</h3>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h:form>
+                                            <h:commandLink value="Activar Filtros" actionListener="#{gc_enproceso.activarFiltros()}" rendered="#{gc_enproceso.filter == false eq true}">
+                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                            <h:commandLink value="Borrar Filtros" actionListener="#{gc_enproceso.borrarFiltros()}" rendered="#{gc_enproceso.filter eq true}">
+                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                            </h:commandLink>
                                         </h:form>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" style="height: 13cm; overflow-y: auto">
+                                <!--Panel de contenido-->
+                                <div>
+                                    <h:form id="solEnproceso">
+                                        <h:dataTable class="table table-striped" value="#{gc_enproceso.listEnproceso}" var="p">
+                                            <h:column>
+                                                <f:facet name="header" >
+                                                    <h:outputLabel for="ns">No.Solicitud</h:outputLabel>
+                                                    <h:inputText id="ns" class="form-control" value="#{gc_enproceso.enProceso.numeroSolicitud}" autocomplete="off" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:ajax event="blur" listener="#{gc_enproceso.buscarPorCampo()}" execute="ns" render="solEnproceso"/>
+                                                    </h:inputText>
+                                                </f:facet>
+                                                #{p.numeroSolicitud}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="na">Nombre</h:outputLabel>
+                                                    <h:inputText id="na" class="form-control" value="#{gc_enproceso.enProceso.nombreAsociado}" autocomplete="off" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:ajax event="blur" listener="#{gc_enproceso.buscarPorCampo()}" execute="na" render="solEnproceso"/>
+                                                    </h:inputText>
+                                                </f:facet>
+                                                #{p.nombreAsociado}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="cif">Cif</h:outputLabel>
+                                                    <h:inputText id="cif" class="form-control" value="#{gc_enproceso.enProceso.cif}" autocomplete="off" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:ajax event="blur" listener="#{gc_enproceso.buscarPorCampo()}" execute="cif" render="solEnproceso"/>
+                                                    </h:inputText>
+                                                </f:facet>
+                                                #{p.cif}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="tipo">Tipo</h:outputLabel>
+                                                    <h:selectOneMenu id="tipo" class="form-control" value="#{gc_enproceso.enProceso.tipoId}" onchange="submit()"
+                                                                     valueChangeListener="#{gc_enproceso.buscarPorTipo}" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:selectItem itemLabel="" itemValue="0"/>
+                                                        <f:selectItems value="#{gc_enproceso.tipo}"/>
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                                #{p.tipo}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="destino">Destino</h:outputLabel>
+                                                    <h:selectOneMenu id="destino" class="form-control" value="#{gc_enproceso.enProceso.destinoId}" onchange="submit()" 
+                                                                     valueChangeListener="#{gc_enproceso.buscarPorDestino}" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:selectItem itemLabel="" itemValue="0"/>
+                                                        <f:selectItems value="#{gc_enproceso.destino}"/>
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                                #{p.destino}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="tramite">Origen Tramite</h:outputLabel>
+                                                    <h:selectOneMenu id="tramite" class="form-control" value="#{gc_enproceso.enProceso.tramiteId}" onchange="submit()" 
+                                                                     valueChangeListener="#{gc_enproceso.buscarPorTramite}" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:selectItem itemLabel="" itemValue="0"/>
+                                                        <f:selectItems value="#{gc_enproceso.tramite}"/>
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                                #{p.tramite}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="estado">Estado</h:outputLabel>
+                                                    <h:selectOneMenu id="estado" class="form-control" value="#{gc_enproceso.enProceso.estadoId}" onchange="submit()" 
+                                                                     valueChangeListener="#{gc_enproceso.buscarPorEstado}" rendered="#{gc_enproceso.filter eq true}">
+                                                        <f:selectItem itemLabel="" itemValue="-"/>
+                                                        <f:selectItems value="#{gc_enproceso.estado}"/>
+                                                    </h:selectOneMenu>
+                                                </f:facet>
+                                                #{p.estado}
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel for="monto">Monto</h:outputLabel>
+                                                    <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_enproceso.filter eq true}"/>
+                                                </f:facet>
+                                                #{p.monto}
+                                            </h:column>
+                                            <h:column>
+
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:form>
                                 </div>
                             </div>
                         </div>

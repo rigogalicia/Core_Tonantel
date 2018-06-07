@@ -1,17 +1,27 @@
 package gc.controlador;
 
 import dao.GcDestino;
+import dao.GcEstado;
+import dao.GcGestion;
+import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTramite;
 import gc.modelo.Destino;
 import gc.modelo.SolicitudesRecibidas;
 import gc.modelo.Tipo;
 import gc.modelo.Tramite;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean(name = "gc_recibidas")
 @ViewScoped
@@ -22,9 +32,21 @@ public class GcRecibidasBean {
     private ArrayList<SelectItem> destinoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tramiteCredito = new ArrayList<>();
     private boolean filter = false;
+    private String userConect;
     
     public GcRecibidasBean() {
-        listaRecibidas = recibidas.mostrarDatos();
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if(sesion.getAttribute("userConect") != null){
+            userConect = sesion.getAttribute("userConect").toString();
+            listaRecibidas = recibidas.mostrarDatos();
+        }
+        else{
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/index.xhtml");
+            } catch (IOException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
     }
 
     public SolicitudesRecibidas getRecibidas() {
@@ -125,5 +147,27 @@ public class GcRecibidasBean {
     public void mostrarPorTramite(ValueChangeEvent e){
         recibidas.setTramiteId(Integer.parseInt(e.getNewValue().toString()));
         listaRecibidas = recibidas.mostrarDatos();
+    }
+    
+    /* Metodo para asignarse una solicitud para realizar una gestion */
+    public void asignarSolicitud(SolicitudesRecibidas s){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        GcGestion gestion = new GcGestion();
+        gestion.setAnalista(userConect);
+        gestion.setFecha(new Date());
+        gestion.setSolicitudNumeroSolicitud(new GcSolicitud(s.getNumeroSolicitud()));
+        gestion.setEstadoId(new GcEstado("b"));
+        GcSolicitud solicitud = em.find(GcSolicitud.class, s.getNumeroSolicitud());
+        solicitud.setEstadoId(new GcEstado("b"));
+        em.persist(gestion);
+        em.getTransaction().commit();
+        
+        listaRecibidas = recibidas.mostrarDatos();
+        
+        em.close();
+        emf.close();
     }
 }

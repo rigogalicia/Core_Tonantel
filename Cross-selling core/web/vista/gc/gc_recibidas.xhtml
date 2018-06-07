@@ -96,14 +96,16 @@
                                             #{r.tramite}
                                         </h:column>
                                         <h:column>
-                                            <f:facet name="header" >
+                                            <f:facet name="header">
                                                 <h:outputLabel for="monto" >Monto</h:outputLabel>
                                                 <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_recibidas.filter eq true}"/>  
                                             </f:facet>
                                             #{r.monto}
                                         </h:column>
                                         <h:column>
-
+                                            <h:commandLink actionListener="#{gc_recibidas.asignarSolicitud(r)}">
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            </h:commandLink>   
                                         </h:column>
                                     </h:dataTable>
                                 </h:form>
@@ -111,7 +113,7 @@
                         </div>
                     </section>
                 </div>
-            <!--Contiene la version del sistema-->
+                <!--Contiene la version del sistema-->
                 <footer class="main-footer">
                     <div class="pull-right hidden-xs">
                         <b>Versión</b> #{version.numero}
