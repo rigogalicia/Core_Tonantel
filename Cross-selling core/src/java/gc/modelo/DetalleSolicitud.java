@@ -3,7 +3,6 @@ package gc.modelo;
 import dao.GcAsociado;
 import dao.GcDestino;
 import dao.GcEstado;
-import dao.GcRiesgo;
 import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTipocliente;
