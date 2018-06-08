@@ -3,10 +3,12 @@ package gc.controlador;
 import dao.GcEstado;
 import dao.GcGestion;
 import dao.GcRiesgo;
+import dao.GcSeguimiento;
 import dao.GcSolicitud;
 import gc.modelo.DetalleSolicitud;
 import gc.modelo.Estado;
 import gc.modelo.Riesgo;
+import gc.modelo.Seguimiento;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +30,8 @@ public class GcDetalleSolicitudBean {
     private GcEstado estado = new GcEstado();
     private ArrayList<SelectItem> estadoItem = new ArrayList<>();
     private ArrayList<SelectItem> riesgoItem = new ArrayList<>();
+    private ArrayList<Seguimiento> listSeguimiento = new ArrayList<>();
+    private String comentario;
     private String userConect;
 
     public GcDetalleSolicitudBean() {
@@ -39,6 +43,8 @@ public class GcDetalleSolicitudBean {
             detalle = new DetalleSolicitud(params.get("numeroSolicitud").toString());
             detalle.consultarDatos();
             estado.setId(detalle.getEstadoId());
+            
+            consultarSeguimiento();
         }
         else{
             try {
@@ -100,6 +106,29 @@ public class GcDetalleSolicitudBean {
     public void setRiesgoItem(ArrayList<SelectItem> riesgoItem) {
         this.riesgoItem = riesgoItem;
     }
+
+    public ArrayList<Seguimiento> getListSeguimiento() {
+        return listSeguimiento;
+    }
+
+    public void setListSeguimiento(ArrayList<Seguimiento> listSeguimiento) {
+        this.listSeguimiento = listSeguimiento;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+    
+    /* Metodo utilizado para consultar los comentario de seguimiento */
+    private void consultarSeguimiento(){
+        Seguimiento seguimiento = new Seguimiento();
+        seguimiento.setNumeroSolicitud(detalle.getNumeroSolicitud());
+        listSeguimiento = seguimiento.mostrarDatos();
+    }
     
     /* Metodo utilizado para cambiar de estado una solicitud */
     public void cambiarEstado(){
@@ -121,6 +150,34 @@ public class GcDetalleSolicitudBean {
         em.persist(gestion);
         
         em.getTransaction().commit();
+        
+        em.close();
+        emf.close();
+        
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/gc/gc_enproceso.xhtml");
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+        }
+    }
+    
+    /* Metodo utilizado para agregar comentario de seguimiento */
+    public void agregarSeguimiento(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        
+        GcSeguimiento seguimiento = new GcSeguimiento();
+        seguimiento.setFecha(new Date());
+        seguimiento.setComentario(comentario);
+        seguimiento.setSolicitudNumeroSolicitud(new GcSolicitud(detalle.getNumeroSolicitud()));
+        em.persist(seguimiento);
+        
+        em.getTransaction().commit();
+        
+        consultarSeguimiento();
+        comentario = null;
         
         em.close();
         emf.close();

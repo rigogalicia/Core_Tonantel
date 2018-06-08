@@ -35,15 +35,15 @@ public class GcSeguimientoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            GcGestion gestionId = gcSeguimiento.getGestionId();
-            if (gestionId != null) {
-                gestionId = em.getReference(gestionId.getClass(), gestionId.getId());
-                gcSeguimiento.setGestionId(gestionId);
+            GcSolicitud solicitudNumeroSolicitud = gcSeguimiento.getSolicitudNumeroSolicitud();
+            if (solicitudNumeroSolicitud != null) {
+                solicitudNumeroSolicitud = em.getReference(solicitudNumeroSolicitud.getClass(), solicitudNumeroSolicitud.getNumeroSolicitud());
+                gcSeguimiento.setSolicitudNumeroSolicitud(solicitudNumeroSolicitud);
             }
             em.persist(gcSeguimiento);
-            if (gestionId != null) {
-                gestionId.getGcSeguimientoList().add(gcSeguimiento);
-                gestionId = em.merge(gestionId);
+            if (solicitudNumeroSolicitud != null) {
+                solicitudNumeroSolicitud.getGcSeguimientoList().add(gcSeguimiento);
+                solicitudNumeroSolicitud = em.merge(solicitudNumeroSolicitud);
             }
             em.getTransaction().commit();
         } finally {
@@ -59,20 +59,20 @@ public class GcSeguimientoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             GcSeguimiento persistentGcSeguimiento = em.find(GcSeguimiento.class, gcSeguimiento.getId());
-            GcGestion gestionIdOld = persistentGcSeguimiento.getGestionId();
-            GcGestion gestionIdNew = gcSeguimiento.getGestionId();
-            if (gestionIdNew != null) {
-                gestionIdNew = em.getReference(gestionIdNew.getClass(), gestionIdNew.getId());
-                gcSeguimiento.setGestionId(gestionIdNew);
+            GcSolicitud solicitudNumeroSolicitudOld = persistentGcSeguimiento.getSolicitudNumeroSolicitud();
+            GcSolicitud solicitudNumeroSolicitudNew = gcSeguimiento.getSolicitudNumeroSolicitud();
+            if (solicitudNumeroSolicitudNew != null) {
+                solicitudNumeroSolicitudNew = em.getReference(solicitudNumeroSolicitudNew.getClass(), solicitudNumeroSolicitudNew.getNumeroSolicitud());
+                gcSeguimiento.setSolicitudNumeroSolicitud(solicitudNumeroSolicitudNew);
             }
             gcSeguimiento = em.merge(gcSeguimiento);
-            if (gestionIdOld != null && !gestionIdOld.equals(gestionIdNew)) {
-                gestionIdOld.getGcSeguimientoList().remove(gcSeguimiento);
-                gestionIdOld = em.merge(gestionIdOld);
+            if (solicitudNumeroSolicitudOld != null && !solicitudNumeroSolicitudOld.equals(solicitudNumeroSolicitudNew)) {
+                solicitudNumeroSolicitudOld.getGcSeguimientoList().remove(gcSeguimiento);
+                solicitudNumeroSolicitudOld = em.merge(solicitudNumeroSolicitudOld);
             }
-            if (gestionIdNew != null && !gestionIdNew.equals(gestionIdOld)) {
-                gestionIdNew.getGcSeguimientoList().add(gcSeguimiento);
-                gestionIdNew = em.merge(gestionIdNew);
+            if (solicitudNumeroSolicitudNew != null && !solicitudNumeroSolicitudNew.equals(solicitudNumeroSolicitudOld)) {
+                solicitudNumeroSolicitudNew.getGcSeguimientoList().add(gcSeguimiento);
+                solicitudNumeroSolicitudNew = em.merge(solicitudNumeroSolicitudNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -103,10 +103,10 @@ public class GcSeguimientoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The gcSeguimiento with id " + id + " no longer exists.", enfe);
             }
-            GcGestion gestionId = gcSeguimiento.getGestionId();
-            if (gestionId != null) {
-                gestionId.getGcSeguimientoList().remove(gcSeguimiento);
-                gestionId = em.merge(gestionId);
+            GcSolicitud solicitudNumeroSolicitud = gcSeguimiento.getSolicitudNumeroSolicitud();
+            if (solicitudNumeroSolicitud != null) {
+                solicitudNumeroSolicitud.getGcSeguimientoList().remove(gcSeguimiento);
+                solicitudNumeroSolicitud = em.merge(solicitudNumeroSolicitud);
             }
             em.remove(gcSeguimiento);
             em.getTransaction().commit();

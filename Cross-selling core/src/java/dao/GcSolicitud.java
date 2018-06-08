@@ -50,6 +50,8 @@ public class GcSolicitud implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
+    private List<GcSeguimiento> gcSeguimientoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
     private List<GcGestion> gcGestionList;
     @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -117,6 +119,14 @@ public class GcSolicitud implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public List<GcSeguimiento> getGcSeguimientoList() {
+        return gcSeguimientoList;
+    }
+
+    public void setGcSeguimientoList(List<GcSeguimiento> gcSeguimientoList) {
+        this.gcSeguimientoList = gcSeguimientoList;
     }
 
     public List<GcGestion> getGcGestionList() {

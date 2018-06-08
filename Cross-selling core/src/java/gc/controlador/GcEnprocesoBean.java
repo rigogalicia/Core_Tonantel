@@ -37,6 +37,7 @@ public class GcEnprocesoBean {
         if(sesion.getAttribute("userConect") != null){
             userConect = sesion.getAttribute("userConect").toString();
             enProceso.setUserConect(userConect);
+            enProceso.setEstadoId("b");
             listEnproceso = enProceso.mostrarDatos();
         }
         else{
@@ -106,8 +107,10 @@ public class GcEnprocesoBean {
     public ArrayList<SelectItem> getEstado() {
         estado.clear();
         for(GcEstado e : Estado.mostrarDatos()){
-            SelectItem itemEstado = new SelectItem(e.getId(), e.getDescripcion());
-            estado.add(itemEstado);
+            if(!e.getId().equals("a")){
+                SelectItem itemEstado = new SelectItem(e.getId(), e.getDescripcion());
+                estado.add(itemEstado);
+            }
         }
         return estado;
     }
@@ -166,7 +169,7 @@ public class GcEnprocesoBean {
         enProceso.setTipoId(0);
         enProceso.setDestinoId(0);
         enProceso.setTramiteId(0);
-        enProceso.setEstadoId(null);
+        enProceso.setEstadoId("b");
         listEnproceso = enProceso.mostrarDatos();
     }
     

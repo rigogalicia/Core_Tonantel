@@ -44,9 +44,9 @@ public class GcSeguimiento implements Serializable {
     @Basic(optional = false)
     @Column(name = "comentario")
     private String comentario;
-    @JoinColumn(name = "gestion_id", referencedColumnName = "id")
+    @JoinColumn(name = "solicitud_numero_solicitud", referencedColumnName = "numero_solicitud")
     @ManyToOne(optional = false)
-    private GcGestion gestionId;
+    private GcSolicitud solicitudNumeroSolicitud;
 
     public GcSeguimiento() {
     }
@@ -85,12 +85,12 @@ public class GcSeguimiento implements Serializable {
         this.comentario = comentario;
     }
 
-    public GcGestion getGestionId() {
-        return gestionId;
+    public GcSolicitud getSolicitudNumeroSolicitud() {
+        return solicitudNumeroSolicitud;
     }
 
-    public void setGestionId(GcGestion gestionId) {
-        this.gestionId = gestionId;
+    public void setSolicitudNumeroSolicitud(GcSolicitud solicitudNumeroSolicitud) {
+        this.solicitudNumeroSolicitud = solicitudNumeroSolicitud;
     }
 
     @Override

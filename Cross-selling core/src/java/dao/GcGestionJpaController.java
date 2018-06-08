@@ -5,17 +5,15 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -33,9 +31,6 @@ public class GcGestionJpaController implements Serializable {
     }
 
     public void create(GcGestion gcGestion) {
-        if (gcGestion.getGcSeguimientoList() == null) {
-            gcGestion.setGcSeguimientoList(new ArrayList<GcSeguimiento>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -50,12 +45,6 @@ public class GcGestionJpaController implements Serializable {
                 estadoId = em.getReference(estadoId.getClass(), estadoId.getId());
                 gcGestion.setEstadoId(estadoId);
             }
-            List<GcSeguimiento> attachedGcSeguimientoList = new ArrayList<GcSeguimiento>();
-            for (GcSeguimiento gcSeguimientoListGcSeguimientoToAttach : gcGestion.getGcSeguimientoList()) {
-                gcSeguimientoListGcSeguimientoToAttach = em.getReference(gcSeguimientoListGcSeguimientoToAttach.getClass(), gcSeguimientoListGcSeguimientoToAttach.getId());
-                attachedGcSeguimientoList.add(gcSeguimientoListGcSeguimientoToAttach);
-            }
-            gcGestion.setGcSeguimientoList(attachedGcSeguimientoList);
             em.persist(gcGestion);
             if (solicitudNumeroSolicitud != null) {
                 solicitudNumeroSolicitud.getGcGestionList().add(gcGestion);
@@ -65,15 +54,6 @@ public class GcGestionJpaController implements Serializable {
                 estadoId.getGcGestionList().add(gcGestion);
                 estadoId = em.merge(estadoId);
             }
-            for (GcSeguimiento gcSeguimientoListGcSeguimiento : gcGestion.getGcSeguimientoList()) {
-                GcGestion oldGestionIdOfGcSeguimientoListGcSeguimiento = gcSeguimientoListGcSeguimiento.getGestionId();
-                gcSeguimientoListGcSeguimiento.setGestionId(gcGestion);
-                gcSeguimientoListGcSeguimiento = em.merge(gcSeguimientoListGcSeguimiento);
-                if (oldGestionIdOfGcSeguimientoListGcSeguimiento != null) {
-                    oldGestionIdOfGcSeguimientoListGcSeguimiento.getGcSeguimientoList().remove(gcSeguimientoListGcSeguimiento);
-                    oldGestionIdOfGcSeguimientoListGcSeguimiento = em.merge(oldGestionIdOfGcSeguimientoListGcSeguimiento);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -82,7 +62,7 @@ public class GcGestionJpaController implements Serializable {
         }
     }
 
-    public void edit(GcGestion gcGestion) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(GcGestion gcGestion) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -92,20 +72,6 @@ public class GcGestionJpaController implements Serializable {
             GcSolicitud solicitudNumeroSolicitudNew = gcGestion.getSolicitudNumeroSolicitud();
             GcEstado estadoIdOld = persistentGcGestion.getEstadoId();
             GcEstado estadoIdNew = gcGestion.getEstadoId();
-            List<GcSeguimiento> gcSeguimientoListOld = persistentGcGestion.getGcSeguimientoList();
-            List<GcSeguimiento> gcSeguimientoListNew = gcGestion.getGcSeguimientoList();
-            List<String> illegalOrphanMessages = null;
-            for (GcSeguimiento gcSeguimientoListOldGcSeguimiento : gcSeguimientoListOld) {
-                if (!gcSeguimientoListNew.contains(gcSeguimientoListOldGcSeguimiento)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain GcSeguimiento " + gcSeguimientoListOldGcSeguimiento + " since its gestionId field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             if (solicitudNumeroSolicitudNew != null) {
                 solicitudNumeroSolicitudNew = em.getReference(solicitudNumeroSolicitudNew.getClass(), solicitudNumeroSolicitudNew.getNumeroSolicitud());
                 gcGestion.setSolicitudNumeroSolicitud(solicitudNumeroSolicitudNew);
@@ -114,13 +80,6 @@ public class GcGestionJpaController implements Serializable {
                 estadoIdNew = em.getReference(estadoIdNew.getClass(), estadoIdNew.getId());
                 gcGestion.setEstadoId(estadoIdNew);
             }
-            List<GcSeguimiento> attachedGcSeguimientoListNew = new ArrayList<GcSeguimiento>();
-            for (GcSeguimiento gcSeguimientoListNewGcSeguimientoToAttach : gcSeguimientoListNew) {
-                gcSeguimientoListNewGcSeguimientoToAttach = em.getReference(gcSeguimientoListNewGcSeguimientoToAttach.getClass(), gcSeguimientoListNewGcSeguimientoToAttach.getId());
-                attachedGcSeguimientoListNew.add(gcSeguimientoListNewGcSeguimientoToAttach);
-            }
-            gcSeguimientoListNew = attachedGcSeguimientoListNew;
-            gcGestion.setGcSeguimientoList(gcSeguimientoListNew);
             gcGestion = em.merge(gcGestion);
             if (solicitudNumeroSolicitudOld != null && !solicitudNumeroSolicitudOld.equals(solicitudNumeroSolicitudNew)) {
                 solicitudNumeroSolicitudOld.getGcGestionList().remove(gcGestion);
@@ -137,17 +96,6 @@ public class GcGestionJpaController implements Serializable {
             if (estadoIdNew != null && !estadoIdNew.equals(estadoIdOld)) {
                 estadoIdNew.getGcGestionList().add(gcGestion);
                 estadoIdNew = em.merge(estadoIdNew);
-            }
-            for (GcSeguimiento gcSeguimientoListNewGcSeguimiento : gcSeguimientoListNew) {
-                if (!gcSeguimientoListOld.contains(gcSeguimientoListNewGcSeguimiento)) {
-                    GcGestion oldGestionIdOfGcSeguimientoListNewGcSeguimiento = gcSeguimientoListNewGcSeguimiento.getGestionId();
-                    gcSeguimientoListNewGcSeguimiento.setGestionId(gcGestion);
-                    gcSeguimientoListNewGcSeguimiento = em.merge(gcSeguimientoListNewGcSeguimiento);
-                    if (oldGestionIdOfGcSeguimientoListNewGcSeguimiento != null && !oldGestionIdOfGcSeguimientoListNewGcSeguimiento.equals(gcGestion)) {
-                        oldGestionIdOfGcSeguimientoListNewGcSeguimiento.getGcSeguimientoList().remove(gcSeguimientoListNewGcSeguimiento);
-                        oldGestionIdOfGcSeguimientoListNewGcSeguimiento = em.merge(oldGestionIdOfGcSeguimientoListNewGcSeguimiento);
-                    }
-                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -166,7 +114,7 @@ public class GcGestionJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -177,17 +125,6 @@ public class GcGestionJpaController implements Serializable {
                 gcGestion.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The gcGestion with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            List<GcSeguimiento> gcSeguimientoListOrphanCheck = gcGestion.getGcSeguimientoList();
-            for (GcSeguimiento gcSeguimientoListOrphanCheckGcSeguimiento : gcSeguimientoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This GcGestion (" + gcGestion + ") cannot be destroyed since the GcSeguimiento " + gcSeguimientoListOrphanCheckGcSeguimiento + " in its gcSeguimientoList field has a non-nullable gestionId field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             GcSolicitud solicitudNumeroSolicitud = gcGestion.getSolicitudNumeroSolicitud();
             if (solicitudNumeroSolicitud != null) {
