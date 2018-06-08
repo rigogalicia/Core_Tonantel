@@ -7,9 +7,7 @@ package dao;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,8 +44,6 @@ public class GcGestion implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gestionId")
-    private List<GcSeguimiento> gcSeguimientoList;
     @JoinColumn(name = "solicitud_numero_solicitud", referencedColumnName = "numero_solicitud")
     @ManyToOne(optional = false)
     private GcSolicitud solicitudNumeroSolicitud;
@@ -91,14 +86,6 @@ public class GcGestion implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public List<GcSeguimiento> getGcSeguimientoList() {
-        return gcSeguimientoList;
-    }
-
-    public void setGcSeguimientoList(List<GcSeguimiento> gcSeguimientoList) {
-        this.gcSeguimientoList = gcSeguimientoList;
     }
 
     public GcSolicitud getSolicitudNumeroSolicitud() {

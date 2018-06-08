@@ -34,6 +34,9 @@ public class GcSolicitudJpaController implements Serializable {
     }
 
     public void create(GcSolicitud gcSolicitud) throws PreexistingEntityException, Exception {
+        if (gcSolicitud.getGcSeguimientoList() == null) {
+            gcSolicitud.setGcSeguimientoList(new ArrayList<GcSeguimiento>());
+        }
         if (gcSolicitud.getGcGestionList() == null) {
             gcSolicitud.setGcGestionList(new ArrayList<GcGestion>());
         }
@@ -76,6 +79,12 @@ public class GcSolicitudJpaController implements Serializable {
                 riesgoId = em.getReference(riesgoId.getClass(), riesgoId.getId());
                 gcSolicitud.setRiesgoId(riesgoId);
             }
+            List<GcSeguimiento> attachedGcSeguimientoList = new ArrayList<GcSeguimiento>();
+            for (GcSeguimiento gcSeguimientoListGcSeguimientoToAttach : gcSolicitud.getGcSeguimientoList()) {
+                gcSeguimientoListGcSeguimientoToAttach = em.getReference(gcSeguimientoListGcSeguimientoToAttach.getClass(), gcSeguimientoListGcSeguimientoToAttach.getId());
+                attachedGcSeguimientoList.add(gcSeguimientoListGcSeguimientoToAttach);
+            }
+            gcSolicitud.setGcSeguimientoList(attachedGcSeguimientoList);
             List<GcGestion> attachedGcGestionList = new ArrayList<GcGestion>();
             for (GcGestion gcGestionListGcGestionToAttach : gcSolicitud.getGcGestionList()) {
                 gcGestionListGcGestionToAttach = em.getReference(gcGestionListGcGestionToAttach.getClass(), gcGestionListGcGestionToAttach.getId());
@@ -110,6 +119,15 @@ public class GcSolicitudJpaController implements Serializable {
             if (riesgoId != null) {
                 riesgoId.getGcSolicitudList().add(gcSolicitud);
                 riesgoId = em.merge(riesgoId);
+            }
+            for (GcSeguimiento gcSeguimientoListGcSeguimiento : gcSolicitud.getGcSeguimientoList()) {
+                GcSolicitud oldSolicitudNumeroSolicitudOfGcSeguimientoListGcSeguimiento = gcSeguimientoListGcSeguimiento.getSolicitudNumeroSolicitud();
+                gcSeguimientoListGcSeguimiento.setSolicitudNumeroSolicitud(gcSolicitud);
+                gcSeguimientoListGcSeguimiento = em.merge(gcSeguimientoListGcSeguimiento);
+                if (oldSolicitudNumeroSolicitudOfGcSeguimientoListGcSeguimiento != null) {
+                    oldSolicitudNumeroSolicitudOfGcSeguimientoListGcSeguimiento.getGcSeguimientoList().remove(gcSeguimientoListGcSeguimiento);
+                    oldSolicitudNumeroSolicitudOfGcSeguimientoListGcSeguimiento = em.merge(oldSolicitudNumeroSolicitudOfGcSeguimientoListGcSeguimiento);
+                }
             }
             for (GcGestion gcGestionListGcGestion : gcSolicitud.getGcGestionList()) {
                 GcSolicitud oldSolicitudNumeroSolicitudOfGcGestionListGcGestion = gcGestionListGcGestion.getSolicitudNumeroSolicitud();
@@ -153,9 +171,19 @@ public class GcSolicitudJpaController implements Serializable {
             GcTipocliente tipoclienteIdNew = gcSolicitud.getTipoclienteId();
             GcRiesgo riesgoIdOld = persistentGcSolicitud.getRiesgoId();
             GcRiesgo riesgoIdNew = gcSolicitud.getRiesgoId();
+            List<GcSeguimiento> gcSeguimientoListOld = persistentGcSolicitud.getGcSeguimientoList();
+            List<GcSeguimiento> gcSeguimientoListNew = gcSolicitud.getGcSeguimientoList();
             List<GcGestion> gcGestionListOld = persistentGcSolicitud.getGcGestionList();
             List<GcGestion> gcGestionListNew = gcSolicitud.getGcGestionList();
             List<String> illegalOrphanMessages = null;
+            for (GcSeguimiento gcSeguimientoListOldGcSeguimiento : gcSeguimientoListOld) {
+                if (!gcSeguimientoListNew.contains(gcSeguimientoListOldGcSeguimiento)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain GcSeguimiento " + gcSeguimientoListOldGcSeguimiento + " since its solicitudNumeroSolicitud field is not nullable.");
+                }
+            }
             for (GcGestion gcGestionListOldGcGestion : gcGestionListOld) {
                 if (!gcGestionListNew.contains(gcGestionListOldGcGestion)) {
                     if (illegalOrphanMessages == null) {
@@ -195,6 +223,13 @@ public class GcSolicitudJpaController implements Serializable {
                 riesgoIdNew = em.getReference(riesgoIdNew.getClass(), riesgoIdNew.getId());
                 gcSolicitud.setRiesgoId(riesgoIdNew);
             }
+            List<GcSeguimiento> attachedGcSeguimientoListNew = new ArrayList<GcSeguimiento>();
+            for (GcSeguimiento gcSeguimientoListNewGcSeguimientoToAttach : gcSeguimientoListNew) {
+                gcSeguimientoListNewGcSeguimientoToAttach = em.getReference(gcSeguimientoListNewGcSeguimientoToAttach.getClass(), gcSeguimientoListNewGcSeguimientoToAttach.getId());
+                attachedGcSeguimientoListNew.add(gcSeguimientoListNewGcSeguimientoToAttach);
+            }
+            gcSeguimientoListNew = attachedGcSeguimientoListNew;
+            gcSolicitud.setGcSeguimientoList(gcSeguimientoListNew);
             List<GcGestion> attachedGcGestionListNew = new ArrayList<GcGestion>();
             for (GcGestion gcGestionListNewGcGestionToAttach : gcGestionListNew) {
                 gcGestionListNewGcGestionToAttach = em.getReference(gcGestionListNewGcGestionToAttach.getClass(), gcGestionListNewGcGestionToAttach.getId());
@@ -259,6 +294,17 @@ public class GcSolicitudJpaController implements Serializable {
                 riesgoIdNew.getGcSolicitudList().add(gcSolicitud);
                 riesgoIdNew = em.merge(riesgoIdNew);
             }
+            for (GcSeguimiento gcSeguimientoListNewGcSeguimiento : gcSeguimientoListNew) {
+                if (!gcSeguimientoListOld.contains(gcSeguimientoListNewGcSeguimiento)) {
+                    GcSolicitud oldSolicitudNumeroSolicitudOfGcSeguimientoListNewGcSeguimiento = gcSeguimientoListNewGcSeguimiento.getSolicitudNumeroSolicitud();
+                    gcSeguimientoListNewGcSeguimiento.setSolicitudNumeroSolicitud(gcSolicitud);
+                    gcSeguimientoListNewGcSeguimiento = em.merge(gcSeguimientoListNewGcSeguimiento);
+                    if (oldSolicitudNumeroSolicitudOfGcSeguimientoListNewGcSeguimiento != null && !oldSolicitudNumeroSolicitudOfGcSeguimientoListNewGcSeguimiento.equals(gcSolicitud)) {
+                        oldSolicitudNumeroSolicitudOfGcSeguimientoListNewGcSeguimiento.getGcSeguimientoList().remove(gcSeguimientoListNewGcSeguimiento);
+                        oldSolicitudNumeroSolicitudOfGcSeguimientoListNewGcSeguimiento = em.merge(oldSolicitudNumeroSolicitudOfGcSeguimientoListNewGcSeguimiento);
+                    }
+                }
+            }
             for (GcGestion gcGestionListNewGcGestion : gcGestionListNew) {
                 if (!gcGestionListOld.contains(gcGestionListNewGcGestion)) {
                     GcSolicitud oldSolicitudNumeroSolicitudOfGcGestionListNewGcGestion = gcGestionListNewGcGestion.getSolicitudNumeroSolicitud();
@@ -300,6 +346,13 @@ public class GcSolicitudJpaController implements Serializable {
                 throw new NonexistentEntityException("The gcSolicitud with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<GcSeguimiento> gcSeguimientoListOrphanCheck = gcSolicitud.getGcSeguimientoList();
+            for (GcSeguimiento gcSeguimientoListOrphanCheckGcSeguimiento : gcSeguimientoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This GcSolicitud (" + gcSolicitud + ") cannot be destroyed since the GcSeguimiento " + gcSeguimientoListOrphanCheckGcSeguimiento + " in its gcSeguimientoList field has a non-nullable solicitudNumeroSolicitud field.");
+            }
             List<GcGestion> gcGestionListOrphanCheck = gcSolicitud.getGcGestionList();
             for (GcGestion gcGestionListOrphanCheckGcGestion : gcGestionListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

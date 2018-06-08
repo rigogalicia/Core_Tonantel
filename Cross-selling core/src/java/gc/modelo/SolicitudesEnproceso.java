@@ -190,12 +190,10 @@ public class SolicitudesEnproceso {
             instruccion += "AND F.id = "+tramiteId+" ";
         }
         
-        if(estadoId != null){
-            if(!estadoId.equals("-")){
-                instruccion += "AND E.id = '"+estadoId+"' ";
-            }
+        if(!estadoId.equals("-")){
+            instruccion += "AND E.id = '"+estadoId+"' ";
         }
-        
+
         Query consulta = em.createNativeQuery(instruccion);
         List<Object[]> resultado = consulta.getResultList();
         

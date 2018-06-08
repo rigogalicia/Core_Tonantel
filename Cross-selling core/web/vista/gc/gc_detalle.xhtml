@@ -20,31 +20,39 @@
                                            <!-- <h4>Detalle de Solicitud</h4>-->
                                             <div class="row">
                                                 <div class="col-xs-12">
-                                                    <h4 class="panel-title">
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                <button type="button" class="btn btn-primary" id="button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                    <span class="glyphicon glyphicon-comment"></span>
-                                                                </button>
-                                                                <label for="button">Comentario</label>
+                                                    <h:form>
+                                                        <h:messages style="color: red"/>
+                                                        <h:inputHidden id="numSol" value="#{gc_detallesolicitud.detalle.numeroSolicitud}"/>
+                                                        <h4 class="panel-title">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <button type="button" class="btn btn-primary" id="button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                        <span class="glyphicon glyphicon-comment"></span>
+                                                                    </button>
+                                                                    <label for="button">Comentario</label>
+                                                                </div>
+                                                                <div class="col-md-8"/>
+                                                                <div class="col-md-1">
+                                                                    <h:commandLink action="gc_enproceso.xhtml" immediate="true">
+                                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                                    </h:commandLink>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-3"/>
-                                                            <div class="col-md-3">
-                                                                <label for="button">Comentario</label>
+                                                        </h4>
+                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                          <div class="panel-body">
+                                                            <h:inputTextarea id="comentario" class="form-control" rows="3" value="#{gc_detallesolicitud.comentario}" required="true">
+                                                                <f:validateLength minimum="3"/>
+                                                            </h:inputTextarea>
+                                                            <br/>
+                                                            <div class="row">
+                                                                <div class="col-xs-3">
+                                                                    <h:commandButton class="btn btn-primary" value="Agregar" actionListener="#{gc_detallesolicitud.agregarSeguimiento()}"/>
+                                                                </div>
                                                             </div>
+                                                          </div>
                                                         </div>
-                                                    </h4>
-                                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                      <div class="panel-body">
-                                                        <textarea class="form-control" rows="3"></textarea>
-                                                        <br/>
-                                                        <div class="row">
-                                                            <div class="col-xs-3">
-                                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                                            </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
+                                                    </h:form>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,7 +105,7 @@
                                                         <h:inputText id="tramiteCredito" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.tramite}"></h:inputText>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <h:outputLabel for="estado">Estado:</h:outputLabel>
+                                                        <h:outputLabel for="estado">Estado: (#{gc_detallesolicitud.detalle.estado})</h:outputLabel>
                                                         <h:selectOneMenu id="estado" class="form-control" value="#{gc_detallesolicitud.estado.id}">
                                                             <f:selectItems value="#{gc_detallesolicitud.estadoItem}"/>
                                                         </h:selectOneMenu>      
@@ -119,6 +127,14 @@
                                                 </div>
                                             </div>
                                             <br/>
+                                            <ui:repeat value="#{gc_detallesolicitud.listSeguimiento}" var="s">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        #{s.fechaFormateada}<br/>
+                                                        #{s.comentario}
+                                                    </div>
+                                                </div>
+                                            </ui:repeat>
                                         </h:form>
                                     </div>
                                 </div>
