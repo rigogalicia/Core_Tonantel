@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 public class SolicitudesEnproceso {
     private String numeroSolicitud;
+    private String asesorFinanciero;
     private String nombreAsociado;
     private String cif;
     private int tipoId;
@@ -29,6 +30,14 @@ public class SolicitudesEnproceso {
 
     public void setNumeroSolicitud(String numeroSolicitud) {
         this.numeroSolicitud = numeroSolicitud;
+    }
+
+    public String getAsesorFinanciero() {
+        return asesorFinanciero;
+    }
+
+    public void setAsesorFinanciero(String asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
     }
 
     public String getNombreAsociado() {
@@ -144,7 +153,8 @@ public class SolicitudesEnproceso {
                 + "F.descripcion tramite, "
                 + "E.id estadoId, "
                 + "E.descripcion estado, "
-                + "S.monto monto "
+                + "S.monto monto, "
+                + "S.asesor_financiero asesor "
                 + "FROM gc_solicitud S "
                 + "LEFT JOIN gc_asociado A "
                 + "ON S.asociado_cif = A.cif "
@@ -212,6 +222,7 @@ public class SolicitudesEnproceso {
             se.setEstado((String) obj[10]);
             BigDecimal resultadoMonto = (BigDecimal) obj[11];
             se.setMonto(resultadoMonto.toString());
+            se.setAsesorFinanciero((String) obj[12]);
             
             result.add(se);
         }

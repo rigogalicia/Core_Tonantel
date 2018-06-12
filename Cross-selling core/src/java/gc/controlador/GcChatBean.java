@@ -21,6 +21,7 @@ public class GcChatBean {
     private ArrayList<Chat> mensajes = new ArrayList<>();
     private String userConect;
     private String nombreUsuario;
+    private String nombreReceptor;
     
     public GcChatBean() {
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -84,8 +85,16 @@ public class GcChatBean {
     public void setUserConect(String userConect) {
         this.userConect = userConect;
     }
+
+    public String getNombreReceptor() {
+        return nombreReceptor;
+    }
+
+    public void setNombreReceptor(String nombreReceptor) {
+        this.nombreReceptor = nombreReceptor;
+    }
     
-    /* Metodo para activar char de solicitudes generadas */
+    /* Metodo para activar chat de solicitudes generadas */
     public void activarChatG(SolicitudesGeneradas g){
         chat.setNumeroSolicitud(g.getNumeroSolicitud());
         mensajes = chat.mostrarMensajes();
@@ -94,10 +103,11 @@ public class GcChatBean {
         panel2 = 4;
     }
     
-    /* Metodo utilizado para activar el chat */
+    /* Metodo utilizado para activar el chat de solicitudes en proceso */
     public void activarChat(SolicitudesEnproceso p){
         chat.setNumeroSolicitud(p.getNumeroSolicitud());
         mensajes = chat.mostrarMensajes();
+        nombreReceptor = chat.receptorAsesor(p.getAsesorFinanciero());
         isChat = true;
         panel1 = 8;
         panel2 = 4;

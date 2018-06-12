@@ -140,7 +140,7 @@
                                 <h:form id="chat" rendered="#{gc_chat.isChat eq true}">
                                     <div class="box box-warning direct-chat direct-chat-warning">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">#{gc_chat.userConect}</h3>
+                                            <h3 class="box-title">#{gc_chat.nombreReceptor}</h3>
                                         </div>
                                         <!--Termina Encabezado -->
                                         <div class="box-body">
@@ -151,7 +151,7 @@
                                                         <div class="direct-chat-msg">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-left">#{m.nombreUsuario}</span>
-                                                                <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+                                                                <span class="direct-chat-timestamp pull-right">#{m.fechaFormateada}</span>
                                                             </div>
                                                             <div class="direct-chat-text">
                                                                 #{m.mensaje}
@@ -163,7 +163,7 @@
                                                         <div class="direct-chat-msg right">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-right">#{m.nombreUsuario}</span>
-                                                                <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
+                                                                <span class="direct-chat-timestamp pull-left">#{m.fechaFormateada}</span>
                                                             </div>
                                                             <div class="direct-chat-text">
                                                                 #{m.mensaje}

@@ -4,6 +4,7 @@ import admin.modelo.ConexionMongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import org.bson.Document;
@@ -13,6 +14,7 @@ public class Chat {
     private ObjectId id;
     private String numeroSolicitud;
     private Date fecha;
+    private String fechaFormateada;
     private String mensaje;
     private String nombreUsuario;
     private String usuario;
@@ -49,6 +51,14 @@ public class Chat {
         this.fecha = fecha;
     }
 
+    public String getFechaFormateada() {
+        return fechaFormateada;
+    }
+
+    public void setFechaFormateada(String fechaFormateada) {
+        this.fechaFormateada = fechaFormateada;
+    }
+    
     public String getMensaje() {
         return mensaje;
     }
@@ -109,12 +119,16 @@ public class Chat {
         ArrayList<Chat> result = new ArrayList<>();
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("chatgc");
         MongoCursor<Document> cursor = coleccion.find(eq("numeroSolicitud", numeroSolicitud)).iterator();
+        
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd MMMM HH:mm");
+        
         try{
             while(cursor.hasNext()){
                 Document next = cursor.next();
                 Chat c = new Chat();
                 c.setNumeroSolicitud(next.getString("numeroSolicitud"));
                 c.setFecha(next.getDate("fecha"));
+                c.setFechaFormateada(formatoFecha.format(next.getDate("fecha")));
                 c.setMensaje(next.getString("mensaje"));
                 c.setNombreUsuario(next.getString("nombreUsuario"));
                 c.setUsuario(next.getString("usuario"));
@@ -124,6 +138,24 @@ public class Chat {
             }
         }
         finally{
+            cursor.close();
+        }
+        
+        return result;
+    }
+    
+    /* Este metodo devuelve el nombre del receptor asesor de credito */
+    public String receptorAsesor(String asesorFinanciero){
+        String result = null;
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", asesorFinanciero)).iterator();
+        
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                result = next.getString("nombre");
+            }
+        }finally{
             cursor.close();
         }
         
