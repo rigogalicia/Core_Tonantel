@@ -37,12 +37,12 @@
                                     <h:dataTable class="table table-striped" value="#{gc_recibidas.listaRecibidas}" var="r">
                                         <h:column>
                                             <f:facet name="header" >
-                                                <h:outputLabel for="numeroSolicitud">No.Solicitud</h:outputLabel>
-                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_recibidas.recibidas.numeroSolicitud}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="numeroSolicitud" render="recibidas"/> 
+                                                <h:outputLabel for="cif">Cif</h:outputLabel>
+                                                <h:inputText id="cif" class="form-control" value="#{gc_recibidas.recibidas.cif}" rendered="#{gc_recibidas.filter eq true}">
+                                                    <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="cif" render="recibidas"/>
                                                 </h:inputText>   
                                             </f:facet>
-                                            #{r.numeroSolicitud}
+                                            #{r.cif}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
@@ -52,15 +52,6 @@
                                                 </h:inputText>
                                             </f:facet>
                                             #{r.nombreAsociado}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header" >
-                                                <h:outputLabel for="cif">Cif</h:outputLabel>
-                                                <h:inputText id="cif" class="form-control" value="#{gc_recibidas.recibidas.cif}" rendered="#{gc_recibidas.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_recibidas.mostrarPorCampo()}" execute="cif" render="recibidas"/>
-                                                </h:inputText>   
-                                            </f:facet>
-                                            #{r.cif}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
@@ -97,10 +88,17 @@
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputLabel for="monto" >Monto</h:outputLabel>
+                                                <h:outputLabel for="monto">Monto</h:outputLabel>
                                                 <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_recibidas.filter eq true}"/>  
                                             </f:facet>
                                             #{r.monto}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="fecha">Fecha</h:outputLabel>
+                                                <h:inputText id="fecha" class="form-control" disabled="true" rendered="#{gc_recibidas.filter eq true}"/>
+                                            </f:facet>
+                                            #{r.fecha}
                                         </h:column>
                                         <h:column>
                                             <h:commandLink actionListener="#{gc_recibidas.asignarSolicitud(r)}">

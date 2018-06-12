@@ -6,6 +6,7 @@ import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTramite;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -24,6 +25,7 @@ public class SolicitudesRecibidas {
     private int tramiteId;
     private String tramite;
     private String monto;
+    private String fecha;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -104,6 +106,14 @@ public class SolicitudesRecibidas {
     public void setMonto(String monto) {
         this.monto = monto;
     }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
     
     /* Metodo utilizado para consultar los registros de solicitudes recibidas */
     public ArrayList<SolicitudesRecibidas> mostrarDatos(){
@@ -155,6 +165,7 @@ public class SolicitudesRecibidas {
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("estadoGeneradas", "a");
         List<Object[]> resultado = consulta.getResultList();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         
         for(Object[] obj : resultado){
             GcAsociado a = (GcAsociado) obj[0];
@@ -172,6 +183,7 @@ public class SolicitudesRecibidas {
             recibidas.setTramite(f.getDescripcion());
             DecimalFormat formato = new DecimalFormat("0,000.00");
             recibidas.setMonto(formato.format(s.getMonto().doubleValue()));
+            recibidas.setFecha(formatoFecha.format(s.getFecha()));
             
             result.add(recibidas);
         }
