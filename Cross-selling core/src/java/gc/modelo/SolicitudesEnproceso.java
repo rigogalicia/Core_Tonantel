@@ -23,6 +23,7 @@ public class SolicitudesEnproceso {
     private String estado;
     private String monto;
     private String userConect;
+    private int mensajesNoLeidos;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -135,6 +136,14 @@ public class SolicitudesEnproceso {
     public void setUserConect(String userConect) {
         this.userConect = userConect;
     }
+
+    public int getMensajesNoLeidos() {
+        return mensajesNoLeidos;
+    }
+
+    public void setMensajesNoLeidos(int mensajesNoLeidos) {
+        this.mensajesNoLeidos = mensajesNoLeidos;
+    }
     
     /* Metodo utilizado para devolver los registros asignados */
     public ArrayList<SolicitudesEnproceso> mostrarDatos(){
@@ -223,6 +232,10 @@ public class SolicitudesEnproceso {
             BigDecimal resultadoMonto = (BigDecimal) obj[11];
             se.setMonto(resultadoMonto.toString());
             se.setAsesorFinanciero((String) obj[12]);
+            
+            Chat chat = new Chat((String) obj[0]);
+            chat.setUsuario(userConect);
+            se.setMensajesNoLeidos(chat.mensajesNoLeidos());
             
             result.add(se);
         }

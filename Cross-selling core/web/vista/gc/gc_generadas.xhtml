@@ -111,10 +111,12 @@
                                                         #{g.monto}
                                                     </h:column>
                                                     <h:column>
-                                                        <h:commandLink actionListener="#{gc_chat.activarChatG(g)}">
+                                                        <h:commandLink actionListener="#{gc_chat.activarChatG(g)}" rendered="#{g.estadoId.equals(g.estadoNoMensaje) eq false}">
                                                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                                                         </h:commandLink>
-                                                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
+                                                        <h:commandLink rendered="#{g.mensajesNoLeidos != 0 eq true}">
+                                                            <span data-toggle="tooltip" title="#{g.mensajesNoLeidos} Mensajes Nuevos" class="badge bg-yellow">#{g.mensajesNoLeidos}</span>
+                                                        </h:commandLink>
                                                     </h:column>
                                                 </h:dataTable>
                                             </h:form>
@@ -125,20 +127,27 @@
                             <div class="col-md-#{gc_chat.panel2}">
                                 <!-- DIRECT CHAT -->
                                 <h:form id="chat" rendered="#{gc_chat.isChat eq true}">
+                                    <h:outputScript name="./plantilla/js/jquery.min.js"/>
+                                    <script>
+                                        $(function(){
+                                            var altura = $('#cuerpoMsj').height() + 5000;
+                                            $("#cuerpoMsj").animate({scrollTop:altura+"px"});
+                                        });
+                                    </script>
                                     <div class="box box-warning direct-chat direct-chat-warning">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">#{gc_chat.userConect}</h3>
+                                            <h3 class="box-title">#{gc_chat.nombreReceptor}</h3>
                                         </div>
                                         <!--Termina Encabezado -->
                                         <div class="box-body">
-                                            <div class="direct-chat-messages" style="height: 12cm">
+                                            <div id="cuerpoMsj" class="direct-chat-messages" style="height: 12cm">
                                                 <ui:repeat value="#{gc_chat.mensajes}" var="m">
                                                     <!-- Disenio para mostrar los mensajes enviados -->
                                                     <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq true}">
                                                         <div class="direct-chat-msg">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-left">#{m.nombreUsuario}</span>
-                                                                <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+                                                                <span class="direct-chat-timestamp pull-right">#{m.fechaFormateada}</span>
                                                             </div>
                                                             <div class="direct-chat-text">
                                                                 #{m.mensaje}
@@ -150,7 +159,7 @@
                                                         <div class="direct-chat-msg right">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-right">#{m.nombreUsuario}</span>
-                                                                <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
+                                                                <span class="direct-chat-timestamp pull-left">#{m.fechaFormateada}</span>
                                                             </div>
                                                             <div class="direct-chat-text">
                                                                 #{m.mensaje}

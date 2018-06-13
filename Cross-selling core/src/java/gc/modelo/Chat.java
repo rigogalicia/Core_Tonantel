@@ -1,12 +1,14 @@
 package gc.modelo;
 
 import admin.modelo.ConexionMongo;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import static com.mongodb.client.model.Filters.eq;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -18,7 +20,6 @@ public class Chat {
     private String mensaje;
     private String nombreUsuario;
     private String usuario;
-    private String receptor;
     private char estado;
     
     public Chat(){}
@@ -83,14 +84,6 @@ public class Chat {
         this.usuario = usuario;
     }
 
-    public String getReceptor() {
-        return receptor;
-    }
-
-    public void setReceptor(String receptor) {
-        this.receptor = receptor;
-    }
-
     public char getEstado() {
         return estado;
     }
@@ -108,10 +101,21 @@ public class Chat {
                 .append("mensaje", mensaje)
                 .append("nombreUsuario", nombreUsuario)
                 .append("usuario", usuario)
-                .append("receptor", receptor)
                 .append("estado", estado);
         
         coleccion.insertOne(doc);
+    }
+    
+    /* Metodo utilizado para marcar los mensajes como leidos */
+    public void marcarComoLeidos(){
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("chatgc");
+        
+        BasicDBObject filtro = new BasicDBObject();
+        filtro.put("numeroSolicitud", numeroSolicitud);
+        filtro.put("usuario", new BasicDBObject("$ne", usuario));
+        filtro.put("estado", "a");
+        
+        coleccion.updateMany(filtro, new Document("$set", new Document("estado", 'b')));
     }
     
     /* Metodo utilizado para consultar los mensajes enviados por solicitud */
@@ -120,7 +124,7 @@ public class Chat {
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("chatgc");
         MongoCursor<Document> cursor = coleccion.find(eq("numeroSolicitud", numeroSolicitud)).iterator();
         
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd MMMM HH:mm");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd 'de' MMMM h:mm a", new Locale("es"));
         
         try{
             while(cursor.hasNext()){
@@ -132,7 +136,6 @@ public class Chat {
                 c.setMensaje(next.getString("mensaje"));
                 c.setNombreUsuario(next.getString("nombreUsuario"));
                 c.setUsuario(next.getString("usuario"));
-                c.setReceptor(next.getString("receptor"));
                 c.setEstado(next.getString("estado").toCharArray()[0]);
                 result.add(c);
             }
@@ -144,11 +147,26 @@ public class Chat {
         return result;
     }
     
-    /* Este metodo devuelve el nombre del receptor asesor de credito */
-    public String receptorAsesor(String asesorFinanciero){
+    /* Metodo utilizado para mostrar la cantidad de mensajes no leidos */
+    public int mensajesNoLeidos(){
+        int result = 0;
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("chatgc");
+        
+        BasicDBObject filtro = new BasicDBObject();
+        filtro.put("numeroSolicitud", numeroSolicitud);
+        filtro.put("usuario", new BasicDBObject("$ne", usuario));
+        filtro.put("estado", "a");
+        
+        result = (int) coleccion.count(filtro);
+        
+        return result;
+    }
+    
+    /* Este metodo devuelve el nombre del colaborador */
+    public String nombreColaborador(String usuarioColaborador){
         String result = null;
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
-        MongoCursor<Document> cursor = coleccion.find(eq("_id", asesorFinanciero)).iterator();
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", usuarioColaborador)).iterator();
         
         try{
             while(cursor.hasNext()){

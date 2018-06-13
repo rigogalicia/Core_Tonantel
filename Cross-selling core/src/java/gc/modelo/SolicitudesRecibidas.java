@@ -165,7 +165,7 @@ public class SolicitudesRecibidas {
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("estadoGeneradas", "a");
         List<Object[]> resultado = consulta.getResultList();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy | HH:mm:ss");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy | hh:mm a");
         
         for(Object[] obj : resultado){
             GcAsociado a = (GcAsociado) obj[0];

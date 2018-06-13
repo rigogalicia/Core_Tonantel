@@ -6,6 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
+        
         <ui:composition template="./../principal.xhtml">
 
             <ui:define name="content">
@@ -124,10 +125,12 @@
                                                         </h:commandLink>
                                                         &nbsp;
                                                         &nbsp;
-                                                        <h:commandLink actionListener="#{gc_chat.activarChat(p)}">
+                                                        <h:commandLink actionListener="#{gc_chat.activarChat(p)}" class="botonActivar">
                                                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                                                         </h:commandLink>
-                                                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
+                                                        <h:commandLink rendered="#{p.mensajesNoLeidos != 0 eq true}">
+                                                            <span data-toggle="tooltip" title="#{p.mensajesNoLeidos} Mensajes Nuevos" class="badge bg-yellow">#{p.mensajesNoLeidos}</span>
+                                                        </h:commandLink>
                                                     </h:column>
                                                 </h:dataTable>
                                             </h:form>
@@ -138,6 +141,13 @@
                             <div class="col-md-#{gc_chat.panel2}">
                                 <!-- DIRECT CHAT -->
                                 <h:form id="chat" rendered="#{gc_chat.isChat eq true}">
+                                    <h:outputScript name="./plantilla/js/jquery.min.js"/>
+                                    <script>
+                                        $(function(){
+                                            var altura = $('#cuerpoMsj').height() + 5000;
+                                            $("#cuerpoMsj").animate({scrollTop:altura+"px"});
+                                        });
+                                    </script>
                                     <div class="box box-warning direct-chat direct-chat-warning">
                                         <div class="box-header with-border">
                                             <h3 class="box-title">#{gc_chat.nombreReceptor}</h3>

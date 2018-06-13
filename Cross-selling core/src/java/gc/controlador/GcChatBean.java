@@ -1,5 +1,6 @@
 package gc.controlador;
 
+import dao.GcGestion;
 import gc.modelo.Chat;
 import gc.modelo.SolicitudesEnproceso;
 import gc.modelo.SolicitudesGeneradas;
@@ -9,6 +10,10 @@ import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 
 @ManagedBean(name = "gc_chat")
@@ -98,6 +103,9 @@ public class GcChatBean {
     public void activarChatG(SolicitudesGeneradas g){
         chat.setNumeroSolicitud(g.getNumeroSolicitud());
         mensajes = chat.mostrarMensajes();
+        nombreReceptor = chat.nombreColaborador(usuarioAnalista(g.getNumeroSolicitud()));
+        chat.setUsuario(userConect);
+        chat.marcarComoLeidos();
         isChat = true;
         panel1 = 8;
         panel2 = 4;
@@ -107,7 +115,9 @@ public class GcChatBean {
     public void activarChat(SolicitudesEnproceso p){
         chat.setNumeroSolicitud(p.getNumeroSolicitud());
         mensajes = chat.mostrarMensajes();
-        nombreReceptor = chat.receptorAsesor(p.getAsesorFinanciero());
+        nombreReceptor = chat.nombreColaborador(p.getAsesorFinanciero());
+        chat.setUsuario(userConect);
+        chat.marcarComoLeidos();
         isChat = true;
         panel1 = 8;
         panel2 = 4;
@@ -130,5 +140,26 @@ public class GcChatBean {
         chat.enviarMensaje();
         chat.setMensaje(null);
         mensajes = chat.mostrarMensajes();
+    }
+    
+    /* Metodo utilizado para obtener el usuario del analista */
+    private String usuarioAnalista(String numeroSolicitud){
+        String result = "";
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT DISTINCT g "
+                + "FROM GcGestion g "
+                + "JOIN g.solicitudNumeroSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSol";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSol", numeroSolicitud);
+        GcGestion resultado = (GcGestion) consulta.getSingleResult();
+        result = resultado.getAnalista();
+        
+        em.close();
+        emf.close();
+        
+        return result;
     }
 }
