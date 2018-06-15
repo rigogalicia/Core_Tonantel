@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <!--Inicio del panel principal -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h3 class="panel-title">Resetear Clave</h3>
+                                    </div>
+                                      <!--Panel contenido-->
+                                      <div class="panel-body">
+                                        <h:form>
+                                            <!--Columna tien el icono de clave-->
+                                            <div class="row">
+                                                <div class="col-md-2 col-md-offset-5">
+                                                    <h1><span class="glyphicon glyphicon-lock"></span></h1>
+                                                </div> 
+                                            </div>
+                                            <!--cierre de columna icono clave-->
+                                            <div class="form-group">
+                                                <h:outputLabel for="claveActual">Clave Actual:</h:outputLabel>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-time" aria-hidden="true"/>
+                                                    </div>
+                                                    <h:inputText id="claveActual" class="form-control input-lg" required="true" autocomplete="off">
+
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel for="nuevaClave">Nueva Clave:</h:outputLabel>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-lock" aria-hidden="true"/>
+                                                    </div>
+                                                    <h:inputText id="nuevaClave" class="form-control input-lg" required="true" autocomplete="off">
+
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <h:outputLabel for="confirmarClave">Confirmar Clave:</h:outputLabel>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-lock" aria-hidden="true"/>
+                                                    </div>
+                                                    <h:inputText id="confirmarClave" class="form-control input-lg"  required="true" autocomplete="off">
+
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                        </h:form>    
+                                        <h:form>
+                                            <!--Seccion botnes-->
+                                            <div class="row">
+                                                <div class="col-md-6 col-md-push-6">
+                                                    <button type="button" class="btn btn-danger form-control">Cancelar</button> 
+                                                </div>
+                                                <div class="col-md-6 col-md-pull-6">
+                                                    <button type="button" class="btn btn-success form-control">Cambiar Clave</button>
+                                                </div>
+                                            </div>
+                                            <!--Cierre botones-->
+                                        </h:form>      
+                                      </div>
+                                      <!--div que finaliza panel de contenido-->
+                                </div>
+                                <!--Div que cierra el panel principal -->
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!--Version de aplicacion-->
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
