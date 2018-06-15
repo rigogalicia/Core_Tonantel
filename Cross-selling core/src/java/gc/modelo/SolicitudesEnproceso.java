@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 public class SolicitudesEnproceso {
     private String numeroSolicitud;
+    private String asesorFinanciero;
     private String nombreAsociado;
     private String cif;
     private int tipoId;
@@ -22,6 +23,7 @@ public class SolicitudesEnproceso {
     private String estado;
     private String monto;
     private String userConect;
+    private int mensajesNoLeidos;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -29,6 +31,14 @@ public class SolicitudesEnproceso {
 
     public void setNumeroSolicitud(String numeroSolicitud) {
         this.numeroSolicitud = numeroSolicitud;
+    }
+
+    public String getAsesorFinanciero() {
+        return asesorFinanciero;
+    }
+
+    public void setAsesorFinanciero(String asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
     }
 
     public String getNombreAsociado() {
@@ -126,6 +136,14 @@ public class SolicitudesEnproceso {
     public void setUserConect(String userConect) {
         this.userConect = userConect;
     }
+
+    public int getMensajesNoLeidos() {
+        return mensajesNoLeidos;
+    }
+
+    public void setMensajesNoLeidos(int mensajesNoLeidos) {
+        this.mensajesNoLeidos = mensajesNoLeidos;
+    }
     
     /* Metodo utilizado para devolver los registros asignados */
     public ArrayList<SolicitudesEnproceso> mostrarDatos(){
@@ -144,7 +162,8 @@ public class SolicitudesEnproceso {
                 + "F.descripcion tramite, "
                 + "E.id estadoId, "
                 + "E.descripcion estado, "
-                + "S.monto monto "
+                + "S.monto monto, "
+                + "S.asesor_financiero asesor "
                 + "FROM gc_solicitud S "
                 + "LEFT JOIN gc_asociado A "
                 + "ON S.asociado_cif = A.cif "
@@ -212,6 +231,11 @@ public class SolicitudesEnproceso {
             se.setEstado((String) obj[10]);
             BigDecimal resultadoMonto = (BigDecimal) obj[11];
             se.setMonto(resultadoMonto.toString());
+            se.setAsesorFinanciero((String) obj[12]);
+            
+            Chat chat = new Chat((String) obj[0]);
+            chat.setUsuario(userConect);
+            se.setMensajesNoLeidos(chat.mensajesNoLeidos());
             
             result.add(se);
         }

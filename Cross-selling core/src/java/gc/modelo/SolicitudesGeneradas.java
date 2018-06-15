@@ -26,6 +26,8 @@ public class SolicitudesGeneradas {
     private String estadoId;
     private String estado;
     private String monto;
+    private String estadoNoMensaje = "a";
+    private int mensajesNoLeidos;
     
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -114,6 +116,22 @@ public class SolicitudesGeneradas {
     public void setMonto(String monto) {
         this.monto = monto;
     }
+
+    public String getEstadoNoMensaje() {
+        return estadoNoMensaje;
+    }
+
+    public void setEstadoNoMensaje(String estadoNoMensaje) {
+        this.estadoNoMensaje = estadoNoMensaje;
+    }
+
+    public int getMensajesNoLeidos() {
+        return mensajesNoLeidos;
+    }
+
+    public void setMensajesNoLeidos(int mensajesNoLeidos) {
+        this.mensajesNoLeidos = mensajesNoLeidos;
+    }
     
     public ArrayList<SolicitudesGeneradas> mostrarDatos(String asesorFinanciero){
         ArrayList<SolicitudesGeneradas> result = new ArrayList<>();
@@ -176,9 +194,14 @@ public class SolicitudesGeneradas {
             sg.setTipo(t.getDescripcion());
             sg.setDestino(d.getDescripcion());
             sg.setOrigenTramite(f.getDescripcion());
+            sg.setEstadoId(e.getId());
             sg.setEstado(e.getDescripcion());
             DecimalFormat formato = new DecimalFormat("0,000.00");
             sg.setMonto(formato.format(s.getMonto().doubleValue()));
+            
+            Chat chat = new Chat(s.getNumeroSolicitud());
+            chat.setUsuario(asesorFinanciero);
+            sg.setMensajesNoLeidos(chat.mensajesNoLeidos());
             
             result.add(sg);
         }

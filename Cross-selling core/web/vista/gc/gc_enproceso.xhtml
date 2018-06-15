@@ -6,14 +6,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
+        
         <ui:composition template="./../principal.xhtml">
 
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
                         <div class="row">
-                            <div class="col-md-#{gc_enproceso.panel1}">
+                            <div class="col-md-#{gc_chat.panel1}">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -27,6 +27,9 @@
                                                     </h:commandLink>
                                                     <h:commandLink value="Borrar Filtros" actionListener="#{gc_enproceso.borrarFiltros()}" rendered="#{gc_enproceso.filter eq true}">
                                                         <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_chat.desactivarChat()}">
+                                                        <span class="glyphicon glyphicon-fullscreen"></span>
                                                     </h:commandLink>
                                                 </h:form>
                                             </div>
@@ -122,10 +125,12 @@
                                                         </h:commandLink>
                                                         &nbsp;
                                                         &nbsp;
-                                                        <h:commandLink actionListener="#{gc_enproceso.activarChat()}">
+                                                        <h:commandLink actionListener="#{gc_chat.activarChat(p)}" class="botonActivar">
                                                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                                                         </h:commandLink>
-                                                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
+                                                        <h:commandLink rendered="#{p.mensajesNoLeidos != 0 eq true}">
+                                                            <span data-toggle="tooltip" title="#{p.mensajesNoLeidos} Mensajes Nuevos" class="badge bg-yellow">#{p.mensajesNoLeidos}</span>
+                                                        </h:commandLink>
                                                     </h:column>
                                                 </h:dataTable>
                                             </h:form>
@@ -133,96 +138,63 @@
                                     </div>
                                 </div>
                             </div>
-                            <h:form id="chat" rendered="#{gc_enproceso.isChat eq true}">
-                                <div class="col-md-4">
-                                    <!-- DIRECT CHAT -->
+                            <div class="col-md-#{gc_chat.panel2}">
+                                <!-- DIRECT CHAT -->
+                                <h:form id="chat" rendered="#{gc_chat.isChat eq true}">
+                                    <h:outputScript name="./plantilla/js/jquery.min.js"/>
+                                    <script>
+                                        $(function(){
+                                            var altura = $('#cuerpoMsj').height() + 5000;
+                                            $("#cuerpoMsj").animate({scrollTop:altura+"px"});
+                                        });
+                                    </script>
                                     <div class="box box-warning direct-chat direct-chat-warning">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">Direct Chat</h3>
-                                            <div class="box-tools pull-right">
-                                                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
-                                                <h:commandLink class="btn btn-box-tool" actionListener="#{gc_enproceso.desactivarChat()}">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                </h:commandLink>
-                                            </div>
+                                            <h3 class="box-title">#{gc_chat.nombreReceptor}</h3>
                                         </div>
                                         <!--Termina Encabezado -->
-                                        <!-- /.box-header -->
                                         <div class="box-body">
-                                            <!-- Conversations are loaded here -->
-                                            <div class="direct-chat-messages" style="height: 12cm">
-                                                <!-- Message. Default to the left -->
-                                                <div class="direct-chat-msg">
-                                                    <div class="direct-chat-info clearfix">
-                                                        <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                                                        <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                                                    </div>
-                                                    <!-- /.direct-chat-info -->
-                                                    <div class="direct-chat-text">
-                                                        Is this template really for free? That's unbelievable!
-                                                    </div>
-                                                    <!-- /.direct-chat-text -->
-                                                </div>
-                                                <!-- /.direct-chat-msg -->
-
-                                                <!-- Message to the right -->
-                                                <div class="direct-chat-msg right">
-                                                    <div class="direct-chat-info clearfix">
-                                                        <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                                                        <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                                                    </div>
-                                                    <!-- /.direct-chat-info -->
-                                                    <div class="direct-chat-text">
-                                                        You better believe it!
-                                                    </div>
-                                                    <!-- /.direct-chat-text -->
-                                                </div>
-                                                <!-- /.direct-chat-msg -->
-
-                                                <!-- Message. Default to the left -->
-                                                <div class="direct-chat-msg">
-                                                    <div class="direct-chat-info clearfix">
-                                                        <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                                                        <span class="direct-chat-timestamp pull-right">23 Jan 5:37 pm</span>
-                                                    </div>
-                                                    <!-- /.direct-chat-info -->
-                                                    <div class="direct-chat-text">
-                                                        Working with AdminLTE on a great new app! Wanna join?
-                                                    </div>
-                                                    <!-- /.direct-chat-text -->
-                                                </div>
-                                                <!-- /.direct-chat-msg -->
-
-                                                <!-- Message to the right -->
-                                                <div class="direct-chat-msg right">
-                                                    <div class="direct-chat-info clearfix">
-                                                        <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                                                        <span class="direct-chat-timestamp pull-left">23 Jan 6:10 pm</span>
-                                                    </div>
-                                                    <!-- /.direct-chat-info -->
-                                                    <div class="direct-chat-text">
-                                                        I would love to.
-                                                    </div>
-                                                    <!-- /.direct-chat-text -->
-                                                </div>
-                                                <!-- /.direct-chat-msg -->
+                                            <div id="cuerpoMsj" class="direct-chat-messages" style="height: 12cm">
+                                                <ui:repeat value="#{gc_chat.mensajes}" var="m">
+                                                    <!-- Disenio para mensaje enviado -->
+                                                    <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq true}">
+                                                        <div class="direct-chat-msg">
+                                                            <div class="direct-chat-info clearfix">
+                                                                <span class="direct-chat-name pull-left">#{m.nombreUsuario}</span>
+                                                                <span class="direct-chat-timestamp pull-right">#{m.fechaFormateada}</span>
+                                                            </div>
+                                                            <div class="direct-chat-text">
+                                                                #{m.mensaje}
+                                                            </div>
+                                                        </div>
+                                                    </h:form>
+                                                    <!-- Disenio para mensaje recibido -->
+                                                    <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq false}">
+                                                        <div class="direct-chat-msg right">
+                                                            <div class="direct-chat-info clearfix">
+                                                                <span class="direct-chat-name pull-right">#{m.nombreUsuario}</span>
+                                                                <span class="direct-chat-timestamp pull-left">#{m.fechaFormateada}</span>
+                                                            </div>
+                                                            <div class="direct-chat-text">
+                                                                #{m.mensaje}
+                                                            </div>
+                                                        </div>
+                                                    </h:form>
+                                                </ui:repeat>
                                             </div>
-                                            <!--/.direct-chat-messages-->
                                         </div>
-                                        <!-- /.box-body -->
+                                        <!-- Disenio para escribir un mensaje -->
                                         <div class="box-footer">
-                                          <form action="#" method="post">
                                             <div class="input-group">
-                                                <input type="text" name="message" placeholder="Type Message ..." class="form-control"></input>
+                                                <h:inputText id="mensaje" class="form-control" value="#{gc_chat.chat.mensaje}" required="true" autocomplete="off"/>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-warning btn-flat">Enviar</button>
+                                                    <h:commandButton class="btn btn-warning btn-flat" value="Enviar" actionListener="#{gc_chat.enviarMensaje()}"/>
                                                 </span>
                                             </div>
-                                          </form>
                                         </div>
                                     </div>
-                                </div>
-                            </h:form>
+                                </h:form>
+                            </div>
                         </div>
                     </section>
                 </div> 
