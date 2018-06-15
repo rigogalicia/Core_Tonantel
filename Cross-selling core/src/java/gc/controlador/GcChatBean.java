@@ -7,6 +7,7 @@ import gc.modelo.SolicitudesGeneradas;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -154,8 +155,11 @@ public class GcChatBean {
                 + "WHERE s.numeroSolicitud = :numSol";
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("numSol", numeroSolicitud);
-        GcGestion resultado = (GcGestion) consulta.getSingleResult();
-        result = resultado.getAnalista();
+        
+        List<GcGestion> resultado = consulta.getResultList();
+        for(GcGestion g : resultado){
+            result = g.getAnalista();
+        }
         
         em.close();
         emf.close();
