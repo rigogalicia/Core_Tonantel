@@ -4,7 +4,6 @@ import dao.GcDestino;
 import dao.GcEstado;
 import dao.GcTipo;
 import dao.GcTramite;
-import gc.modelo.Chat;
 import gc.modelo.Destino;
 import gc.modelo.Estado;
 import gc.modelo.SolicitudesEnproceso;
