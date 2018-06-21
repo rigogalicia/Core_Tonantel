@@ -182,6 +182,12 @@ public class Colaborador {
         return resultado;
     }
     
+    public void resetClave(){
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        coleccion.updateOne(eq("operador", this.operador), 
+                new Document("$set", new Document("clave", this.clave)));
+    }
+    
     public boolean estaAutorizado(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         Document doc = coleccion.find(and(eq("_id", this.usuario), eq("clave", DigestUtils.md5Hex(this.clave)))).first();
