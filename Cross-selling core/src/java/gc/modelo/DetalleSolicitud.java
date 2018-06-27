@@ -19,6 +19,7 @@ public class DetalleSolicitud {
     private String numeroSolicitud;
     private String cif;
     private String nombre;
+    private String asesorFinanciero;
     private String monto;
     private String fecha;
     private String estadoId;
@@ -54,6 +55,14 @@ public class DetalleSolicitud {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getAsesorFinanciero() {
+        return asesorFinanciero;
+    }
+
+    public void setAsesorFinanciero(String asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
     }
 
     public String getMonto() {
@@ -153,6 +162,7 @@ public class DetalleSolicitud {
             numeroSolicitud = s.getNumeroSolicitud();
             cif = a.getCif();
             nombre = a.getNombre();
+            asesorFinanciero = s.getAsesorFinanciero();
             monto = formatoMonto.format(s.getMonto().doubleValue());
             fecha = formatoFecha.format(s.getFecha());
             estadoId = e.getId();

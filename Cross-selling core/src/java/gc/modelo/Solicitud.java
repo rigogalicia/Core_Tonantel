@@ -9,6 +9,7 @@ import dao.GcTipocliente;
 import dao.GcTramite;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -129,6 +130,59 @@ public class Solicitud {
         catch(Exception e){
             e.printStackTrace(System.out);
         }
+        
+        em.close();
+        emf.close();
+    }
+    
+    // Este metodo se utiliza para consultar una solicitud por numero
+    public void consultarSolicitud(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT s, a, c, d, t, f "
+                + "FROM GcSolicitud s "
+                + "JOIN s.asociadoCif a "
+                + "JOIN s.tipoclienteId c "
+                + "JOIN s.destinoId d "
+                + "JOIN s.tipoId t "
+                + "JOIN s.tramiteId f "
+                + "WHERE s.numeroSolicitud = :numSolicitud";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", solicitudGc.getNumeroSolicitud());
+        List<Object[]> resultado = consulta.getResultList();
+        
+        for(Object[] obj : resultado){
+            solicitudGc = (GcSolicitud) obj[0];
+            asociadoGc = (GcAsociado) obj[1];
+            clienteGc = (GcTipocliente) obj[2];
+            destinoGc = (GcDestino) obj[3];
+            tipoGc = (GcTipo) obj[4];
+            tramiteGc = (GcTramite) obj[5];
+            
+            System.out.println(asociadoGc.getNombre());
+        }
+        
+        em.close();
+        emf.close();
+    }
+    
+    // Metodo utilizado para actualizar una solicitud
+    public void actualizarSolicitud(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        GcAsociado a = em.find(GcAsociado.class, asociadoGc.getCif());
+        a.setNombre(asociadoGc.getNombre());
+        GcSolicitud s = em.find(GcSolicitud.class, solicitudGc.getNumeroSolicitud());
+        s.setMonto(solicitudGc.getMonto());
+        s.setAsociadoCif(asociadoGc);
+        s.setTipoclienteId(clienteGc);
+        s.setDestinoId(destinoGc);
+        s.setTipoId(tipoGc);
+        s.setTramiteId(tramiteGc);
+        em.getTransaction().commit();
         
         em.close();
         emf.close();

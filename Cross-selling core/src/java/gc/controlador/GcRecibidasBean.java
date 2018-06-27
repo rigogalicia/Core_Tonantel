@@ -1,5 +1,6 @@
 package gc.controlador;
 
+import admin.modelo.Colaborador;
 import dao.GcDestino;
 import dao.GcEstado;
 import dao.GcGestion;
@@ -11,8 +12,10 @@ import gc.modelo.SolicitudesRecibidas;
 import gc.modelo.Tipo;
 import gc.modelo.Tramite;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -164,6 +167,18 @@ public class GcRecibidasBean {
         solicitud.setEstadoId(new GcEstado("b"));
         em.persist(gestion);
         em.getTransaction().commit();
+        
+        String msj = "La solicitud numero "+s.getNumeroSolicitud()+" generada el "+s.getFecha()+"\n"
+                + "pertenece al asociado "+s.getNombreAsociado()+" fue asignada a\n"
+                + "un analista de créditos para su debido proceso de aprobación, para\n"
+                + "una mejor comunicación con el analista puedes utilizar el servicio\n"
+                + "de chat que se encuentra dentro de la aplicación Crosselling Core\n"
+                + "que puedes ingresar en el siguiente enlace:\n\n"
+                + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
+                + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
+        
+        Correo correo = new Correo(Colaborador.correoColaborador(s.getAsesorFinanciero()), "Solicitud No. " + s.getNumeroSolicitud(), msj);
+        correo.enviar();
         
         listaRecibidas = recibidas.mostrarDatos();
         

@@ -19,102 +19,96 @@
                             </div>
                             <!--Contenido del panel-->
                             <div class="panel-body">
-                                <!--Seccion de busqueda por No.Solicitud-->
-                                <div class="row">
-                                    <form class="navbar-form navbar-left" role="search">
-                                      <div class="form-group">
-                                          <input type="text" class="form-control" placeholder="No.Solicitud"></input>
-                                      </div>
-                                      <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                                <br/>
-                                <!--Finaliza seccion de busqueda-->
-                                <!--columnas que contienen Cif,Nombre -->
-                                <h:form>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <h:outputLabel for="cif">* Cif:</h:outputLabel>
-                                            <h:inputText id="cif" class="form-control" autocomplete="off">
-
-                                            </h:inputText>
+                                <h:form id="formModificarSolicitud">
+                                    <!--columnas que contienen Cif,Nombre -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
+                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{gc_modificarsolicitud.solicitud.solicitudGc.numeroSolicitud}">
+                                                    <f:ajax event="blur" listener="#{gc_modificarsolicitud.consultarSolicitud}" execute="numeroSolicitud" render="formModificarSolicitud"/>
+                                                </h:inputText>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="form-group">
-                                            <h:outputLabel for="nombre">* Nombre:</h:outputLabel>
-                                            <h:inputText id="nombre" class="form-control" autocomplete="off"/>
+                                    <!--Termina columnas que contiene Cif,nombre-->
+                                    <!--Columnas que contienen num.solicitud,monto,Origen-->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="cif">* Cif:</h:outputLabel>
+                                                <h:inputText id="cif" class="form-control" autocomplete="off" value="#{gc_modificarsolicitud.solicitud.asociadoGc.cif}" disabled="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="nombre">* Nombre:</h:outputLabel>
+                                                <h:inputText id="nombre" class="form-control" autocomplete="off" value="#{gc_modificarsolicitud.solicitud.asociadoGc.nombre}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel>* Monto:</h:outputLabel>
+                                                <h:inputText id="monto" class="form-control" autocomplete="off" value="#{gc_modificarsolicitud.solicitud.solicitudGc.monto}"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Termina columnas que contiene Cif,nombre-->
-                                <!--Columnas que contienen num.solicitud,monto,Origen-->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
-                                            <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off"/>
+                                    <!--Termina columnas-->
+                                    <!--Columas que contienen destino,tipo,origen-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="destinoCredito">* Destino:</h:outputLabel>
+                                                <h:selectOneMenu id="destinoCredito" class="form-control" value="#{gc_modificarsolicitud.solicitud.destinoGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_modificarsolicitud.destino}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel>* Tipo de Garantia:</h:outputLabel>
+                                                <h:selectOneMenu id="tipoCredito" class="form-control" value="#{gc_modificarsolicitud.solicitud.tipoGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_modificarsolicitud.tipo}"/>
+                                                </h:selectOneMenu>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <h:outputLabel>* Monto:</h:outputLabel>
-                                            <h:inputText id="monto" class="form-control" autocomplete="off"/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="tramiteCredito">* Origen de Tramite:</h:outputLabel>
+                                                <h:selectOneMenu id="tramiteCredito" class="form-control" value="#{gc_modificarsolicitud.solicitud.tramiteGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_modificarsolicitud.tramite}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="tipoCliente">* Tipo de Cliente:</h:outputLabel>
+                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_modificarsolicitud.solicitud.clienteGc.id}" required="true">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_modificarsolicitud.tipoCliente}"/>
+                                                </h:selectOneMenu>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Termina columnas-->
-                                <!--Columas que contienen destino,tipo,origen-->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <h:outputLabel for="destinoCredito">* Destino:</h:outputLabel>
-                                            <h:selectOneMenu id="destinoCredito" class="form-control" >
-                                              
-                                            </h:selectOneMenu>
+                                    <!--Termina las columnas que contiene Destino,Tipo,Tramite-->  
+                                    <!--Seccion botnes-->
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <h:commandButton class="btn btn-danger form-control" value="Cancelar" actionListener="#{gc_modificarsolicitud.cancelarAccion()}"/> 
                                         </div>
-                                    </div> 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <h:outputLabel>* Tipo de Garantia:</h:outputLabel>
-                                            <h:selectOneMenu id="tipoCredito" class="form-control" >
-                                                
-                                            </h:selectOneMenu>
+                                        <div class="col-md-2">
+                                            <h:commandButton class="btn btn-success form-control" value="Guardar" actionListener="#{gc_modificarsolicitud.actualizarSolicitud()}"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h:outputLabel rendered="#{gc_modificarsolicitud.msjExito != null eq true}">#{gc_modificarsolicitud.msjExito}</h:outputLabel>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <h:outputLabel for="tramiteCredito">* Origen de Tramite:</h:outputLabel>
-                                            <h:selectOneMenu id="tramiteCredito" class="form-control" >
-                                                
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <h:outputLabel for="tipoCliente">* Tipo de Cliente:</h:outputLabel>
-                                            <h:selectOneMenu id="tipoCliente" class="form-control" >
-                                               
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Termina las columnas que contiene Destino,Tipo,Tramite-->  
-                                </h:form>
-                                <h:form>
-                                <!--Seccion botnes-->
-                                <div class="row">
-                                    <div class="col-md-2 col-md-push-2">
-                                        <button type="button" class="btn btn-danger form-control">Cancelar</button> 
-                                    </div>
-                                    <div class="col-md-2 col-md-pull-2">
-                                        <button type="button" class="btn btn-success form-control">Guardar</button>
-                                    </div>
-                                </div>
-                                <!--Cierre botones-->
+                                    <!--Cierre botones-->
                                 </h:form>      
                             </div>
                             <!--Finala Contenido del panel-->

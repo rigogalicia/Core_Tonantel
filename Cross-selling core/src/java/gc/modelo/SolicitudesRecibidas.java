@@ -17,6 +17,7 @@ import javax.persistence.Query;
 public class SolicitudesRecibidas {
     private String numeroSolicitud;
     private String nombreAsociado;
+    private String asesorFinanciero;
     private String cif;
     private int tipoId;
     private String tipo;
@@ -41,6 +42,14 @@ public class SolicitudesRecibidas {
 
     public void setNombreAsociado(String nombreAsociado) {
         this.nombreAsociado = nombreAsociado;
+    }
+
+    public String getAsesorFinanciero() {
+        return asesorFinanciero;
+    }
+
+    public void setAsesorFinanciero(String asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
     }
 
     public String getCif() {
@@ -177,6 +186,7 @@ public class SolicitudesRecibidas {
             SolicitudesRecibidas recibidas = new SolicitudesRecibidas();
             recibidas.setNumeroSolicitud(s.getNumeroSolicitud());
             recibidas.setNombreAsociado(a.getNombre());
+            recibidas.setAsesorFinanciero(s.getAsesorFinanciero());
             recibidas.setCif(a.getCif());
             recibidas.setTipo(t.getDescripcion());
             recibidas.setDestino(d.getDescripcion());

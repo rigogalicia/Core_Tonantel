@@ -182,6 +182,24 @@ public class Colaborador {
         return resultado;
     }
     
+    /* Metodo utilizado para consultar el correo del colaborador */
+    public static String correoColaborador(String user){
+        String result = null;
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", user)).iterator();
+        
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                result = next.getString("correo");
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return result;
+    }
+    
     public void resetClave(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         coleccion.updateOne(eq("operador", this.operador), 

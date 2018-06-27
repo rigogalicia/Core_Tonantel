@@ -1,5 +1,6 @@
 package gc.controlador;
 
+import admin.modelo.Colaborador;
 import dao.GcEstado;
 import dao.GcGestion;
 import dao.GcRiesgo;
@@ -150,6 +151,30 @@ public class GcDetalleSolicitudBean {
         em.persist(gestion);
         
         em.getTransaction().commit();
+        
+        String est = null;
+        
+        if(estado.getId().equals("c")){
+            est = "Autorizada";
+        }else if(estado.getId().equals("d")){
+            est = "Cancelada";
+        }else if(estado.getId().equals("e")){
+            est = "Rechazada";
+        }else if(estado.getId().equals("f")){
+            est = "En espera";
+        }
+        
+        String msj = "La solicitud numero "+detalle.getNumeroSolicitud()+" generada el "+detalle.getFecha()+" que pertenece\n"
+                + "al asociado "+detalle.getNombre()+" fue cambiada a estado\n"
+                + ""+est+" por el analista de créditos al que fue asignada, para una\n"
+                + "mejor comunicación con el analista puedes utilizar el servicio de chat\n"
+                + "que se encuentra dentro de la aplicación Crosselling Core que puedes\n"
+                + "ingresar en el siguiente enlace:\n\n"
+                + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
+                + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
+        
+        Correo correo = new Correo(Colaborador.correoColaborador(detalle.getAsesorFinanciero()), "Solicitud No. " + detalle.getNumeroSolicitud(), msj);
+        correo.enviar();
         
         em.close();
         emf.close();
