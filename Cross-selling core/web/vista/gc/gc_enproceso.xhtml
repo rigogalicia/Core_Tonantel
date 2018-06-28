@@ -13,7 +13,7 @@
                 <div class="content-wrapper">
                     <section class="content">
                         <div class="row">
-                            <div class="col-md-#{gc_chat.panel1}">
+                            <div class="col-md-#{gc_enproceso.panel1}">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <div class="row">
@@ -28,7 +28,7 @@
                                                     <h:commandLink value="Borrar Filtros" actionListener="#{gc_enproceso.borrarFiltros()}" rendered="#{gc_enproceso.filter eq true}">
                                                         <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                                                     </h:commandLink>
-                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_chat.desactivarChat()}">
+                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_enproceso.desactivarChat()}">
                                                         <span class="glyphicon glyphicon-fullscreen"></span>
                                                     </h:commandLink>
                                                 </h:form>
@@ -125,7 +125,7 @@
                                                         </h:commandLink>
                                                         &nbsp;
                                                         &nbsp;
-                                                        <h:commandLink actionListener="#{gc_chat.activarChat(p)}" class="botonActivar">
+                                                        <h:commandLink actionListener="#{gc_enproceso.activarChat(p)}" class="botonActivar">
                                                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                                                         </h:commandLink>
                                                         <h:commandLink rendered="#{p.mensajesNoLeidos != 0 eq true}">
@@ -138,9 +138,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-#{gc_chat.panel2}">
+                            <div class="col-md-#{gc_enproceso.panel2}">
                                 <!-- DIRECT CHAT -->
-                                <h:form id="chat" rendered="#{gc_chat.isChat eq true}">
+                                <h:form id="chat" rendered="#{gc_enproceso.isChat eq true}">
                                     <h:outputScript name="./plantilla/js/jquery.min.js"/>
                                     <script>
                                         $(function(){
@@ -150,14 +150,14 @@
                                     </script>
                                     <div class="box box-warning direct-chat direct-chat-warning">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">#{gc_chat.nombreReceptor}</h3>
+                                            <h3 class="box-title">#{gc_enproceso.nombreReceptor}</h3>
                                         </div>
                                         <!--Termina Encabezado -->
                                         <div class="box-body">
                                             <div id="cuerpoMsj" class="direct-chat-messages" style="height: 12cm">
-                                                <ui:repeat value="#{gc_chat.mensajes}" var="m">
+                                                <ui:repeat value="#{gc_enproceso.mensajes}" var="m">
                                                     <!-- Disenio para mensaje enviado -->
-                                                    <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq true}">
+                                                    <h:form rendered="#{gc_enproceso.userConect.equals(m.usuario) eq true}">
                                                         <div class="direct-chat-msg">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-left">#{m.nombreUsuario}</span>
@@ -169,7 +169,7 @@
                                                         </div>
                                                     </h:form>
                                                     <!-- Disenio para mensaje recibido -->
-                                                    <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq false}">
+                                                    <h:form rendered="#{gc_enproceso.userConect.equals(m.usuario) eq false}">
                                                         <div class="direct-chat-msg right">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-right">#{m.nombreUsuario}</span>
@@ -186,9 +186,9 @@
                                         <!-- Disenio para escribir un mensaje -->
                                         <div class="box-footer">
                                             <div class="input-group">
-                                                <h:inputText id="mensaje" class="form-control" value="#{gc_chat.chat.mensaje}" required="true" autocomplete="off"/>
+                                                <h:inputText id="mensaje" class="form-control" value="#{gc_enproceso.chat.mensaje}" required="true" autocomplete="off"/>
                                                 <span class="input-group-btn">
-                                                    <h:commandButton class="btn btn-warning btn-flat" value="Enviar" actionListener="#{gc_chat.enviarMensaje()}"/>
+                                                    <h:commandButton class="btn btn-warning btn-flat" value="Enviar" actionListener="#{gc_enproceso.enviarMensaje()}"/>
                                                 </span>
                                             </div>
                                         </div>

@@ -13,7 +13,7 @@
                 <div class="content-wrapper">
                     <section class="content">
                         <div class="row">
-                            <div class="col-md-#{gc_chat.panel1}">
+                            <div class="col-md-#{gc_generadas.panel1}">
                                 <!--Panel principal de Generadas -->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -29,7 +29,7 @@
                                                     <h:commandLink value="Borrar Filtros" actionListener="#{gc_generadas.borrarFiltros()}" rendered="#{gc_generadas.filter eq true}">
                                                         <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
                                                     </h:commandLink>
-                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_chat.desactivarChat()}">
+                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_generadas.desactivarChat()}">
                                                         <span class="glyphicon glyphicon-fullscreen"></span>
                                                     </h:commandLink>
                                                 </h:form>
@@ -111,7 +111,7 @@
                                                         #{g.monto}
                                                     </h:column>
                                                     <h:column>
-                                                        <h:commandLink actionListener="#{gc_chat.activarChatG(g)}" rendered="#{g.estadoId.equals(g.estadoNoMensaje) eq false}">
+                                                        <h:commandLink actionListener="#{gc_generadas.activarChat(g)}" rendered="#{g.estadoId.equals(g.estadoNoMensaje) eq false}">
                                                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                                                         </h:commandLink>
                                                         <h:commandLink rendered="#{g.mensajesNoLeidos != 0 eq true}">
@@ -124,9 +124,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-#{gc_chat.panel2}">
+                            <div class="col-md-#{gc_generadas.panel2}">
                                 <!-- DIRECT CHAT -->
-                                <h:form id="chat" rendered="#{gc_chat.isChat eq true}">
+                                <h:form id="chat" rendered="#{gc_generadas.isChat eq true}">
                                     <h:outputScript name="./plantilla/js/jquery.min.js"/>
                                     <script>
                                         $(function(){
@@ -136,14 +136,14 @@
                                     </script>
                                     <div class="box box-warning direct-chat direct-chat-warning">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">#{gc_chat.nombreReceptor}</h3>
+                                            <h3 class="box-title">#{gc_generadas.nombreReceptor}</h3>
                                         </div>
                                         <!--Termina Encabezado -->
                                         <div class="box-body">
                                             <div id="cuerpoMsj" class="direct-chat-messages" style="height: 12cm">
-                                                <ui:repeat value="#{gc_chat.mensajes}" var="m">
+                                                <ui:repeat value="#{gc_generadas.mensajes}" var="m">
                                                     <!-- Disenio para mostrar los mensajes enviados -->
-                                                    <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq true}">
+                                                    <h:form rendered="#{gc_generadas.userConect.equals(m.usuario) eq true}">
                                                         <div class="direct-chat-msg">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-left">#{m.nombreUsuario}</span>
@@ -155,7 +155,7 @@
                                                         </div>
                                                     </h:form>    
                                                     <!-- Disenio para mostrar los mensajes recibidos -->
-                                                    <h:form rendered="#{gc_chat.userConect.equals(m.usuario) eq false}">
+                                                    <h:form rendered="#{gc_generadas.userConect.equals(m.usuario) eq false}">
                                                         <div class="direct-chat-msg right">
                                                             <div class="direct-chat-info clearfix">
                                                                 <span class="direct-chat-name pull-right">#{m.nombreUsuario}</span>
@@ -171,9 +171,9 @@
                                         </div>
                                         <div class="box-footer">
                                             <div class="input-group">
-                                                <h:inputText id="mensaje" class="form-control" value="#{gc_chat.chat.mensaje}" required="true" autocomplete="off"/>
+                                                <h:inputText id="mensaje" class="form-control" value="#{gc_generadas.chat.mensaje}" required="true" autocomplete="off"/>
                                                 <span class="input-group-btn">
-                                                    <h:commandButton class="btn btn-warning btn-flat" value="Enviar" actionListener="#{gc_chat.enviarMensaje()}"/>
+                                                    <h:commandButton class="btn btn-warning btn-flat" value="Enviar" actionListener="#{gc_generadas.enviarMensaje()}"/>
                                                 </span>
                                             </div>
                                         </div>

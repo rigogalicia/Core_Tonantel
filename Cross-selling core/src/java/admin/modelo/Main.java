@@ -1,17 +1,14 @@
 package admin.modelo;
 
-import dao.GcSolicitud;
-import gc.controlador.Correo;
-import gc.modelo.Chat;
-import gc.modelo.Solicitud;
-import java.util.Date;
+import gc.modelo.TarjetasDeCredito;
 
 public class Main {
     
     public static void main(String args[]){
         
-        Correo c = new Correo("rigo.galicia@cooperativa-tonantel.com.gt", "Correo de Prueba", "Este es un correo de prueba");
-        c.enviar();
+        for(TarjetasDeCredito t : TarjetasDeCredito.autorizadas()){
+            System.out.println(t.getNombre());
+        }
         
     }
     

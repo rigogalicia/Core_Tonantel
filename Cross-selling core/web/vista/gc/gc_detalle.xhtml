@@ -105,12 +105,6 @@
                                                         <h:inputText id="tramiteCredito" class="form-control" disabled="true" value="#{gc_detallesolicitud.detalle.tramite}"></h:inputText>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <h:outputLabel for="estado">Estado: (#{gc_detallesolicitud.detalle.estado})</h:outputLabel>
-                                                        <h:selectOneMenu id="estado" class="form-control" value="#{gc_detallesolicitud.estado.id}">
-                                                            <f:selectItems value="#{gc_detallesolicitud.estadoItem}"/>
-                                                        </h:selectOneMenu>      
-                                                    </div>
-                                                    <div class="col-md-3">
                                                         <h:outputLabel for="riesgo">Riesgo:</h:outputLabel>
                                                         <h:selectOneMenu id="riesgo" class="form-control" value="#{gc_detallesolicitud.riesgo.id}">
                                                             <f:selectItems value="#{gc_detallesolicitud.riesgoItem}"/>
@@ -122,8 +116,17 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <h:commandButton id="btnAceptar" class="btn btn-success form-control" value="Aceptar" actionListener="#{gc_detallesolicitud.cambiarEstado()}"/>                              
-                                                    </div>   
+                                                        <h:commandButton id="btnAutorizada" class="btn btn-success form-control" value="Autorizada" actionListener="#{gc_detallesolicitud.autorizada()}" rendered="#{(gc_detallesolicitud.nivelEdicion == 1 || gc_detallesolicitud.nivelEdicion == 2) eq true}"/>                              
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:commandButton id="btnCancelada" class="btn btn-danger form-control" value="Cancelada" actionListener="#{gc_detallesolicitud.cancelada()}" rendered="#{(gc_detallesolicitud.nivelEdicion == 1 || gc_detallesolicitud.nivelEdicion == 2) eq true}"/>                              
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:commandButton id="btnRechazada" class="btn btn-warning form-control" value="Rechazada" actionListener="#{gc_detallesolicitud.rechazada()}" rendered="#{(gc_detallesolicitud.nivelEdicion == 1 || gc_detallesolicitud.nivelEdicion == 2) eq true}"/>                              
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <h:commandButton id="btnEnespera" class="btn btn-primary form-control" value="En Espera" actionListener="#{gc_detallesolicitud.enEspera()}" rendered="#{gc_detallesolicitud.nivelEdicion == 1 eq true}"/>                              
+                                                    </div>
                                                 </div>
                                             </div>
                                             <br/>

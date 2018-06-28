@@ -34,6 +34,7 @@ public class GcDetalleSolicitudBean {
     private ArrayList<Seguimiento> listSeguimiento = new ArrayList<>();
     private String comentario;
     private String userConect;
+    private int nivelEdicion;
 
     public GcDetalleSolicitudBean() {
          HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -123,6 +124,27 @@ public class GcDetalleSolicitudBean {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+
+    public int getNivelEdicion() {
+        switch(estado.getId()){
+            case "b":
+                nivelEdicion = 1;
+                break;
+                
+            case "f":
+                nivelEdicion = 2;
+                break;
+                
+            default:
+                nivelEdicion = 3;
+                break;
+        }
+        return nivelEdicion;
+    }
+
+    public void setNivelEdicion(int nivelEdicion) {
+        this.nivelEdicion = nivelEdicion;
+    }
     
     /* Metodo utilizado para consultar los comentario de seguimiento */
     private void consultarSeguimiento(){
@@ -131,8 +153,32 @@ public class GcDetalleSolicitudBean {
         listSeguimiento = seguimiento.mostrarDatos();
     }
     
+    // Metodo para autorizar la solicitud
+    public void autorizada(){
+        estado.setId("c");
+        cambiarEstado();
+    }
+    
+    // Metodo para cancelar la solicitud
+    public void cancelada(){
+        estado.setId("d");
+        cambiarEstado();
+    }
+    
+    // Metodo para rechazar una solicitud
+    public void rechazada(){
+        estado.setId("e");
+        cambiarEstado();
+    }
+    
+    // Metodo para poner en espera una solicitud
+    public void enEspera(){
+        estado.setId("f");
+        cambiarEstado();
+    }
+    
     /* Metodo utilizado para cambiar de estado una solicitud */
-    public void cambiarEstado(){
+    private void cambiarEstado(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
@@ -154,14 +200,21 @@ public class GcDetalleSolicitudBean {
         
         String est = null;
         
-        if(estado.getId().equals("c")){
-            est = "Autorizada";
-        }else if(estado.getId().equals("d")){
-            est = "Cancelada";
-        }else if(estado.getId().equals("e")){
-            est = "Rechazada";
-        }else if(estado.getId().equals("f")){
-            est = "En espera";
+        switch (estado.getId()) {
+            case "c":
+                est = "Autorizada";
+                break;
+            case "d":
+                est = "Cancelada";
+                break;
+            case "e":
+                est = "Rechazada";
+                break;
+            case "f":
+                est = "En espera";
+                break;
+            default:
+                break;
         }
         
         String msj = "La solicitud numero "+detalle.getNumeroSolicitud()+" generada el "+detalle.getFecha()+" que pertenece\n"
