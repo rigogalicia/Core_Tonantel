@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!--#Panel principal-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <h3 class="panel-title">Tarjetas de Credito</h3>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h:outputLabel for="Troqueladas">Troqueladas
+                                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" ></input>
+                                        </h:outputLabel>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h:outputLabel for="Pendieentes">Pendientes
+                                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" ></input>
+                                        </h:outputLabel>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--#Contenido del panel-->
+                            <div class="panel-body"  style=" height: 13cm; overflow-y: auto" >
+                                <h:form>
+                                    <!--#Table-->
+                                    <h:dataTable class="table table-striped">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="No.Solicitud">No.Solicitud</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Cif">Cif</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Nombre">Nombre</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Monto">Monto</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Fecha Solicitud">Fecha Solicitud</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Fecha Autorizacion">Fecha Autorizacion</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Agencia">Agencia</h:outputLabel>
+                                            </f:facet>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                        
+                    </section>
+                </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
