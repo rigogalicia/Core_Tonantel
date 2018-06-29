@@ -77,7 +77,7 @@
                                             #{t.agencia}
                                         </h:column>
                                         <h:column>
-                                            <h:commandLink actionListener="#{gc_tarjetas.troquelar(t)}">
+                                            <h:commandLink actionListener="#{gc_tarjetas.troquelar(t)}" rendered="#{gc_tarjetas.opcion == 1 eq true}">
                                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                             </h:commandLink>
                                         </h:column>
