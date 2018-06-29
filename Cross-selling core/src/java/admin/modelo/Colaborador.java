@@ -182,6 +182,24 @@ public class Colaborador {
         return resultado;
     }
     
+    /* Metodo utilizado para mostrar la agencia en la que trabaja el colaborador */
+    public static String agenciaColaborador(String user){
+        String result = null;
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", user)).iterator();
+        
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                result = Agencia.descripcionAgencia(next.getString("agencia"));
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return result;
+    }
+    
     /* Metodo utilizado para consultar el correo del colaborador */
     public static String correoColaborador(String user){
         String result = null;

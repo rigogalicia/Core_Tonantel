@@ -1,5 +1,6 @@
 package gc.modelo;
 
+import admin.modelo.Colaborador;
 import dao.GcAsociado;
 import dao.GcGestion;
 import dao.GcSolicitud;
@@ -77,7 +78,7 @@ public class TarjetasDeCredito {
     }
     
     // Metodo para consultar las solicitudes de creditos autorizadas
-    public static ArrayList<TarjetasDeCredito> autorizadas(){
+    public static ArrayList<TarjetasDeCredito> mostrar(int opcion){
         ArrayList<TarjetasDeCredito> result = new ArrayList<>();
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
@@ -88,9 +89,17 @@ public class TarjetasDeCredito {
                 + "JOIN g.solicitudNumeroSolicitud s "
                 + "JOIN g.estadoId e "
                 + "JOIN s.asociadoCif a "
-                + "WHERE e.id = :estado "
-                + "AND s.est IS NULL "
-                + "ORDER BY g.fecha DESC";
+                + "WHERE e.id = :estado ";
+                
+                if(opcion == 1){
+                    instruccion += "AND s.est IS NULL ";
+                }
+                else if(opcion == 2){
+                    instruccion += "AND s.est IS NOT NULL ";
+                }
+                
+                instruccion += "ORDER BY g.fecha DESC";
+                
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("estado", "c");
         List<Object[]> resultado = consulta.getResultList();
@@ -108,6 +117,7 @@ public class TarjetasDeCredito {
             t.setMonto(s.getMonto().toString());
             t.setFechaSolicitud(formatoFecha.format(s.getFecha()));
             t.setFechaAutorizacion(formatoFecha.format(g.getFecha()));
+            t.setAgencia(Colaborador.agenciaColaborador(s.getAsesorFinanciero()));
             return t;            
         }).forEach((t) -> {
             result.add(t);
@@ -117,5 +127,19 @@ public class TarjetasDeCredito {
         emf.close();
         
         return result;
+    }
+    
+    // Metodo utilizado para cambiar el estado de la tarjeta a troquelada
+    public void troquelar(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        GcSolicitud solicitud = em.find(GcSolicitud.class, numeroSolicitud);
+        solicitud.setEst('x');
+        em.getTransaction().commit();
+        
+        em.close();
+        emf.close();
     }
 }

@@ -12,70 +12,79 @@
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
-                        <!--#Panel principal-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-8">
-                                        <h3 class="panel-title">Tarjetas de Credito</h3>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <h:outputLabel for="Troqueladas">Troqueladas
-                                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" ></input>
-                                        </h:outputLabel>
-                                    </div>
-                                    <div class="col-xs-2">
-                                        <h:outputLabel for="Pendieentes">Pendientes
-                                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" ></input>
-                                        </h:outputLabel>
+                        <h:form id="repTarjetas">
+                            <!--#Panel principal-->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            <h3 class="panel-title">Tarjetas de Crédito</h3>
+                                        </div>
+
+                                        <div class="col-xs-3">
+                                            <h:selectOneRadio id="opcion" value = "#{gc_tarjetas.opcion}"> 
+                                                <f:selectItem itemValue="1" itemLabel="&nbsp;Pendientes&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="2" itemLabel="&nbsp;Troqueladas"/>
+                                                <f:ajax event="change" execute="opcion" render="repTarjetas" listener="#{gc_tarjetas.consultar()}"/>
+                                            </h:selectOneRadio>  
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--#Contenido del panel-->
-                            <div class="panel-body"  style=" height: 13cm; overflow-y: auto" >
-                                <h:form>
+                                <!--#Contenido del panel-->
+                                <div class="panel-body"  style=" height: 13cm; overflow-y: auto" >
                                     <!--#Table-->
-                                    <h:dataTable class="table table-striped">
+                                    <h:dataTable id="tarjetas" class="table table-striped" value="#{gc_tarjetas.tarjetas}" var="t">
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="No.Solicitud">No.Solicitud</h:outputLabel>
                                             </f:facet>
+                                            #{t.numeroSolicitud}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="Cif">Cif</h:outputLabel>
                                             </f:facet>
+                                            #{t.cif}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="Nombre">Nombre</h:outputLabel>
                                             </f:facet>
+                                            #{t.nombre}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="Monto">Monto</h:outputLabel>
                                             </f:facet>
+                                            #{t.monto}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="Fecha Solicitud">Fecha Solicitud</h:outputLabel>
                                             </f:facet>
+                                            #{t.fechaSolicitud}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="Fecha Autorizacion">Fecha Autorizacion</h:outputLabel>
                                             </f:facet>
+                                            #{t.fechaAutorizacion}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="Agencia">Agencia</h:outputLabel>
                                             </f:facet>
+                                            #{t.agencia}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink actionListener="#{gc_tarjetas.troquelar(t)}">
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            </h:commandLink>
                                         </h:column>
                                     </h:dataTable>
-                                </h:form>
+                                </div>
                             </div>
-                        </div>
-                        
+                        </h:form>
                     </section>
                 </div>
                 <footer class="main-footer">

@@ -1,6 +1,5 @@
 package admin.modelo;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import java.util.ArrayList;
@@ -85,5 +84,22 @@ public class Agencia {
             cursor.close();
         }
         return listaAgencias;
+    }
+    
+    /* Metodo utilizado para mostrar la descripcion de la agencia */
+    public static String descripcionAgencia(String id){
+        String result = null;
+        ObjectId objid = new ObjectId(id);
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("agencias");
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", objid)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                result = next.getString("nombre");
+            }
+        }finally{
+            cursor.close();
+        }
+        return result;
     }
 }

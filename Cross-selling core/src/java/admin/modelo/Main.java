@@ -6,9 +6,7 @@ public class Main {
     
     public static void main(String args[]){
         
-        for(TarjetasDeCredito t : TarjetasDeCredito.autorizadas()){
-            System.out.println(t.getNombre());
-        }
+        System.out.println(Agencia.descripcionAgencia("5b339b1c7a267403d8cb9a4c"));
         
     }
     
