@@ -177,7 +177,7 @@ public class SolicitudesEnproceso {
                 + "ON S.estado_id = E.id "
                 + "RIGHT JOIN gc_gestion G "
                 + "ON S.numero_solicitud = G.solicitud_numero_solicitud "
-                + "WHERE g.analista = '"+userConect+"' ";
+                + "WHERE G.analista = '"+userConect+"' ";
         
         if(numeroSolicitud != null){
             if(!numeroSolicitud.isEmpty()){

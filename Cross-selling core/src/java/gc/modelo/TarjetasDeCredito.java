@@ -89,7 +89,9 @@ public class TarjetasDeCredito {
                 + "JOIN g.solicitudNumeroSolicitud s "
                 + "JOIN g.estadoId e "
                 + "JOIN s.asociadoCif a "
-                + "WHERE e.id = :estado ";
+                + "JOIN s.destinoId d "
+                + "WHERE e.id = :estado "
+                + "AND d.id = 5 ";
                 
                 if(opcion == 1){
                     instruccion += "AND s.est IS NULL ";

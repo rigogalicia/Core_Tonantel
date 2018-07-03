@@ -77,7 +77,7 @@
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputLabel for="tramite">Origen Tramite</h:outputLabel>
+                                                <h:outputLabel for="tramite">Origen de Tramite</h:outputLabel>
                                                 <h:selectOneMenu id="tramite" class="form-control" value="#{gc_recibidas.recibidas.tramiteId}" onchange="submit()"
                                                                  valueChangeListener="#{gc_recibidas.mostrarPorTramite}" rendered="#{gc_recibidas.filter eq true}">
                                                     <f:selectItem itemLabel="" itemValue="0"/>
@@ -85,6 +85,17 @@
                                                 </h:selectOneMenu>
                                             </f:facet>
                                             #{r.tramite}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="tipoCliente">Tipo de Cliente</h:outputLabel>
+                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_recibidas.recibidas.clienteId}" onchange="submit()"
+                                                                 valueChangeListener="#{gc_recibidas.mostrarPorCliente}" rendered="#{gc_recibidas.filter eq true}">
+                                                    <f:selectItem itemLabel="" itemValue="0"/>
+                                                    <f:selectItems value="#{gc_recibidas.tipoCliente}"/>
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{r.cliente}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">

@@ -4,6 +4,7 @@ import dao.GcAsociado;
 import dao.GcDestino;
 import dao.GcSolicitud;
 import dao.GcTipo;
+import dao.GcTipocliente;
 import dao.GcTramite;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,8 @@ public class SolicitudesRecibidas {
     private String tramite;
     private String monto;
     private String fecha;
+    private int clienteId;
+    private String cliente;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -123,6 +126,22 @@ public class SolicitudesRecibidas {
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+
+    public int getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(int clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
     
     /* Metodo utilizado para consultar los registros de solicitudes recibidas */
     public ArrayList<SolicitudesRecibidas> mostrarDatos(){
@@ -130,13 +149,14 @@ public class SolicitudesRecibidas {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT a, s, d, t, f, e "
+        String instruccion = "SELECT a, s, d, t, f, e, c "
                 + "FROM GcSolicitud s "
                 + "JOIN s.asociadoCif a "
                 + "JOIN s.destinoId d "
                 + "JOIN s.tipoId t "
                 + "JOIN s.tramiteId f "
                 + "JOIN s.estadoId e "
+                + "JOIN s.tipoclienteId c "
                 + "WHERE e.id = :estadoGeneradas ";
         
         if(numeroSolicitud != null){
@@ -169,6 +189,10 @@ public class SolicitudesRecibidas {
             instruccion += "AND f.id = "+tramiteId+" ";
         }
         
+        if(clienteId != 0){
+            instruccion += "AND c.id = "+clienteId+" ";
+        }
+        
         instruccion += "ORDER BY s.fecha DESC ";
         
         Query consulta = em.createQuery(instruccion);
@@ -182,6 +206,7 @@ public class SolicitudesRecibidas {
             GcDestino d = (GcDestino) obj[2];
             GcTipo t = (GcTipo) obj[3];
             GcTramite f = (GcTramite) obj[4];
+            GcTipocliente c = (GcTipocliente) obj[6];
             
             SolicitudesRecibidas recibidas = new SolicitudesRecibidas();
             recibidas.setNumeroSolicitud(s.getNumeroSolicitud());
@@ -194,6 +219,7 @@ public class SolicitudesRecibidas {
             DecimalFormat formato = new DecimalFormat("0,000.00");
             recibidas.setMonto(formato.format(s.getMonto().doubleValue()));
             recibidas.setFecha(formatoFecha.format(s.getFecha()));
+            recibidas.setCliente(c.getDescripcion());
             
             result.add(recibidas);
         }

@@ -6,16 +6,16 @@ import dao.GcEstado;
 import dao.GcGestion;
 import dao.GcSolicitud;
 import dao.GcTipo;
+import dao.GcTipocliente;
 import dao.GcTramite;
 import gc.modelo.Destino;
 import gc.modelo.SolicitudesRecibidas;
 import gc.modelo.Tipo;
+import gc.modelo.Tipocliente;
 import gc.modelo.Tramite;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -34,6 +34,7 @@ public class GcRecibidasBean {
     private ArrayList<SelectItem> tipoCredito = new ArrayList<>();
     private ArrayList<SelectItem> destinoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tramiteCredito = new ArrayList<>();
+    private ArrayList<SelectItem> tipoCliente = new ArrayList<>();
     private boolean filter = false;
     private String userConect;
     
@@ -107,6 +108,19 @@ public class GcRecibidasBean {
         this.tramiteCredito = tramiteCredito;
     }
 
+    public ArrayList<SelectItem> getTipoCliente() {
+        tipoCliente.clear();
+        for(GcTipocliente c : Tipocliente.mostrarDatos()){
+            SelectItem itemCliente = new SelectItem(c.getId(), c.getDescripcion());
+            tipoCliente.add(itemCliente);
+        }
+        return tipoCliente;
+    }
+
+    public void setTipoCliente(ArrayList<SelectItem> tipoCliente) {
+        this.tipoCliente = tipoCliente;
+    }
+    
     public boolean isFilter() {
         return filter;
     }
@@ -128,6 +142,7 @@ public class GcRecibidasBean {
         recibidas.setTipoId(0);
         recibidas.setDestinoId(0);
         recibidas.setTramiteId(0);
+        recibidas.setClienteId(0);
         listaRecibidas = recibidas.mostrarDatos();
         filter = false;
     }
@@ -149,6 +164,11 @@ public class GcRecibidasBean {
     
     public void mostrarPorTramite(ValueChangeEvent e){
         recibidas.setTramiteId(Integer.parseInt(e.getNewValue().toString()));
+        listaRecibidas = recibidas.mostrarDatos();
+    }
+    
+    public void mostrarPorCliente(ValueChangeEvent e){
+        recibidas.setClienteId(Integer.parseInt(e.getNewValue().toString()));
         listaRecibidas = recibidas.mostrarDatos();
     }
     
