@@ -213,6 +213,8 @@ public class SolicitudesEnproceso {
             instruccion += "AND E.id = '"+estadoId+"' ";
         }
 
+        instruccion += "ORDER BY S.fecha DESC";
+        
         Query consulta = em.createNativeQuery(instruccion);
         List<Object[]> resultado = consulta.getResultList();
         

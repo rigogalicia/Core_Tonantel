@@ -83,6 +83,7 @@ public class Colaborador {
         this.puesto = puesto;
     }
     
+    /* Este metodo se utiliza para insertar un nuevo colaborador */
     public void insertar(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         
@@ -98,6 +99,7 @@ public class Colaborador {
         coleccion.insertOne(doc);
     }
     
+    /* Este metodo se utiliza para actualizar los datos de un colaborador */
     public void update(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         coleccion.updateOne(eq("_id", this.usuario), 
@@ -109,6 +111,7 @@ public class Colaborador {
                 .append("puesto", this.puesto)));
     }
     
+    /* Metodo utilizado para mostrar todos los registros de los colaboradores */
     public ArrayList<Colaborador> mostrarColaboradores(){
         ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
@@ -182,6 +185,55 @@ public class Colaborador {
         return resultado;
     }
     
+    /* Metodo para mostrar los datos del colaborador */
+    public static Colaborador datosColaborador(String user){
+        Colaborador resultado = new Colaborador();
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", user)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                resultado.setUsuario(next.getString("_id"));
+                resultado.setClave(next.getString("clave"));
+                resultado.setNombre(next.getString("nombre"));
+                resultado.setCorreo(next.getString("correo"));
+                resultado.setOperador(next.getInteger("operador"));
+                resultado.setAgencia(next.getString("agencia"));
+                resultado.setDepartamento(next.getString("departamento"));
+                resultado.setPuesto(next.getString("puesto"));
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return resultado;
+    }
+    
+    /* Este metodo es utilizado para consultar los colaboradores por departamento */
+    public static ArrayList<Colaborador> colaboradoresPorDepartamento(String depto){
+        ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
+        MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = collection.find(eq("departamento", depto)).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Colaborador u = new Colaborador();
+                u.setUsuario(siguiente.getString("_id"));
+                u.setClave(siguiente.getString("clave"));
+                u.setNombre(siguiente.getString("nombre"));
+                u.setCorreo(siguiente.getString("correo"));
+                u.setOperador(siguiente.getInteger("operador"));
+                u.setAgencia(siguiente.getString("agencia"));
+                u.setDepartamento(siguiente.getString("departamento"));
+                u.setPuesto(siguiente.getString("puesto"));
+                listaUsuarios.add(u);
+            }
+        } finally{
+            cursor.close();
+        }
+        return listaUsuarios;
+    }
+    
     /* Metodo utilizado para mostrar la agencia en la que trabaja el colaborador */
     public static String agenciaColaborador(String user){
         String result = null;
@@ -218,12 +270,14 @@ public class Colaborador {
         return result;
     }
     
+    /* Este metodo se utiliza para resetear la clave del colaborador */
     public void resetClave(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         coleccion.updateOne(eq("operador", this.operador), 
                 new Document("$set", new Document("clave", this.clave)));
     }
     
+    /* Este metodo se utiliza para validar si un usuario esta autorizado o no */
     public boolean estaAutorizado(){
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
         Document doc = coleccion.find(and(eq("_id", this.usuario), eq("clave", DigestUtils.md5Hex(this.clave)))).first();
