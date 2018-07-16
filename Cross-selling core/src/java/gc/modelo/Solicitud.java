@@ -1,8 +1,10 @@
 package gc.modelo;
 
+import admin.modelo.Colaborador;
 import dao.GcAsociado;
 import dao.GcDestino;
 import dao.GcEstado;
+import dao.GcRiesgo;
 import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTipocliente;
@@ -95,7 +97,9 @@ public class Solicitud {
         
         em.getTransaction().begin();
         
+        Colaborador colaborador = Colaborador.datosColaborador(userConect);
         solicitudGc.setAsesorFinanciero(userConect);
+        solicitudGc.setIdAgencia(colaborador.getAgencia());
         solicitudGc.setFecha(new Date());
         GcEstado est = new GcEstado("a");
         solicitudGc.setEstadoId(est);
@@ -104,6 +108,7 @@ public class Solicitud {
         solicitudGc.setTipoId(tipoGc);
         solicitudGc.setTramiteId(tramiteGc);
         solicitudGc.setTipoclienteId(clienteGc);
+        solicitudGc.setRiesgoId(new GcRiesgo(1));
         em.merge(asociadoGc);
         em.persist(solicitudGc);
         

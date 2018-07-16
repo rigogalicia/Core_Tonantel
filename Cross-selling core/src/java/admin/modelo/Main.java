@@ -1,13 +1,17 @@
 package admin.modelo;
 
-import gc.modelo.Reasignar;
+import gc.modelo.Monitoreo;
+import java.util.ArrayList;
 
 public class Main {
     
     public static void main(String args[]){
         
-        for(Colaborador c : Colaborador.colaboradoresPorDepartamento(Departamento.idDepartamento("Fábrica de Créditos"))){
-            System.out.println(c.getNombre());
+        Monitoreo m = new Monitoreo();
+        m.setIdAgencia("5af9aa316e94b90397e18cfc");
+        ArrayList<Monitoreo> result = m.consultar();
+        for(Monitoreo mon : result){
+            System.out.println(mon.getNumeroSolicitud());
         }
     }
     

@@ -19,39 +19,16 @@
                                         <div class="page-header">
                                            <!-- <h4>Detalle de Solicitud</h4>-->
                                             <div class="row">
-                                                <div class="col-xs-12">
+                                                <div class="col-md-11">
+                                                    <h4 class="panel-title">
+                                                        Detalle de Solicitud
+                                                    </h4>
+                                                </div>
+                                                <div class="col-md-1">
                                                     <h:form>
-                                                        <h:messages style="color: red"/>
-                                                        <h:inputHidden id="numSol" value="#{gc_detallesolicitud.detalle.numeroSolicitud}"/>
-                                                        <h4 class="panel-title">
-                                                            <div class="row">
-                                                                <div class="col-md-3">
-                                                                    <button type="button" class="btn btn-primary" id="button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                        <span class="glyphicon glyphicon-comment"></span>
-                                                                    </button>
-                                                                    <label for="button">Comentario</label>
-                                                                </div>
-                                                                <div class="col-md-8"/>
-                                                                <div class="col-md-1">
-                                                                    <h:commandLink action="gc_enproceso.xhtml" immediate="true">
-                                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                                                    </h:commandLink>
-                                                                </div>
-                                                            </div>
-                                                        </h4>
-                                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                          <div class="panel-body">
-                                                            <h:inputTextarea id="comentario" class="form-control" rows="3" value="#{gc_detallesolicitud.comentario}" required="true">
-                                                                <f:validateLength minimum="3"/>
-                                                            </h:inputTextarea>
-                                                            <br/>
-                                                            <div class="row">
-                                                                <div class="col-xs-3">
-                                                                    <h:commandButton class="btn btn-primary" value="Agregar" actionListener="#{gc_detallesolicitud.agregarSeguimiento()}"/>
-                                                                </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
+                                                        <h:commandLink action="gc_monitoreogeneral.xhtml" immediate="true">
+                                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                        </h:commandLink>
                                                     </h:form>
                                                 </div>
                                             </div>
@@ -109,23 +86,6 @@
                                                         <h:selectOneMenu id="riesgo" class="form-control" value="#{gc_detallesolicitud.riesgo.id}">
                                                             <f:selectItems value="#{gc_detallesolicitud.riesgoItem}"/>
                                                         </h:selectOneMenu> 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Inicia Consertina-->
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <h:commandButton id="btnAutorizada" class="btn btn-success form-control" value="Autorizada" actionListener="#{gc_detallesolicitud.autorizada()}" rendered="#{(gc_detallesolicitud.nivelEdicion == 1 || gc_detallesolicitud.nivelEdicion == 2) eq true}"/>                              
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <h:commandButton id="btnCancelada" class="btn btn-danger form-control" value="Cancelada" actionListener="#{gc_detallesolicitud.cancelada()}" rendered="#{(gc_detallesolicitud.nivelEdicion == 1 || gc_detallesolicitud.nivelEdicion == 2) eq true}"/>                              
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <h:commandButton id="btnRechazada" class="btn btn-warning form-control" value="Rechazada" actionListener="#{gc_detallesolicitud.rechazada()}" rendered="#{(gc_detallesolicitud.nivelEdicion == 1 || gc_detallesolicitud.nivelEdicion == 2) eq true}"/>                              
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <h:commandButton id="btnEnespera" class="btn btn-primary form-control" value="En Espera" actionListener="#{gc_detallesolicitud.enEspera()}" rendered="#{gc_detallesolicitud.nivelEdicion == 1 eq true}"/>                              
                                                     </div>
                                                 </div>
                                             </div>

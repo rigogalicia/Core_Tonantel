@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h3 class="panel-title">Monitoreo de Solicitudes</h3>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h:form>
+                                            <h:commandLink value="Activar Filtros" actionListener="#{gc_monitoreo.activarFiltros()}" rendered="#{gc_monitoreo.filter == false eq true}">
+                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                            <h:commandLink value="Borrar Filtros" actionListener="#{gc_monitoreo.desactivarFiltros()}" rendered="#{gc_monitoreo.filter eq true}">
+                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" style="height: 15cm; overflow-y: auto">
+                                <h:form id="datosMonitoreo">
+                                    <h:dataTable class="table table-striped" value="#{gc_monitoreo.solicitudes}" var="s">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Solicitud
+                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_monitoreo.monitoreo.numeroSolicitud}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="numeroSolicitud" render="datosMonitoreo"/>
+                                                </h:inputText>
+                                            </f:facet>
+                                            #{s.numeroSolicitud}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Cif
+                                                <h:inputText id="cif" class="form-control" value="#{gc_monitoreo.monitoreo.cif}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="cif" render="datosMonitoreo"/>
+                                                </h:inputText>
+                                            </f:facet>
+                                            #{s.cif}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Nombre
+                                                <h:inputText id="nombre" class="form-control" value="#{gc_monitoreo.monitoreo.nombre}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="nombre" render="datosMonitoreo"/>
+                                                </h:inputText>
+                                            </f:facet>
+                                            #{s.nombre}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Destino
+                                                <h:selectOneMenu id="destino" class="form-control" value="#{gc_monitoreo.monitoreo.destinoId}" onchange="submit()" 
+                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorDestino}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:selectItem itemLabel=" " itemValue="0"/>
+                                                    <f:selectItems value="#{gc_monitoreo.destino}"/>
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{s.destino}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Garantia
+                                                <h:selectOneMenu id="tipoGarantia" class="form-control" value="#{gc_monitoreo.monitoreo.tipoId}" onchange="submit()" 
+                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorTipo}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:selectItem itemLabel=" " itemValue="0"/>
+                                                    <f:selectItems value="#{gc_monitoreo.tipo}"/>
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{s.tipo}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Tramite
+                                                <h:selectOneMenu id="tipoTramite" class="form-control" value="#{gc_monitoreo.monitoreo.tramiteId}" onchange="submit()" 
+                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorTramite}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:selectItem itemLabel=" " itemValue="0"/>
+                                                    <f:selectItems value="#{gc_monitoreo.tramite}"/>
+                                                </h:selectOneMenu> 
+                                            </f:facet>
+                                            #{s.tramite}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Tipo de Cliente
+                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_monitoreo.monitoreo.clienteId}" onchange="submit()" 
+                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorCliente}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:selectItem itemLabel=" " itemValue="0"/>
+                                                    <f:selectItems value="#{gc_monitoreo.cliente}"/>
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{s.cliente}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Estado
+                                                <h:selectOneMenu id="estado" class="form-control" value="#{gc_monitoreo.monitoreo.estadoId}" onchange="submit()"
+                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorEstado}" rendered="#{gc_monitoreo.filter eq true}">
+                                                    <f:selectItem itemLabel=" " itemValue="-"/>
+                                                    <f:selectItems value="#{gc_monitoreo.estado}"/>
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{s.estado}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Monto
+                                                <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_monitoreo.filter eq true}"/>
+                                            </f:facet>
+                                            #{s.monto}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink action="/vista/gc/gc_detalle_monitoreo.xhtml">
+                                                <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
+                                                <f:param name="numeroSolicitud" value="#{s.numeroSolicitud}"/>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!--Contiene la version del sistema-->
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

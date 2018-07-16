@@ -3,6 +3,7 @@ package gc.modelo;
 import dao.GcAsociado;
 import dao.GcDestino;
 import dao.GcEstado;
+import dao.GcRiesgo;
 import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTipocliente;
@@ -28,6 +29,7 @@ public class DetalleSolicitud {
     private String tipo;
     private String tramite;
     private String tipoCliente;
+    private String riesgo;
     
     public DetalleSolicitud(String NumeroSolicitud){
         this.numeroSolicitud = NumeroSolicitud;
@@ -128,14 +130,23 @@ public class DetalleSolicitud {
     public void setTipoCliente(String tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
+
+    public String getRiesgo() {
+        return riesgo;
+    }
+
+    public void setRiesgo(String riesgo) {
+        this.riesgo = riesgo;
+    }
     
     /* Consulta los datos de la solicitud por numero de solicitud */
     public void consultarDatos(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT s, a, e, c, d, t, f "
+        String instruccion = "SELECT s, a, e, c, d, t, f, r "
                 + "FROM GcSolicitud s "
+                + "JOIN s.riesgoId r "
                 + "JOIN s.asociadoCif a "
                 + "JOIN s.estadoId e "
                 + "JOIN s.tipoclienteId c "
@@ -155,6 +166,7 @@ public class DetalleSolicitud {
             GcDestino d = (GcDestino) obj[4];
             GcTipo t = (GcTipo) obj[5];
             GcTramite f = (GcTramite) obj[6];
+            GcRiesgo r = (GcRiesgo) obj[7];
             
             DecimalFormat formatoMonto = new DecimalFormat("0,000.00");
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -171,6 +183,7 @@ public class DetalleSolicitud {
             tipo = t.getDescripcion();
             tramite = f.getDescripcion();
             tipoCliente = c.getDescripcion();
+            riesgo = r.getDescripcion();
         }
         
         em.close();
