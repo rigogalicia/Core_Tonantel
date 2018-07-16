@@ -12,123 +12,207 @@
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <h3 class="panel-title">Monitoreo de Solicitudes</h3>
+                        <div class="row">
+                            <div class="col-md-#{gc_monitoreo.panel1}">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h3 class="panel-title">Monitoreo de Solicitudes</h3>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h:form>
+                                                    <h:commandLink value="Activar Filtros" actionListener="#{gc_monitoreo.activarFiltros()}" rendered="#{gc_monitoreo.filter == false eq true}">
+                                                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <h:commandLink value="Borrar Filtros" actionListener="#{gc_monitoreo.desactivarFiltros()}" rendered="#{gc_monitoreo.filter eq true}">
+                                                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_monitoreo.desactivarChat()}">
+                                                        <span class="glyphicon glyphicon-fullscreen"></span>
+                                                    </h:commandLink>
+                                                </h:form>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <h:form>
-                                            <h:commandLink value="Activar Filtros" actionListener="#{gc_monitoreo.activarFiltros()}" rendered="#{gc_monitoreo.filter == false eq true}">
-                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                            </h:commandLink>
-                                            <h:commandLink value="Borrar Filtros" actionListener="#{gc_monitoreo.desactivarFiltros()}" rendered="#{gc_monitoreo.filter eq true}">
-                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                            </h:commandLink>
+                                    <div class="panel-body" style="height: 15cm; overflow-y: auto">
+                                        <h:form id="datosMonitoreo">
+                                            <h:dataTable class="table table-striped" value="#{gc_monitoreo.solicitudes}" var="s">
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Solicitud
+                                                        <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_monitoreo.monitoreo.numeroSolicitud}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="numeroSolicitud" render="datosMonitoreo"/>
+                                                        </h:inputText>
+                                                    </f:facet>
+                                                    #{s.numeroSolicitud}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Cif
+                                                        <h:inputText id="cif" class="form-control" value="#{gc_monitoreo.monitoreo.cif}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="cif" render="datosMonitoreo"/>
+                                                        </h:inputText>
+                                                    </f:facet>
+                                                    #{s.cif}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Nombre
+                                                        <h:inputText id="nombre" class="form-control" value="#{gc_monitoreo.monitoreo.nombre}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="nombre" render="datosMonitoreo"/>
+                                                        </h:inputText>
+                                                    </f:facet>
+                                                    #{s.nombre}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Destino
+                                                        <h:selectOneMenu id="destino" class="form-control" value="#{gc_monitoreo.monitoreo.destinoId}" onchange="submit()" 
+                                                                         valueChangeListener="#{gc_monitoreo.filtrarPorDestino}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:selectItem itemLabel=" " itemValue="0"/>
+                                                            <f:selectItems value="#{gc_monitoreo.destino}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{s.destino}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Garantia
+                                                        <h:selectOneMenu id="tipoGarantia" class="form-control" value="#{gc_monitoreo.monitoreo.tipoId}" onchange="submit()" 
+                                                                         valueChangeListener="#{gc_monitoreo.filtrarPorTipo}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:selectItem itemLabel=" " itemValue="0"/>
+                                                            <f:selectItems value="#{gc_monitoreo.tipo}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{s.tipo}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Tramite
+                                                        <h:selectOneMenu id="tipoTramite" class="form-control" value="#{gc_monitoreo.monitoreo.tramiteId}" onchange="submit()" 
+                                                                         valueChangeListener="#{gc_monitoreo.filtrarPorTramite}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:selectItem itemLabel=" " itemValue="0"/>
+                                                            <f:selectItems value="#{gc_monitoreo.tramite}"/>
+                                                        </h:selectOneMenu> 
+                                                    </f:facet>
+                                                    #{s.tramite}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Tipo de Cliente
+                                                        <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_monitoreo.monitoreo.clienteId}" onchange="submit()" 
+                                                                         valueChangeListener="#{gc_monitoreo.filtrarPorCliente}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:selectItem itemLabel=" " itemValue="0"/>
+                                                            <f:selectItems value="#{gc_monitoreo.cliente}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{s.cliente}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Estado
+                                                        <h:selectOneMenu id="estado" class="form-control" value="#{gc_monitoreo.monitoreo.estadoId}" onchange="submit()"
+                                                                         valueChangeListener="#{gc_monitoreo.filtrarPorEstado}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <f:selectItem itemLabel=" " itemValue="-"/>
+                                                            <f:selectItems value="#{gc_monitoreo.estado}"/>
+                                                        </h:selectOneMenu>
+                                                    </f:facet>
+                                                    #{s.estado}
+                                                </h:column>
+                                                <h:column>
+                                                    <f:facet name="header">
+                                                        Monto
+                                                        <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_monitoreo.filter eq true}"/>
+                                                    </f:facet>
+                                                    #{s.monto}
+                                                </h:column>
+                                                <h:column>
+                                                    <h:commandLink action="/vista/gc/gc_detalle_monitoreo.xhtml">
+                                                        <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
+                                                        <f:param name="numeroSolicitud" value="#{s.numeroSolicitud}"/>
+                                                    </h:commandLink>
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    <h:commandLink actionListener="#{gc_monitoreo.activarChat(s)}" class="botonActivar">
+                                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <h:commandLink rendered="#{s.mensajesNoLeidos != 0 eq true}">
+                                                        <span data-toggle="tooltip" title="#{s.mensajesNoLeidos} Mensajes Nuevos" class="badge bg-yellow">#{s.mensajesNoLeidos}</span>
+                                                    </h:commandLink>
+                                                </h:column>
+                                            </h:dataTable>
                                         </h:form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body" style="height: 15cm; overflow-y: auto">
-                                <h:form id="datosMonitoreo">
-                                    <h:dataTable class="table table-striped" value="#{gc_monitoreo.solicitudes}" var="s">
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Solicitud
-                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_monitoreo.monitoreo.numeroSolicitud}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="numeroSolicitud" render="datosMonitoreo"/>
-                                                </h:inputText>
-                                            </f:facet>
-                                            #{s.numeroSolicitud}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Cif
-                                                <h:inputText id="cif" class="form-control" value="#{gc_monitoreo.monitoreo.cif}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="cif" render="datosMonitoreo"/>
-                                                </h:inputText>
-                                            </f:facet>
-                                            #{s.cif}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Nombre
-                                                <h:inputText id="nombre" class="form-control" value="#{gc_monitoreo.monitoreo.nombre}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:ajax event="blur" listener="#{gc_monitoreo.filtrarPorCampo}" execute="nombre" render="datosMonitoreo"/>
-                                                </h:inputText>
-                                            </f:facet>
-                                            #{s.nombre}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Destino
-                                                <h:selectOneMenu id="destino" class="form-control" value="#{gc_monitoreo.monitoreo.destinoId}" onchange="submit()" 
-                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorDestino}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:selectItem itemLabel=" " itemValue="0"/>
-                                                    <f:selectItems value="#{gc_monitoreo.destino}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{s.destino}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Garantia
-                                                <h:selectOneMenu id="tipoGarantia" class="form-control" value="#{gc_monitoreo.monitoreo.tipoId}" onchange="submit()" 
-                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorTipo}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:selectItem itemLabel=" " itemValue="0"/>
-                                                    <f:selectItems value="#{gc_monitoreo.tipo}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{s.tipo}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Tramite
-                                                <h:selectOneMenu id="tipoTramite" class="form-control" value="#{gc_monitoreo.monitoreo.tramiteId}" onchange="submit()" 
-                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorTramite}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:selectItem itemLabel=" " itemValue="0"/>
-                                                    <f:selectItems value="#{gc_monitoreo.tramite}"/>
-                                                </h:selectOneMenu> 
-                                            </f:facet>
-                                            #{s.tramite}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Tipo de Cliente
-                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_monitoreo.monitoreo.clienteId}" onchange="submit()" 
-                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorCliente}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:selectItem itemLabel=" " itemValue="0"/>
-                                                    <f:selectItems value="#{gc_monitoreo.cliente}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{s.cliente}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Estado
-                                                <h:selectOneMenu id="estado" class="form-control" value="#{gc_monitoreo.monitoreo.estadoId}" onchange="submit()"
-                                                                 valueChangeListener="#{gc_monitoreo.filtrarPorEstado}" rendered="#{gc_monitoreo.filter eq true}">
-                                                    <f:selectItem itemLabel=" " itemValue="-"/>
-                                                    <f:selectItems value="#{gc_monitoreo.estado}"/>
-                                                </h:selectOneMenu>
-                                            </f:facet>
-                                            #{s.estado}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                Monto
-                                                <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_monitoreo.filter eq true}"/>
-                                            </f:facet>
-                                            #{s.monto}
-                                        </h:column>
-                                        <h:column>
-                                            <h:commandLink action="/vista/gc/gc_detalle_monitoreo.xhtml">
-                                                <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
-                                                <f:param name="numeroSolicitud" value="#{s.numeroSolicitud}"/>
-                                            </h:commandLink>
-                                        </h:column>
-                                    </h:dataTable>
+                            <div class="col-md-#{gc_monitoreo.panel2}">
+                                <!-- DIRECT CHAT -->
+                                <h:form id="chat" rendered="#{gc_monitoreo.isChat eq true}">
+                                    <h:outputScript name="./plantilla/js/jquery.min.js"/>
+                                    <script>
+                                        $(function(){
+                                            var altura = $('#cuerpoMsj').height() + 5000;
+                                            $("#cuerpoMsj").animate({scrollTop:altura+"px"});
+                                        });
+                                    </script>
+                                    <div class="box box-warning direct-chat direct-chat-warning">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Monitoreo de Chat</h3>
+                                        </div>
+                                        <!--Termina Encabezado -->
+                                        <div class="box-body">
+                                            <div id="cuerpoMsj" class="direct-chat-messages" style="height: 14cm">
+                                                <ui:repeat value="#{gc_monitoreo.mensajes}" var="m">
+                                                    <!-- Disenio para mensaje enviado -->
+                                                    <h:form rendered="#{gc_monitoreo.asesorFinanciero.equals(m.usuario)}">
+                                                        <div class="direct-chat-msg">
+                                                            <div class="direct-chat-info clearfix">
+                                                                <span class="direct-chat-name pull-left">#{m.nombreUsuario}</span>
+                                                                <span class="direct-chat-timestamp pull-right">#{m.fechaFormateada}</span>
+                                                            </div>
+                                                            <div class="direct-chat-text">
+                                                                #{m.mensaje}
+                                                                <div class="row">
+                                                                    <div class="col-md-11"/>
+                                                                    <h:outputLabel rendered="#{m.estado == 98}">
+                                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                                    </h:outputLabel>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </h:form>
+                                                    <!-- Disenio para mensaje recibido -->
+                                                    <h:form rendered="#{!gc_monitoreo.asesorFinanciero.equals(m.usuario)}">
+                                                        <div class="direct-chat-msg right">
+                                                            <div class="direct-chat-info clearfix">
+                                                                <span class="direct-chat-name pull-right">#{m.nombreUsuario}</span>
+                                                                <span class="direct-chat-timestamp pull-left">#{m.fechaFormateada}</span>
+                                                            </div>
+                                                            <div class="direct-chat-text">
+                                                                #{m.mensaje}
+                                                                <div class="row">
+                                                                    <div class="col-md-11"/>
+                                                                    <h:outputLabel rendered="#{m.estado == 98}">
+                                                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                                    </h:outputLabel>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </h:form>
+                                                </ui:repeat>
+                                            </div>
+                                        </div>
+                                        <!-- Disenio para escribir un mensaje -->
+                                        <div class="box-footer">
+                                            <div class="input-group">
+                                                <h:inputText id="mensaje" class="form-control" required="true" autocomplete="off" disabled="true"/>
+                                                <span class="input-group-btn">
+                                                    <h:commandButton class="btn btn-warning btn-flat" value="Enviar"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </h:form>
                             </div>
                         </div>

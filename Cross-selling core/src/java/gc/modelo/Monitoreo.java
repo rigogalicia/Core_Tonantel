@@ -16,6 +16,7 @@ import javax.persistence.Query;
 
 public class Monitoreo {
     private String numeroSolicitud;
+    private String asesorFinanciero;
     private String cif;
     private String nombre;
     private int destinoId;
@@ -30,6 +31,7 @@ public class Monitoreo {
     private String estado;
     private String monto;
     private String idAgencia;
+    private int mensajesNoLeidos;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -37,6 +39,14 @@ public class Monitoreo {
 
     public void setNumeroSolicitud(String numeroSolicitud) {
         this.numeroSolicitud = numeroSolicitud;
+    }
+
+    public String getAsesorFinanciero() {
+        return asesorFinanciero;
+    }
+
+    public void setAsesorFinanciero(String asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
     }
 
     public String getCif() {
@@ -150,6 +160,14 @@ public class Monitoreo {
     public void setIdAgencia(String idAgencia) {
         this.idAgencia = idAgencia;
     }
+
+    public int getMensajesNoLeidos() {
+        return mensajesNoLeidos;
+    }
+
+    public void setMensajesNoLeidos(int mensajesNoLeidos) {
+        this.mensajesNoLeidos = mensajesNoLeidos;
+    }
     
     // Metodo utilizado para obtener los datos filtrados por diferentes campos
     public ArrayList<Monitoreo> consultar(){
@@ -229,6 +247,7 @@ public class Monitoreo {
             
             Monitoreo monitoreo = new Monitoreo();
             monitoreo.setNumeroSolicitud(s.getNumeroSolicitud());
+            monitoreo.setAsesorFinanciero(s.getAsesorFinanciero());
             monitoreo.setCif(a.getCif());
             monitoreo.setNombre(a.getNombre());
             monitoreo.setDestino(d.getDescripcion());
@@ -237,6 +256,9 @@ public class Monitoreo {
             monitoreo.setCliente(c.getDescripcion());
             monitoreo.setEstado(e.getDescripcion());
             monitoreo.setMonto(s.getMonto().toString());
+            
+            Chat chat = new Chat(s.getNumeroSolicitud());
+            monitoreo.setMensajesNoLeidos(chat.mensajesNoLeidosGeneral());
             
             result.add(monitoreo);
         }

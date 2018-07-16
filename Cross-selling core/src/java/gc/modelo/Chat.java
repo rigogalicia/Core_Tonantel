@@ -162,6 +162,20 @@ public class Chat {
         return result;
     }
     
+        /* Metodo utilizado para mostrar la cantidad de mensajes no leidos */
+    public int mensajesNoLeidosGeneral(){
+        int result = 0;
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("chatgc");
+        
+        BasicDBObject filtro = new BasicDBObject();
+        filtro.put("numeroSolicitud", numeroSolicitud);
+        filtro.put("estado", "a");
+        
+        result = (int) coleccion.count(filtro);
+        
+        return result;
+    }
+    
     /* Este metodo devuelve el nombre del colaborador */
     public String nombreColaborador(String usuarioColaborador){
         String result = null;

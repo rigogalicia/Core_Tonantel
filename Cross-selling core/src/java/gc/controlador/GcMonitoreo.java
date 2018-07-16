@@ -5,6 +5,7 @@ import dao.GcEstado;
 import dao.GcTipo;
 import dao.GcTipocliente;
 import dao.GcTramite;
+import gc.modelo.Chat;
 import gc.modelo.Destino;
 import gc.modelo.Estado;
 import gc.modelo.Monitoreo;
@@ -29,6 +30,14 @@ public class GcMonitoreo {
     private ArrayList<SelectItem> cliente = new ArrayList<>();
     private ArrayList<SelectItem> estado = new ArrayList<>();
     private boolean filter = false;
+    
+    // Campos para monitoreo de chat
+    private boolean isChat = false;
+    private int panel1 = 12;
+    private int panel2 = 0;
+    private Chat chat = new Chat();
+    private ArrayList<Chat> mensajes = new ArrayList<>();
+    private String asesorFinanciero;
     
     public GcMonitoreo() {
         monitoreo.setEstadoId("a");
@@ -131,6 +140,54 @@ public class GcMonitoreo {
     public void setFilter(boolean filter) {
         this.filter = filter;
     }
+
+    public boolean isIsChat() {
+        return isChat;
+    }
+
+    public void setIsChat(boolean isChat) {
+        this.isChat = isChat;
+    }
+
+    public int getPanel1() {
+        return panel1;
+    }
+
+    public void setPanel1(int panel1) {
+        this.panel1 = panel1;
+    }
+
+    public int getPanel2() {
+        return panel2;
+    }
+
+    public void setPanel2(int panel2) {
+        this.panel2 = panel2;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
+    public ArrayList<Chat> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(ArrayList<Chat> mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    public String getAsesorFinanciero() {
+        return asesorFinanciero;
+    }
+
+    public void setAsesorFinanciero(String asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
+    }
     
     // Metodo para activar los filtros del reporte
     public void activarFiltros(){
@@ -185,5 +242,24 @@ public class GcMonitoreo {
     public void filtrarPorEstado(ValueChangeEvent e){
         monitoreo.setEstadoId(e.getNewValue().toString());
         solicitudes = monitoreo.consultar();
+    }
+    
+    /* ---------------------------------------------------------- */
+    /* Metodo utilizado para activar el chat de solicitudes en proceso */
+    public void activarChat(Monitoreo s){
+        chat.setNumeroSolicitud(s.getNumeroSolicitud());
+        mensajes = chat.mostrarMensajes();
+        asesorFinanciero = s.getAsesorFinanciero();
+        solicitudes = monitoreo.consultar();
+        isChat = true;
+        panel1 = 8;
+        panel2 = 4;
+    }
+    
+    /* Metodo utilizado para desactivar el chat */
+    public void desactivarChat(){
+        isChat = false;
+        panel1 = 12;
+        panel2 = 0;
     }
 }
