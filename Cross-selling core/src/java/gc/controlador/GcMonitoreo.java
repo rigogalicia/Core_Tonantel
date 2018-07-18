@@ -1,5 +1,6 @@
 package gc.controlador;
 
+import admin.modelo.Agencia;
 import dao.GcDestino;
 import dao.GcEstado;
 import dao.GcTipo;
@@ -29,6 +30,7 @@ public class GcMonitoreo {
     private ArrayList<SelectItem> tramite = new ArrayList<>();
     private ArrayList<SelectItem> cliente = new ArrayList<>();
     private ArrayList<SelectItem> estado = new ArrayList<>();
+    private ArrayList<SelectItem> agencia = new ArrayList<>();
     private boolean filter = false;
     
     // Campos para monitoreo de chat
@@ -133,6 +135,20 @@ public class GcMonitoreo {
         this.estado = estado;
     }
 
+    public ArrayList<SelectItem> getAgencia() {
+        agencia.clear();
+        Agencia ag = new Agencia();
+        for(Agencia a : ag.mostrarAgencias()){
+            SelectItem itemAgencia = new SelectItem(a.getId(), a.getNombre());
+            agencia.add(itemAgencia);
+        }
+        return agencia;
+    }
+
+    public void setAgencia(ArrayList<SelectItem> agencia) {
+        this.agencia = agencia;
+    }
+    
     public boolean isFilter() {
         return filter;
     }
@@ -244,7 +260,13 @@ public class GcMonitoreo {
         solicitudes = monitoreo.consultar();
     }
     
-    /* ---------------------------------------------------------- */
+    // Metodo para filtrar registros por agencia
+    public void filtrarPorAgencia(ValueChangeEvent e){
+        monitoreo.setIdAgencia(e.getNewValue().toString());
+        solicitudes = monitoreo.consultar();
+    }
+    
+    /* --------------------------------------------------------------- */
     /* Metodo utilizado para activar el chat de solicitudes en proceso */
     public void activarChat(Monitoreo s){
         chat.setNumeroSolicitud(s.getNumeroSolicitud());

@@ -1,5 +1,6 @@
 package gc.modelo;
 
+import admin.modelo.Colaborador;
 import dao.GcAsociado;
 import dao.GcDestino;
 import dao.GcEstado;
@@ -9,10 +10,12 @@ import dao.GcTipocliente;
 import dao.GcTramite;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
 
 public class Monitoreo {
     private String numeroSolicitud;
@@ -30,8 +33,16 @@ public class Monitoreo {
     private String estadoId;
     private String estado;
     private String monto;
-    private String idAgencia;
+    private String idAgencia = "";
     private int mensajesNoLeidos;
+    private String userConect;
+    
+    public Monitoreo(){
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if(sesion.getAttribute("userConect") != null){
+            userConect = sesion.getAttribute("userConect").toString();
+        }
+    }
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -225,9 +236,12 @@ public class Monitoreo {
             }
         }
         
-        if(idAgencia != null){
+        if(!idAgencia.equals("-")){
             if(!idAgencia.isEmpty()){
                 instruccion += "AND s.idAgencia = '"+idAgencia+"' ";
+            }
+            else{
+                instruccion += "AND s.idAgencia = '"+Colaborador.datosColaborador(userConect).getAgencia()+"' ";
             }
         }
         

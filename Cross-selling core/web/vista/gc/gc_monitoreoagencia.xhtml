@@ -18,7 +18,7 @@
                                     <div class="panel-heading">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <h3 class="panel-title">Monitoreo de Solicitudes</h3>
+                                                <h3 class="panel-title">Monitoreo de Agencias</h3>
                                             </div>
                                             <div class="col-md-2">
                                                 <h:form>
@@ -37,13 +37,7 @@
                                     </div>
                                     <div class="panel-body" style="height: 15cm; overflow-y: auto">
                                         <h:form id="datosMonitoreo">
-                                            <h:selectOneMenu id="agencia" class="form-control" value="#{gc_monitoreo.monitoreo.idAgencia}" onchange="submit()"
-                                                             valueChangeListener="#{gc_monitoreo.filtrarPorAgencia}" rendered="#{gc_monitoreo.filter eq true}">
-                                                <f:selectItem itemLabel=" " itemValue="-"/>
-                                                <f:selectItems value="#{gc_monitoreo.agencia}"/>
-                                            </h:selectOneMenu>
                                             <h:dataTable class="table table-striped" value="#{gc_monitoreo.solicitudes}" var="s">
-                                                   
                                                 <h:column>
                                                     <f:facet name="header">
                                                         Solicitud

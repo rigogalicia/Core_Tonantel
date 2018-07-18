@@ -37,7 +37,7 @@ public class GcDetalleSolicitudBean {
     private int nivelEdicion;
 
     public GcDetalleSolicitudBean() {
-         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if(sesion.getAttribute("userConect") != null){
             userConect = sesion.getAttribute("userConect").toString();
             FacesContext facesContext = FacesContext.getCurrentInstance();

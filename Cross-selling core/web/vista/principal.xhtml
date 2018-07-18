@@ -155,31 +155,34 @@
                                             <ul class="treeview-menu">
                                                 <ui:repeat value="#{a.privilegios}" var="b">
                                                     <!-- Privilegios que corresponden al modulo de Administración -->
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/agencias.xhtml" rendered="#{b.forma == 'adminAgencia' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/departamentos.xhtml" rendered="#{b.forma == 'adminDepartamento' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/puestos.xhtml" rendered="#{b.forma == 'adminPuesto' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/colaboradores.xhtml" rendered="#{b.forma == 'adminColaborador' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/roles.xhtml" rendered="#{b.forma == 'adminRol' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/privilegios.xhtml" rendered="#{b.forma == 'adminPrivilegio' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/permisos.xhtml" rendered="#{b.forma == 'adminPermiso' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/resetearClave.xhtml" rendered="#{b.forma == 'adminResetClave' eq true}"/></li>
-                                                    
-                                                    <!-- Privilegios que corresponden al modulo de Estado Patrimonial -->
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/estado_patrimonial/registrar.xhtml" rendered="#{b.forma == 'estpaActualizarDatos' eq true}"/></li>
-                                                    
-                                                    <!-- Privilegios que corresponden al modulo de rally -->
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/rally/cartera.xhtml" rendered="#{b.forma == 'rallyCartera' eq true}"/></li>
-                                                    
-                                                    <!-- Privilegios que corresponde al modulo gc -->
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_solicitud.xhtml" rendered="#{b.forma == 'gcSolicitud' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_generadas.xhtml" rendered="#{b.forma == 'gcGeneradas' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_recibidas.xhtml" rendered="#{b.forma == 'gcRecibidas' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_chat.xhtml" rendered="#{b.forma == 'gcChat' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_enproceso.xhtml" rendered="#{b.forma == 'gcEnproceso' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_modificarsolicitud.xhtml" rendered="#{b.forma == 'gcModificar' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_tarjetas.xhtml" rendered="#{b.forma == 'gcTarjetas' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_reasignar.xhtml" rendered="#{b.forma == 'gcReasignar' eq true}"/></li>
-                                                    <li><h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_monitoreogeneral.xhtml" rendered="#{b.forma == 'gcMonitoreogeneral' eq true}"/></li>
+                                                    <li>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/agencias.xhtml" rendered="#{b.forma == 'adminAgencia' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/departamentos.xhtml" rendered="#{b.forma == 'adminDepartamento' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/puestos.xhtml" rendered="#{b.forma == 'adminPuesto' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/colaboradores.xhtml" rendered="#{b.forma == 'adminColaborador' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/roles.xhtml" rendered="#{b.forma == 'adminRol' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/privilegios.xhtml" rendered="#{b.forma == 'adminPrivilegio' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/permisos.xhtml" rendered="#{b.forma == 'adminPermiso' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/administracion/resetearClave.xhtml" rendered="#{b.forma == 'adminResetClave' eq true}"/>
+
+                                                        <!-- Privilegios que corresponden al modulo de Estado Patrimonial -->
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/estado_patrimonial/registrar.xhtml" rendered="#{b.forma == 'estpaActualizarDatos' eq true}"/>
+
+                                                        <!-- Privilegios que corresponden al modulo de rally -->
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/rally/cartera.xhtml" rendered="#{b.forma == 'rallyCartera' eq true}"/>
+
+                                                        <!-- Privilegios que corresponde al modulo gc -->
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_solicitud.xhtml" rendered="#{b.forma == 'gcSolicitud' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_generadas.xhtml" rendered="#{b.forma == 'gcGeneradas' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_recibidas.xhtml" rendered="#{b.forma == 'gcRecibidas' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_chat.xhtml" rendered="#{b.forma == 'gcChat' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_enproceso.xhtml" rendered="#{b.forma == 'gcEnproceso' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_modificarsolicitud.xhtml" rendered="#{b.forma == 'gcModificar' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_tarjetas.xhtml" rendered="#{b.forma == 'gcTarjetas' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_reasignar.xhtml" rendered="#{b.forma == 'gcReasignar' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_monitoreogeneral.xhtml" rendered="#{b.forma == 'gcMonitoreogeneral' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/gc/gc_monitoreoagencia.xhtml" rendered="#{b.forma == 'gcMonitoreoagencia' eq true}"/>
+                                                    </li>
                                                 </ui:repeat>
                                             </ul>
                                         </li>
