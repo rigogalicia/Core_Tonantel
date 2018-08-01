@@ -18,34 +18,37 @@
                             </div>
                             <div class="panel-body">
                                 <h:form>
+                                    <h:messages style="color: red"/>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-5">
                                                 <h:outputLabel for="agencia">Agencias:</h:outputLabel>
-                                                <h:selectOneMenu id="agencia" class="form-control">
-                                                    <f:selectItem itemLabel="" itemValue="-"/>
+                                                <h:selectOneMenu id="agencia" class="form-control" value="#{cc_autorizadores.autorizadores.agencia}">
+                                                    <f:selectItem itemValue="" itemLabel=""/>
+                                                    <f:selectItems value="#{cc_autorizadores.agencias}"/>
                                                 </h:selectOneMenu>
                                             </div>
                                             <div class="col-md-5">
                                                 <h:outputLabel for="colaborador">Colaboradores:</h:outputLabel>
-                                                <h:selectOneMenu id="colaborador" class="form-control">
-                                                    <f:selectItem itemLabel="" itemValue="-"/>
+                                                <h:selectOneMenu id="colaborador" class="form-control" value="#{cc_autorizadores.autorizadores.usuario}">
+                                                    <f:selectItem itemValue="" itemLabel=""/>
+                                                    <f:selectItems value="#{cc_autorizadores.usuarios}"/>
                                                 </h:selectOneMenu>
                                             </div>
                                             <div class="col-md-2">
                                                 <h:outputLabel for="btn_agregar">&nbsp;</h:outputLabel>
-                                                <h:commandButton id="btn_agregar" class="form-control btn btn-success" value="Agregar"/>
+                                                <h:commandButton id="btn_agregar" class="form-control btn btn-success" value="Agregar" actionListener="#{cc_autorizadores.registrar()}"/>
                                             </div>
                                         </div>
                                     </div>
-                                    <h:dataTable class="table table-striped">
+                                    <h:dataTable id="listaAutorizadores" class="table table-striped" value="#{cc_autorizadores.listaAutorizadores}" var="a">
                                         <h:column>
                                             <f:facet name="header">Agencias</f:facet>
-                                            asdfa
+                                            #{a.agencia}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">Colaboradores</f:facet>
-                                            asdfa
+                                            #{a.usuario}
                                         </h:column>
                                     </h:dataTable>
                                 </h:form>

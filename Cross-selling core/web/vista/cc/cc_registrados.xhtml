@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h:form>
+                                    <h:dataTable id="tb_registrados" class="table" value="#{cc_registrados.registrados}" var="r">
+                                        <h:column>
+                                            <f:facet name="header">Número</f:facet>
+                                            #{r.numero}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Cuenta Bancaria</f:facet>
+                                            #{r.cuenta}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Monto</f:facet>
+                                            #{r.motivo}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Fecha de Emisión</f:facet>
+                                            #{r.fecha}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Beneficiario</f:facet>
+                                            #{r.beneficiario}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Motivo</f:facet>
+                                            #{r.motivo}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Banco</f:facet>
+                                            #{r.banco}
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -185,6 +185,8 @@
                                                         
                                                         <!-- Privilegios que corresponden al modulo cc -->
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/cc/cc_autorizadores.xhtml" rendered="#{b.forma == 'ccAutorizadores' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/cc/cc_registrar.xhtml" rendered="#{b.forma == 'ccRegistrar' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/cc/cc_registrados.xhtml" rendered="#{b.forma == 'ccRegistrados' eq true}"/>
                                                     </li>
                                                 </ui:repeat>
                                             </ul>

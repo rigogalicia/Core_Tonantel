@@ -136,6 +136,31 @@ public class Colaborador {
         return listaUsuarios;
     }
     
+    /* Metodo utilizado para mostrar todos los registros de los colaboradores */
+    public static ArrayList<Colaborador> ColaboradoresPorAgencia(String ag){
+        ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("agencia", ag)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document siguiente = cursor.next();
+                Colaborador u = new Colaborador();
+                u.setUsuario(siguiente.getString("_id"));
+                u.setClave(siguiente.getString("clave"));
+                u.setNombre(siguiente.getString("nombre"));
+                u.setCorreo(siguiente.getString("correo"));
+                u.setOperador(siguiente.getInteger("operador"));
+                u.setAgencia(siguiente.getString("agencia"));
+                u.setDepartamento(siguiente.getString("departamento"));
+                u.setPuesto(siguiente.getString("puesto"));
+                listaUsuarios.add(u);
+            }
+        }finally{
+            cursor.close();
+        }
+        return listaUsuarios;
+    }
+    
     /* Metodo utilizado para buscar un registro de la coleccion */
     public static ArrayList<Colaborador> buscarColaboradores(String nombreBuscar){
         ArrayList<Colaborador> listaUsuarios = new ArrayList<>();

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Registrar Cheques</h3>
+                            </div>
+                            <div class="panel-body">
+                                <h:form>
+                                    <h:messages style="color: red"/>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h:outputLabel for="numero">* Número de cheque:</h:outputLabel>
+                                                <h:inputText id="numero" class="form-control" value="#{cc_registrar.registrar.cheque.numero}" autocomplete="off" required="true"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h:outputLabel for="cuenta">* Cuenta Bancaria:</h:outputLabel>
+                                                <h:inputText id="cuenta" class="form-control" value="#{cc_registrar.registrar.cheque.cuentaBancaria}" autocomplete="off" required="true"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h:outputLabel for="monto">* Monto:</h:outputLabel>
+                                                <h:inputText id="monto" class="form-control" value="#{cc_registrar.registrar.cheque.monto}" autocomplete="off" required="true"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h:outputLabel for="fecha">* Fecha: dd/MM/yyyy</h:outputLabel>
+                                                <h:inputText id="fecha" class="form-control" value="#{cc_registrar.registrar.cheque.fecha}" autocomplete="off" required="true">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h:outputLabel for="beneficiario">* Beneficiario:</h:outputLabel>
+                                                <h:inputText id="beneficiario" class="form-control" value="#{cc_registrar.registrar.cheque.beneficiario}" autocomplete="off" required="true"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:outputLabel for="motivo">* Motivo:</h:outputLabel>
+                                                <h:inputText id="motivo" class="form-control" value="#{cc_registrar.registrar.cheque.motivo}" autocomplete="off" required="true"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h:outputLabel>* Banco:</h:outputLabel>
+                                                <h:selectOneMenu id="banco" class="form-control" value="#{cc_registrar.registrar.banco.id}" required="true">
+                                                    <f:selectItem itemValue="" itemLabel=""/>
+                                                    <f:selectItems value="#{cc_registrar.bancos}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandButton id="btnRegistrar" class="form-control btn btn-success" value="Registrar" actionListener="#{cc_registrar.insertar}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
