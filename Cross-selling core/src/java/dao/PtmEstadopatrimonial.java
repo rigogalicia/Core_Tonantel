@@ -44,9 +44,11 @@ public class PtmEstadopatrimonial implements Serializable {
     @Column(name = "usuario")
     private String usuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
-    private List<PtmPrestamo> ptmPrestamoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
     private List<PtmBienesmuebles> ptmBienesmueblesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
+    private List<PtmTarjetacredito> ptmTarjetacreditoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
+    private List<PtmPrestamo> ptmPrestamoList;
     @JoinColumn(name = "ptm_activo_idactivo", referencedColumnName = "idactivo")
     @ManyToOne(optional = false)
     private PtmActivo ptmActivoIdactivo;
@@ -58,8 +60,6 @@ public class PtmEstadopatrimonial implements Serializable {
     private PtmPasivo ptmPasivoIdpasivo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
     private List<PtmBienesinmuebles> ptmBienesinmueblesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
-    private List<PtmTarjetacredito> ptmTarjetacreditoList;
 
     public PtmEstadopatrimonial() {
     }
@@ -109,20 +109,28 @@ public class PtmEstadopatrimonial implements Serializable {
         this.usuario = usuario;
     }
 
-    public List<PtmPrestamo> getPtmPrestamoList() {
-        return ptmPrestamoList;
-    }
-
-    public void setPtmPrestamoList(List<PtmPrestamo> ptmPrestamoList) {
-        this.ptmPrestamoList = ptmPrestamoList;
-    }
-
     public List<PtmBienesmuebles> getPtmBienesmueblesList() {
         return ptmBienesmueblesList;
     }
 
     public void setPtmBienesmueblesList(List<PtmBienesmuebles> ptmBienesmueblesList) {
         this.ptmBienesmueblesList = ptmBienesmueblesList;
+    }
+
+    public List<PtmTarjetacredito> getPtmTarjetacreditoList() {
+        return ptmTarjetacreditoList;
+    }
+
+    public void setPtmTarjetacreditoList(List<PtmTarjetacredito> ptmTarjetacreditoList) {
+        this.ptmTarjetacreditoList = ptmTarjetacreditoList;
+    }
+
+    public List<PtmPrestamo> getPtmPrestamoList() {
+        return ptmPrestamoList;
+    }
+
+    public void setPtmPrestamoList(List<PtmPrestamo> ptmPrestamoList) {
+        this.ptmPrestamoList = ptmPrestamoList;
     }
 
     public PtmActivo getPtmActivoIdactivo() {
@@ -155,14 +163,6 @@ public class PtmEstadopatrimonial implements Serializable {
 
     public void setPtmBienesinmueblesList(List<PtmBienesinmuebles> ptmBienesinmueblesList) {
         this.ptmBienesinmueblesList = ptmBienesinmueblesList;
-    }
-
-    public List<PtmTarjetacredito> getPtmTarjetacreditoList() {
-        return ptmTarjetacreditoList;
-    }
-
-    public void setPtmTarjetacreditoList(List<PtmTarjetacredito> ptmTarjetacreditoList) {
-        this.ptmTarjetacreditoList = ptmTarjetacreditoList;
     }
 
     @Override

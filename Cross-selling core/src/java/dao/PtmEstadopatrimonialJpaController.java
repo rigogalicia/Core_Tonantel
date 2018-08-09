@@ -37,17 +37,17 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
         if (ptmEstadopatrimonial.getPtmEstadopatrimonialPK() == null) {
             ptmEstadopatrimonial.setPtmEstadopatrimonialPK(new PtmEstadopatrimonialPK());
         }
-        if (ptmEstadopatrimonial.getPtmPrestamoList() == null) {
-            ptmEstadopatrimonial.setPtmPrestamoList(new ArrayList<PtmPrestamo>());
-        }
         if (ptmEstadopatrimonial.getPtmBienesmueblesList() == null) {
             ptmEstadopatrimonial.setPtmBienesmueblesList(new ArrayList<PtmBienesmuebles>());
         }
-        if (ptmEstadopatrimonial.getPtmBienesinmueblesList() == null) {
-            ptmEstadopatrimonial.setPtmBienesinmueblesList(new ArrayList<PtmBienesinmuebles>());
-        }
         if (ptmEstadopatrimonial.getPtmTarjetacreditoList() == null) {
             ptmEstadopatrimonial.setPtmTarjetacreditoList(new ArrayList<PtmTarjetacredito>());
+        }
+        if (ptmEstadopatrimonial.getPtmPrestamoList() == null) {
+            ptmEstadopatrimonial.setPtmPrestamoList(new ArrayList<PtmPrestamo>());
+        }
+        if (ptmEstadopatrimonial.getPtmBienesinmueblesList() == null) {
+            ptmEstadopatrimonial.setPtmBienesinmueblesList(new ArrayList<PtmBienesinmuebles>());
         }
         ptmEstadopatrimonial.getPtmEstadopatrimonialPK().setColaboradorDpi(ptmEstadopatrimonial.getPtmColaborador().getDpi());
         EntityManager em = null;
@@ -69,30 +69,30 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 ptmPasivoIdpasivo = em.getReference(ptmPasivoIdpasivo.getClass(), ptmPasivoIdpasivo.getIdpasivo());
                 ptmEstadopatrimonial.setPtmPasivoIdpasivo(ptmPasivoIdpasivo);
             }
-            List<PtmPrestamo> attachedPtmPrestamoList = new ArrayList<PtmPrestamo>();
-            for (PtmPrestamo ptmPrestamoListPtmPrestamoToAttach : ptmEstadopatrimonial.getPtmPrestamoList()) {
-                ptmPrestamoListPtmPrestamoToAttach = em.getReference(ptmPrestamoListPtmPrestamoToAttach.getClass(), ptmPrestamoListPtmPrestamoToAttach.getIdprestamo());
-                attachedPtmPrestamoList.add(ptmPrestamoListPtmPrestamoToAttach);
-            }
-            ptmEstadopatrimonial.setPtmPrestamoList(attachedPtmPrestamoList);
             List<PtmBienesmuebles> attachedPtmBienesmueblesList = new ArrayList<PtmBienesmuebles>();
             for (PtmBienesmuebles ptmBienesmueblesListPtmBienesmueblesToAttach : ptmEstadopatrimonial.getPtmBienesmueblesList()) {
                 ptmBienesmueblesListPtmBienesmueblesToAttach = em.getReference(ptmBienesmueblesListPtmBienesmueblesToAttach.getClass(), ptmBienesmueblesListPtmBienesmueblesToAttach.getIdbienesmuebles());
                 attachedPtmBienesmueblesList.add(ptmBienesmueblesListPtmBienesmueblesToAttach);
             }
             ptmEstadopatrimonial.setPtmBienesmueblesList(attachedPtmBienesmueblesList);
-            List<PtmBienesinmuebles> attachedPtmBienesinmueblesList = new ArrayList<PtmBienesinmuebles>();
-            for (PtmBienesinmuebles ptmBienesinmueblesListPtmBienesinmueblesToAttach : ptmEstadopatrimonial.getPtmBienesinmueblesList()) {
-                ptmBienesinmueblesListPtmBienesinmueblesToAttach = em.getReference(ptmBienesinmueblesListPtmBienesinmueblesToAttach.getClass(), ptmBienesinmueblesListPtmBienesinmueblesToAttach.getIdbienesinmuebles());
-                attachedPtmBienesinmueblesList.add(ptmBienesinmueblesListPtmBienesinmueblesToAttach);
-            }
-            ptmEstadopatrimonial.setPtmBienesinmueblesList(attachedPtmBienesinmueblesList);
             List<PtmTarjetacredito> attachedPtmTarjetacreditoList = new ArrayList<PtmTarjetacredito>();
             for (PtmTarjetacredito ptmTarjetacreditoListPtmTarjetacreditoToAttach : ptmEstadopatrimonial.getPtmTarjetacreditoList()) {
                 ptmTarjetacreditoListPtmTarjetacreditoToAttach = em.getReference(ptmTarjetacreditoListPtmTarjetacreditoToAttach.getClass(), ptmTarjetacreditoListPtmTarjetacreditoToAttach.getIdtarjetacredito());
                 attachedPtmTarjetacreditoList.add(ptmTarjetacreditoListPtmTarjetacreditoToAttach);
             }
             ptmEstadopatrimonial.setPtmTarjetacreditoList(attachedPtmTarjetacreditoList);
+            List<PtmPrestamo> attachedPtmPrestamoList = new ArrayList<PtmPrestamo>();
+            for (PtmPrestamo ptmPrestamoListPtmPrestamoToAttach : ptmEstadopatrimonial.getPtmPrestamoList()) {
+                ptmPrestamoListPtmPrestamoToAttach = em.getReference(ptmPrestamoListPtmPrestamoToAttach.getClass(), ptmPrestamoListPtmPrestamoToAttach.getIdprestamo());
+                attachedPtmPrestamoList.add(ptmPrestamoListPtmPrestamoToAttach);
+            }
+            ptmEstadopatrimonial.setPtmPrestamoList(attachedPtmPrestamoList);
+            List<PtmBienesinmuebles> attachedPtmBienesinmueblesList = new ArrayList<PtmBienesinmuebles>();
+            for (PtmBienesinmuebles ptmBienesinmueblesListPtmBienesinmueblesToAttach : ptmEstadopatrimonial.getPtmBienesinmueblesList()) {
+                ptmBienesinmueblesListPtmBienesinmueblesToAttach = em.getReference(ptmBienesinmueblesListPtmBienesinmueblesToAttach.getClass(), ptmBienesinmueblesListPtmBienesinmueblesToAttach.getIdbienesinmuebles());
+                attachedPtmBienesinmueblesList.add(ptmBienesinmueblesListPtmBienesinmueblesToAttach);
+            }
+            ptmEstadopatrimonial.setPtmBienesinmueblesList(attachedPtmBienesinmueblesList);
             em.persist(ptmEstadopatrimonial);
             if (ptmActivoIdactivo != null) {
                 ptmActivoIdactivo.getPtmEstadopatrimonialList().add(ptmEstadopatrimonial);
@@ -106,15 +106,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 ptmPasivoIdpasivo.getPtmEstadopatrimonialList().add(ptmEstadopatrimonial);
                 ptmPasivoIdpasivo = em.merge(ptmPasivoIdpasivo);
             }
-            for (PtmPrestamo ptmPrestamoListPtmPrestamo : ptmEstadopatrimonial.getPtmPrestamoList()) {
-                PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo = ptmPrestamoListPtmPrestamo.getPtmEstadopatrimonial();
-                ptmPrestamoListPtmPrestamo.setPtmEstadopatrimonial(ptmEstadopatrimonial);
-                ptmPrestamoListPtmPrestamo = em.merge(ptmPrestamoListPtmPrestamo);
-                if (oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo != null) {
-                    oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo.getPtmPrestamoList().remove(ptmPrestamoListPtmPrestamo);
-                    oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo = em.merge(oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo);
-                }
-            }
             for (PtmBienesmuebles ptmBienesmueblesListPtmBienesmuebles : ptmEstadopatrimonial.getPtmBienesmueblesList()) {
                 PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmBienesmueblesListPtmBienesmuebles = ptmBienesmueblesListPtmBienesmuebles.getPtmEstadopatrimonial();
                 ptmBienesmueblesListPtmBienesmuebles.setPtmEstadopatrimonial(ptmEstadopatrimonial);
@@ -124,15 +115,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                     oldPtmEstadopatrimonialOfPtmBienesmueblesListPtmBienesmuebles = em.merge(oldPtmEstadopatrimonialOfPtmBienesmueblesListPtmBienesmuebles);
                 }
             }
-            for (PtmBienesinmuebles ptmBienesinmueblesListPtmBienesinmuebles : ptmEstadopatrimonial.getPtmBienesinmueblesList()) {
-                PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles = ptmBienesinmueblesListPtmBienesinmuebles.getPtmEstadopatrimonial();
-                ptmBienesinmueblesListPtmBienesinmuebles.setPtmEstadopatrimonial(ptmEstadopatrimonial);
-                ptmBienesinmueblesListPtmBienesinmuebles = em.merge(ptmBienesinmueblesListPtmBienesinmuebles);
-                if (oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles != null) {
-                    oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles.getPtmBienesinmueblesList().remove(ptmBienesinmueblesListPtmBienesinmuebles);
-                    oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles = em.merge(oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles);
-                }
-            }
             for (PtmTarjetacredito ptmTarjetacreditoListPtmTarjetacredito : ptmEstadopatrimonial.getPtmTarjetacreditoList()) {
                 PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmTarjetacreditoListPtmTarjetacredito = ptmTarjetacreditoListPtmTarjetacredito.getPtmEstadopatrimonial();
                 ptmTarjetacreditoListPtmTarjetacredito.setPtmEstadopatrimonial(ptmEstadopatrimonial);
@@ -140,6 +122,24 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 if (oldPtmEstadopatrimonialOfPtmTarjetacreditoListPtmTarjetacredito != null) {
                     oldPtmEstadopatrimonialOfPtmTarjetacreditoListPtmTarjetacredito.getPtmTarjetacreditoList().remove(ptmTarjetacreditoListPtmTarjetacredito);
                     oldPtmEstadopatrimonialOfPtmTarjetacreditoListPtmTarjetacredito = em.merge(oldPtmEstadopatrimonialOfPtmTarjetacreditoListPtmTarjetacredito);
+                }
+            }
+            for (PtmPrestamo ptmPrestamoListPtmPrestamo : ptmEstadopatrimonial.getPtmPrestamoList()) {
+                PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo = ptmPrestamoListPtmPrestamo.getPtmEstadopatrimonial();
+                ptmPrestamoListPtmPrestamo.setPtmEstadopatrimonial(ptmEstadopatrimonial);
+                ptmPrestamoListPtmPrestamo = em.merge(ptmPrestamoListPtmPrestamo);
+                if (oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo != null) {
+                    oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo.getPtmPrestamoList().remove(ptmPrestamoListPtmPrestamo);
+                    oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo = em.merge(oldPtmEstadopatrimonialOfPtmPrestamoListPtmPrestamo);
+                }
+            }
+            for (PtmBienesinmuebles ptmBienesinmueblesListPtmBienesinmuebles : ptmEstadopatrimonial.getPtmBienesinmueblesList()) {
+                PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles = ptmBienesinmueblesListPtmBienesinmuebles.getPtmEstadopatrimonial();
+                ptmBienesinmueblesListPtmBienesinmuebles.setPtmEstadopatrimonial(ptmEstadopatrimonial);
+                ptmBienesinmueblesListPtmBienesinmuebles = em.merge(ptmBienesinmueblesListPtmBienesinmuebles);
+                if (oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles != null) {
+                    oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles.getPtmBienesinmueblesList().remove(ptmBienesinmueblesListPtmBienesinmuebles);
+                    oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles = em.merge(oldPtmEstadopatrimonialOfPtmBienesinmueblesListPtmBienesinmuebles);
                 }
             }
             em.getTransaction().commit();
@@ -168,23 +168,15 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
             PtmColaborador ptmColaboradorNew = ptmEstadopatrimonial.getPtmColaborador();
             PtmPasivo ptmPasivoIdpasivoOld = persistentPtmEstadopatrimonial.getPtmPasivoIdpasivo();
             PtmPasivo ptmPasivoIdpasivoNew = ptmEstadopatrimonial.getPtmPasivoIdpasivo();
-            List<PtmPrestamo> ptmPrestamoListOld = persistentPtmEstadopatrimonial.getPtmPrestamoList();
-            List<PtmPrestamo> ptmPrestamoListNew = ptmEstadopatrimonial.getPtmPrestamoList();
             List<PtmBienesmuebles> ptmBienesmueblesListOld = persistentPtmEstadopatrimonial.getPtmBienesmueblesList();
             List<PtmBienesmuebles> ptmBienesmueblesListNew = ptmEstadopatrimonial.getPtmBienesmueblesList();
-            List<PtmBienesinmuebles> ptmBienesinmueblesListOld = persistentPtmEstadopatrimonial.getPtmBienesinmueblesList();
-            List<PtmBienesinmuebles> ptmBienesinmueblesListNew = ptmEstadopatrimonial.getPtmBienesinmueblesList();
             List<PtmTarjetacredito> ptmTarjetacreditoListOld = persistentPtmEstadopatrimonial.getPtmTarjetacreditoList();
             List<PtmTarjetacredito> ptmTarjetacreditoListNew = ptmEstadopatrimonial.getPtmTarjetacreditoList();
+            List<PtmPrestamo> ptmPrestamoListOld = persistentPtmEstadopatrimonial.getPtmPrestamoList();
+            List<PtmPrestamo> ptmPrestamoListNew = ptmEstadopatrimonial.getPtmPrestamoList();
+            List<PtmBienesinmuebles> ptmBienesinmueblesListOld = persistentPtmEstadopatrimonial.getPtmBienesinmueblesList();
+            List<PtmBienesinmuebles> ptmBienesinmueblesListNew = ptmEstadopatrimonial.getPtmBienesinmueblesList();
             List<String> illegalOrphanMessages = null;
-            for (PtmPrestamo ptmPrestamoListOldPtmPrestamo : ptmPrestamoListOld) {
-                if (!ptmPrestamoListNew.contains(ptmPrestamoListOldPtmPrestamo)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PtmPrestamo " + ptmPrestamoListOldPtmPrestamo + " since its ptmEstadopatrimonial field is not nullable.");
-                }
-            }
             for (PtmBienesmuebles ptmBienesmueblesListOldPtmBienesmuebles : ptmBienesmueblesListOld) {
                 if (!ptmBienesmueblesListNew.contains(ptmBienesmueblesListOldPtmBienesmuebles)) {
                     if (illegalOrphanMessages == null) {
@@ -193,20 +185,28 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain PtmBienesmuebles " + ptmBienesmueblesListOldPtmBienesmuebles + " since its ptmEstadopatrimonial field is not nullable.");
                 }
             }
-            for (PtmBienesinmuebles ptmBienesinmueblesListOldPtmBienesinmuebles : ptmBienesinmueblesListOld) {
-                if (!ptmBienesinmueblesListNew.contains(ptmBienesinmueblesListOldPtmBienesinmuebles)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PtmBienesinmuebles " + ptmBienesinmueblesListOldPtmBienesinmuebles + " since its ptmEstadopatrimonial field is not nullable.");
-                }
-            }
             for (PtmTarjetacredito ptmTarjetacreditoListOldPtmTarjetacredito : ptmTarjetacreditoListOld) {
                 if (!ptmTarjetacreditoListNew.contains(ptmTarjetacreditoListOldPtmTarjetacredito)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain PtmTarjetacredito " + ptmTarjetacreditoListOldPtmTarjetacredito + " since its ptmEstadopatrimonial field is not nullable.");
+                }
+            }
+            for (PtmPrestamo ptmPrestamoListOldPtmPrestamo : ptmPrestamoListOld) {
+                if (!ptmPrestamoListNew.contains(ptmPrestamoListOldPtmPrestamo)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain PtmPrestamo " + ptmPrestamoListOldPtmPrestamo + " since its ptmEstadopatrimonial field is not nullable.");
+                }
+            }
+            for (PtmBienesinmuebles ptmBienesinmueblesListOldPtmBienesinmuebles : ptmBienesinmueblesListOld) {
+                if (!ptmBienesinmueblesListNew.contains(ptmBienesinmueblesListOldPtmBienesinmuebles)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain PtmBienesinmuebles " + ptmBienesinmueblesListOldPtmBienesinmuebles + " since its ptmEstadopatrimonial field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -224,13 +224,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 ptmPasivoIdpasivoNew = em.getReference(ptmPasivoIdpasivoNew.getClass(), ptmPasivoIdpasivoNew.getIdpasivo());
                 ptmEstadopatrimonial.setPtmPasivoIdpasivo(ptmPasivoIdpasivoNew);
             }
-            List<PtmPrestamo> attachedPtmPrestamoListNew = new ArrayList<PtmPrestamo>();
-            for (PtmPrestamo ptmPrestamoListNewPtmPrestamoToAttach : ptmPrestamoListNew) {
-                ptmPrestamoListNewPtmPrestamoToAttach = em.getReference(ptmPrestamoListNewPtmPrestamoToAttach.getClass(), ptmPrestamoListNewPtmPrestamoToAttach.getIdprestamo());
-                attachedPtmPrestamoListNew.add(ptmPrestamoListNewPtmPrestamoToAttach);
-            }
-            ptmPrestamoListNew = attachedPtmPrestamoListNew;
-            ptmEstadopatrimonial.setPtmPrestamoList(ptmPrestamoListNew);
             List<PtmBienesmuebles> attachedPtmBienesmueblesListNew = new ArrayList<PtmBienesmuebles>();
             for (PtmBienesmuebles ptmBienesmueblesListNewPtmBienesmueblesToAttach : ptmBienesmueblesListNew) {
                 ptmBienesmueblesListNewPtmBienesmueblesToAttach = em.getReference(ptmBienesmueblesListNewPtmBienesmueblesToAttach.getClass(), ptmBienesmueblesListNewPtmBienesmueblesToAttach.getIdbienesmuebles());
@@ -238,13 +231,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
             }
             ptmBienesmueblesListNew = attachedPtmBienesmueblesListNew;
             ptmEstadopatrimonial.setPtmBienesmueblesList(ptmBienesmueblesListNew);
-            List<PtmBienesinmuebles> attachedPtmBienesinmueblesListNew = new ArrayList<PtmBienesinmuebles>();
-            for (PtmBienesinmuebles ptmBienesinmueblesListNewPtmBienesinmueblesToAttach : ptmBienesinmueblesListNew) {
-                ptmBienesinmueblesListNewPtmBienesinmueblesToAttach = em.getReference(ptmBienesinmueblesListNewPtmBienesinmueblesToAttach.getClass(), ptmBienesinmueblesListNewPtmBienesinmueblesToAttach.getIdbienesinmuebles());
-                attachedPtmBienesinmueblesListNew.add(ptmBienesinmueblesListNewPtmBienesinmueblesToAttach);
-            }
-            ptmBienesinmueblesListNew = attachedPtmBienesinmueblesListNew;
-            ptmEstadopatrimonial.setPtmBienesinmueblesList(ptmBienesinmueblesListNew);
             List<PtmTarjetacredito> attachedPtmTarjetacreditoListNew = new ArrayList<PtmTarjetacredito>();
             for (PtmTarjetacredito ptmTarjetacreditoListNewPtmTarjetacreditoToAttach : ptmTarjetacreditoListNew) {
                 ptmTarjetacreditoListNewPtmTarjetacreditoToAttach = em.getReference(ptmTarjetacreditoListNewPtmTarjetacreditoToAttach.getClass(), ptmTarjetacreditoListNewPtmTarjetacreditoToAttach.getIdtarjetacredito());
@@ -252,6 +238,20 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
             }
             ptmTarjetacreditoListNew = attachedPtmTarjetacreditoListNew;
             ptmEstadopatrimonial.setPtmTarjetacreditoList(ptmTarjetacreditoListNew);
+            List<PtmPrestamo> attachedPtmPrestamoListNew = new ArrayList<PtmPrestamo>();
+            for (PtmPrestamo ptmPrestamoListNewPtmPrestamoToAttach : ptmPrestamoListNew) {
+                ptmPrestamoListNewPtmPrestamoToAttach = em.getReference(ptmPrestamoListNewPtmPrestamoToAttach.getClass(), ptmPrestamoListNewPtmPrestamoToAttach.getIdprestamo());
+                attachedPtmPrestamoListNew.add(ptmPrestamoListNewPtmPrestamoToAttach);
+            }
+            ptmPrestamoListNew = attachedPtmPrestamoListNew;
+            ptmEstadopatrimonial.setPtmPrestamoList(ptmPrestamoListNew);
+            List<PtmBienesinmuebles> attachedPtmBienesinmueblesListNew = new ArrayList<PtmBienesinmuebles>();
+            for (PtmBienesinmuebles ptmBienesinmueblesListNewPtmBienesinmueblesToAttach : ptmBienesinmueblesListNew) {
+                ptmBienesinmueblesListNewPtmBienesinmueblesToAttach = em.getReference(ptmBienesinmueblesListNewPtmBienesinmueblesToAttach.getClass(), ptmBienesinmueblesListNewPtmBienesinmueblesToAttach.getIdbienesinmuebles());
+                attachedPtmBienesinmueblesListNew.add(ptmBienesinmueblesListNewPtmBienesinmueblesToAttach);
+            }
+            ptmBienesinmueblesListNew = attachedPtmBienesinmueblesListNew;
+            ptmEstadopatrimonial.setPtmBienesinmueblesList(ptmBienesinmueblesListNew);
             ptmEstadopatrimonial = em.merge(ptmEstadopatrimonial);
             if (ptmActivoIdactivoOld != null && !ptmActivoIdactivoOld.equals(ptmActivoIdactivoNew)) {
                 ptmActivoIdactivoOld.getPtmEstadopatrimonialList().remove(ptmEstadopatrimonial);
@@ -277,17 +277,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 ptmPasivoIdpasivoNew.getPtmEstadopatrimonialList().add(ptmEstadopatrimonial);
                 ptmPasivoIdpasivoNew = em.merge(ptmPasivoIdpasivoNew);
             }
-            for (PtmPrestamo ptmPrestamoListNewPtmPrestamo : ptmPrestamoListNew) {
-                if (!ptmPrestamoListOld.contains(ptmPrestamoListNewPtmPrestamo)) {
-                    PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo = ptmPrestamoListNewPtmPrestamo.getPtmEstadopatrimonial();
-                    ptmPrestamoListNewPtmPrestamo.setPtmEstadopatrimonial(ptmEstadopatrimonial);
-                    ptmPrestamoListNewPtmPrestamo = em.merge(ptmPrestamoListNewPtmPrestamo);
-                    if (oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo != null && !oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo.equals(ptmEstadopatrimonial)) {
-                        oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo.getPtmPrestamoList().remove(ptmPrestamoListNewPtmPrestamo);
-                        oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo = em.merge(oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo);
-                    }
-                }
-            }
             for (PtmBienesmuebles ptmBienesmueblesListNewPtmBienesmuebles : ptmBienesmueblesListNew) {
                 if (!ptmBienesmueblesListOld.contains(ptmBienesmueblesListNewPtmBienesmuebles)) {
                     PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmBienesmueblesListNewPtmBienesmuebles = ptmBienesmueblesListNewPtmBienesmuebles.getPtmEstadopatrimonial();
@@ -299,17 +288,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                     }
                 }
             }
-            for (PtmBienesinmuebles ptmBienesinmueblesListNewPtmBienesinmuebles : ptmBienesinmueblesListNew) {
-                if (!ptmBienesinmueblesListOld.contains(ptmBienesinmueblesListNewPtmBienesinmuebles)) {
-                    PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles = ptmBienesinmueblesListNewPtmBienesinmuebles.getPtmEstadopatrimonial();
-                    ptmBienesinmueblesListNewPtmBienesinmuebles.setPtmEstadopatrimonial(ptmEstadopatrimonial);
-                    ptmBienesinmueblesListNewPtmBienesinmuebles = em.merge(ptmBienesinmueblesListNewPtmBienesinmuebles);
-                    if (oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles != null && !oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles.equals(ptmEstadopatrimonial)) {
-                        oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles.getPtmBienesinmueblesList().remove(ptmBienesinmueblesListNewPtmBienesinmuebles);
-                        oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles = em.merge(oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles);
-                    }
-                }
-            }
             for (PtmTarjetacredito ptmTarjetacreditoListNewPtmTarjetacredito : ptmTarjetacreditoListNew) {
                 if (!ptmTarjetacreditoListOld.contains(ptmTarjetacreditoListNewPtmTarjetacredito)) {
                     PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmTarjetacreditoListNewPtmTarjetacredito = ptmTarjetacreditoListNewPtmTarjetacredito.getPtmEstadopatrimonial();
@@ -318,6 +296,28 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                     if (oldPtmEstadopatrimonialOfPtmTarjetacreditoListNewPtmTarjetacredito != null && !oldPtmEstadopatrimonialOfPtmTarjetacreditoListNewPtmTarjetacredito.equals(ptmEstadopatrimonial)) {
                         oldPtmEstadopatrimonialOfPtmTarjetacreditoListNewPtmTarjetacredito.getPtmTarjetacreditoList().remove(ptmTarjetacreditoListNewPtmTarjetacredito);
                         oldPtmEstadopatrimonialOfPtmTarjetacreditoListNewPtmTarjetacredito = em.merge(oldPtmEstadopatrimonialOfPtmTarjetacreditoListNewPtmTarjetacredito);
+                    }
+                }
+            }
+            for (PtmPrestamo ptmPrestamoListNewPtmPrestamo : ptmPrestamoListNew) {
+                if (!ptmPrestamoListOld.contains(ptmPrestamoListNewPtmPrestamo)) {
+                    PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo = ptmPrestamoListNewPtmPrestamo.getPtmEstadopatrimonial();
+                    ptmPrestamoListNewPtmPrestamo.setPtmEstadopatrimonial(ptmEstadopatrimonial);
+                    ptmPrestamoListNewPtmPrestamo = em.merge(ptmPrestamoListNewPtmPrestamo);
+                    if (oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo != null && !oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo.equals(ptmEstadopatrimonial)) {
+                        oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo.getPtmPrestamoList().remove(ptmPrestamoListNewPtmPrestamo);
+                        oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo = em.merge(oldPtmEstadopatrimonialOfPtmPrestamoListNewPtmPrestamo);
+                    }
+                }
+            }
+            for (PtmBienesinmuebles ptmBienesinmueblesListNewPtmBienesinmuebles : ptmBienesinmueblesListNew) {
+                if (!ptmBienesinmueblesListOld.contains(ptmBienesinmueblesListNewPtmBienesinmuebles)) {
+                    PtmEstadopatrimonial oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles = ptmBienesinmueblesListNewPtmBienesinmuebles.getPtmEstadopatrimonial();
+                    ptmBienesinmueblesListNewPtmBienesinmuebles.setPtmEstadopatrimonial(ptmEstadopatrimonial);
+                    ptmBienesinmueblesListNewPtmBienesinmuebles = em.merge(ptmBienesinmueblesListNewPtmBienesinmuebles);
+                    if (oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles != null && !oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles.equals(ptmEstadopatrimonial)) {
+                        oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles.getPtmBienesinmueblesList().remove(ptmBienesinmueblesListNewPtmBienesinmuebles);
+                        oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles = em.merge(oldPtmEstadopatrimonialOfPtmBienesinmueblesListNewPtmBienesinmuebles);
                     }
                 }
             }
@@ -351,13 +351,6 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 throw new NonexistentEntityException("The ptmEstadopatrimonial with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<PtmPrestamo> ptmPrestamoListOrphanCheck = ptmEstadopatrimonial.getPtmPrestamoList();
-            for (PtmPrestamo ptmPrestamoListOrphanCheckPtmPrestamo : ptmPrestamoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This PtmEstadopatrimonial (" + ptmEstadopatrimonial + ") cannot be destroyed since the PtmPrestamo " + ptmPrestamoListOrphanCheckPtmPrestamo + " in its ptmPrestamoList field has a non-nullable ptmEstadopatrimonial field.");
-            }
             List<PtmBienesmuebles> ptmBienesmueblesListOrphanCheck = ptmEstadopatrimonial.getPtmBienesmueblesList();
             for (PtmBienesmuebles ptmBienesmueblesListOrphanCheckPtmBienesmuebles : ptmBienesmueblesListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -365,19 +358,26 @@ public class PtmEstadopatrimonialJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This PtmEstadopatrimonial (" + ptmEstadopatrimonial + ") cannot be destroyed since the PtmBienesmuebles " + ptmBienesmueblesListOrphanCheckPtmBienesmuebles + " in its ptmBienesmueblesList field has a non-nullable ptmEstadopatrimonial field.");
             }
-            List<PtmBienesinmuebles> ptmBienesinmueblesListOrphanCheck = ptmEstadopatrimonial.getPtmBienesinmueblesList();
-            for (PtmBienesinmuebles ptmBienesinmueblesListOrphanCheckPtmBienesinmuebles : ptmBienesinmueblesListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This PtmEstadopatrimonial (" + ptmEstadopatrimonial + ") cannot be destroyed since the PtmBienesinmuebles " + ptmBienesinmueblesListOrphanCheckPtmBienesinmuebles + " in its ptmBienesinmueblesList field has a non-nullable ptmEstadopatrimonial field.");
-            }
             List<PtmTarjetacredito> ptmTarjetacreditoListOrphanCheck = ptmEstadopatrimonial.getPtmTarjetacreditoList();
             for (PtmTarjetacredito ptmTarjetacreditoListOrphanCheckPtmTarjetacredito : ptmTarjetacreditoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This PtmEstadopatrimonial (" + ptmEstadopatrimonial + ") cannot be destroyed since the PtmTarjetacredito " + ptmTarjetacreditoListOrphanCheckPtmTarjetacredito + " in its ptmTarjetacreditoList field has a non-nullable ptmEstadopatrimonial field.");
+            }
+            List<PtmPrestamo> ptmPrestamoListOrphanCheck = ptmEstadopatrimonial.getPtmPrestamoList();
+            for (PtmPrestamo ptmPrestamoListOrphanCheckPtmPrestamo : ptmPrestamoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This PtmEstadopatrimonial (" + ptmEstadopatrimonial + ") cannot be destroyed since the PtmPrestamo " + ptmPrestamoListOrphanCheckPtmPrestamo + " in its ptmPrestamoList field has a non-nullable ptmEstadopatrimonial field.");
+            }
+            List<PtmBienesinmuebles> ptmBienesinmueblesListOrphanCheck = ptmEstadopatrimonial.getPtmBienesinmueblesList();
+            for (PtmBienesinmuebles ptmBienesinmueblesListOrphanCheckPtmBienesinmuebles : ptmBienesinmueblesListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This PtmEstadopatrimonial (" + ptmEstadopatrimonial + ") cannot be destroyed since the PtmBienesinmuebles " + ptmBienesinmueblesListOrphanCheckPtmBienesinmuebles + " in its ptmBienesinmueblesList field has a non-nullable ptmEstadopatrimonial field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

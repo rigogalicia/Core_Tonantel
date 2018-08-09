@@ -54,9 +54,11 @@ public class GcSolicitud implements Serializable {
     @Column(name = "id_agencia")
     private String idAgencia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
-    private List<GcSeguimiento> gcSeguimientoList;
+    private List<GcFichanegocio> gcFichanegocioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
     private List<GcGestion> gcGestionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
+    private List<GcSeguimiento> gcSeguimientoList;
     @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private GcEstado estadoId;
@@ -141,12 +143,12 @@ public class GcSolicitud implements Serializable {
         this.idAgencia = idAgencia;
     }
 
-    public List<GcSeguimiento> getGcSeguimientoList() {
-        return gcSeguimientoList;
+    public List<GcFichanegocio> getGcFichanegocioList() {
+        return gcFichanegocioList;
     }
 
-    public void setGcSeguimientoList(List<GcSeguimiento> gcSeguimientoList) {
-        this.gcSeguimientoList = gcSeguimientoList;
+    public void setGcFichanegocioList(List<GcFichanegocio> gcFichanegocioList) {
+        this.gcFichanegocioList = gcFichanegocioList;
     }
 
     public List<GcGestion> getGcGestionList() {
@@ -155,6 +157,14 @@ public class GcSolicitud implements Serializable {
 
     public void setGcGestionList(List<GcGestion> gcGestionList) {
         this.gcGestionList = gcGestionList;
+    }
+
+    public List<GcSeguimiento> getGcSeguimientoList() {
+        return gcSeguimientoList;
+    }
+
+    public void setGcSeguimientoList(List<GcSeguimiento> gcSeguimientoList) {
+        this.gcSeguimientoList = gcSeguimientoList;
     }
 
     public GcEstado getEstadoId() {

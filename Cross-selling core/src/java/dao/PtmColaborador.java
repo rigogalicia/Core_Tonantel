@@ -68,10 +68,10 @@ public class PtmColaborador implements Serializable {
     private String centroestudio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaboradorDpi")
     private List<PtmCurso> ptmCursoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaborador")
-    private List<PtmEstadopatrimonial> ptmEstadopatrimonialList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaboradorDpi")
     private List<PtmHijo> ptmHijoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaborador")
+    private List<PtmEstadopatrimonial> ptmEstadopatrimonialList;
 
     public PtmColaborador() {
     }
@@ -218,20 +218,20 @@ public class PtmColaborador implements Serializable {
         this.ptmCursoList = ptmCursoList;
     }
 
-    public List<PtmEstadopatrimonial> getPtmEstadopatrimonialList() {
-        return ptmEstadopatrimonialList;
-    }
-
-    public void setPtmEstadopatrimonialList(List<PtmEstadopatrimonial> ptmEstadopatrimonialList) {
-        this.ptmEstadopatrimonialList = ptmEstadopatrimonialList;
-    }
-
     public List<PtmHijo> getPtmHijoList() {
         return ptmHijoList;
     }
 
     public void setPtmHijoList(List<PtmHijo> ptmHijoList) {
         this.ptmHijoList = ptmHijoList;
+    }
+
+    public List<PtmEstadopatrimonial> getPtmEstadopatrimonialList() {
+        return ptmEstadopatrimonialList;
+    }
+
+    public void setPtmEstadopatrimonialList(List<PtmEstadopatrimonial> ptmEstadopatrimonialList) {
+        this.ptmEstadopatrimonialList = ptmEstadopatrimonialList;
     }
 
     @Override

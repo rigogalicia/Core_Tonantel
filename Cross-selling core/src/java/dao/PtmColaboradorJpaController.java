@@ -37,11 +37,11 @@ public class PtmColaboradorJpaController implements Serializable {
         if (ptmColaborador.getPtmCursoList() == null) {
             ptmColaborador.setPtmCursoList(new ArrayList<PtmCurso>());
         }
-        if (ptmColaborador.getPtmEstadopatrimonialList() == null) {
-            ptmColaborador.setPtmEstadopatrimonialList(new ArrayList<PtmEstadopatrimonial>());
-        }
         if (ptmColaborador.getPtmHijoList() == null) {
             ptmColaborador.setPtmHijoList(new ArrayList<PtmHijo>());
+        }
+        if (ptmColaborador.getPtmEstadopatrimonialList() == null) {
+            ptmColaborador.setPtmEstadopatrimonialList(new ArrayList<PtmEstadopatrimonial>());
         }
         EntityManager em = null;
         try {
@@ -53,18 +53,18 @@ public class PtmColaboradorJpaController implements Serializable {
                 attachedPtmCursoList.add(ptmCursoListPtmCursoToAttach);
             }
             ptmColaborador.setPtmCursoList(attachedPtmCursoList);
-            List<PtmEstadopatrimonial> attachedPtmEstadopatrimonialList = new ArrayList<PtmEstadopatrimonial>();
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListPtmEstadopatrimonialToAttach : ptmColaborador.getPtmEstadopatrimonialList()) {
-                ptmEstadopatrimonialListPtmEstadopatrimonialToAttach = em.getReference(ptmEstadopatrimonialListPtmEstadopatrimonialToAttach.getClass(), ptmEstadopatrimonialListPtmEstadopatrimonialToAttach.getPtmEstadopatrimonialPK());
-                attachedPtmEstadopatrimonialList.add(ptmEstadopatrimonialListPtmEstadopatrimonialToAttach);
-            }
-            ptmColaborador.setPtmEstadopatrimonialList(attachedPtmEstadopatrimonialList);
             List<PtmHijo> attachedPtmHijoList = new ArrayList<PtmHijo>();
             for (PtmHijo ptmHijoListPtmHijoToAttach : ptmColaborador.getPtmHijoList()) {
                 ptmHijoListPtmHijoToAttach = em.getReference(ptmHijoListPtmHijoToAttach.getClass(), ptmHijoListPtmHijoToAttach.getIdhijo());
                 attachedPtmHijoList.add(ptmHijoListPtmHijoToAttach);
             }
             ptmColaborador.setPtmHijoList(attachedPtmHijoList);
+            List<PtmEstadopatrimonial> attachedPtmEstadopatrimonialList = new ArrayList<PtmEstadopatrimonial>();
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListPtmEstadopatrimonialToAttach : ptmColaborador.getPtmEstadopatrimonialList()) {
+                ptmEstadopatrimonialListPtmEstadopatrimonialToAttach = em.getReference(ptmEstadopatrimonialListPtmEstadopatrimonialToAttach.getClass(), ptmEstadopatrimonialListPtmEstadopatrimonialToAttach.getPtmEstadopatrimonialPK());
+                attachedPtmEstadopatrimonialList.add(ptmEstadopatrimonialListPtmEstadopatrimonialToAttach);
+            }
+            ptmColaborador.setPtmEstadopatrimonialList(attachedPtmEstadopatrimonialList);
             em.persist(ptmColaborador);
             for (PtmCurso ptmCursoListPtmCurso : ptmColaborador.getPtmCursoList()) {
                 PtmColaborador oldPtmColaboradorDpiOfPtmCursoListPtmCurso = ptmCursoListPtmCurso.getPtmColaboradorDpi();
@@ -75,15 +75,6 @@ public class PtmColaboradorJpaController implements Serializable {
                     oldPtmColaboradorDpiOfPtmCursoListPtmCurso = em.merge(oldPtmColaboradorDpiOfPtmCursoListPtmCurso);
                 }
             }
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListPtmEstadopatrimonial : ptmColaborador.getPtmEstadopatrimonialList()) {
-                PtmColaborador oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial = ptmEstadopatrimonialListPtmEstadopatrimonial.getPtmColaborador();
-                ptmEstadopatrimonialListPtmEstadopatrimonial.setPtmColaborador(ptmColaborador);
-                ptmEstadopatrimonialListPtmEstadopatrimonial = em.merge(ptmEstadopatrimonialListPtmEstadopatrimonial);
-                if (oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial != null) {
-                    oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial.getPtmEstadopatrimonialList().remove(ptmEstadopatrimonialListPtmEstadopatrimonial);
-                    oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial = em.merge(oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial);
-                }
-            }
             for (PtmHijo ptmHijoListPtmHijo : ptmColaborador.getPtmHijoList()) {
                 PtmColaborador oldPtmColaboradorDpiOfPtmHijoListPtmHijo = ptmHijoListPtmHijo.getPtmColaboradorDpi();
                 ptmHijoListPtmHijo.setPtmColaboradorDpi(ptmColaborador);
@@ -91,6 +82,15 @@ public class PtmColaboradorJpaController implements Serializable {
                 if (oldPtmColaboradorDpiOfPtmHijoListPtmHijo != null) {
                     oldPtmColaboradorDpiOfPtmHijoListPtmHijo.getPtmHijoList().remove(ptmHijoListPtmHijo);
                     oldPtmColaboradorDpiOfPtmHijoListPtmHijo = em.merge(oldPtmColaboradorDpiOfPtmHijoListPtmHijo);
+                }
+            }
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListPtmEstadopatrimonial : ptmColaborador.getPtmEstadopatrimonialList()) {
+                PtmColaborador oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial = ptmEstadopatrimonialListPtmEstadopatrimonial.getPtmColaborador();
+                ptmEstadopatrimonialListPtmEstadopatrimonial.setPtmColaborador(ptmColaborador);
+                ptmEstadopatrimonialListPtmEstadopatrimonial = em.merge(ptmEstadopatrimonialListPtmEstadopatrimonial);
+                if (oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial != null) {
+                    oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial.getPtmEstadopatrimonialList().remove(ptmEstadopatrimonialListPtmEstadopatrimonial);
+                    oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial = em.merge(oldPtmColaboradorOfPtmEstadopatrimonialListPtmEstadopatrimonial);
                 }
             }
             em.getTransaction().commit();
@@ -114,10 +114,10 @@ public class PtmColaboradorJpaController implements Serializable {
             PtmColaborador persistentPtmColaborador = em.find(PtmColaborador.class, ptmColaborador.getDpi());
             List<PtmCurso> ptmCursoListOld = persistentPtmColaborador.getPtmCursoList();
             List<PtmCurso> ptmCursoListNew = ptmColaborador.getPtmCursoList();
-            List<PtmEstadopatrimonial> ptmEstadopatrimonialListOld = persistentPtmColaborador.getPtmEstadopatrimonialList();
-            List<PtmEstadopatrimonial> ptmEstadopatrimonialListNew = ptmColaborador.getPtmEstadopatrimonialList();
             List<PtmHijo> ptmHijoListOld = persistentPtmColaborador.getPtmHijoList();
             List<PtmHijo> ptmHijoListNew = ptmColaborador.getPtmHijoList();
+            List<PtmEstadopatrimonial> ptmEstadopatrimonialListOld = persistentPtmColaborador.getPtmEstadopatrimonialList();
+            List<PtmEstadopatrimonial> ptmEstadopatrimonialListNew = ptmColaborador.getPtmEstadopatrimonialList();
             List<String> illegalOrphanMessages = null;
             for (PtmCurso ptmCursoListOldPtmCurso : ptmCursoListOld) {
                 if (!ptmCursoListNew.contains(ptmCursoListOldPtmCurso)) {
@@ -127,20 +127,20 @@ public class PtmColaboradorJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain PtmCurso " + ptmCursoListOldPtmCurso + " since its ptmColaboradorDpi field is not nullable.");
                 }
             }
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListOldPtmEstadopatrimonial : ptmEstadopatrimonialListOld) {
-                if (!ptmEstadopatrimonialListNew.contains(ptmEstadopatrimonialListOldPtmEstadopatrimonial)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PtmEstadopatrimonial " + ptmEstadopatrimonialListOldPtmEstadopatrimonial + " since its ptmColaborador field is not nullable.");
-                }
-            }
             for (PtmHijo ptmHijoListOldPtmHijo : ptmHijoListOld) {
                 if (!ptmHijoListNew.contains(ptmHijoListOldPtmHijo)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain PtmHijo " + ptmHijoListOldPtmHijo + " since its ptmColaboradorDpi field is not nullable.");
+                }
+            }
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListOldPtmEstadopatrimonial : ptmEstadopatrimonialListOld) {
+                if (!ptmEstadopatrimonialListNew.contains(ptmEstadopatrimonialListOldPtmEstadopatrimonial)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain PtmEstadopatrimonial " + ptmEstadopatrimonialListOldPtmEstadopatrimonial + " since its ptmColaborador field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -153,13 +153,6 @@ public class PtmColaboradorJpaController implements Serializable {
             }
             ptmCursoListNew = attachedPtmCursoListNew;
             ptmColaborador.setPtmCursoList(ptmCursoListNew);
-            List<PtmEstadopatrimonial> attachedPtmEstadopatrimonialListNew = new ArrayList<PtmEstadopatrimonial>();
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach : ptmEstadopatrimonialListNew) {
-                ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach = em.getReference(ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach.getClass(), ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach.getPtmEstadopatrimonialPK());
-                attachedPtmEstadopatrimonialListNew.add(ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach);
-            }
-            ptmEstadopatrimonialListNew = attachedPtmEstadopatrimonialListNew;
-            ptmColaborador.setPtmEstadopatrimonialList(ptmEstadopatrimonialListNew);
             List<PtmHijo> attachedPtmHijoListNew = new ArrayList<PtmHijo>();
             for (PtmHijo ptmHijoListNewPtmHijoToAttach : ptmHijoListNew) {
                 ptmHijoListNewPtmHijoToAttach = em.getReference(ptmHijoListNewPtmHijoToAttach.getClass(), ptmHijoListNewPtmHijoToAttach.getIdhijo());
@@ -167,6 +160,13 @@ public class PtmColaboradorJpaController implements Serializable {
             }
             ptmHijoListNew = attachedPtmHijoListNew;
             ptmColaborador.setPtmHijoList(ptmHijoListNew);
+            List<PtmEstadopatrimonial> attachedPtmEstadopatrimonialListNew = new ArrayList<PtmEstadopatrimonial>();
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach : ptmEstadopatrimonialListNew) {
+                ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach = em.getReference(ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach.getClass(), ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach.getPtmEstadopatrimonialPK());
+                attachedPtmEstadopatrimonialListNew.add(ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach);
+            }
+            ptmEstadopatrimonialListNew = attachedPtmEstadopatrimonialListNew;
+            ptmColaborador.setPtmEstadopatrimonialList(ptmEstadopatrimonialListNew);
             ptmColaborador = em.merge(ptmColaborador);
             for (PtmCurso ptmCursoListNewPtmCurso : ptmCursoListNew) {
                 if (!ptmCursoListOld.contains(ptmCursoListNewPtmCurso)) {
@@ -179,17 +179,6 @@ public class PtmColaboradorJpaController implements Serializable {
                     }
                 }
             }
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListNewPtmEstadopatrimonial : ptmEstadopatrimonialListNew) {
-                if (!ptmEstadopatrimonialListOld.contains(ptmEstadopatrimonialListNewPtmEstadopatrimonial)) {
-                    PtmColaborador oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial = ptmEstadopatrimonialListNewPtmEstadopatrimonial.getPtmColaborador();
-                    ptmEstadopatrimonialListNewPtmEstadopatrimonial.setPtmColaborador(ptmColaborador);
-                    ptmEstadopatrimonialListNewPtmEstadopatrimonial = em.merge(ptmEstadopatrimonialListNewPtmEstadopatrimonial);
-                    if (oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial != null && !oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial.equals(ptmColaborador)) {
-                        oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial.getPtmEstadopatrimonialList().remove(ptmEstadopatrimonialListNewPtmEstadopatrimonial);
-                        oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial = em.merge(oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial);
-                    }
-                }
-            }
             for (PtmHijo ptmHijoListNewPtmHijo : ptmHijoListNew) {
                 if (!ptmHijoListOld.contains(ptmHijoListNewPtmHijo)) {
                     PtmColaborador oldPtmColaboradorDpiOfPtmHijoListNewPtmHijo = ptmHijoListNewPtmHijo.getPtmColaboradorDpi();
@@ -198,6 +187,17 @@ public class PtmColaboradorJpaController implements Serializable {
                     if (oldPtmColaboradorDpiOfPtmHijoListNewPtmHijo != null && !oldPtmColaboradorDpiOfPtmHijoListNewPtmHijo.equals(ptmColaborador)) {
                         oldPtmColaboradorDpiOfPtmHijoListNewPtmHijo.getPtmHijoList().remove(ptmHijoListNewPtmHijo);
                         oldPtmColaboradorDpiOfPtmHijoListNewPtmHijo = em.merge(oldPtmColaboradorDpiOfPtmHijoListNewPtmHijo);
+                    }
+                }
+            }
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListNewPtmEstadopatrimonial : ptmEstadopatrimonialListNew) {
+                if (!ptmEstadopatrimonialListOld.contains(ptmEstadopatrimonialListNewPtmEstadopatrimonial)) {
+                    PtmColaborador oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial = ptmEstadopatrimonialListNewPtmEstadopatrimonial.getPtmColaborador();
+                    ptmEstadopatrimonialListNewPtmEstadopatrimonial.setPtmColaborador(ptmColaborador);
+                    ptmEstadopatrimonialListNewPtmEstadopatrimonial = em.merge(ptmEstadopatrimonialListNewPtmEstadopatrimonial);
+                    if (oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial != null && !oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial.equals(ptmColaborador)) {
+                        oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial.getPtmEstadopatrimonialList().remove(ptmEstadopatrimonialListNewPtmEstadopatrimonial);
+                        oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial = em.merge(oldPtmColaboradorOfPtmEstadopatrimonialListNewPtmEstadopatrimonial);
                     }
                 }
             }
@@ -238,19 +238,19 @@ public class PtmColaboradorJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This PtmColaborador (" + ptmColaborador + ") cannot be destroyed since the PtmCurso " + ptmCursoListOrphanCheckPtmCurso + " in its ptmCursoList field has a non-nullable ptmColaboradorDpi field.");
             }
-            List<PtmEstadopatrimonial> ptmEstadopatrimonialListOrphanCheck = ptmColaborador.getPtmEstadopatrimonialList();
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial : ptmEstadopatrimonialListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This PtmColaborador (" + ptmColaborador + ") cannot be destroyed since the PtmEstadopatrimonial " + ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial + " in its ptmEstadopatrimonialList field has a non-nullable ptmColaborador field.");
-            }
             List<PtmHijo> ptmHijoListOrphanCheck = ptmColaborador.getPtmHijoList();
             for (PtmHijo ptmHijoListOrphanCheckPtmHijo : ptmHijoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This PtmColaborador (" + ptmColaborador + ") cannot be destroyed since the PtmHijo " + ptmHijoListOrphanCheckPtmHijo + " in its ptmHijoList field has a non-nullable ptmColaboradorDpi field.");
+            }
+            List<PtmEstadopatrimonial> ptmEstadopatrimonialListOrphanCheck = ptmColaborador.getPtmEstadopatrimonialList();
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial : ptmEstadopatrimonialListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This PtmColaborador (" + ptmColaborador + ") cannot be destroyed since the PtmEstadopatrimonial " + ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial + " in its ptmEstadopatrimonialList field has a non-nullable ptmColaborador field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
