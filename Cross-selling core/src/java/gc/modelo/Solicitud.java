@@ -3,13 +3,17 @@ package gc.modelo;
 import admin.modelo.Colaborador;
 import dao.GcAsociado;
 import dao.GcDestino;
+import dao.GcDesventajas;
 import dao.GcEstado;
+import dao.GcFichanegocio;
 import dao.GcRiesgo;
 import dao.GcSolicitud;
 import dao.GcTipo;
 import dao.GcTipocliente;
 import dao.GcTramite;
+import dao.GcVentajas;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -27,6 +31,11 @@ public class Solicitud {
     private GcTramite tramiteGc = new GcTramite();
     private GcTipocliente clienteGc = new GcTipocliente();
     private String userConect;
+    
+    // Campos para crear la ficha de negociacion
+    private GcFichanegocio fichaNegocio = new GcFichanegocio();
+    private ArrayList<GcVentajas> ventajas = new ArrayList<>();
+    private ArrayList<GcDesventajas> desventajas = new ArrayList<>();
     
     public Solicitud(){
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -89,7 +98,31 @@ public class Solicitud {
     public void setClienteGc(GcTipocliente clienteGc) {
         this.clienteGc = clienteGc;
     }
-    
+
+    public GcFichanegocio getFichaNegocio() {
+        return fichaNegocio;
+    }
+
+    public void setFichaNegocio(GcFichanegocio fichaNegocio) {
+        this.fichaNegocio = fichaNegocio;
+    }
+
+    public ArrayList<GcVentajas> getVentajas() {
+        return ventajas;
+    }
+
+    public void setVentajas(ArrayList<GcVentajas> ventajas) {
+        this.ventajas = ventajas;
+    }
+
+    public ArrayList<GcDesventajas> getDesventajas() {
+        return desventajas;
+    }
+
+    public void setDesventajas(ArrayList<GcDesventajas> desventajas) {
+        this.desventajas = desventajas;
+    }
+
     /* Metodo utilizado para generar una solicitud */
     public void generar(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
