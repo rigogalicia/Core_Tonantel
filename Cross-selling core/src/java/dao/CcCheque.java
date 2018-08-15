@@ -6,7 +6,7 @@
 package dao;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,30 +35,23 @@ public class CcCheque implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero")
     private String numero;
-    @Basic(optional = false)
+    @Column(name = "agencia")
+    private String agencia;
+    @Column(name = "beneficiario")
+    private String beneficiario;
     @Column(name = "cuenta_bancaria")
     private String cuentaBancaria;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @Column(name = "monto")
-    private BigDecimal monto;
-    @Basic(optional = false)
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Basic(optional = false)
-    @Column(name = "beneficiario")
-    private String beneficiario;
+    @Column(name = "monto")
+    private BigInteger monto;
     @Column(name = "motivo")
     private String motivo;
-    @Basic(optional = false)
     @Column(name = "usuario")
     private String usuario;
-    @Basic(optional = false)
-    @Column(name = "agencia")
-    private String agencia;
     @JoinColumn(name = "banco_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private CcBanco bancoId;
 
     public CcCheque() {
@@ -66,16 +59,6 @@ public class CcCheque implements Serializable {
 
     public CcCheque(String numero) {
         this.numero = numero;
-    }
-
-    public CcCheque(String numero, String cuentaBancaria, BigDecimal monto, Date fecha, String beneficiario, String usuario, String agencia) {
-        this.numero = numero;
-        this.cuentaBancaria = cuentaBancaria;
-        this.monto = monto;
-        this.fecha = fecha;
-        this.beneficiario = beneficiario;
-        this.usuario = usuario;
-        this.agencia = agencia;
     }
 
     public String getNumero() {
@@ -86,20 +69,28 @@ public class CcCheque implements Serializable {
         this.numero = numero;
     }
 
+    public String getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
+    }
+
+    public String getBeneficiario() {
+        return beneficiario;
+    }
+
+    public void setBeneficiario(String beneficiario) {
+        this.beneficiario = beneficiario;
+    }
+
     public String getCuentaBancaria() {
         return cuentaBancaria;
     }
 
     public void setCuentaBancaria(String cuentaBancaria) {
         this.cuentaBancaria = cuentaBancaria;
-    }
-
-    public BigDecimal getMonto() {
-        return monto;
-    }
-
-    public void setMonto(BigDecimal monto) {
-        this.monto = monto;
     }
 
     public Date getFecha() {
@@ -110,12 +101,12 @@ public class CcCheque implements Serializable {
         this.fecha = fecha;
     }
 
-    public String getBeneficiario() {
-        return beneficiario;
+    public BigInteger getMonto() {
+        return monto;
     }
 
-    public void setBeneficiario(String beneficiario) {
-        this.beneficiario = beneficiario;
+    public void setMonto(BigInteger monto) {
+        this.monto = monto;
     }
 
     public String getMotivo() {
@@ -132,14 +123,6 @@ public class CcCheque implements Serializable {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
-    }
-
-    public String getAgencia() {
-        return agencia;
-    }
-
-    public void setAgencia(String agencia) {
-        this.agencia = agencia;
     }
 
     public CcBanco getBancoId() {

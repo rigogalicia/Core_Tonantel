@@ -38,6 +38,19 @@
     <class>dao.GcDesventajas</class>
     <class>dao.GcLogprocesonegocio</class>
     <class>dao.GcFichanegocio</class>
+    <class>dao.AvConstruccion</class>
+    <class>dao.AvTelefono</class>
+    <class>dao.AvSolicitud</class>
+    <class>dao.AvColindante</class>
+    <class>dao.AvAsignacion</class>
+    <class>dao.AvDocumento</class>
+    <class>dao.AvInmueble</class>
+    <class>dao.AvAvaluo</class>
+    <class>dao.AvAsociado</class>
+    <class>dao.AvPuntocardinal</class>
+    <class>dao.AvArea</class>
+    <class>dao.AvPropietario</class>
+    <class>dao.AvDetalle</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology?zeroDateTimeBehavior=convertToNull"/>
