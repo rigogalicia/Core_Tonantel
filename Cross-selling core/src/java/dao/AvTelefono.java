@@ -6,16 +6,16 @@
 package dao;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,10 +23,10 @@ import javax.persistence.Table;
  * @author Rgalicia
  */
 @Entity
-@Table(name = "cc_banco")
+@Table(name = "av_telefono")
 @NamedQueries({
-    @NamedQuery(name = "CcBanco.findAll", query = "SELECT c FROM CcBanco c")})
-public class CcBanco implements Serializable {
+    @NamedQuery(name = "AvTelefono.findAll", query = "SELECT a FROM AvTelefono a")})
+public class AvTelefono implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,18 +34,23 @@ public class CcBanco implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "descripcion")
-    private String descripcion;
-    @Column(name = "estado")
-    private Character estado;
-    @OneToMany(mappedBy = "bancoId")
-    private List<CcCheque> ccChequeList;
+    @Basic(optional = false)
+    @Column(name = "numero")
+    private String numero;
+    @JoinColumn(name = "asociado_cif", referencedColumnName = "cif")
+    @ManyToOne(optional = false)
+    private AvAsociado asociadoCif;
 
-    public CcBanco() {
+    public AvTelefono() {
     }
 
-    public CcBanco(Integer id) {
+    public AvTelefono(Integer id) {
         this.id = id;
+    }
+
+    public AvTelefono(Integer id, String numero) {
+        this.id = id;
+        this.numero = numero;
     }
 
     public Integer getId() {
@@ -56,28 +61,20 @@ public class CcBanco implements Serializable {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public Character getEstado() {
-        return estado;
+    public AvAsociado getAsociadoCif() {
+        return asociadoCif;
     }
 
-    public void setEstado(Character estado) {
-        this.estado = estado;
-    }
-
-    public List<CcCheque> getCcChequeList() {
-        return ccChequeList;
-    }
-
-    public void setCcChequeList(List<CcCheque> ccChequeList) {
-        this.ccChequeList = ccChequeList;
+    public void setAsociadoCif(AvAsociado asociadoCif) {
+        this.asociadoCif = asociadoCif;
     }
 
     @Override
@@ -90,10 +87,10 @@ public class CcBanco implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CcBanco)) {
+        if (!(object instanceof AvTelefono)) {
             return false;
         }
-        CcBanco other = (CcBanco) object;
+        AvTelefono other = (AvTelefono) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -102,7 +99,7 @@ public class CcBanco implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.CcBanco[ id=" + id + " ]";
+        return "dao.AvTelefono[ id=" + id + " ]";
     }
     
 }

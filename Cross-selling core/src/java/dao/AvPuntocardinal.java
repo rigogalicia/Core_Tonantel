@@ -8,6 +8,7 @@ package dao;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +24,10 @@ import javax.persistence.Table;
  * @author Rgalicia
  */
 @Entity
-@Table(name = "cc_banco")
+@Table(name = "av_puntocardinal")
 @NamedQueries({
-    @NamedQuery(name = "CcBanco.findAll", query = "SELECT c FROM CcBanco c")})
-public class CcBanco implements Serializable {
+    @NamedQuery(name = "AvPuntocardinal.findAll", query = "SELECT a FROM AvPuntocardinal a")})
+public class AvPuntocardinal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,18 +35,22 @@ public class CcBanco implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
-    @Column(name = "estado")
-    private Character estado;
-    @OneToMany(mappedBy = "bancoId")
-    private List<CcCheque> ccChequeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "puntocardinalId")
+    private List<AvColindante> avColindanteList;
 
-    public CcBanco() {
+    public AvPuntocardinal() {
     }
 
-    public CcBanco(Integer id) {
+    public AvPuntocardinal(Integer id) {
         this.id = id;
+    }
+
+    public AvPuntocardinal(Integer id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -64,20 +69,12 @@ public class CcBanco implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Character getEstado() {
-        return estado;
+    public List<AvColindante> getAvColindanteList() {
+        return avColindanteList;
     }
 
-    public void setEstado(Character estado) {
-        this.estado = estado;
-    }
-
-    public List<CcCheque> getCcChequeList() {
-        return ccChequeList;
-    }
-
-    public void setCcChequeList(List<CcCheque> ccChequeList) {
-        this.ccChequeList = ccChequeList;
+    public void setAvColindanteList(List<AvColindante> avColindanteList) {
+        this.avColindanteList = avColindanteList;
     }
 
     @Override
@@ -90,10 +87,10 @@ public class CcBanco implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CcBanco)) {
+        if (!(object instanceof AvPuntocardinal)) {
             return false;
         }
-        CcBanco other = (CcBanco) object;
+        AvPuntocardinal other = (AvPuntocardinal) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -102,7 +99,7 @@ public class CcBanco implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.CcBanco[ id=" + id + " ]";
+        return "dao.AvPuntocardinal[ id=" + id + " ]";
     }
     
 }

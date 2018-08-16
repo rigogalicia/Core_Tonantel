@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -64,7 +63,7 @@ public class CcBancoJpaController implements Serializable {
         }
     }
 
-    public void edit(CcBanco ccBanco) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(CcBanco ccBanco) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -72,18 +71,6 @@ public class CcBancoJpaController implements Serializable {
             CcBanco persistentCcBanco = em.find(CcBanco.class, ccBanco.getId());
             List<CcCheque> ccChequeListOld = persistentCcBanco.getCcChequeList();
             List<CcCheque> ccChequeListNew = ccBanco.getCcChequeList();
-            List<String> illegalOrphanMessages = null;
-            for (CcCheque ccChequeListOldCcCheque : ccChequeListOld) {
-                if (!ccChequeListNew.contains(ccChequeListOldCcCheque)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain CcCheque " + ccChequeListOldCcCheque + " since its bancoId field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<CcCheque> attachedCcChequeListNew = new ArrayList<CcCheque>();
             for (CcCheque ccChequeListNewCcChequeToAttach : ccChequeListNew) {
                 ccChequeListNewCcChequeToAttach = em.getReference(ccChequeListNewCcChequeToAttach.getClass(), ccChequeListNewCcChequeToAttach.getNumero());
@@ -92,6 +79,12 @@ public class CcBancoJpaController implements Serializable {
             ccChequeListNew = attachedCcChequeListNew;
             ccBanco.setCcChequeList(ccChequeListNew);
             ccBanco = em.merge(ccBanco);
+            for (CcCheque ccChequeListOldCcCheque : ccChequeListOld) {
+                if (!ccChequeListNew.contains(ccChequeListOldCcCheque)) {
+                    ccChequeListOldCcCheque.setBancoId(null);
+                    ccChequeListOldCcCheque = em.merge(ccChequeListOldCcCheque);
+                }
+            }
             for (CcCheque ccChequeListNewCcCheque : ccChequeListNew) {
                 if (!ccChequeListOld.contains(ccChequeListNewCcCheque)) {
                     CcBanco oldBancoIdOfCcChequeListNewCcCheque = ccChequeListNewCcCheque.getBancoId();
@@ -120,7 +113,7 @@ public class CcBancoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -132,16 +125,10 @@ public class CcBancoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The ccBanco with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<CcCheque> ccChequeListOrphanCheck = ccBanco.getCcChequeList();
-            for (CcCheque ccChequeListOrphanCheckCcCheque : ccChequeListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This CcBanco (" + ccBanco + ") cannot be destroyed since the CcCheque " + ccChequeListOrphanCheckCcCheque + " in its ccChequeList field has a non-nullable bancoId field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<CcCheque> ccChequeList = ccBanco.getCcChequeList();
+            for (CcCheque ccChequeListCcCheque : ccChequeList) {
+                ccChequeListCcCheque.setBancoId(null);
+                ccChequeListCcCheque = em.merge(ccChequeListCcCheque);
             }
             em.remove(ccBanco);
             em.getTransaction().commit();
