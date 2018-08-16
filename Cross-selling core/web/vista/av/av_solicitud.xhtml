@@ -1,18 +1,358 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    
     <body>
-
         <ui:composition template="./../principal.xhtml">
 
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
-                        sd
+                        <!--Panel principal-->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h:form>
+                                <h1>Solicitud de Avaluos</h1>
+                                <hr/>  
+                                <!--Datos Solicitud-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
+                                            <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="numeroCredito">* Numero de Credito:</h:outputLabel>
+                                            <h:inputText id="numeroCredito" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="monto">* Monto:</h:outputLabel>
+                                            <h:inputText id="monto" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / Datos Solicitud-->
+                                <hr/>
+                                <!--Datos del Solicitante-->
+                                <h4>Datos del Solicitante</h4>
+                                <!-- row cif,dpi,nombre-->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="cif">* Cif:</h:outputLabel>
+                                            <h:inputText id="cif" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="dpi">DPI:</h:outputLabel>
+                                            <h:inputText id="dpi" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="nombre">* Nombre:</h:outputLabel>
+                                            <h:inputText id="nombre" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / row cif,dpi,nombre-->
+                                <!-- direccion-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h:outputLabel for="direccion">* Direccion:</h:outputLabel>
+                                            <h:inputText id="direccion" class="form-control" autocomplete="off"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / direccion-->
+                                <!-- row telefono-->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="telefonos">* Telefono</h:outputLabel>
+                                            <h:inputText id="terrenos" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:outputLabel>&nbsp;</h:outputLabel>
+                                        <h:commandLink class="btn btn-info form-control">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </h:commandLink>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <br/>
+                                        <br/>
+                                        <div class="form-group">
+                                            <h:outputLabel for="revaluo">Revaluo:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "revaluo">Si</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "revaluo" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "revaluo">No</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "revaluo" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>   
+                                    </div>
+                                </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <h:dataTable id="tablatelefono" class="table">
+                                            <h:column>
+                                          
+                                            </h:column>
+                                        </h:dataTable>
+                                        </div>
+                                    </div>
+                                <!-- / row telefono--> 
+                                <!-- / Datos del Solicitante-->
+                                <hr/>
+                                <!--Datos del Propietario-->
+                                <h4>Datos del Propietario</h4>
+                                <!--row-->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="dpiPropietario">DPI:</h:outputLabel>
+                                            <h:inputText id="dpiPropietario" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="nombrePropietario">* Nombre:</h:outputLabel>
+                                            <h:inputText id="nombrePropietario" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / row-->
+                                <!-- / Datos del Propietario-->
+                                <hr/>
+                                <!--Datos de la Garantia-->
+                                <h4>Datos de la Garantia</h4>
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <h:outputLabel for="direccionGarantia">* Direccion:</h:outputLabel>
+                                            <h:inputText id="direccionGarantia" class="form-control"></h:inputText>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <!-- / row -->
+                                <!-- row-->
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="vivienda">Vivienda:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "vivienda">Si</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "vivienda" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "vivienda">No</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "vivienda" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="acceso">Acceso:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "acceso">Si</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "acceso" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "acceso">No</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "acceso" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="agua">Agua:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "agua">Si</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "agua" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "agua">No</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "agua" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="luz">Luz:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "luz">Si</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "luz" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "luz">No</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "luz" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="drenaje">Drenaje:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "drenaje">Si</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "drenaje" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "drenaje">No</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "drenaje" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>   
+                                    </div>
+                                </div>
+                                <!-- / row-->
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="colonia">* Colonia o Residencial:</h:outputLabel>
+                                            <h:inputText id="colonia" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>  
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="numeroCatastral">* Numero fisico catastral(Si ya la tuviera):</h:outputLabel>
+                                            <h:inputText id="numeroCatastral" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / row -->
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="tipoEscritura">Tipo Escritura:</h:outputLabel>
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "tipoEscritura">Publica</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "tipoEscritura" 
+                                            id = "vivienda" value = "1"  />
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:outputLabel for = "tipoEscritura">Registrada</h:outputLabel>
+                                            <input type = "radio" checked = "checked" name = "tipoEscritura" 
+                                            id = "vivienda" value = "1"  />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / row -->
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="escrituraPublica">* Escritura publica:</h:outputLabel>
+                                            <h:inputText id="escrituraPublica" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <h:outputLabel for="elaborado">* Donde fue Elaborada</h:outputLabel>
+                                            <h:inputText id="elaborado" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">       
+                                        <div class="form-group">
+                                            <h:outputLabel for="notario">* Nombre del Notario@ que la elaboro:</h:outputLabel>
+                                            <h:inputText id="notario" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / row -->
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="finca">* Finca:</h:outputLabel>
+                                            <h:inputText id="finca" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="folio">* Folio</h:outputLabel>
+                                            <h:inputText id="folio" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="libro">* Libro</h:outputLabel>
+                                            <h:inputText id="libro" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / row -->
+                                <!-- / Datos de la Garantia-->
+                                <hr/>
+                                <!-- colindantes -->
+                                <!-- row -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
+                                            <h:selectOneMenu  class="form-control" value = "#{userData.data}"> 
+                                            <f:selectItem itemValue = "1" itemLabel = "Norte" /> 
+                                            <f:selectItem itemValue = "2" itemLabel = "Sur" /> 
+                                            <f:selectItem itemValue = "2" itemLabel = "Oriente" />
+                                            <f:selectItem itemValue = "2" itemLabel = "Poniente" />
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="metros">* Metros</h:outputLabel>
+                                            <h:inputText id="metros" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="varas">* Varas</h:outputLabel>
+                                            <h:inputText id="varas" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <h:outputLabel for="nombreColindantes">* Nombre de los Colindantes:</h:outputLabel>
+                                            <h:inputText id="nombreColindantes" class="form-control"></h:inputText>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:outputLabel>&nbsp;</h:outputLabel>
+                                        <h:commandLink class="btn btn-info form-control">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                                <!-- / row -->
+                                <!-- / colindantes -->
+                                </h:form>
+                            </div>
+                        </div>
+                        <!-- /Panel principal-->
                     </section>
                 </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
             </ui:define>
 
         </ui:composition>
