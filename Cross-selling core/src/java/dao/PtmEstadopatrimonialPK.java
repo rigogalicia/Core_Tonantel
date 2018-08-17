@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Embeddable
 public class PtmEstadopatrimonialPK implements Serializable {

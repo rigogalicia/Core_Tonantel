@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class AvTelefonoJpaController implements Serializable {
 

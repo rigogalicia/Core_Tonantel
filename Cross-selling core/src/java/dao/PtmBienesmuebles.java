@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "ptm_bienesmuebles")
@@ -48,8 +48,8 @@ public class PtmBienesmuebles implements Serializable {
     @Column(name = "modelo")
     private String modelo;
     @JoinColumns({
-        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio"),
-        @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi")})
+        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")
+        , @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi")})
     @ManyToOne(optional = false)
     private PtmEstadopatrimonial ptmEstadopatrimonial;
 

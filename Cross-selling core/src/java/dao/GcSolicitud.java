@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "gc_solicitud")
@@ -59,27 +59,27 @@ public class GcSolicitud implements Serializable {
     private List<GcGestion> gcGestionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
     private List<GcSeguimiento> gcSeguimientoList;
-    @JoinColumn(name = "estado_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private GcEstado estadoId;
     @JoinColumn(name = "asociado_cif", referencedColumnName = "cif")
     @ManyToOne(optional = false)
     private GcAsociado asociadoCif;
     @JoinColumn(name = "destino_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private GcDestino destinoId;
-    @JoinColumn(name = "tipo_id", referencedColumnName = "id")
+    @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private GcTipo tipoId;
-    @JoinColumn(name = "tramite_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private GcTramite tramiteId;
-    @JoinColumn(name = "tipocliente_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private GcTipocliente tipoclienteId;
+    private GcEstado estadoId;
     @JoinColumn(name = "riesgo_id", referencedColumnName = "id")
     @ManyToOne
     private GcRiesgo riesgoId;
+    @JoinColumn(name = "tipo_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GcTipo tipoId;
+    @JoinColumn(name = "tipocliente_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GcTipocliente tipoclienteId;
+    @JoinColumn(name = "tramite_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private GcTramite tramiteId;
 
     public GcSolicitud() {
     }
@@ -167,14 +167,6 @@ public class GcSolicitud implements Serializable {
         this.gcSeguimientoList = gcSeguimientoList;
     }
 
-    public GcEstado getEstadoId() {
-        return estadoId;
-    }
-
-    public void setEstadoId(GcEstado estadoId) {
-        this.estadoId = estadoId;
-    }
-
     public GcAsociado getAsociadoCif() {
         return asociadoCif;
     }
@@ -191,20 +183,28 @@ public class GcSolicitud implements Serializable {
         this.destinoId = destinoId;
     }
 
+    public GcEstado getEstadoId() {
+        return estadoId;
+    }
+
+    public void setEstadoId(GcEstado estadoId) {
+        this.estadoId = estadoId;
+    }
+
+    public GcRiesgo getRiesgoId() {
+        return riesgoId;
+    }
+
+    public void setRiesgoId(GcRiesgo riesgoId) {
+        this.riesgoId = riesgoId;
+    }
+
     public GcTipo getTipoId() {
         return tipoId;
     }
 
     public void setTipoId(GcTipo tipoId) {
         this.tipoId = tipoId;
-    }
-
-    public GcTramite getTramiteId() {
-        return tramiteId;
-    }
-
-    public void setTramiteId(GcTramite tramiteId) {
-        this.tramiteId = tramiteId;
     }
 
     public GcTipocliente getTipoclienteId() {
@@ -215,12 +215,12 @@ public class GcSolicitud implements Serializable {
         this.tipoclienteId = tipoclienteId;
     }
 
-    public GcRiesgo getRiesgoId() {
-        return riesgoId;
+    public GcTramite getTramiteId() {
+        return tramiteId;
     }
 
-    public void setRiesgoId(GcRiesgo riesgoId) {
-        this.riesgoId = riesgoId;
+    public void setTramiteId(GcTramite tramiteId) {
+        this.tramiteId = tramiteId;
     }
 
     @Override

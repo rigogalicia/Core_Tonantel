@@ -7,6 +7,7 @@ package dao;
 
 import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
+import dao.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -19,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class AvPuntocardinalJpaController implements Serializable {
 
@@ -32,7 +33,7 @@ public class AvPuntocardinalJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(AvPuntocardinal avPuntocardinal) {
+    public void create(AvPuntocardinal avPuntocardinal) throws PreexistingEntityException, Exception {
         if (avPuntocardinal.getAvColindanteList() == null) {
             avPuntocardinal.setAvColindanteList(new ArrayList<AvColindante>());
         }
@@ -57,6 +58,11 @@ public class AvPuntocardinalJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findAvPuntocardinal(avPuntocardinal.getId()) != null) {
+                throw new PreexistingEntityException("AvPuntocardinal " + avPuntocardinal + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -107,7 +113,7 @@ public class AvPuntocardinalJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = avPuntocardinal.getId();
+                String id = avPuntocardinal.getId();
                 if (findAvPuntocardinal(id) == null) {
                     throw new NonexistentEntityException("The avPuntocardinal with id " + id + " no longer exists.");
                 }
@@ -120,7 +126,7 @@ public class AvPuntocardinalJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -176,7 +182,7 @@ public class AvPuntocardinalJpaController implements Serializable {
         }
     }
 
-    public AvPuntocardinal findAvPuntocardinal(Integer id) {
+    public AvPuntocardinal findAvPuntocardinal(String id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(AvPuntocardinal.class, id);

@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class PtmActivoJpaController implements Serializable {
 

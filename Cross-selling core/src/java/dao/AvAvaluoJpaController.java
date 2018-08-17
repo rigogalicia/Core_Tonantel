@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class AvAvaluoJpaController implements Serializable {
 
@@ -40,15 +40,15 @@ public class AvAvaluoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            AvInmueble inmuebleId = avAvaluo.getInmuebleId();
-            if (inmuebleId != null) {
-                inmuebleId = em.getReference(inmuebleId.getClass(), inmuebleId.getId());
-                avAvaluo.setInmuebleId(inmuebleId);
-            }
             AvAsignacion asignacionId = avAvaluo.getAsignacionId();
             if (asignacionId != null) {
                 asignacionId = em.getReference(asignacionId.getClass(), asignacionId.getId());
                 avAvaluo.setAsignacionId(asignacionId);
+            }
+            AvInmueble inmuebleId = avAvaluo.getInmuebleId();
+            if (inmuebleId != null) {
+                inmuebleId = em.getReference(inmuebleId.getClass(), inmuebleId.getId());
+                avAvaluo.setInmuebleId(inmuebleId);
             }
             List<AvDetalle> attachedAvDetalleList = new ArrayList<AvDetalle>();
             for (AvDetalle avDetalleListAvDetalleToAttach : avAvaluo.getAvDetalleList()) {
@@ -57,13 +57,13 @@ public class AvAvaluoJpaController implements Serializable {
             }
             avAvaluo.setAvDetalleList(attachedAvDetalleList);
             em.persist(avAvaluo);
-            if (inmuebleId != null) {
-                inmuebleId.getAvAvaluoList().add(avAvaluo);
-                inmuebleId = em.merge(inmuebleId);
-            }
             if (asignacionId != null) {
                 asignacionId.getAvAvaluoList().add(avAvaluo);
                 asignacionId = em.merge(asignacionId);
+            }
+            if (inmuebleId != null) {
+                inmuebleId.getAvAvaluoList().add(avAvaluo);
+                inmuebleId = em.merge(inmuebleId);
             }
             for (AvDetalle avDetalleListAvDetalle : avAvaluo.getAvDetalleList()) {
                 AvAvaluo oldAvaluoIdOfAvDetalleListAvDetalle = avDetalleListAvDetalle.getAvaluoId();
@@ -88,10 +88,10 @@ public class AvAvaluoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             AvAvaluo persistentAvAvaluo = em.find(AvAvaluo.class, avAvaluo.getId());
-            AvInmueble inmuebleIdOld = persistentAvAvaluo.getInmuebleId();
-            AvInmueble inmuebleIdNew = avAvaluo.getInmuebleId();
             AvAsignacion asignacionIdOld = persistentAvAvaluo.getAsignacionId();
             AvAsignacion asignacionIdNew = avAvaluo.getAsignacionId();
+            AvInmueble inmuebleIdOld = persistentAvAvaluo.getInmuebleId();
+            AvInmueble inmuebleIdNew = avAvaluo.getInmuebleId();
             List<AvDetalle> avDetalleListOld = persistentAvAvaluo.getAvDetalleList();
             List<AvDetalle> avDetalleListNew = avAvaluo.getAvDetalleList();
             List<String> illegalOrphanMessages = null;
@@ -106,13 +106,13 @@ public class AvAvaluoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (inmuebleIdNew != null) {
-                inmuebleIdNew = em.getReference(inmuebleIdNew.getClass(), inmuebleIdNew.getId());
-                avAvaluo.setInmuebleId(inmuebleIdNew);
-            }
             if (asignacionIdNew != null) {
                 asignacionIdNew = em.getReference(asignacionIdNew.getClass(), asignacionIdNew.getId());
                 avAvaluo.setAsignacionId(asignacionIdNew);
+            }
+            if (inmuebleIdNew != null) {
+                inmuebleIdNew = em.getReference(inmuebleIdNew.getClass(), inmuebleIdNew.getId());
+                avAvaluo.setInmuebleId(inmuebleIdNew);
             }
             List<AvDetalle> attachedAvDetalleListNew = new ArrayList<AvDetalle>();
             for (AvDetalle avDetalleListNewAvDetalleToAttach : avDetalleListNew) {
@@ -122,14 +122,6 @@ public class AvAvaluoJpaController implements Serializable {
             avDetalleListNew = attachedAvDetalleListNew;
             avAvaluo.setAvDetalleList(avDetalleListNew);
             avAvaluo = em.merge(avAvaluo);
-            if (inmuebleIdOld != null && !inmuebleIdOld.equals(inmuebleIdNew)) {
-                inmuebleIdOld.getAvAvaluoList().remove(avAvaluo);
-                inmuebleIdOld = em.merge(inmuebleIdOld);
-            }
-            if (inmuebleIdNew != null && !inmuebleIdNew.equals(inmuebleIdOld)) {
-                inmuebleIdNew.getAvAvaluoList().add(avAvaluo);
-                inmuebleIdNew = em.merge(inmuebleIdNew);
-            }
             if (asignacionIdOld != null && !asignacionIdOld.equals(asignacionIdNew)) {
                 asignacionIdOld.getAvAvaluoList().remove(avAvaluo);
                 asignacionIdOld = em.merge(asignacionIdOld);
@@ -137,6 +129,14 @@ public class AvAvaluoJpaController implements Serializable {
             if (asignacionIdNew != null && !asignacionIdNew.equals(asignacionIdOld)) {
                 asignacionIdNew.getAvAvaluoList().add(avAvaluo);
                 asignacionIdNew = em.merge(asignacionIdNew);
+            }
+            if (inmuebleIdOld != null && !inmuebleIdOld.equals(inmuebleIdNew)) {
+                inmuebleIdOld.getAvAvaluoList().remove(avAvaluo);
+                inmuebleIdOld = em.merge(inmuebleIdOld);
+            }
+            if (inmuebleIdNew != null && !inmuebleIdNew.equals(inmuebleIdOld)) {
+                inmuebleIdNew.getAvAvaluoList().add(avAvaluo);
+                inmuebleIdNew = em.merge(inmuebleIdNew);
             }
             for (AvDetalle avDetalleListNewAvDetalle : avDetalleListNew) {
                 if (!avDetalleListOld.contains(avDetalleListNewAvDetalle)) {
@@ -189,15 +189,15 @@ public class AvAvaluoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            AvInmueble inmuebleId = avAvaluo.getInmuebleId();
-            if (inmuebleId != null) {
-                inmuebleId.getAvAvaluoList().remove(avAvaluo);
-                inmuebleId = em.merge(inmuebleId);
-            }
             AvAsignacion asignacionId = avAvaluo.getAsignacionId();
             if (asignacionId != null) {
                 asignacionId.getAvAvaluoList().remove(avAvaluo);
                 asignacionId = em.merge(asignacionId);
+            }
+            AvInmueble inmuebleId = avAvaluo.getInmuebleId();
+            if (inmuebleId != null) {
+                inmuebleId.getAvAvaluoList().remove(avAvaluo);
+                inmuebleId = em.merge(inmuebleId);
             }
             em.remove(avAvaluo);
             em.getTransaction().commit();

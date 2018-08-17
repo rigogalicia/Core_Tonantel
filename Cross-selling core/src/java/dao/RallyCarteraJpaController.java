@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class RallyCarteraJpaController implements Serializable {
 

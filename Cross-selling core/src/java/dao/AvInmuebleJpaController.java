@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class AvInmuebleJpaController implements Serializable {
 
@@ -49,15 +49,15 @@ public class AvInmuebleJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            AvPropietario propietarioDpi = avInmueble.getPropietarioDpi();
-            if (propietarioDpi != null) {
-                propietarioDpi = em.getReference(propietarioDpi.getClass(), propietarioDpi.getDpi());
-                avInmueble.setPropietarioDpi(propietarioDpi);
-            }
             AvDocumento documentoId = avInmueble.getDocumentoId();
             if (documentoId != null) {
                 documentoId = em.getReference(documentoId.getClass(), documentoId.getId());
                 avInmueble.setDocumentoId(documentoId);
+            }
+            AvPropietario propietarioDpi = avInmueble.getPropietarioDpi();
+            if (propietarioDpi != null) {
+                propietarioDpi = em.getReference(propietarioDpi.getClass(), propietarioDpi.getDpi());
+                avInmueble.setPropietarioDpi(propietarioDpi);
             }
             List<AvColindante> attachedAvColindanteList = new ArrayList<AvColindante>();
             for (AvColindante avColindanteListAvColindanteToAttach : avInmueble.getAvColindanteList()) {
@@ -84,13 +84,13 @@ public class AvInmuebleJpaController implements Serializable {
             }
             avInmueble.setAvAvaluoList(attachedAvAvaluoList);
             em.persist(avInmueble);
-            if (propietarioDpi != null) {
-                propietarioDpi.getAvInmuebleList().add(avInmueble);
-                propietarioDpi = em.merge(propietarioDpi);
-            }
             if (documentoId != null) {
                 documentoId.getAvInmuebleList().add(avInmueble);
                 documentoId = em.merge(documentoId);
+            }
+            if (propietarioDpi != null) {
+                propietarioDpi.getAvInmuebleList().add(avInmueble);
+                propietarioDpi = em.merge(propietarioDpi);
             }
             for (AvColindante avColindanteListAvColindante : avInmueble.getAvColindanteList()) {
                 AvInmueble oldInmuebleIdOfAvColindanteListAvColindante = avColindanteListAvColindante.getInmuebleId();
@@ -142,10 +142,10 @@ public class AvInmuebleJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             AvInmueble persistentAvInmueble = em.find(AvInmueble.class, avInmueble.getId());
-            AvPropietario propietarioDpiOld = persistentAvInmueble.getPropietarioDpi();
-            AvPropietario propietarioDpiNew = avInmueble.getPropietarioDpi();
             AvDocumento documentoIdOld = persistentAvInmueble.getDocumentoId();
             AvDocumento documentoIdNew = avInmueble.getDocumentoId();
+            AvPropietario propietarioDpiOld = persistentAvInmueble.getPropietarioDpi();
+            AvPropietario propietarioDpiNew = avInmueble.getPropietarioDpi();
             List<AvColindante> avColindanteListOld = persistentAvInmueble.getAvColindanteList();
             List<AvColindante> avColindanteListNew = avInmueble.getAvColindanteList();
             List<AvArea> avAreaListOld = persistentAvInmueble.getAvAreaList();
@@ -190,13 +190,13 @@ public class AvInmuebleJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (propietarioDpiNew != null) {
-                propietarioDpiNew = em.getReference(propietarioDpiNew.getClass(), propietarioDpiNew.getDpi());
-                avInmueble.setPropietarioDpi(propietarioDpiNew);
-            }
             if (documentoIdNew != null) {
                 documentoIdNew = em.getReference(documentoIdNew.getClass(), documentoIdNew.getId());
                 avInmueble.setDocumentoId(documentoIdNew);
+            }
+            if (propietarioDpiNew != null) {
+                propietarioDpiNew = em.getReference(propietarioDpiNew.getClass(), propietarioDpiNew.getDpi());
+                avInmueble.setPropietarioDpi(propietarioDpiNew);
             }
             List<AvColindante> attachedAvColindanteListNew = new ArrayList<AvColindante>();
             for (AvColindante avColindanteListNewAvColindanteToAttach : avColindanteListNew) {
@@ -227,14 +227,6 @@ public class AvInmuebleJpaController implements Serializable {
             avAvaluoListNew = attachedAvAvaluoListNew;
             avInmueble.setAvAvaluoList(avAvaluoListNew);
             avInmueble = em.merge(avInmueble);
-            if (propietarioDpiOld != null && !propietarioDpiOld.equals(propietarioDpiNew)) {
-                propietarioDpiOld.getAvInmuebleList().remove(avInmueble);
-                propietarioDpiOld = em.merge(propietarioDpiOld);
-            }
-            if (propietarioDpiNew != null && !propietarioDpiNew.equals(propietarioDpiOld)) {
-                propietarioDpiNew.getAvInmuebleList().add(avInmueble);
-                propietarioDpiNew = em.merge(propietarioDpiNew);
-            }
             if (documentoIdOld != null && !documentoIdOld.equals(documentoIdNew)) {
                 documentoIdOld.getAvInmuebleList().remove(avInmueble);
                 documentoIdOld = em.merge(documentoIdOld);
@@ -242,6 +234,14 @@ public class AvInmuebleJpaController implements Serializable {
             if (documentoIdNew != null && !documentoIdNew.equals(documentoIdOld)) {
                 documentoIdNew.getAvInmuebleList().add(avInmueble);
                 documentoIdNew = em.merge(documentoIdNew);
+            }
+            if (propietarioDpiOld != null && !propietarioDpiOld.equals(propietarioDpiNew)) {
+                propietarioDpiOld.getAvInmuebleList().remove(avInmueble);
+                propietarioDpiOld = em.merge(propietarioDpiOld);
+            }
+            if (propietarioDpiNew != null && !propietarioDpiNew.equals(propietarioDpiOld)) {
+                propietarioDpiNew.getAvInmuebleList().add(avInmueble);
+                propietarioDpiNew = em.merge(propietarioDpiNew);
             }
             for (AvColindante avColindanteListNewAvColindante : avColindanteListNew) {
                 if (!avColindanteListOld.contains(avColindanteListNewAvColindante)) {
@@ -348,15 +348,15 @@ public class AvInmuebleJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            AvPropietario propietarioDpi = avInmueble.getPropietarioDpi();
-            if (propietarioDpi != null) {
-                propietarioDpi.getAvInmuebleList().remove(avInmueble);
-                propietarioDpi = em.merge(propietarioDpi);
-            }
             AvDocumento documentoId = avInmueble.getDocumentoId();
             if (documentoId != null) {
                 documentoId.getAvInmuebleList().remove(avInmueble);
                 documentoId = em.merge(documentoId);
+            }
+            AvPropietario propietarioDpi = avInmueble.getPropietarioDpi();
+            if (propietarioDpi != null) {
+                propietarioDpi.getAvInmuebleList().remove(avInmueble);
+                propietarioDpi = em.merge(propietarioDpi);
             }
             em.remove(avInmueble);
             em.getTransaction().commit();

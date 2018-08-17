@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "gc_ventajas")
@@ -34,6 +34,7 @@ public class GcVentajas implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
     @JoinColumn(name = "fichanegocio_id", referencedColumnName = "id")
@@ -45,6 +46,11 @@ public class GcVentajas implements Serializable {
 
     public GcVentajas(Integer id) {
         this.id = id;
+    }
+
+    public GcVentajas(Integer id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
