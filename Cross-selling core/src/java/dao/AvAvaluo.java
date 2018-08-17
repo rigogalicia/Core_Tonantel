@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "av_avaluo")
@@ -47,12 +47,12 @@ public class AvAvaluo implements Serializable {
     @Basic(optional = false)
     @Column(name = "valor_bancario")
     private int valorBancario;
-    @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private AvInmueble inmuebleId;
     @JoinColumn(name = "asignacion_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvAsignacion asignacionId;
+    @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private AvInmueble inmuebleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "avaluoId")
     private List<AvDetalle> avDetalleList;
 
@@ -93,20 +93,20 @@ public class AvAvaluo implements Serializable {
         this.valorBancario = valorBancario;
     }
 
-    public AvInmueble getInmuebleId() {
-        return inmuebleId;
-    }
-
-    public void setInmuebleId(AvInmueble inmuebleId) {
-        this.inmuebleId = inmuebleId;
-    }
-
     public AvAsignacion getAsignacionId() {
         return asignacionId;
     }
 
     public void setAsignacionId(AvAsignacion asignacionId) {
         this.asignacionId = asignacionId;
+    }
+
+    public AvInmueble getInmuebleId() {
+        return inmuebleId;
+    }
+
+    public void setInmuebleId(AvInmueble inmuebleId) {
+        this.inmuebleId = inmuebleId;
     }
 
     public List<AvDetalle> getAvDetalleList() {

@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "av_solicitud")
@@ -56,6 +56,9 @@ public class AvSolicitud implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado")
     private Character estado;
+    @Basic(optional = false)
+    @Column(name = "reavaluo")
+    private Character reavaluo;
     @JoinColumn(name = "asociado_cif", referencedColumnName = "cif")
     @ManyToOne(optional = false)
     private AvAsociado asociadoCif;
@@ -72,7 +75,7 @@ public class AvSolicitud implements Serializable {
         this.numeroSolicitud = numeroSolicitud;
     }
 
-    public AvSolicitud(String numeroSolicitud, String monto, String numeroCredito, String usuario, String agencia, Date fechahora, Character estado) {
+    public AvSolicitud(String numeroSolicitud, String monto, String numeroCredito, String usuario, String agencia, Date fechahora, Character estado, Character reavaluo) {
         this.numeroSolicitud = numeroSolicitud;
         this.monto = monto;
         this.numeroCredito = numeroCredito;
@@ -80,6 +83,7 @@ public class AvSolicitud implements Serializable {
         this.agencia = agencia;
         this.fechahora = fechahora;
         this.estado = estado;
+        this.reavaluo = reavaluo;
     }
 
     public String getNumeroSolicitud() {
@@ -136,6 +140,14 @@ public class AvSolicitud implements Serializable {
 
     public void setEstado(Character estado) {
         this.estado = estado;
+    }
+
+    public Character getReavaluo() {
+        return reavaluo;
+    }
+
+    public void setReavaluo(Character reavaluo) {
+        this.reavaluo = reavaluo;
     }
 
     public AvAsociado getAsociadoCif() {

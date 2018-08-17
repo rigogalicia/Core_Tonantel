@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class GcSolicitudJpaController implements Serializable {
 
@@ -47,11 +47,6 @@ public class GcSolicitudJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            GcEstado estadoId = gcSolicitud.getEstadoId();
-            if (estadoId != null) {
-                estadoId = em.getReference(estadoId.getClass(), estadoId.getId());
-                gcSolicitud.setEstadoId(estadoId);
-            }
             GcAsociado asociadoCif = gcSolicitud.getAsociadoCif();
             if (asociadoCif != null) {
                 asociadoCif = em.getReference(asociadoCif.getClass(), asociadoCif.getCif());
@@ -62,25 +57,30 @@ public class GcSolicitudJpaController implements Serializable {
                 destinoId = em.getReference(destinoId.getClass(), destinoId.getId());
                 gcSolicitud.setDestinoId(destinoId);
             }
+            GcEstado estadoId = gcSolicitud.getEstadoId();
+            if (estadoId != null) {
+                estadoId = em.getReference(estadoId.getClass(), estadoId.getId());
+                gcSolicitud.setEstadoId(estadoId);
+            }
+            GcRiesgo riesgoId = gcSolicitud.getRiesgoId();
+            if (riesgoId != null) {
+                riesgoId = em.getReference(riesgoId.getClass(), riesgoId.getId());
+                gcSolicitud.setRiesgoId(riesgoId);
+            }
             GcTipo tipoId = gcSolicitud.getTipoId();
             if (tipoId != null) {
                 tipoId = em.getReference(tipoId.getClass(), tipoId.getId());
                 gcSolicitud.setTipoId(tipoId);
-            }
-            GcTramite tramiteId = gcSolicitud.getTramiteId();
-            if (tramiteId != null) {
-                tramiteId = em.getReference(tramiteId.getClass(), tramiteId.getId());
-                gcSolicitud.setTramiteId(tramiteId);
             }
             GcTipocliente tipoclienteId = gcSolicitud.getTipoclienteId();
             if (tipoclienteId != null) {
                 tipoclienteId = em.getReference(tipoclienteId.getClass(), tipoclienteId.getId());
                 gcSolicitud.setTipoclienteId(tipoclienteId);
             }
-            GcRiesgo riesgoId = gcSolicitud.getRiesgoId();
-            if (riesgoId != null) {
-                riesgoId = em.getReference(riesgoId.getClass(), riesgoId.getId());
-                gcSolicitud.setRiesgoId(riesgoId);
+            GcTramite tramiteId = gcSolicitud.getTramiteId();
+            if (tramiteId != null) {
+                tramiteId = em.getReference(tramiteId.getClass(), tramiteId.getId());
+                gcSolicitud.setTramiteId(tramiteId);
             }
             List<GcFichanegocio> attachedGcFichanegocioList = new ArrayList<GcFichanegocio>();
             for (GcFichanegocio gcFichanegocioListGcFichanegocioToAttach : gcSolicitud.getGcFichanegocioList()) {
@@ -101,10 +101,6 @@ public class GcSolicitudJpaController implements Serializable {
             }
             gcSolicitud.setGcSeguimientoList(attachedGcSeguimientoList);
             em.persist(gcSolicitud);
-            if (estadoId != null) {
-                estadoId.getGcSolicitudList().add(gcSolicitud);
-                estadoId = em.merge(estadoId);
-            }
             if (asociadoCif != null) {
                 asociadoCif.getGcSolicitudList().add(gcSolicitud);
                 asociadoCif = em.merge(asociadoCif);
@@ -113,21 +109,25 @@ public class GcSolicitudJpaController implements Serializable {
                 destinoId.getGcSolicitudList().add(gcSolicitud);
                 destinoId = em.merge(destinoId);
             }
+            if (estadoId != null) {
+                estadoId.getGcSolicitudList().add(gcSolicitud);
+                estadoId = em.merge(estadoId);
+            }
+            if (riesgoId != null) {
+                riesgoId.getGcSolicitudList().add(gcSolicitud);
+                riesgoId = em.merge(riesgoId);
+            }
             if (tipoId != null) {
                 tipoId.getGcSolicitudList().add(gcSolicitud);
                 tipoId = em.merge(tipoId);
-            }
-            if (tramiteId != null) {
-                tramiteId.getGcSolicitudList().add(gcSolicitud);
-                tramiteId = em.merge(tramiteId);
             }
             if (tipoclienteId != null) {
                 tipoclienteId.getGcSolicitudList().add(gcSolicitud);
                 tipoclienteId = em.merge(tipoclienteId);
             }
-            if (riesgoId != null) {
-                riesgoId.getGcSolicitudList().add(gcSolicitud);
-                riesgoId = em.merge(riesgoId);
+            if (tramiteId != null) {
+                tramiteId.getGcSolicitudList().add(gcSolicitud);
+                tramiteId = em.merge(tramiteId);
             }
             for (GcFichanegocio gcFichanegocioListGcFichanegocio : gcSolicitud.getGcFichanegocioList()) {
                 GcSolicitud oldSolicitudNumeroSolicitudOfGcFichanegocioListGcFichanegocio = gcFichanegocioListGcFichanegocio.getSolicitudNumeroSolicitud();
@@ -175,20 +175,20 @@ public class GcSolicitudJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             GcSolicitud persistentGcSolicitud = em.find(GcSolicitud.class, gcSolicitud.getNumeroSolicitud());
-            GcEstado estadoIdOld = persistentGcSolicitud.getEstadoId();
-            GcEstado estadoIdNew = gcSolicitud.getEstadoId();
             GcAsociado asociadoCifOld = persistentGcSolicitud.getAsociadoCif();
             GcAsociado asociadoCifNew = gcSolicitud.getAsociadoCif();
             GcDestino destinoIdOld = persistentGcSolicitud.getDestinoId();
             GcDestino destinoIdNew = gcSolicitud.getDestinoId();
-            GcTipo tipoIdOld = persistentGcSolicitud.getTipoId();
-            GcTipo tipoIdNew = gcSolicitud.getTipoId();
-            GcTramite tramiteIdOld = persistentGcSolicitud.getTramiteId();
-            GcTramite tramiteIdNew = gcSolicitud.getTramiteId();
-            GcTipocliente tipoclienteIdOld = persistentGcSolicitud.getTipoclienteId();
-            GcTipocliente tipoclienteIdNew = gcSolicitud.getTipoclienteId();
+            GcEstado estadoIdOld = persistentGcSolicitud.getEstadoId();
+            GcEstado estadoIdNew = gcSolicitud.getEstadoId();
             GcRiesgo riesgoIdOld = persistentGcSolicitud.getRiesgoId();
             GcRiesgo riesgoIdNew = gcSolicitud.getRiesgoId();
+            GcTipo tipoIdOld = persistentGcSolicitud.getTipoId();
+            GcTipo tipoIdNew = gcSolicitud.getTipoId();
+            GcTipocliente tipoclienteIdOld = persistentGcSolicitud.getTipoclienteId();
+            GcTipocliente tipoclienteIdNew = gcSolicitud.getTipoclienteId();
+            GcTramite tramiteIdOld = persistentGcSolicitud.getTramiteId();
+            GcTramite tramiteIdNew = gcSolicitud.getTramiteId();
             List<GcFichanegocio> gcFichanegocioListOld = persistentGcSolicitud.getGcFichanegocioList();
             List<GcFichanegocio> gcFichanegocioListNew = gcSolicitud.getGcFichanegocioList();
             List<GcGestion> gcGestionListOld = persistentGcSolicitud.getGcGestionList();
@@ -223,10 +223,6 @@ public class GcSolicitudJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (estadoIdNew != null) {
-                estadoIdNew = em.getReference(estadoIdNew.getClass(), estadoIdNew.getId());
-                gcSolicitud.setEstadoId(estadoIdNew);
-            }
             if (asociadoCifNew != null) {
                 asociadoCifNew = em.getReference(asociadoCifNew.getClass(), asociadoCifNew.getCif());
                 gcSolicitud.setAsociadoCif(asociadoCifNew);
@@ -235,21 +231,25 @@ public class GcSolicitudJpaController implements Serializable {
                 destinoIdNew = em.getReference(destinoIdNew.getClass(), destinoIdNew.getId());
                 gcSolicitud.setDestinoId(destinoIdNew);
             }
+            if (estadoIdNew != null) {
+                estadoIdNew = em.getReference(estadoIdNew.getClass(), estadoIdNew.getId());
+                gcSolicitud.setEstadoId(estadoIdNew);
+            }
+            if (riesgoIdNew != null) {
+                riesgoIdNew = em.getReference(riesgoIdNew.getClass(), riesgoIdNew.getId());
+                gcSolicitud.setRiesgoId(riesgoIdNew);
+            }
             if (tipoIdNew != null) {
                 tipoIdNew = em.getReference(tipoIdNew.getClass(), tipoIdNew.getId());
                 gcSolicitud.setTipoId(tipoIdNew);
-            }
-            if (tramiteIdNew != null) {
-                tramiteIdNew = em.getReference(tramiteIdNew.getClass(), tramiteIdNew.getId());
-                gcSolicitud.setTramiteId(tramiteIdNew);
             }
             if (tipoclienteIdNew != null) {
                 tipoclienteIdNew = em.getReference(tipoclienteIdNew.getClass(), tipoclienteIdNew.getId());
                 gcSolicitud.setTipoclienteId(tipoclienteIdNew);
             }
-            if (riesgoIdNew != null) {
-                riesgoIdNew = em.getReference(riesgoIdNew.getClass(), riesgoIdNew.getId());
-                gcSolicitud.setRiesgoId(riesgoIdNew);
+            if (tramiteIdNew != null) {
+                tramiteIdNew = em.getReference(tramiteIdNew.getClass(), tramiteIdNew.getId());
+                gcSolicitud.setTramiteId(tramiteIdNew);
             }
             List<GcFichanegocio> attachedGcFichanegocioListNew = new ArrayList<GcFichanegocio>();
             for (GcFichanegocio gcFichanegocioListNewGcFichanegocioToAttach : gcFichanegocioListNew) {
@@ -273,14 +273,6 @@ public class GcSolicitudJpaController implements Serializable {
             gcSeguimientoListNew = attachedGcSeguimientoListNew;
             gcSolicitud.setGcSeguimientoList(gcSeguimientoListNew);
             gcSolicitud = em.merge(gcSolicitud);
-            if (estadoIdOld != null && !estadoIdOld.equals(estadoIdNew)) {
-                estadoIdOld.getGcSolicitudList().remove(gcSolicitud);
-                estadoIdOld = em.merge(estadoIdOld);
-            }
-            if (estadoIdNew != null && !estadoIdNew.equals(estadoIdOld)) {
-                estadoIdNew.getGcSolicitudList().add(gcSolicitud);
-                estadoIdNew = em.merge(estadoIdNew);
-            }
             if (asociadoCifOld != null && !asociadoCifOld.equals(asociadoCifNew)) {
                 asociadoCifOld.getGcSolicitudList().remove(gcSolicitud);
                 asociadoCifOld = em.merge(asociadoCifOld);
@@ -297,6 +289,22 @@ public class GcSolicitudJpaController implements Serializable {
                 destinoIdNew.getGcSolicitudList().add(gcSolicitud);
                 destinoIdNew = em.merge(destinoIdNew);
             }
+            if (estadoIdOld != null && !estadoIdOld.equals(estadoIdNew)) {
+                estadoIdOld.getGcSolicitudList().remove(gcSolicitud);
+                estadoIdOld = em.merge(estadoIdOld);
+            }
+            if (estadoIdNew != null && !estadoIdNew.equals(estadoIdOld)) {
+                estadoIdNew.getGcSolicitudList().add(gcSolicitud);
+                estadoIdNew = em.merge(estadoIdNew);
+            }
+            if (riesgoIdOld != null && !riesgoIdOld.equals(riesgoIdNew)) {
+                riesgoIdOld.getGcSolicitudList().remove(gcSolicitud);
+                riesgoIdOld = em.merge(riesgoIdOld);
+            }
+            if (riesgoIdNew != null && !riesgoIdNew.equals(riesgoIdOld)) {
+                riesgoIdNew.getGcSolicitudList().add(gcSolicitud);
+                riesgoIdNew = em.merge(riesgoIdNew);
+            }
             if (tipoIdOld != null && !tipoIdOld.equals(tipoIdNew)) {
                 tipoIdOld.getGcSolicitudList().remove(gcSolicitud);
                 tipoIdOld = em.merge(tipoIdOld);
@@ -304,14 +312,6 @@ public class GcSolicitudJpaController implements Serializable {
             if (tipoIdNew != null && !tipoIdNew.equals(tipoIdOld)) {
                 tipoIdNew.getGcSolicitudList().add(gcSolicitud);
                 tipoIdNew = em.merge(tipoIdNew);
-            }
-            if (tramiteIdOld != null && !tramiteIdOld.equals(tramiteIdNew)) {
-                tramiteIdOld.getGcSolicitudList().remove(gcSolicitud);
-                tramiteIdOld = em.merge(tramiteIdOld);
-            }
-            if (tramiteIdNew != null && !tramiteIdNew.equals(tramiteIdOld)) {
-                tramiteIdNew.getGcSolicitudList().add(gcSolicitud);
-                tramiteIdNew = em.merge(tramiteIdNew);
             }
             if (tipoclienteIdOld != null && !tipoclienteIdOld.equals(tipoclienteIdNew)) {
                 tipoclienteIdOld.getGcSolicitudList().remove(gcSolicitud);
@@ -321,13 +321,13 @@ public class GcSolicitudJpaController implements Serializable {
                 tipoclienteIdNew.getGcSolicitudList().add(gcSolicitud);
                 tipoclienteIdNew = em.merge(tipoclienteIdNew);
             }
-            if (riesgoIdOld != null && !riesgoIdOld.equals(riesgoIdNew)) {
-                riesgoIdOld.getGcSolicitudList().remove(gcSolicitud);
-                riesgoIdOld = em.merge(riesgoIdOld);
+            if (tramiteIdOld != null && !tramiteIdOld.equals(tramiteIdNew)) {
+                tramiteIdOld.getGcSolicitudList().remove(gcSolicitud);
+                tramiteIdOld = em.merge(tramiteIdOld);
             }
-            if (riesgoIdNew != null && !riesgoIdNew.equals(riesgoIdOld)) {
-                riesgoIdNew.getGcSolicitudList().add(gcSolicitud);
-                riesgoIdNew = em.merge(riesgoIdNew);
+            if (tramiteIdNew != null && !tramiteIdNew.equals(tramiteIdOld)) {
+                tramiteIdNew.getGcSolicitudList().add(gcSolicitud);
+                tramiteIdNew = em.merge(tramiteIdNew);
             }
             for (GcFichanegocio gcFichanegocioListNewGcFichanegocio : gcFichanegocioListNew) {
                 if (!gcFichanegocioListOld.contains(gcFichanegocioListNewGcFichanegocio)) {
@@ -416,11 +416,6 @@ public class GcSolicitudJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            GcEstado estadoId = gcSolicitud.getEstadoId();
-            if (estadoId != null) {
-                estadoId.getGcSolicitudList().remove(gcSolicitud);
-                estadoId = em.merge(estadoId);
-            }
             GcAsociado asociadoCif = gcSolicitud.getAsociadoCif();
             if (asociadoCif != null) {
                 asociadoCif.getGcSolicitudList().remove(gcSolicitud);
@@ -431,25 +426,30 @@ public class GcSolicitudJpaController implements Serializable {
                 destinoId.getGcSolicitudList().remove(gcSolicitud);
                 destinoId = em.merge(destinoId);
             }
+            GcEstado estadoId = gcSolicitud.getEstadoId();
+            if (estadoId != null) {
+                estadoId.getGcSolicitudList().remove(gcSolicitud);
+                estadoId = em.merge(estadoId);
+            }
+            GcRiesgo riesgoId = gcSolicitud.getRiesgoId();
+            if (riesgoId != null) {
+                riesgoId.getGcSolicitudList().remove(gcSolicitud);
+                riesgoId = em.merge(riesgoId);
+            }
             GcTipo tipoId = gcSolicitud.getTipoId();
             if (tipoId != null) {
                 tipoId.getGcSolicitudList().remove(gcSolicitud);
                 tipoId = em.merge(tipoId);
-            }
-            GcTramite tramiteId = gcSolicitud.getTramiteId();
-            if (tramiteId != null) {
-                tramiteId.getGcSolicitudList().remove(gcSolicitud);
-                tramiteId = em.merge(tramiteId);
             }
             GcTipocliente tipoclienteId = gcSolicitud.getTipoclienteId();
             if (tipoclienteId != null) {
                 tipoclienteId.getGcSolicitudList().remove(gcSolicitud);
                 tipoclienteId = em.merge(tipoclienteId);
             }
-            GcRiesgo riesgoId = gcSolicitud.getRiesgoId();
-            if (riesgoId != null) {
-                riesgoId.getGcSolicitudList().remove(gcSolicitud);
-                riesgoId = em.merge(riesgoId);
+            GcTramite tramiteId = gcSolicitud.getTramiteId();
+            if (tramiteId != null) {
+                tramiteId.getGcSolicitudList().remove(gcSolicitud);
+                tramiteId = em.merge(tramiteId);
             }
             em.remove(gcSolicitud);
             em.getTransaction().commit();

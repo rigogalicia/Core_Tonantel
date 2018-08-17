@@ -23,7 +23,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "av_inmueble")
@@ -73,12 +73,12 @@ public class AvInmueble implements Serializable {
     private List<AvSolicitud> avSolicitudList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inmuebleId")
     private List<AvAvaluo> avAvaluoList;
-    @JoinColumn(name = "propietario_dpi", referencedColumnName = "dpi")
-    @ManyToOne(optional = false)
-    private AvPropietario propietarioDpi;
     @JoinColumn(name = "documento_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvDocumento documentoId;
+    @JoinColumn(name = "propietario_dpi", referencedColumnName = "dpi")
+    @ManyToOne(optional = false)
+    private AvPropietario propietarioDpi;
 
     public AvInmueble() {
     }
@@ -225,20 +225,20 @@ public class AvInmueble implements Serializable {
         this.avAvaluoList = avAvaluoList;
     }
 
-    public AvPropietario getPropietarioDpi() {
-        return propietarioDpi;
-    }
-
-    public void setPropietarioDpi(AvPropietario propietarioDpi) {
-        this.propietarioDpi = propietarioDpi;
-    }
-
     public AvDocumento getDocumentoId() {
         return documentoId;
     }
 
     public void setDocumentoId(AvDocumento documentoId) {
         this.documentoId = documentoId;
+    }
+
+    public AvPropietario getPropietarioDpi() {
+        return propietarioDpi;
+    }
+
+    public void setPropietarioDpi(AvPropietario propietarioDpi) {
+        this.propietarioDpi = propietarioDpi;
     }
 
     @Override

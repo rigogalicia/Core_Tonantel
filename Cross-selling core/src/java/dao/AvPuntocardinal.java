@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,7 +19,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "av_puntocardinal")
@@ -31,10 +29,9 @@ public class AvPuntocardinal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private String id;
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
@@ -44,20 +41,20 @@ public class AvPuntocardinal implements Serializable {
     public AvPuntocardinal() {
     }
 
-    public AvPuntocardinal(Integer id) {
+    public AvPuntocardinal(String id) {
         this.id = id;
     }
 
-    public AvPuntocardinal(Integer id, String descripcion) {
+    public AvPuntocardinal(String id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

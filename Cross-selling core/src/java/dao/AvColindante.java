@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "av_colindante")
@@ -44,12 +44,12 @@ public class AvColindante implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo")
     private Character tipo;
-    @JoinColumn(name = "puntocardinal_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private AvPuntocardinal puntocardinalId;
     @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvInmueble inmuebleId;
+    @JoinColumn(name = "puntocardinal_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private AvPuntocardinal puntocardinalId;
 
     public AvColindante() {
     }
@@ -104,20 +104,20 @@ public class AvColindante implements Serializable {
         this.tipo = tipo;
     }
 
-    public AvPuntocardinal getPuntocardinalId() {
-        return puntocardinalId;
-    }
-
-    public void setPuntocardinalId(AvPuntocardinal puntocardinalId) {
-        this.puntocardinalId = puntocardinalId;
-    }
-
     public AvInmueble getInmuebleId() {
         return inmuebleId;
     }
 
     public void setInmuebleId(AvInmueble inmuebleId) {
         this.inmuebleId = inmuebleId;
+    }
+
+    public AvPuntocardinal getPuntocardinalId() {
+        return puntocardinalId;
+    }
+
+    public void setPuntocardinalId(AvPuntocardinal puntocardinalId) {
+        this.puntocardinalId = puntocardinalId;
     }
 
     @Override

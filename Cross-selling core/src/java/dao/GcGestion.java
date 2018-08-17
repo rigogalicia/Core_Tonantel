@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 @Entity
 @Table(name = "gc_gestion")
@@ -44,12 +44,12 @@ public class GcGestion implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinColumn(name = "solicitud_numero_solicitud", referencedColumnName = "numero_solicitud")
-    @ManyToOne(optional = false)
-    private GcSolicitud solicitudNumeroSolicitud;
     @JoinColumn(name = "estado_id", referencedColumnName = "id")
     @ManyToOne
     private GcEstado estadoId;
+    @JoinColumn(name = "solicitud_numero_solicitud", referencedColumnName = "numero_solicitud")
+    @ManyToOne(optional = false)
+    private GcSolicitud solicitudNumeroSolicitud;
 
     public GcGestion() {
     }
@@ -88,20 +88,20 @@ public class GcGestion implements Serializable {
         this.fecha = fecha;
     }
 
-    public GcSolicitud getSolicitudNumeroSolicitud() {
-        return solicitudNumeroSolicitud;
-    }
-
-    public void setSolicitudNumeroSolicitud(GcSolicitud solicitudNumeroSolicitud) {
-        this.solicitudNumeroSolicitud = solicitudNumeroSolicitud;
-    }
-
     public GcEstado getEstadoId() {
         return estadoId;
     }
 
     public void setEstadoId(GcEstado estadoId) {
         this.estadoId = estadoId;
+    }
+
+    public GcSolicitud getSolicitudNumeroSolicitud() {
+        return solicitudNumeroSolicitud;
+    }
+
+    public void setSolicitudNumeroSolicitud(GcSolicitud solicitudNumeroSolicitud) {
+        this.solicitudNumeroSolicitud = solicitudNumeroSolicitud;
     }
 
     @Override

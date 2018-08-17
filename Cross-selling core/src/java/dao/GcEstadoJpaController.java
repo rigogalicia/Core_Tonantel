@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Rgalicia
+ * @author r29galicia
  */
 public class GcEstadoJpaController implements Serializable {
 
