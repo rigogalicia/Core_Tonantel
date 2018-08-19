@@ -2,64 +2,15 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="Cross-selling_corePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>dao.PtmCurso</class>
-    <class>dao.PtmPrestamo</class>
-    <class>dao.PtmTarjetacredito</class>
-    <class>dao.PtmColaborador</class>
-    <class>dao.PtmActivo</class>
-    <class>dao.PtmPasivo</class>
-    <class>dao.PtmBienesmuebles</class>
-    <class>dao.PtmEstadopatrimonial</class>
-    <class>dao.PtmHijo</class>
-    <class>dao.PtmBienesinmuebles</class>
-    <class>dao.RallyCartera</class>
-    <class>dao.RallySeguimiento</class>
-    <class>dao.RallyProducto</class>
-    <class>dao.RallyAsignacion</class>
-    <class>dao.RallyReferencia</class>
-    <class>dao.RallyPreciocomision</class>
-    <class>dao.RallyMeta</class>
-    <class>dao.RallyAsociado</class>
-    <class>dao.RallyProvicional</class>
-    <class>dao.RallySeguimientoCartera</class>
-    <class>dao.GcSolicitud</class>
-    <class>dao.GcAsociado</class>
-    <class>dao.GcTramite</class>
-    <class>dao.GcTipo</class>
-    <class>dao.GcRiesgo</class>
-    <class>dao.GcDestino</class>
-    <class>dao.GcGestion</class>
-    <class>dao.GcEstado</class>
-    <class>dao.GcTipocliente</class>
-    <class>dao.GcSeguimiento</class>
-    <class>dao.CcBanco</class>
-    <class>dao.CcCheque</class>
-    <class>dao.GcVentajas</class>
-    <class>dao.GcDesventajas</class>
-    <class>dao.GcLogprocesonegocio</class>
-    <class>dao.GcFichanegocio</class>
-    <class>dao.AvConstruccion</class>
-    <class>dao.AvTelefono</class>
-    <class>dao.AvSolicitud</class>
-    <class>dao.AvColindante</class>
-    <class>dao.AvAsignacion</class>
-    <class>dao.AvDocumento</class>
-    <class>dao.AvInmueble</class>
-    <class>dao.AvAvaluo</class>
-    <class>dao.AvAsociado</class>
-    <class>dao.AvPuntocardinal</class>
-    <class>dao.AvArea</class>
-    <class>dao.AvPropietario</class>
-    <class>dao.AvDetalle</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coretecnology?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="Ton@nte1"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
-      <!--
-        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://34.197.122.60:3306/coretecnology"/>
+        <!--
+        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://34.197.122.60:3306/coretecnology?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
         <property name="javax.persistence.jdbc.user" value="AppTonantel"/>
         <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
         <property name="javax.persistence.jdbc.password" value="application123"/>
