@@ -1,11 +1,9 @@
 package gc.controlador;
 
 import dao.GcDestino;
-import dao.GcDesventajas;
 import dao.GcTipo;
 import dao.GcTipocliente;
 import dao.GcTramite;
-import dao.GcVentajas;
 import gc.modelo.Destino;
 import gc.modelo.Solicitud;
 import gc.modelo.Tipo;
@@ -28,10 +26,6 @@ public class GcSolicitudBean {
     private ArrayList<SelectItem> tipoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tramiteCredito = new ArrayList<>();
     private ArrayList<SelectItem> tipoCliente = new ArrayList<>();
-    private GcVentajas ventaja = new GcVentajas();
-    private ArrayList<GcVentajas> ventajas = new ArrayList<>();
-    private GcDesventajas desventaja = new GcDesventajas();
-    private ArrayList<GcDesventajas> desventajas = new ArrayList<>();
     
     private boolean isNegociacion = false;
     
@@ -97,38 +91,6 @@ public class GcSolicitudBean {
         this.tipoCliente = tipoCliente;
     }
 
-    public GcVentajas getVentaja() {
-        return ventaja;
-    }
-
-    public void setVentaja(GcVentajas ventaja) {
-        this.ventaja = ventaja;
-    }
-    
-    public ArrayList<GcVentajas> getVentajas() {
-        return ventajas;
-    }
-
-    public void setVentajas(ArrayList<GcVentajas> ventajas) {
-        this.ventajas = ventajas;
-    }
-
-    public GcDesventajas getDesventaja() {
-        return desventaja;
-    }
-
-    public void setDesventaja(GcDesventajas desventaja) {
-        this.desventaja = desventaja;
-    }
-
-    public ArrayList<GcDesventajas> getDesventajas() {
-        return desventajas;
-    }
-
-    public void setDesventajas(ArrayList<GcDesventajas> desventajas) {
-        this.desventajas = desventajas;
-    }
-
     public boolean isIsNegociacion() {
         return isNegociacion;
     }
@@ -142,22 +104,6 @@ public class GcSolicitudBean {
         isNegociacion = false;
         if(Integer.parseInt(e.getNewValue().toString()) == 2){
             isNegociacion = true;
-        }
-    }
-    
-    /* Se agregan las ventajas a la lista para luego ser insertadas */
-    public void addVentajas(){
-        if(ventaja.getDescripcion() != null && !ventaja.getDescripcion().isEmpty() && !ventaja.getDescripcion().equals(" ")){
-            ventajas.add(ventaja);
-            ventaja = new GcVentajas();
-        }
-    }
-    
-    /* Se agregan las desventajas a la lista para luego ser insertadas */
-    public void addDesventajas(){
-        if(desventaja.getDescripcion() != null && !desventaja.getDescripcion().isEmpty() && !desventaja.getDescripcion().equals(" ")){
-            desventajas.add(desventaja);
-            desventaja = new GcDesventajas();
         }
     }
     

@@ -197,8 +197,6 @@ public class Solicitud {
             destinoGc = (GcDestino) obj[3];
             tipoGc = (GcTipo) obj[4];
             tramiteGc = (GcTramite) obj[5];
-            
-            System.out.println(asociadoGc.getNombre());
         }
         
         em.close();

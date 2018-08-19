@@ -19,13 +19,13 @@
                                     <div class="page-header">
                                         <h1>Generar Solicitud</h1>
                                     </div>
-                                    <h:messages style="color: red"/>
                                     <!--columnas que contienen Cif,Nombre -->
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="cif">* Cif:</h:outputLabel>
-                                                <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true" autocomplete="off">
+                                                <h:message for="cif" style="color: red"/>
+                                                <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true" autocomplete="off" label="&nbsp;!">
                                                     <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formSolicitud"/>
                                                 </h:inputText>
                                             </div>
@@ -33,7 +33,8 @@
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <h:outputLabel for="nombre">* Nombre:</h:outputLabel>
-                                                <h:inputText id="nombre" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.nombre}" required="true" autocomplete="off"/>
+                                                <h:message for="nombre" style="color: red"/>
+                                                <h:inputText id="nombre" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.nombre}" required="true" autocomplete="off" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                     </div>
@@ -43,13 +44,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
-                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.numeroSolicitud}" required="true" autocomplete="off"/>
+                                                <h:message for="numeroSolicitud" style="color: red"/>
+                                                <h:inputText id="numeroSolicitud" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.numeroSolicitud}" required="true" autocomplete="off" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <h:outputLabel>* Monto:</h:outputLabel>
-                                                <h:inputText id="monto" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.monto}" required="true" autocomplete="off"/>
+                                                <h:outputLabel for="monto">* Monto:</h:outputLabel>
+                                                <h:message for="monto" style="color: red"/>
+                                                <h:inputText id="monto" class="form-control" value="#{gc_solicitud.solicitud.solicitudGc.monto}" required="true" autocomplete="off" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                     </div>
@@ -59,7 +62,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="destinoCredito">* Destino:</h:outputLabel>
-                                                <h:selectOneMenu id="destinoCredito" class="form-control" value="#{gc_solicitud.solicitud.destinoGc.id}" required="true">
+                                                <h:message for="destinoCredito" style="color: red"/>
+                                                <h:selectOneMenu id="destinoCredito" class="form-control" value="#{gc_solicitud.solicitud.destinoGc.id}" required="true" label="&nbsp;!">
                                                     <f:selectItem itemLabel="" itemValue=""/>
                                                     <f:selectItems value="#{gc_solicitud.destinoCredito}"/>
                                                 </h:selectOneMenu>
@@ -67,8 +71,9 @@
                                         </div> 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <h:outputLabel>* Tipo de Garantía:</h:outputLabel>
-                                                <h:selectOneMenu id="tipoCredito" class="form-control" value="#{gc_solicitud.solicitud.tipoGc.id}" required="true">
+                                                <h:outputLabel for="tipoCredito">* Tipo de Garantía:</h:outputLabel>
+                                                <h:message for="tipoCredito" style="color: red"/>
+                                                <h:selectOneMenu id="tipoCredito" class="form-control" value="#{gc_solicitud.solicitud.tipoGc.id}" required="true" label="&nbsp;!">
                                                     <f:selectItem itemLabel="" itemValue=""/>
                                                     <f:selectItems value="#{gc_solicitud.tipoCredito}"/>
                                                 </h:selectOneMenu>
@@ -79,7 +84,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="tipoCliente">* Tipo de Cliente:</h:outputLabel>
-                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_solicitud.solicitud.clienteGc.id}" required="true">
+                                                <h:message for="tipoCliente" style="color: red"/>
+                                                <h:selectOneMenu id="tipoCliente" class="form-control" value="#{gc_solicitud.solicitud.clienteGc.id}" required="true" label="&nbsp;!">
                                                     <f:selectItem itemLabel="" itemValue=""/>
                                                     <f:selectItems value="#{gc_solicitud.tipoCliente}"/>
                                                 </h:selectOneMenu>
@@ -88,15 +94,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="tramiteCredito">* Origen de Tramite:</h:outputLabel>
-                                                <h:selectOneMenu id="tramiteCredito" class="form-control" value="#{gc_solicitud.solicitud.tramiteGc.id}" 
-                                                                 required="true" onchange="submit()" valueChangeListener="#{gc_solicitud.esNegociacion}">
+                                                <h:message for="tramiteCredito" style="color: red"/>
+                                                <h:selectOneMenu id="tramiteCredito" class="form-control" value="#{gc_solicitud.solicitud.tramiteGc.id}" required="true" label="&nbsp;!">
                                                     <f:selectItem itemLabel="" itemValue=""/>
                                                     <f:selectItems value="#{gc_solicitud.tramiteCredito}"/>
                                                 </h:selectOneMenu>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Inicia la seccion para llenar la ficha de negociacion -->
+                                    <!--
                                     <h:panelGroup id="pn_fichanegocio">
                                         <div class="page-header">
                                             <h2>Ficha de Negociación</h2>
@@ -105,7 +111,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <h:outputLabel for="problematica">Problemática de Crédito:</h:outputLabel>
-                                                    <h:inputTextarea id="problematica" class="form-control" rows="8" value="#{gc_solicitud.solicitud.fichaNegocio.problematica}"/>
+                                                    <h:inputTextarea id="problematica" class="form-control" rows="8" value=""/>
                                                 </div>
                                             </div>
                                         </div>
@@ -113,12 +119,12 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <h:outputLabel for="ventajasText">Ventajas:</h:outputLabel>
-                                                    <h:inputText id="ventajasText" class="form-control" value="#{gc_solicitud.ventaja.descripcion}" autocomplete="off">
-                                                        <f:ajax event="blur" listener="#{gc_solicitud.addVentajas}" execute="ventajasText" render="pn_fichanegocio"/>
+                                                    <h:inputText id="ventajasText" class="form-control" value="" autocomplete="off">
+                                                        <f:ajax event="blur" listener="" execute="ventajasText" render="pn_fichanegocio"/>
                                                     </h:inputText>
-                                                    <h:dataTable id="tablaVentajas" class="table" value="#{gc_solicitud.ventajas}" var="v">
+                                                    <h:dataTable id="tablaVentajas" class="table" value="" var="v">
                                                         <h:column>
-                                                            #{v.descripcion}
+                                                            
                                                         </h:column>
                                                     </h:dataTable>
                                                 </div>
@@ -128,12 +134,12 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <h:outputLabel for="desventajasText">Desventajas:</h:outputLabel>
-                                                    <h:inputText id="desventajasText" class="form-control" value="#{gc_solicitud.desventaja.descripcion}" autocomplete="off">
-                                                        <f:ajax event="blur" listener="#{gc_solicitud.addDesventajas}" execute="desventajasText" render="pn_fichanegocio"/>
+                                                    <h:inputText id="desventajasText" class="form-control" value="" autocomplete="off">
+                                                        <f:ajax event="blur" listener="" execute="desventajasText" render="pn_fichanegocio"/>
                                                     </h:inputText>
-                                                    <h:dataTable id="desventajas" class="table" value="#{gc_solicitud.desventajas}" var="d">
+                                                    <h:dataTable id="desventajas" class="table" value="" var="d">
                                                         <h:column>
-                                                            #{d.descripcion}
+                                                            
                                                         </h:column>
                                                     </h:dataTable>
                                                 </div>
@@ -143,11 +149,12 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <h:outputLabel for="condiciones">Condiciones:</h:outputLabel>
-                                                    <h:inputTextarea id="condiciones" class="form-control" rows="8" value="#{gc_solicitud.solicitud.fichaNegocio.condiciones}"/>
+                                                    <h:inputTextarea id="condiciones" class="form-control" rows="8" value=""/>
                                                 </div>
                                             </div>
                                         </div>
                                     </h:panelGroup>
+                                    -->
                                     <!--Termina las columnas que contiene Destino,Tipo,Tramite-->
                                     <!--Seccion de Botones-->
                                     <div class="row">
