@@ -9,11 +9,9 @@ import gc.modelo.Solicitud;
 import gc.modelo.Tipo;
 import gc.modelo.Tipocliente;
 import gc.modelo.Tramite;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -110,11 +108,6 @@ public class GcSolicitudBean {
     /* Metodo utilizado para generar una nueva solicitud */
     public void generarSolicutid(ActionEvent event){
         solicitud.generar();
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/gc/gc_generadas.xhtml");
-        } catch (IOException ex) {
-            ex.printStackTrace(System.out);
-        }
     }
     
     /* Metodo utilizado para consultar los datos del asociado por cif */
