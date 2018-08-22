@@ -27,7 +27,7 @@
                                                 <h:outputLabel for="cif">* Cif:</h:outputLabel>
                                                 <h:message for="cif" style="color: red"/>
                                                 <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true" autocomplete="off" label="&nbsp;!">
-                                                    <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formSolicitud"/>
+                                                    <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formProceso"/>
                                                 </h:inputText>
                                             </div>
                                         </div>

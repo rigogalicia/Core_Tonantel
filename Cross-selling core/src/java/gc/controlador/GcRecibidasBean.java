@@ -16,6 +16,7 @@ import gc.modelo.Tramite;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -24,6 +25,7 @@ import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 
 @ManagedBean(name = "gc_recibidas")
@@ -37,6 +39,7 @@ public class GcRecibidasBean {
     private ArrayList<SelectItem> tipoCliente = new ArrayList<>();
     private boolean filter = false;
     private String userConect;
+    private String error;
     
     public GcRecibidasBean() {
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -128,6 +131,14 @@ public class GcRecibidasBean {
     public void setFilter(boolean filter) {
         this.filter = filter;
     }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
     
     /* Metodo utilizado para activar los filtros */
     public void activarFiltros(){
@@ -174,35 +185,76 @@ public class GcRecibidasBean {
     
     /* Metodo para asignarse una solicitud para realizar una gestion */
     public void asignarSolicitud(SolicitudesRecibidas s){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
-        
-        em.getTransaction().begin();
-        GcGestion gestion = new GcGestion();
-        gestion.setAnalista(userConect);
-        gestion.setFecha(new Date());
-        gestion.setSolicitudNumeroSolicitud(new GcSolicitud(s.getNumeroSolicitud()));
-        gestion.setEstadoId(new GcEstado("b"));
-        GcSolicitud solicitud = em.find(GcSolicitud.class, s.getNumeroSolicitud());
-        solicitud.setEstadoId(new GcEstado("b"));
-        em.persist(gestion);
-        em.getTransaction().commit();
-        
-        String msj = "La solicitud numero "+s.getNumeroSolicitud()+" generada el "+s.getFecha()+"\n"
-                + "pertenece al asociado "+s.getNombreAsociado()+" fue asignada a\n"
-                + "un analista de créditos para su debido proceso de aprobación, para\n"
-                + "una mejor comunicación con el analista puedes utilizar el servicio\n"
-                + "de chat que se encuentra dentro de la aplicación Crosselling Core\n"
-                + "que puedes ingresar en el siguiente enlace:\n\n"
-                + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
-                + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
-        
-        Correo correo = new Correo(Colaborador.correoColaborador(s.getAsesorFinanciero()), "Solicitud No. " + s.getNumeroSolicitud(), msj);
-        correo.enviar();
+        error = null;
+        if(isGenerada(s.getNumeroSolicitud())){
+            EntityManagerFactory emf = null;
+            EntityManager em = null;
+
+            try{
+                emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+                em = emf.createEntityManager();
+
+                em.getTransaction().begin();
+                GcGestion gestion = new GcGestion();
+                gestion.setAnalista(userConect);
+                gestion.setFecha(new Date());
+                gestion.setSolicitudNumeroSolicitud(new GcSolicitud(s.getNumeroSolicitud()));
+                gestion.setEstadoId(new GcEstado("b"));
+                GcSolicitud solicitud = em.find(GcSolicitud.class, s.getNumeroSolicitud());
+                solicitud.setEstadoId(new GcEstado("b"));
+                em.persist(gestion);
+                em.getTransaction().commit();
+
+                String msj = "La solicitud numero "+s.getNumeroSolicitud()+" generada el "+s.getFecha()+"\n"
+                        + "pertenece al asociado "+s.getNombreAsociado()+" fue asignada a\n"
+                        + "un analista de créditos para su debido proceso de aprobación, para\n"
+                        + "una mejor comunicación con el analista puedes utilizar el servicio\n"
+                        + "de chat que se encuentra dentro de la aplicación Crosselling Core\n"
+                        + "que puedes ingresar en el siguiente enlace:\n\n"
+                        + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
+                        + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
+
+                Correo correo = new Correo(Colaborador.correoColaborador(s.getAsesorFinanciero()), "Solicitud No. " + s.getNumeroSolicitud(), msj);
+                correo.enviar();
+            }
+            catch(Exception e){
+
+            }finally{
+                if(emf != null && em != null){
+                    em.close();
+                    emf.close();
+                }
+            }
+        }
+        else{
+            error = "! La solicitud ya fue asignada a otro analista de créditos";
+        }
         
         listaRecibidas = recibidas.mostrarDatos();
-        
+    }
+    
+    /* Metodo para consultar el estado actual de la solicitud */
+    private boolean isGenerada(String numeroSolicitud){
+        boolean result = false;
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+
+        String instruccion = "SELECT s "
+                + "FROM GcSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSolicitud";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", numeroSolicitud);
+        List<GcSolicitud> resultado = consulta.getResultList();
+        for(GcSolicitud s : resultado){
+            if(s.getEstadoId().getId().equals("a")){
+                result = true;
+            }
+        }
+
         em.close();
         emf.close();
+
+        return result;
     }
 }

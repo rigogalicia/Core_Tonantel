@@ -54,10 +54,10 @@ public class Correo {
         try{
             Properties p = new Properties();
             // Datos de configuración
-            p.put("mail.smtp.host", "smtp.gmail.com");
+            p.put("mail.smtp.host", "mail.cooperativa-tonantel.com.gt");
             p.setProperty("mail.smtp.starttls.enable","true");
             p.setProperty("mail.smtp.port", "587");
-            p.setProperty("mail.smtp.user", "cross.selling.core@gmail.com");
+            p.setProperty("mail.smtp.user", "crosseling.core@cooperativa-tonantel.com.gt");
             p.setProperty("mail.smtp.auth", "true");
             
             // Inicializa la session
@@ -69,13 +69,13 @@ public class Correo {
             m.addBodyPart(texto);
             
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("cross.selling.core@gmail.com"));
+            message.setFrom(new InternetAddress("crosseling.core@cooperativa-tonantel.com.gt"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(direccionDeCorreo));
             message.setSubject(asunto);
             message.setContent(m);
             
             Transport t = session.getTransport("smtp"); 
-            t.connect("cross.selling.core@gmail.com","aqywpsdlxhwdwgtn");
+            t.connect("crosseling.core@cooperativa-tonantel.com.gt","Ton@nte1");
             t.sendMessage(message, message.getAllRecipients());
             t.close();
         }   
