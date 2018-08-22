@@ -22,20 +22,21 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <h:outputLabel for="numeroSolicitud">* Numero Solicitud:</h:outputLabel>
-                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}"></h:inputText>
+                                                <h:outputLabel for="numeroSolicitud" >* Numero Solicitud:</h:outputLabel>
+                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}" required="true"></h:inputText>
+                                                
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="numeroCredito">* Numero de Credito:</h:outputLabel>
-                                                <h:inputText id="numeroCredito" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroCredito}"></h:inputText>
+                                                <h:inputText id="numeroCredito" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroCredito}" required="true"></h:inputText>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="monto">* Monto:</h:outputLabel>
-                                                <h:inputText id="monto" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.monto}"></h:inputText>
+                                                <h:inputText id="monto" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.monto}" required="true"></h:inputText>
                                             </div>
                                         </div>
                                     </div>
@@ -91,20 +92,12 @@
                                                     <f:ajax execute="telefonos" render="pnTelefono"/>
                                                 </h:commandLink>
                                             </div>
-                                            <div class="col-md-3">
-                                                <br/>
-                                                <br/>
-                                                <div class="form-group">
-                                                    <h:outputLabel for="revaluo">Revaluo:</h:outputLabel>
-                                                    <h:outputLabel>&nbsp;</h:outputLabel>
-                                                    <h:outputLabel for = "revaluo">Si</h:outputLabel>
-                                                    <input type = "radio" checked = "checked" name = "revaluo" 
-                                                    id = "vivienda" value = "1"  />
-                                                    <h:outputLabel>&nbsp;</h:outputLabel>
-                                                    <h:outputLabel for = "revaluo">No</h:outputLabel>
-                                                    <input type = "radio" checked = "checked" name = "revaluo" 
-                                                    id = "vivienda" value = "1"  />
-                                                </div>   
+                                            <div class="col-md-2">
+                                                <h:outputLabel for="revaluo">Revaluo:</h:outputLabel>
+                                                <h:selectOneRadio class="table table-striped" value="#{av_solicitud.solicitudController.solicitud.reavaluo}">
+                                                    <f:selectItem itemValue="a" itemLabel="&nbsp;Si&nbsp;"/> 
+                                                    <f:selectItem itemValue="b" itemLabel="&nbsp;No"/>
+                                                </h:selectOneRadio> 
                                             </div>
                                         </div>
                                         <div class="row">
@@ -127,13 +120,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="dpiPropietario">DPI:</h:outputLabel>
-                                                <h:inputText id="dpiPropietario" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.propietario.nombre}"></h:inputText>
+                                                <h:inputText id="dpiPropietario" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.propietario.dpi}"></h:inputText>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="nombrePropietario">* Nombre:</h:outputLabel>
-                                                <h:inputText id="nombrePropietario" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.propietario.dpi}"></h:inputText>
+                                                <h:inputText id="nombrePropietario" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.propietario.nombre}"></h:inputText>
                                             </div>
                                         </div>
                                     </div>
@@ -147,7 +140,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <h:outputLabel for="direccionGarantia">* Direccion:</h:outputLabel>
-                                                <h:inputText id="direccionGarantia" class="form-control"></h:inputText>
+                                                <h:inputText id="direccionGarantia" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.inmueble.direccionRegistrada}"></h:inputText>
                                             </div>
                                         </div> 
                                     </div>
@@ -155,44 +148,39 @@
                                     <!-- row-->
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <h:outputLabel for="vivienda" value="#{av_solicitud.solicitudController.inmueble.vivienda}">Vivienda:</h:outputLabel>
-                                            <h:selectOneRadio id="vivienda" class="table table-striped">
-                                                <f:selectItem itemValue="S" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="N" itemLabel="&nbsp;No"/>
-                                                <!--<f:ajax event="change" execute="opcion"/>-->
+                                            <h:outputLabel for="vivienda">Vivienda:</h:outputLabel>
+                                            <h:selectOneRadio id="vivienda" class="table table-striped" value="#{av_solicitud.solicitudController.inmueble.vivienda}">
+                                                <f:selectItem itemValue="s" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="n" itemLabel="&nbsp;No"/>
                                             </h:selectOneRadio> 
                                         </div>
                                         <div class="col-md-3">
-                                            <h:outputLabel for="acceso" value="#{av_solicitud.solicitudController.inmueble.acceso}">Acceso:</h:outputLabel>
-                                            <h:selectOneRadio id="acceso" class="table table-striped">
-                                                <f:selectItem itemValue="B" itemLabel="&nbsp;Bueno&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="M" itemLabel="&nbsp;Malo"/>
-                                                <f:selectItem itemValue="N" itemLabel="&nbsp;No"/>
-                                                <!--<f:ajax event="change" execute="opcion"/>-->
+                                            <h:outputLabel for="acceso" >Acceso:</h:outputLabel>
+                                            <h:selectOneRadio id="acceso" class="table table-striped" value="#{av_solicitud.solicitudController.inmueble.acceso}">
+                                                <f:selectItem itemValue="b" itemLabel="&nbsp;Bueno&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="m" itemLabel="&nbsp;Malo"/>
+                                                <f:selectItem itemValue="n" itemLabel="&nbsp;No"/>
                                             </h:selectOneRadio> 
                                         </div>
                                         <div class="col-md-2">
-                                            <h:outputLabel for="agua" value="#{av_solicitud.solicitudController.inmueble.luz}">Agua:</h:outputLabel>
-                                            <h:selectOneRadio id="agua" class="table table-striped">
-                                                <f:selectItem itemValue="S" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="N" itemLabel="&nbsp;No"/>
-                                                <!--<f:ajax event="change" execute="opcion"/>-->
+                                            <h:outputLabel for="agua">Agua:</h:outputLabel>
+                                            <h:selectOneRadio id="agua" class="table table-striped" value="#{av_solicitud.solicitudController.inmueble.agua}">
+                                                <f:selectItem itemValue="s" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="n" itemLabel="&nbsp;No"/>
                                             </h:selectOneRadio> 
                                         </div>
                                         <div class="col-md-2">
-                                            <h:outputLabel for="Luz" value="#{av_solicitud.solicitudController.inmueble.luz}">Luz:</h:outputLabel>
-                                            <h:selectOneRadio id="luz" class="table table-striped">
-                                                <f:selectItem itemValue="S" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="N" itemLabel="&nbsp;No"/>
-                                                <!--<f:ajax event="change" execute="opcion"/>-->
+                                            <h:outputLabel for="Luz">Luz:</h:outputLabel>
+                                            <h:selectOneRadio id="luz" class="table table-striped" value="#{av_solicitud.solicitudController.inmueble.luz}">
+                                                <f:selectItem itemValue="s" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="n" itemLabel="&nbsp;No"/>
                                             </h:selectOneRadio> 
                                         </div>
                                         <div class="col-md-2">
-                                            <h:outputLabel for="drenaje" value="#{av_solicitud.solicitudController.inmueble.drenaje}">Drenaje:</h:outputLabel>
-                                            <h:selectOneRadio id="drenaje" class="table table-striped">
-                                                <f:selectItem itemValue="S" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="N" itemLabel="&nbsp;No"/>
-                                                <!--<f:ajax event="change" execute="opcion"/>-->
+                                            <h:outputLabel for="drenaje">Drenaje:</h:outputLabel>
+                                            <h:selectOneRadio id="drenaje" class="table table-striped" value="#{av_solicitud.solicitudController.inmueble.drenaje}">
+                                                <f:selectItem itemValue="s" itemLabel="&nbsp;Si&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="n" itemLabel="&nbsp;No"/>
                                             </h:selectOneRadio> 
                                         </div>
                                     </div>
@@ -202,13 +190,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="colonia">* Colonia o Residencial:</h:outputLabel>
-                                                <h:inputText id="colonia" class="form-control"></h:inputText>
+                                                <h:inputText id="colonia" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.inmueble.residencial}"></h:inputText>
                                             </div>
                                         </div>  
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="numeroCatastral">* Numero fisico catastral(Si ya la tuviera):</h:outputLabel>
-                                                <h:inputText id="numeroCatastral" class="form-control"></h:inputText>
+                                                <h:inputText id="numeroCatastral" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.inmueble.numeroCatastral}"></h:inputText>
                                             </div>
                                         </div>
                                     </div>
@@ -218,9 +206,8 @@
                                         <div class="col-md-3">
                                             <h:outputLabel for="tipoEscritura">Tipo de Escritura:</h:outputLabel>
                                             <h:selectOneRadio id="opcion" class="table table-striped" value="#{av_solicitud.solicitudController.documento.tipo}">
-                                                <f:selectItem itemValue="1" itemLabel="&nbsp;Publica&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="2" itemLabel="&nbsp;Privada"/>
-                                                <!--<f:ajax event="change" execute="opcion"/>-->
+                                                <f:selectItem itemValue="a" itemLabel="&nbsp;Publica&nbsp;&nbsp;"/> 
+                                                <f:selectItem itemValue="b" itemLabel="&nbsp;Privada"/>
                                             </h:selectOneRadio> 
                                         </div>
                                     </div>
@@ -280,7 +267,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                <h:selectOneMenu  class="form-control" > 
+                                                <h:selectOneMenu  class="form-control" value="#{av_solicitud.punto.id}"> 
                                                     <!--value="#av_solicitud.solicitudController.punto.id}"-->
                                                     <f:selectItem itemValue="" itemLabel=""/>
                                                     <f:selectItems value="#{av_solicitud.puntosCardinales}"/>
@@ -319,7 +306,7 @@
                                         <div class="col-md-12">
                                             <h:dataTable id="tablacolindante" class="table" value="#{av_solicitud.solicitudController.colindantes}" var="c">
                                             <h:column>
-                                                #{c.puntocardinalId.descripcion}
+                                                #{c.puntocardinalId.id}
                                             </h:column>
                                             <h:column>
                                                 #{c.metros}

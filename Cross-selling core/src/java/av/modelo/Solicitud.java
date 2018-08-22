@@ -1,5 +1,6 @@
 package av.modelo;
 
+import admin.modelo.Colaborador;
 import dao.AvAsociado;
 import dao.AvColindante;
 import dao.AvDocumento;
@@ -7,10 +8,14 @@ import dao.AvInmueble;
 import dao.AvPropietario;
 import dao.AvSolicitud;
 import dao.AvTelefono;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpSession;
 
 public class Solicitud {
     AvAsociado asociado = new AvAsociado();
@@ -20,6 +25,26 @@ public class Solicitud {
     AvInmueble inmueble = new AvInmueble();
     ArrayList<AvColindante> colindantes = new ArrayList<>();
     AvSolicitud solicitud = new AvSolicitud();
+    private String userConect;
+    
+    
+    //Metodo contstructor
+    public Solicitud(){
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        
+        if(sesion.getAttribute("userConect") != null){
+            userConect = sesion.getAttribute("userConect").toString();
+        }
+        else{
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/index.xhtml");
+            } catch (IOException ex) {
+                ex.printStackTrace(System.out);
+            }
+        
+    }
+    
+}
 
     public AvAsociado getAsociado() {
         return asociado;
@@ -89,6 +114,11 @@ public class Solicitud {
             em = emf.createEntityManager();
             
             em.getTransaction().begin();
+            Colaborador colaborador = Colaborador.datosColaborador(userConect);
+            solicitud.setUsuario(userConect);
+            solicitud.setAgencia(colaborador.getAgencia());
+            solicitud.setFechahora(new Date());
+            solicitud.setEstado('a');
             em.merge(asociado);
             for(AvTelefono t : telefonos){
                 t.setAsociadoCif(asociado);
@@ -96,8 +126,11 @@ public class Solicitud {
             }
             em.merge(propietario);
             em.merge(documento);
+            inmueble.setPropietarioDpi(propietario);
+            inmueble.setDocumentoId(documento);
             em.merge(inmueble);
             for(AvColindante c : colindantes){
+                c.setTipo('a');
                 c.setInmuebleId(inmueble);
                 em.merge(c);
             }
