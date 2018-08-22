@@ -37,6 +37,9 @@ public class Solicitud {
     private ArrayList<GcVentajas> ventajas = new ArrayList<>();
     private ArrayList<GcDesventajas> desventajas = new ArrayList<>();
     
+    // Campo para manejo de mensaje de error
+    String error = null;
+    
     public Solicitud(){
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if(sesion.getAttribute("userConect") != null){
@@ -123,32 +126,54 @@ public class Solicitud {
         this.desventajas = desventajas;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     /* Metodo utilizado para generar una solicitud */
     public void generar(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        try{
+            emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+            em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
         
-        em.getTransaction().begin();
-        
-        Colaborador colaborador = Colaborador.datosColaborador(userConect);
-        solicitudGc.setAsesorFinanciero(userConect);
-        solicitudGc.setIdAgencia(colaborador.getAgencia());
-        solicitudGc.setFecha(new Date());
-        GcEstado est = new GcEstado("a");
-        solicitudGc.setEstadoId(est);
-        solicitudGc.setAsociadoCif(asociadoGc);
-        solicitudGc.setDestinoId(destinoGc);
-        solicitudGc.setTipoId(tipoGc);
-        solicitudGc.setTramiteId(tramiteGc);
-        solicitudGc.setTipoclienteId(clienteGc);
-        solicitudGc.setRiesgoId(new GcRiesgo(1));
-        em.merge(asociadoGc);
-        em.persist(solicitudGc);
-        
-        em.getTransaction().commit();
-        
-        em.close();
-        emf.close();
+            Colaborador colaborador = Colaborador.datosColaborador(userConect);
+            solicitudGc.setAsesorFinanciero(userConect);
+            solicitudGc.setIdAgencia(colaborador.getAgencia());
+            solicitudGc.setFecha(new Date());
+            GcEstado est = new GcEstado("a");
+            solicitudGc.setEstadoId(est);
+            solicitudGc.setAsociadoCif(asociadoGc);
+            solicitudGc.setDestinoId(destinoGc);
+            solicitudGc.setTipoId(tipoGc);
+            solicitudGc.setTramiteId(tramiteGc);
+            solicitudGc.setTipoclienteId(clienteGc);
+            solicitudGc.setRiesgoId(new GcRiesgo(1));
+            em.merge(asociadoGc);
+            em.persist(solicitudGc);
+
+            em.getTransaction().commit();
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/gc/gc_generadas.xhtml");
+        }
+        catch(IOException e){
+            e.printStackTrace(System.out);
+        }
+        catch(Exception e){
+            error = "! No se puede cargar la solicitud, el número de solicitud ya existe en la base de datos";
+        }finally{
+            if(em != null && emf != null){
+                em.close();
+                emf.close();
+            }
+        }
     }
    
     /* Metodo utilizado para obtener el nombre del asociado por el cif */
@@ -197,8 +222,6 @@ public class Solicitud {
             destinoGc = (GcDestino) obj[3];
             tipoGc = (GcTipo) obj[4];
             tramiteGc = (GcTramite) obj[5];
-            
-            System.out.println(asociadoGc.getNombre());
         }
         
         em.close();
@@ -207,22 +230,35 @@ public class Solicitud {
     
     // Metodo utilizado para actualizar una solicitud
     public void actualizarSolicitud(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
         
-        em.getTransaction().begin();
-        GcAsociado a = em.find(GcAsociado.class, asociadoGc.getCif());
-        a.setNombre(asociadoGc.getNombre());
-        GcSolicitud s = em.find(GcSolicitud.class, solicitudGc.getNumeroSolicitud());
-        s.setMonto(solicitudGc.getMonto());
-        s.setAsociadoCif(asociadoGc);
-        s.setTipoclienteId(clienteGc);
-        s.setDestinoId(destinoGc);
-        s.setTipoId(tipoGc);
-        s.setTramiteId(tramiteGc);
-        em.getTransaction().commit();
+        try{
+            emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+            em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            GcAsociado a = em.find(GcAsociado.class, asociadoGc.getCif());
+            a.setNombre(asociadoGc.getNombre());
+            GcSolicitud s = em.find(GcSolicitud.class, solicitudGc.getNumeroSolicitud());
+            s.setMonto(solicitudGc.getMonto());
+            s.setAsociadoCif(asociadoGc);
+            s.setTipoclienteId(clienteGc);
+            s.setDestinoId(destinoGc);
+            s.setTipoId(tipoGc);
+            s.setTramiteId(tramiteGc);
+            
+            em.getTransaction().commit();
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }finally{
+            if(em != null && emf != null){
+                em.close();
+                emf.close();
+            }
+        }
         
-        em.close();
-        emf.close();
     }
 }
