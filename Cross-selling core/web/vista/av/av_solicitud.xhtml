@@ -20,9 +20,9 @@
                                     <hr/>  
                                     <!--Datos Solicitud-->
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:outputLabel for="numeroSolicitud" >* Numero Solicitud:</h:outputLabel>
+                                                <h:outputLabel for="numeroSolicitud" >* Número Solicitud:</h:outputLabel>
                                                 <h:message for="numeroSolicitud" style="color: red"/>
                                                 <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}" required="true" label="&nbsp;!"></h:inputText>
                                                 
@@ -30,7 +30,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:outputLabel for="numeroCredito">* Numero de Credito:</h:outputLabel>
+                                                <h:outputLabel for="numeroCredito">* Número de Crédito:</h:outputLabel>
                                                 <h:message for="numeroCredito" style="color: red"/>
                                                 <h:inputText id="numeroCredito" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroCredito}" required="true" label="&nbsp;!"></h:inputText>
                                             </div>
@@ -84,7 +84,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <h:outputLabel for="direccion">* Direccion:</h:outputLabel>
+                                                <h:outputLabel for="direccion">* Dirección:</h:outputLabel>
                                                 <h:message for="direccion" style="color: red"/>
                                                 <h:inputText id="direccion" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.asociado.direccion}" required="true" label="&nbsp;!"></h:inputText>
                                             </div>
@@ -96,13 +96,13 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="telefonos">* Telefono</h:outputLabel>
-                                                    <h:inputText id="telefonos" class="form-control" autocomplete="off" value="#{av_solicitud.telefono.numero}"></h:inputText>
+                                                    <h:outputLabel for="telefonos">* Teléfono:</h:outputLabel><h:outputLabel value="#{av_solicitud.msjTelefono}" style="color: red"/>
+                                                    <h:inputText id="telefonos" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.telefono}"></h:inputText>
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
                                                 <h:outputLabel>&nbsp;</h:outputLabel>
-                                                <h:commandLink class="btn btn-info form-control" action="#{av_solicitud.agregarTelefono()}">
+                                                <h:commandLink class="btn btn-info form-control" action="#{av_solicitud.solicitudController.agregarTelefono()}">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                     <f:ajax execute="telefonos" render="pnTelefono"/>
                                                 </h:commandLink>
@@ -110,11 +110,16 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <h:dataTable id="tablatelefono" class="table" value="#{av_solicitud.solicitudController.telefonos}" var="t" >
+                                                <h:dataTable id="tablatelefono" class="table table-striped" value="#{av_solicitud.solicitudController.telefonos}" var="t" >
                                                 <h:column>
-                                                    #{t.numero}
+                                                    #{t}
                                                 </h:column>
-                                            </h:dataTable>
+                                                <h:column>
+                                                    <h:commandLink action="#{av_solicitud.solicitudController.quitarTelefono(t)}" immediate="true">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"/>
+                                                    </h:commandLink>
+                                                </h:column>
+                                            </h:dataTable>  
                                             </div>
                                         </div>
                                     </h:panelGroup>
@@ -149,7 +154,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <h:outputLabel for="direccionGarantia">* Direccion:</h:outputLabel>
+                                                <h:outputLabel for="direccionGarantia">* Dirección:</h:outputLabel>
                                                 <h:message for="direccionGarantia" style="color: red"/>
                                                 <h:inputText id="direccionGarantia" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.inmueble.direccionRegistrada}" required="true" label="&nbsp;"></h:inputText>
                                             </div>
@@ -211,7 +216,7 @@
                                         </div>  
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <h:outputLabel for="numeroCatastral">Numero fisico catastral(Si ya la tuviera):</h:outputLabel>
+                                                <h:outputLabel for="numeroCatastral">Número fisico catastral(Si ya la tuviera):</h:outputLabel>
                                                 <h:inputText id="numeroCatastral" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.inmueble.numeroCatastral}"></h:inputText>
                                             </div>
                                         </div>
@@ -287,70 +292,76 @@
                                     <!-- colindantes -->
                                     <!-- row -->
                                     <h:panelGroup id="pnColindante">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                <h:selectOneMenu id="puntoCardinal" class="form-control" value="#{av_solicitud.punto.id}"> 
-                                                    <!--value="#av_solicitud.solicitudController.punto.id}"-->
-                                                    <f:selectItem itemValue="" itemLabel=""/>
-                                                    <f:selectItems value="#{av_solicitud.puntosCardinales}"/>
-                                                </h:selectOneMenu>
+                                        <h:outputLabel value="#{av_solicitud.msjColindante}" style="color: red"/>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
+                                                    <h:selectOneMenu id="puntoCardinal" class="form-control" value="#{av_solicitud.solicitudController.colindante.puntoCardinalId}"> 
+                                                        <!--value="#av_solicitud.solicitudController.punto.id}"-->
+                                                        <f:selectItem itemValue="" itemLabel=""/>
+                                                        <f:selectItems value="#{av_solicitud.puntosCardinales}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="metros">Metros</h:outputLabel>
+                                                    <h:inputText id="metros" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.metros}"></h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="varas">Varas</h:outputLabel>
+                                                    <h:inputText id="varas" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.varas}"></h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="nombreColindantes">* Nombre de los Colindantes:</h:outputLabel>
+                                                    <h:inputText id="nombreColindantes" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.nombre}"></h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandLink class="btn btn-info form-control" action="#{av_solicitud.solicitudController.agregarColindante()}">
+                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                    <f:ajax execute="pnColindante" render="pnColindante"/>
+                                                </h:commandLink>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <h:outputLabel for="metros">Metros</h:outputLabel>
-                                                <h:inputText id="metros" class="form-control" autocomplete="off" value="#{av_solicitud.colindante.metros}"></h:inputText>
+                                        <!-- / row -->
+                                        <!-- row -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h:dataTable id="tablacolindante" class="table" value="#{av_solicitud.solicitudController.colindantes}" var="c">
+                                                <h:column>
+                                                    #{c.puntoCardinalId}
+                                                </h:column>
+                                                <h:column>
+                                                    #{c.metros}
+                                                </h:column>
+                                                <h:column>
+                                                    #{c.varas}
+                                                </h:column>
+                                                <h:column>
+                                                    #{c.nombre}
+                                                </h:column>
+                                                <h:column>
+                                                    <h:commandLink action="#{av_solicitud.solicitudController.quitarColindante(c)}" immediate="true">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"/>
+                                                    </h:commandLink>
+                                                </h:column>
+                                            </h:dataTable>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <h:outputLabel for="varas">Varas</h:outputLabel>
-                                                <h:inputText id="varas" class="form-control" autocomplete="off" value="#{av_solicitud.colindante.varas}"></h:inputText>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <h:outputLabel for="nombreColindantes">* Nombre de los Colindantes:</h:outputLabel>
-                                                <h:inputText id="nombreColindantes" class="form-control" autocomplete="off" value="#{av_solicitud.colindante.nombre}"></h:inputText>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <h:outputLabel>&nbsp;</h:outputLabel>
-                                            <h:commandLink class="btn btn-info form-control" action="#{av_solicitud.agregarColindate()}">
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                                <f:ajax execute="pnColindante" render="pnColindante"/>
-                                            </h:commandLink>
-                                        </div>
-                                    </div>
-                                    <!-- / row -->
-                                    <!-- row -->
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h:dataTable id="tablacolindante" class="table" value="#{av_solicitud.solicitudController.colindantes}" var="c">
-                                            <h:column>
-                                                #{c.puntocardinalId.id}
-                                            </h:column>
-                                            <h:column>
-                                                #{c.metros}
-                                            </h:column>
-                                            <h:column>
-                                                #{c.varas}
-                                            </h:column>
-                                            <h:column>
-                                                #{c.nombre}
-                                            </h:column>
-                                        </h:dataTable>
-                                        </div>
-                                    </div>
                                     </h:panelGroup>
                                     <!-- / row -->
                                     <!-- / colindantes -->
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:commandButton value="Aceptar" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
+                                                <h:commandButton value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
                                             </div>
                                         </div>
                                     </div>
