@@ -216,9 +216,11 @@ public class GcRecibidasBean {
 
                 Correo correo = new Correo(Colaborador.correoColaborador(s.getAsesorFinanciero()), "Solicitud No. " + s.getNumeroSolicitud(), msj);
                 correo.enviar();
+                
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/gc/gc_enproceso.xhtml");
             }
-            catch(Exception e){
-
+            catch(IOException e){
+                e.printStackTrace(System.out);
             }finally{
                 if(emf != null && em != null){
                     em.close();
