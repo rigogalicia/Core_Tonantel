@@ -49,7 +49,7 @@ public class AvRecibidasBean {
     public void setListRecibidas(ArrayList<SolicitudesRecibidas> listRecibidas) {
         this.listRecibidas = listRecibidas;
     }
-    
+    //Metodo para consultar las solicitudes generadas
     public void asignarAvaluo(SolicitudesRecibidas s){
         EntityManagerFactory emf = null;
         EntityManager em = null;
