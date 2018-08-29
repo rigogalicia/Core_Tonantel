@@ -1,9 +1,7 @@
 package av.controlador;
 
 import av.modelo.Solicitud;
-import dao.AvColindante;
 import dao.AvPuntocardinal;
-import dao.AvTelefono;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -18,11 +16,9 @@ import javax.persistence.Query;
 @ManagedBean(name = "av_solicitud")
 @ViewScoped
 public class AvSolicitudBean {
-    Solicitud solicitudController = new Solicitud();
-    AvTelefono telefono = new AvTelefono();
-    AvColindante colindante = new AvColindante();
-    AvPuntocardinal punto = new AvPuntocardinal();
-    
+    private Solicitud solicitudController = new Solicitud();
+    private String msjTelefono;
+    private String msjColindante;
     ArrayList<SelectItem> puntosCardinales = new ArrayList<>();
     private int tipoSolicitud = 0;
 
@@ -37,28 +33,20 @@ public class AvSolicitudBean {
         this.solicitudController = solicitudController;
     }
 
-    public AvTelefono getTelefono() {
-        return telefono;
+    public String getMsjTelefono() {
+        return msjTelefono;
     }
 
-    public void setTelefono(AvTelefono telefono) {
-        this.telefono = telefono;
+    public void setMsjTelefono(String msjTelefono) {
+        this.msjTelefono = msjTelefono;
     }
 
-    public AvPuntocardinal getPunto() {
-        return punto;
+    public String getMsjColindante() {
+        return msjColindante;
     }
 
-    public void setPunto(AvPuntocardinal punto) {
-        this.punto = punto;
-    }
-
-    public AvColindante getColindante() {
-        return colindante;
-    }
-
-    public void setColindante(AvColindante colindante) {
-        this.colindante = colindante;
+    public void setMsjColindante(String msjColindante) {
+        this.msjColindante = msjColindante;
     }
 
     public int getTipoSolicitud() {
@@ -70,7 +58,6 @@ public class AvSolicitudBean {
     }
 
     public ArrayList<SelectItem> getPuntosCardinales() {
-        System.out.println("Se ejecuto el metodo ................................");
         puntosCardinales.clear();
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
@@ -95,20 +82,6 @@ public class AvSolicitudBean {
     public void setPuntosCardinales(ArrayList<SelectItem> puntosCardinales) {
         this.puntosCardinales = puntosCardinales;
     }
-
-    /* Agrega los registros de telefono al array de objetos */
-    public void agregarTelefono(){
-        solicitudController.getTelefonos().add(telefono);
-        telefono = new AvTelefono();
-    }
-    
-    /*Agra los registros de colindantes al array de objetos*/
-    public void agregarColindate(){
-        colindante.setPuntocardinalId(punto);
-        solicitudController.getColindantes().add(colindante);
-        colindante = new AvColindante();
-        punto = new AvPuntocardinal();
-    }
     
     /* Metodo para verificar si es publica o privada */
     public void tipoDocumento(){
@@ -120,8 +93,27 @@ public class AvSolicitudBean {
         }
     }
     
+    // Valida los campos que contienen arrays
+    private boolean isComplit(){
+        boolean result = false;
+        
+        if(solicitudController.getTelefonos().isEmpty()){
+            msjTelefono = "Ingrese almenos un telefono";
+        }
+        else if(solicitudController.getColindantes().isEmpty()){
+            msjColindante = "Ingrese los datos de colindates";
+        }
+        else{
+            result = true;
+        }
+        
+        return result;
+    }
+    
     /* Este metodo controla el insert de la solicitud */
     public void insertarDatos(ActionEvent e){
-        solicitudController.crearSolicitud();
+        if(isComplit()){
+            solicitudController.crearSolicitud();
+        }
     }
 }

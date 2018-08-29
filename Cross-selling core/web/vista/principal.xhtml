@@ -137,6 +137,9 @@
                                                         
                                                         <!-- Privilegios que corresponden al modulo av -->
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_solicitud.xhtml" rendered="#{b.forma == 'avSolicitud' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_generadas.xhtml" rendered="#{b.forma == 'avGeneradas' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_recibidas.xhtml" rendered="#{b.forma == 'avRecibidas' eq true}"/>
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_enproceso.xhtml" rendered="#{b.forma == 'avEnproceso' eq true}"/>
                                                     </li>
                                                 </ui:repeat>
                                             </ul>

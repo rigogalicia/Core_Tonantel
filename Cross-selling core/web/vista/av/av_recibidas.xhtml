@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!-- Panel Principal -->
+                        <div class="panel panel-default">
+                            <!-- Panel contenedor -->
+                            <div class="panel-body">
+                                <div class="page-header">
+                                <h2>Solicitudes Recibidas</h2>
+                                </div>
+                                <!-- Tabla de Recibidos -->
+                                <h:form>                            
+                                    <h:dataTable class="table table-striped" value="#{av_Recibidas.listRecibidas}" var="r">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="numerosolicitud">Numero Solicitud</h:outputLabel>
+                                            </f:facet>
+                                            #{r.numeroSolicitud}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="cif">Cif</h:outputLabel>
+                                            </f:facet>
+                                            #{r.cif}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="solicitnate">Solicitante</h:outputLabel>
+                                            </f:facet>
+                                            #{r.asociado}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="agencia">Agencia</h:outputLabel>
+                                            </f:facet>
+                                            #{r.agencia}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="fechaSolicitada">Fecha Solicitada</h:outputLabel>
+                                            </f:facet>
+                                            #{r.fechaSolicitud}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink actionListener="#{av_Recibidas.asignarAvaluo(r)}">
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                                <!-- / Tabla de Recibidos -->
+                            </div>
+                            <!-- / Panel contenedor -->
+                        </div>
+                        <!-- / Panel Principal -->
+                    </section>
+                </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
