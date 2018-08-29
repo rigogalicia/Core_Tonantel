@@ -2,7 +2,6 @@ package av.controlador;
 
 import av.modelo.Solicitud;
 import dao.AvColindante;
-import dao.AvInmueble;
 import dao.AvPuntocardinal;
 import dao.AvTelefono;
 import java.util.ArrayList;
@@ -19,63 +18,17 @@ import javax.persistence.Query;
 @ManagedBean(name = "av_solicitud")
 @ViewScoped
 public class AvSolicitudBean {
-    AvInmueble inmueble = new AvInmueble();
-    private String vivienda = "";
-    private String acceso = "";
-    private String agua = "";
-    private String drenaje = "";
     Solicitud solicitudController = new Solicitud();
     AvTelefono telefono = new AvTelefono();
     AvColindante colindante = new AvColindante();
     AvPuntocardinal punto = new AvPuntocardinal();
     
     ArrayList<SelectItem> puntosCardinales = new ArrayList<>();
-    
+    private int tipoSolicitud = 0;
+
     public AvSolicitudBean() {
     }
-
-    public AvInmueble getInmueble() {
-        return inmueble;
-    }
-
-    public void setInmueble(AvInmueble inmueble) {
-        this.inmueble = inmueble;
-    }
     
-
-    public String getVivienda() {
-        return vivienda;
-    }
-
-    public void setVivienda(String vivienda) {
-        this.vivienda = vivienda;
-    }
-
-    public String getAcceso() {
-        return acceso;
-    }
-
-    public void setAcceso(String acceso) {
-        this.acceso = acceso;
-    }
-
-    public String getAgua() {
-        return agua;
-    }
-
-    public void setAgua(String agua) {
-        this.agua = agua;
-    }
-
-    public String getDrenaje() {
-        return drenaje;
-    }
-
-    public void setDrenaje(String drenaje) {
-        this.drenaje = drenaje;
-    }
-    
-  
     public Solicitud getSolicitudController() {
         return solicitudController;
     }
@@ -107,9 +60,19 @@ public class AvSolicitudBean {
     public void setColindante(AvColindante colindante) {
         this.colindante = colindante;
     }
-    
+
+    public int getTipoSolicitud() {
+        return tipoSolicitud;
+    }
+
+    public void setTipoSolicitud(int tipoSolicitud) {
+        this.tipoSolicitud = tipoSolicitud;
+    }
 
     public ArrayList<SelectItem> getPuntosCardinales() {
+        System.out.println("Se ejecuto el metodo ................................");
+        puntosCardinales.clear();
+        
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
@@ -118,6 +81,7 @@ public class AvSolicitudBean {
         Query consulta = em.createQuery(instruccion);
         List<AvPuntocardinal> resultado = consulta.getResultList();
         for(AvPuntocardinal p : resultado){
+            System.out.println(p.getDescripcion());
             SelectItem itemPunto = new SelectItem(p.getId(), p.getDescripcion());
             puntosCardinales.add(itemPunto);
         }
@@ -131,13 +95,13 @@ public class AvSolicitudBean {
     public void setPuntosCardinales(ArrayList<SelectItem> puntosCardinales) {
         this.puntosCardinales = puntosCardinales;
     }
-    
 
     /* Agrega los registros de telefono al array de objetos */
     public void agregarTelefono(){
         solicitudController.getTelefonos().add(telefono);
         telefono = new AvTelefono();
     }
+    
     /*Agra los registros de colindantes al array de objetos*/
     public void agregarColindate(){
         colindante.setPuntocardinalId(punto);
@@ -146,15 +110,18 @@ public class AvSolicitudBean {
         punto = new AvPuntocardinal();
     }
     
+    /* Metodo para verificar si es publica o privada */
+    public void tipoDocumento(){
+        if(solicitudController.getDocumento().getTipo() == 'a'){
+            tipoSolicitud = 1;
+        }
+        else{
+            tipoSolicitud = 2;
+        }
+    }
+    
     /* Este metodo controla el insert de la solicitud */
     public void insertarDatos(ActionEvent e){
-        System.out.println(solicitudController.getInmueble().getVivienda());
-        System.out.println(solicitudController.getInmueble().getAcceso());
-        System.out.println(solicitudController.getInmueble().getAgua());
-        System.out.println(solicitudController.getInmueble().getLuz());
-        System.out.println(solicitudController.getInmueble().getDrenaje());
-
-
-
+        solicitudController.crearSolicitud();
     }
 }
