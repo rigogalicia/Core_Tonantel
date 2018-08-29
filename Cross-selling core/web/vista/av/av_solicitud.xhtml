@@ -16,8 +16,9 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <h:form id="formSolicitudAv">
-                                    <h1>Solicitud de Avaluos</h1>
-                                    <hr/>  
+                                <div class="page-header">
+                                    <h2>Solicitud de Avaluos</h2>
+                                </div>
                                     <!--Datos Solicitud-->
                                     <div class="row">
                                         <div class="col-md-3">
@@ -361,7 +362,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:commandButton value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
+                                                <h:commandButton value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}" />
                                             </div>
                                         </div>
                                     </div>

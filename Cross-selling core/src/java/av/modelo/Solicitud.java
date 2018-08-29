@@ -6,6 +6,7 @@ import dao.AvColindante;
 import dao.AvDocumento;
 import dao.AvInmueble;
 import dao.AvPropietario;
+import dao.AvPuntocardinal;
 import dao.AvSolicitud;
 import dao.AvTelefono;
 import java.io.IOException;
@@ -18,15 +19,16 @@ import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
 
 public class Solicitud {
-    AvAsociado asociado = new AvAsociado();
-    ArrayList<AvTelefono> telefonos = new ArrayList<>();
-    AvDocumento documento = new AvDocumento();
-    AvPropietario propietario = new AvPropietario();
-    AvInmueble inmueble = new AvInmueble();
-    ArrayList<AvColindante> colindantes = new ArrayList<>();
-    AvSolicitud solicitud = new AvSolicitud();
+    private AvAsociado asociado = new AvAsociado();
+    private String telefono = new String();
+    private ArrayList<String> telefonos = new ArrayList<>();
+    private AvDocumento documento = new AvDocumento();
+    private AvPropietario propietario = new AvPropietario();
+    private AvInmueble inmueble = new AvInmueble();
+    private Colindante colindante = new Colindante();
+    private ArrayList<Colindante> colindantes = new ArrayList<>();
+    private AvSolicitud solicitud = new AvSolicitud();
     private String userConect;
-    
     
     //Metodo contstructor
     public Solicitud(){
@@ -41,10 +43,9 @@ public class Solicitud {
             } catch (IOException ex) {
                 ex.printStackTrace(System.out);
             }
-        
-    }
+        }
     
-}
+    }
 
     public AvAsociado getAsociado() {
         return asociado;
@@ -54,11 +55,19 @@ public class Solicitud {
         this.asociado = asociado;
     }
 
-    public ArrayList<AvTelefono> getTelefonos() {
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public ArrayList<String> getTelefonos() {
         return telefonos;
     }
 
-    public void setTelefonos(ArrayList<AvTelefono> telefonos) {
+    public void setTelefonos(ArrayList<String> telefonos) {
         this.telefonos = telefonos;
     }
 
@@ -86,14 +95,22 @@ public class Solicitud {
         this.inmueble = inmueble;
     }
 
-    public ArrayList<AvColindante> getColindantes() {
+    public Colindante getColindante() {
+        return colindante;
+    }
+
+    public void setColindante(Colindante colindante) {
+        this.colindante = colindante;
+    }
+
+    public ArrayList<Colindante> getColindantes() {
         return colindantes;
     }
 
-    public void setColindantes(ArrayList<AvColindante> colindantes) {
+    public void setColindantes(ArrayList<Colindante> colindantes) {
         this.colindantes = colindantes;
     }
-
+    
     public AvSolicitud getSolicitud() {
         return solicitud;
     }
@@ -102,6 +119,27 @@ public class Solicitud {
         this.solicitud = solicitud;
     }
     
+    // Metodo para agregar un numero de telefono
+    public void agregarTelefono(){
+        telefonos.add(telefono);
+        telefono = new String();
+    }
+    
+    // Metodo para quitar un numero de telefono
+    public void quitarTelefono(String tel){
+        telefonos.remove(tel);
+    }
+    
+    // Agrega un registro en el array de colindante
+    public void agregarColindante(){
+        colindantes.add(colindante);
+        colindante = new Colindante();
+    }
+    
+    // Elimina un registro de el array de colindante
+    public void quitarColindante(Colindante c){
+        colindantes.remove(c);
+    }
     
     /* Este metodo crea una solicitud, envia los datos a la base de datos
     Por medio de una transaccion*/
@@ -120,24 +158,33 @@ public class Solicitud {
             solicitud.setFechahora(new Date());
             solicitud.setEstado('a');
             em.merge(asociado);
-            for(AvTelefono t : telefonos){
-                t.setAsociadoCif(asociado);
-                em.merge(t);
+            for(String t : telefonos){
+                AvTelefono telefonoBD = new AvTelefono();
+                telefonoBD.setNumero(t);
+                telefonoBD.setAsociadoCif(asociado);
+                em.merge(telefonoBD);
             }
             em.merge(propietario);
             em.merge(documento);
             inmueble.setPropietarioDpi(propietario);
             inmueble.setDocumentoId(documento);
             em.merge(inmueble);
-            for(AvColindante c : colindantes){
-                c.setTipo('a');
-                c.setInmuebleId(inmueble);
-                em.merge(c);
+            for(Colindante c : colindantes){
+                AvColindante colindanteDB = new AvColindante();
+                colindanteDB.setMetros(c.getMetros());
+                colindanteDB.setVaras(c.getVaras());
+                colindanteDB.setNombre(c.getNombre());
+                colindanteDB.setTipo('a');
+                colindanteDB.setPuntocardinalId(new AvPuntocardinal(c.getPuntoCardinalId()));
+                colindanteDB.setInmuebleId(inmueble);
+                em.merge(colindanteDB);
             }
             solicitud.setAsociadoCif(asociado);
             solicitud.setInmuebleId(inmueble);
             em.merge(solicitud);
             em.getTransaction().commit();
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_generadas.xhtml");
         }
         catch(Exception e){
             e.printStackTrace(System.out);
