@@ -14,24 +14,10 @@
                     <section class="content">
                         <!--Inicia Panel Principal -->
                         <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <h3 class="panel-title">Solicitudes Recibidas <span style="color: red">#{gc_recibidas.error}</span></h3>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <h:form>
-                                            <h:commandLink value="Activar Filtros" actionListener="#{gc_recibidas.activarFiltros()}" rendered="#{gc_recibidas.filter == false eq true}">
-                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                            </h:commandLink>
-                                            <h:commandLink value="Borrar Filtros" actionListener="#{gc_recibidas.borrarFiltros()}" rendered="#{gc_recibidas.filter eq true}">
-                                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                            </h:commandLink>
-                                        </h:form>
-                                    </div>
+                            <div class="panel-body">
+                                <div class="page-header">
+                                    <h3>Solicitudes Recibidas <small style="color: red">#{gc_recibidas.error}</small></h3>
                                 </div>
-                            </div>
-                            <div class="panel-body" style="height: 13cm; overflow-y: auto">
                                 <h:form id="recibidas">
                                     <!--Panel de contenido e incio de la tabla -->
                                     <h:dataTable class="table table-striped" value="#{gc_recibidas.listaRecibidas}" var="r">
@@ -112,6 +98,14 @@
                                             #{r.fecha}
                                         </h:column>
                                         <h:column>
+                                            <f:facet name="header">
+                                                <h:commandLink actionListener="#{gc_recibidas.activarFiltros()}" rendered="#{gc_recibidas.filter == false eq true}">
+                                                    <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                </h:commandLink>
+                                                <h:commandLink actionListener="#{gc_recibidas.borrarFiltros()}" rendered="#{gc_recibidas.filter eq true}">
+                                                    <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                </h:commandLink>
+                                            </f:facet>
                                             <h:commandLink actionListener="#{gc_recibidas.asignarSolicitud(r)}">
                                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                             </h:commandLink>   
