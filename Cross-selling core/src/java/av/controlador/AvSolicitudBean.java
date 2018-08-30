@@ -22,8 +22,7 @@ public class AvSolicitudBean {
     ArrayList<SelectItem> puntosCardinales = new ArrayList<>();
     private int tipoSolicitud = 0;
 
-    public AvSolicitudBean() {
-    }
+    public AvSolicitudBean() {}
     
     public Solicitud getSolicitudController() {
         return solicitudController;
@@ -95,9 +94,11 @@ public class AvSolicitudBean {
     // Valida los campos que contienen arrays
     private boolean isComplit(){
         boolean result = false;
+        msjTelefono = null;
+        msjColindante = null;
         
         if(solicitudController.getTelefonos().isEmpty()){
-            msjTelefono = "Ingrese almenos un telefono";
+            msjTelefono = "Ingrese almenos un teléfono";
         }
         else if(solicitudController.getColindantes().isEmpty()){
             msjColindante = "Ingrese los datos de colindates";

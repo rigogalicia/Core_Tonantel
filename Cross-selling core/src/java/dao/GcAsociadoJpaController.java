@@ -34,6 +34,9 @@ public class GcAsociadoJpaController implements Serializable {
     }
 
     public void create(GcAsociado gcAsociado) throws PreexistingEntityException, Exception {
+        if (gcAsociado.getGcProcesoList() == null) {
+            gcAsociado.setGcProcesoList(new ArrayList<GcProceso>());
+        }
         if (gcAsociado.getGcSolicitudList() == null) {
             gcAsociado.setGcSolicitudList(new ArrayList<GcSolicitud>());
         }
@@ -41,6 +44,12 @@ public class GcAsociadoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<GcProceso> attachedGcProcesoList = new ArrayList<GcProceso>();
+            for (GcProceso gcProcesoListGcProcesoToAttach : gcAsociado.getGcProcesoList()) {
+                gcProcesoListGcProcesoToAttach = em.getReference(gcProcesoListGcProcesoToAttach.getClass(), gcProcesoListGcProcesoToAttach.getId());
+                attachedGcProcesoList.add(gcProcesoListGcProcesoToAttach);
+            }
+            gcAsociado.setGcProcesoList(attachedGcProcesoList);
             List<GcSolicitud> attachedGcSolicitudList = new ArrayList<GcSolicitud>();
             for (GcSolicitud gcSolicitudListGcSolicitudToAttach : gcAsociado.getGcSolicitudList()) {
                 gcSolicitudListGcSolicitudToAttach = em.getReference(gcSolicitudListGcSolicitudToAttach.getClass(), gcSolicitudListGcSolicitudToAttach.getNumeroSolicitud());
@@ -48,6 +57,15 @@ public class GcAsociadoJpaController implements Serializable {
             }
             gcAsociado.setGcSolicitudList(attachedGcSolicitudList);
             em.persist(gcAsociado);
+            for (GcProceso gcProcesoListGcProceso : gcAsociado.getGcProcesoList()) {
+                GcAsociado oldAsociadoCifOfGcProcesoListGcProceso = gcProcesoListGcProceso.getAsociadoCif();
+                gcProcesoListGcProceso.setAsociadoCif(gcAsociado);
+                gcProcesoListGcProceso = em.merge(gcProcesoListGcProceso);
+                if (oldAsociadoCifOfGcProcesoListGcProceso != null) {
+                    oldAsociadoCifOfGcProcesoListGcProceso.getGcProcesoList().remove(gcProcesoListGcProceso);
+                    oldAsociadoCifOfGcProcesoListGcProceso = em.merge(oldAsociadoCifOfGcProcesoListGcProceso);
+                }
+            }
             for (GcSolicitud gcSolicitudListGcSolicitud : gcAsociado.getGcSolicitudList()) {
                 GcAsociado oldAsociadoCifOfGcSolicitudListGcSolicitud = gcSolicitudListGcSolicitud.getAsociadoCif();
                 gcSolicitudListGcSolicitud.setAsociadoCif(gcAsociado);
@@ -76,9 +94,19 @@ public class GcAsociadoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             GcAsociado persistentGcAsociado = em.find(GcAsociado.class, gcAsociado.getCif());
+            List<GcProceso> gcProcesoListOld = persistentGcAsociado.getGcProcesoList();
+            List<GcProceso> gcProcesoListNew = gcAsociado.getGcProcesoList();
             List<GcSolicitud> gcSolicitudListOld = persistentGcAsociado.getGcSolicitudList();
             List<GcSolicitud> gcSolicitudListNew = gcAsociado.getGcSolicitudList();
             List<String> illegalOrphanMessages = null;
+            for (GcProceso gcProcesoListOldGcProceso : gcProcesoListOld) {
+                if (!gcProcesoListNew.contains(gcProcesoListOldGcProceso)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain GcProceso " + gcProcesoListOldGcProceso + " since its asociadoCif field is not nullable.");
+                }
+            }
             for (GcSolicitud gcSolicitudListOldGcSolicitud : gcSolicitudListOld) {
                 if (!gcSolicitudListNew.contains(gcSolicitudListOldGcSolicitud)) {
                     if (illegalOrphanMessages == null) {
@@ -90,6 +118,13 @@ public class GcAsociadoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            List<GcProceso> attachedGcProcesoListNew = new ArrayList<GcProceso>();
+            for (GcProceso gcProcesoListNewGcProcesoToAttach : gcProcesoListNew) {
+                gcProcesoListNewGcProcesoToAttach = em.getReference(gcProcesoListNewGcProcesoToAttach.getClass(), gcProcesoListNewGcProcesoToAttach.getId());
+                attachedGcProcesoListNew.add(gcProcesoListNewGcProcesoToAttach);
+            }
+            gcProcesoListNew = attachedGcProcesoListNew;
+            gcAsociado.setGcProcesoList(gcProcesoListNew);
             List<GcSolicitud> attachedGcSolicitudListNew = new ArrayList<GcSolicitud>();
             for (GcSolicitud gcSolicitudListNewGcSolicitudToAttach : gcSolicitudListNew) {
                 gcSolicitudListNewGcSolicitudToAttach = em.getReference(gcSolicitudListNewGcSolicitudToAttach.getClass(), gcSolicitudListNewGcSolicitudToAttach.getNumeroSolicitud());
@@ -98,6 +133,17 @@ public class GcAsociadoJpaController implements Serializable {
             gcSolicitudListNew = attachedGcSolicitudListNew;
             gcAsociado.setGcSolicitudList(gcSolicitudListNew);
             gcAsociado = em.merge(gcAsociado);
+            for (GcProceso gcProcesoListNewGcProceso : gcProcesoListNew) {
+                if (!gcProcesoListOld.contains(gcProcesoListNewGcProceso)) {
+                    GcAsociado oldAsociadoCifOfGcProcesoListNewGcProceso = gcProcesoListNewGcProceso.getAsociadoCif();
+                    gcProcesoListNewGcProceso.setAsociadoCif(gcAsociado);
+                    gcProcesoListNewGcProceso = em.merge(gcProcesoListNewGcProceso);
+                    if (oldAsociadoCifOfGcProcesoListNewGcProceso != null && !oldAsociadoCifOfGcProcesoListNewGcProceso.equals(gcAsociado)) {
+                        oldAsociadoCifOfGcProcesoListNewGcProceso.getGcProcesoList().remove(gcProcesoListNewGcProceso);
+                        oldAsociadoCifOfGcProcesoListNewGcProceso = em.merge(oldAsociadoCifOfGcProcesoListNewGcProceso);
+                    }
+                }
+            }
             for (GcSolicitud gcSolicitudListNewGcSolicitud : gcSolicitudListNew) {
                 if (!gcSolicitudListOld.contains(gcSolicitudListNewGcSolicitud)) {
                     GcAsociado oldAsociadoCifOfGcSolicitudListNewGcSolicitud = gcSolicitudListNewGcSolicitud.getAsociadoCif();
@@ -139,6 +185,13 @@ public class GcAsociadoJpaController implements Serializable {
                 throw new NonexistentEntityException("The gcAsociado with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<GcProceso> gcProcesoListOrphanCheck = gcAsociado.getGcProcesoList();
+            for (GcProceso gcProcesoListOrphanCheckGcProceso : gcProcesoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This GcAsociado (" + gcAsociado + ") cannot be destroyed since the GcProceso " + gcProcesoListOrphanCheckGcProceso + " in its gcProcesoList field has a non-nullable asociadoCif field.");
+            }
             List<GcSolicitud> gcSolicitudListOrphanCheck = gcAsociado.getGcSolicitudList();
             for (GcSolicitud gcSolicitudListOrphanCheckGcSolicitud : gcSolicitudListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

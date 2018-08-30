@@ -151,7 +151,7 @@ public class SolicitudesEnproceso {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT DISTINCT S.numero_solicitud numeroSolicitud, "
+        String instruccion = "SELECT S.numero_solicitud numeroSolicitud, "
                 + "A.nombre nombreAsociado, "
                 + "A.cif cif, "
                 + "T.id tipoId, "
@@ -210,7 +210,7 @@ public class SolicitudesEnproceso {
         }
         
         if(!estadoId.equals("-")){
-            instruccion += "AND E.id = '"+estadoId+"' ";
+            instruccion += "AND E.id = '"+estadoId+"' AND G.estado_id = '"+estadoId+"' ";
         }
 
         instruccion += "ORDER BY S.fecha DESC";

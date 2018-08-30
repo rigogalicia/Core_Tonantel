@@ -186,7 +186,7 @@ public class Solicitud {
             
             FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_generadas.xhtml");
         }
-        catch(Exception e){
+        catch(IOException e){
             e.printStackTrace(System.out);
         }finally{
             if(emf != null && em != null){

@@ -36,6 +36,8 @@ public class GcAsociado implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asociadoCif")
+    private List<GcProceso> gcProcesoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asociadoCif")
     private List<GcSolicitud> gcSolicitudList;
 
     public GcAsociado() {
@@ -64,6 +66,14 @@ public class GcAsociado implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<GcProceso> getGcProcesoList() {
+        return gcProcesoList;
+    }
+
+    public void setGcProcesoList(List<GcProceso> gcProcesoList) {
+        this.gcProcesoList = gcProcesoList;
     }
 
     public List<GcSolicitud> getGcSolicitudList() {
