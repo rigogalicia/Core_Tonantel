@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!-- Panel principal -->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="page-header">
+                                    <h2>Avaluo Bancario</h2>
+                                </div>
+                                <h:form>
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="direccionfisica">Dirección física del Inmueble:</h:outputLabel>
+                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="coordenadas">Coordenadas:</h:outputLabel>
+                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="fechainspeccion">Fecha de Inspección:</h:outputLabel>
+                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / row -->    
+                                    <hr/>
+                                    <h4>Área</h4>
+                                    <!-- row -->
+                                    <div class="row">    
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="aregistrada">Área registrada:</h:outputLabel>
+                                                <h:inputText id="aregistrada" class="form-control" autocomplete="off"/>
+                                            </div>  
+                                        </div>            
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="afisica">Área fisica:</h:outputLabel>
+                                                <h:inputText id="afisica" class="form-control" autocomplete="off"/>
+                                            </div>  
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="avaluar">Área a valuar:</h:outputLabel>
+                                                <h:inputText id="avaluar" class="form-control" autocomplete="off"/>
+                                            </div>  
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="superficie">Superficie Construida:</h:outputLabel>
+                                                <h:inputText id="superficie" class="form-control" autocomplete="off"/>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    <!-- /row -->  
+                                    <!-- row -->
+                                    <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <h:outputLabel for="exceso">Exceso o Defecto:</h:outputLabel>
+                                            <h:inputText id="exceso" class="form-control" autocomplete="off"/>
+                                        </div>  
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h:outputLabel for="mfrente">Medidas de Frente y Fondo:</h:outputLabel>
+                                            <h:inputText id="mfrente" class="form-control" autocomplete="off"/>
+                                        </div>  
+                                    </div>
+                                    </div>
+                                    <!-- / row -->
+                                </h:form>
+                            </div>
+                        </div>
+                        <!-- / Panel principal -->
+                    </section>
+                </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer> 
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
