@@ -20,31 +20,36 @@
                                 </div>
                                 <!-- Tabla de solicitudes en Proceso -->
                                 <h:form>
-                                    <h:dataTable class="table table-striped">
+                                    <h:dataTable class="table table-striped" value="#{av_Enproceso.listEnproceso}" var="e">
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="nsolicitud">Numero Solicitud</h:outputLabel>
                                             </f:facet>
+                                            #{e.numeroSolicitud}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="cif">Cif</h:outputLabel>
                                             </f:facet>
+                                            #{e.cif}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="solicitante">Solicitante</h:outputLabel>
                                             </f:facet>
+                                            #{e.asociado}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="agencia">Agencia</h:outputLabel>
                                             </f:facet>
+                                            #{e.agencia}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="fecha">Fecha Solicitud</h:outputLabel>
                                             </f:facet>
+                                            #{e.fechaSolicitad}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
@@ -54,6 +59,7 @@
                                                     <f:selectItem itemValue = "d" itemLabel = "Avaluo Autorizado" /> 
                                                     <f:selectItem itemValue = "f" itemLabel = "Avaluo Rechazado" /> 
                                                 </h:selectOneMenu>
+                                                #{e.estado}
                                             </f:facet>
                                         </h:column>
                                         <h:column>
