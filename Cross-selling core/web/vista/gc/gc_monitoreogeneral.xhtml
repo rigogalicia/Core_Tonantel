@@ -15,27 +15,10 @@
                         <div class="row">
                             <div class="col-md-#{gc_monitoreo.panel1}">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-md-10">
-                                                <h3 class="panel-title">Monitoreo de Solicitudes</h3>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <h:form>
-                                                    <h:commandLink value="Activar Filtros" actionListener="#{gc_monitoreo.activarFiltros()}" rendered="#{gc_monitoreo.filter == false eq true}">
-                                                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                                    </h:commandLink>
-                                                    <h:commandLink value="Borrar Filtros" actionListener="#{gc_monitoreo.desactivarFiltros()}" rendered="#{gc_monitoreo.filter eq true}">
-                                                        <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
-                                                    </h:commandLink>
-                                                    <h:commandLink id="btnCerrar" actionListener="#{gc_monitoreo.desactivarChat()}">
-                                                        <span class="glyphicon glyphicon-fullscreen"></span>
-                                                    </h:commandLink>
-                                                </h:form>
-                                            </div>
+                                    <div class="panel-body">
+                                        <div class="page-header">
+                                            <h3>Monitoreo de Solicitudes</h3>
                                         </div>
-                                    </div>
-                                    <div class="panel-body" style="height: 15cm; overflow-y: auto">
                                         <h:form id="datosMonitoreo">
                                             <h:selectOneMenu id="agencia" class="form-control" value="#{gc_monitoreo.monitoreo.idAgencia}" onchange="submit()"
                                                              valueChangeListener="#{gc_monitoreo.filtrarPorAgencia}" rendered="#{gc_monitoreo.filter eq true}">
@@ -43,7 +26,6 @@
                                                 <f:selectItems value="#{gc_monitoreo.agencia}"/>
                                             </h:selectOneMenu>
                                             <h:dataTable class="table table-striped" value="#{gc_monitoreo.solicitudes}" var="s">
-                                                   
                                                 <h:column>
                                                     <f:facet name="header">
                                                         Solicitud
@@ -53,7 +35,7 @@
                                                     </f:facet>
                                                     #{s.numeroSolicitud}
                                                 </h:column>
-                                                <h:column>
+                                                <h:column rendered="#{gc_monitoreo.panel2 == 0 eq true}">
                                                     <f:facet name="header">
                                                         Cif
                                                         <h:inputText id="cif" class="form-control" value="#{gc_monitoreo.monitoreo.cif}" rendered="#{gc_monitoreo.filter eq true}">
@@ -126,7 +108,7 @@
                                                     </f:facet>
                                                     #{s.estado}
                                                 </h:column>
-                                                <h:column>
+                                                <h:column rendered="#{gc_monitoreo.panel2 == 0 eq true}">
                                                     <f:facet name="header">
                                                         Monto
                                                         <h:inputText id="monto" class="form-control" disabled="true" rendered="#{gc_monitoreo.filter eq true}"/>
@@ -134,6 +116,17 @@
                                                     #{s.monto}
                                                 </h:column>
                                                 <h:column>
+                                                    <f:facet name="header">
+                                                        <h:commandLink actionListener="#{gc_monitoreo.activarFiltros()}" rendered="#{gc_monitoreo.filter == false eq true}">
+                                                            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                        </h:commandLink>
+                                                        <h:commandLink actionListener="#{gc_monitoreo.desactivarFiltros()}" rendered="#{gc_monitoreo.filter eq true}">
+                                                            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                                                        </h:commandLink>
+                                                        <h:commandLink id="btnCerrar" actionListener="#{gc_monitoreo.desactivarChat()}">
+                                                            <span class="glyphicon glyphicon-fullscreen"></span>
+                                                        </h:commandLink>
+                                                    </f:facet>
                                                     <h:commandLink action="/vista/gc/gc_detalle_monitoreo.xhtml">
                                                         <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
                                                         <f:param name="numeroSolicitud" value="#{s.numeroSolicitud}"/>

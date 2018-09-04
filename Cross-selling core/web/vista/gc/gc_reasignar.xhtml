@@ -12,70 +12,66 @@
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Reasignar Solicitud</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <h:form id="formReasignar">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <h:outputLabel for="numeroSolicitud">Número de Solicitud:</h:outputLabel>
-                                                        <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{gc_reasignar.reasignar.numeroSolicitud}">
-                                                            <f:ajax event="blur" listener="#{gc_reasignar.consultarDatos}" execute="numeroSolicitud" render="formReasignar"/>
-                                                        </h:inputText>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <h:outputLabel for="cif">Cif:</h:outputLabel>
-                                                        <h:inputText id="cif" class="form-control" disabled="true" value="#{gc_reasignar.reasignar.cif}"/>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <h:outputLabel for="nombre">Nombre:</h:outputLabel>
-                                                        <h:inputText id="nombre" class="form-control" disabled="true" value="#{gc_reasignar.reasignar.nombre}"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <h:outputLabel for="asignadoa">Asignado A:</h:outputLabel>
-                                                        <h:inputText id="asignadoa" class="form-control" disabled="true" value="#{gc_reasignar.reasignar.asignadoA}"/>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h:outputLabel for="analistasAsignar">Analistas para asignar:</h:outputLabel>
-                                                        <h:selectOneMenu id="analistaAsignar" class="form-control" value="#{gc_reasignar.reasignar.analista}">
-                                                            <f:selectItem itemLabel="" itemValue=""/>
-                                                            <f:selectItems value="#{gc_reasignar.analistas}"/>
-                                                        </h:selectOneMenu>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <h:outputLabel>&nbsp;</h:outputLabel>
-                                                        <h:commandButton id="btnCancelar" class="btn btn-danger form-control" value="Cancelar" actionListener="#{gc_reasignar.cancelar()}"/>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <h:outputLabel>&nbsp;</h:outputLabel>
-                                                        <h:commandButton id="btnAceptar" class="btn btn-success form-control" value="Aceptar" actionListener="#{gc_reasignar.reasignarSolicitud()}"/>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <br/><br/>
-                                                        <h:outputLabel>#{gc_reasignar.msj}</h:outputLabel>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </h:form>
-                                    </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="page-header">
+                                    <h3>Reasignar Solicitud</h3>
                                 </div>
+                                <h:form id="formReasignar">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h:outputLabel for="numeroSolicitud">Número de Solicitud:</h:outputLabel>
+                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{gc_reasignar.reasignar.numeroSolicitud}">
+                                                    <f:ajax event="blur" listener="#{gc_reasignar.consultarDatos}" execute="numeroSolicitud" render="formReasignar"/>
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h:outputLabel for="cif">Cif:</h:outputLabel>
+                                                <h:inputText id="cif" class="form-control" disabled="true" value="#{gc_reasignar.reasignar.cif}"/>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <h:outputLabel for="nombre">Nombre:</h:outputLabel>
+                                                <h:inputText id="nombre" class="form-control" disabled="true" value="#{gc_reasignar.reasignar.nombre}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h:outputLabel for="asignadoa">Asignado A:</h:outputLabel>
+                                                <h:inputText id="asignadoa" class="form-control" disabled="true" value="#{gc_reasignar.reasignar.asignadoA}"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h:outputLabel for="analistasAsignar">Analistas para asignar:</h:outputLabel>
+                                                <h:selectOneMenu id="analistaAsignar" class="form-control" value="#{gc_reasignar.reasignar.analista}">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{gc_reasignar.analistas}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandButton id="btnCancelar" class="btn btn-danger form-control" value="Cancelar" actionListener="#{gc_reasignar.cancelar()}"/>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandButton id="btnAceptar" class="btn btn-success form-control" value="Aceptar" actionListener="#{gc_reasignar.reasignarSolicitud()}"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <br/><br/>
+                                                <h:outputLabel>#{gc_reasignar.msj}</h:outputLabel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h:form>
                             </div>
                         </div>
                     </section>

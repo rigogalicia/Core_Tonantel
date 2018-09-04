@@ -15,23 +15,23 @@
                         <h:form id="repTarjetas">
                             <!--#Panel principal-->
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-xs-9">
-                                            <h3 class="panel-title">Tarjetas de Crédito</h3>
-                                        </div>
-
-                                        <div class="col-xs-3">
-                                            <h:selectOneRadio id="opcion" value = "#{gc_tarjetas.opcion}"> 
-                                                <f:selectItem itemValue="1" itemLabel="&nbsp;Pendientes&nbsp;&nbsp;"/> 
-                                                <f:selectItem itemValue="2" itemLabel="&nbsp;Troqueladas"/>
-                                                <f:ajax event="change" execute="opcion" render="repTarjetas" listener="#{gc_tarjetas.consultar()}"/>
-                                            </h:selectOneRadio>  
+                                <div class="panel-body">
+                                    <div class="page-header">
+                                        <div class="row">
+                                            <div class="col-xs-9">
+                                                <h3>Tarjetas de Crédito</h3>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <h5>
+                                                    <h:selectOneRadio id="opcion" value = "#{gc_tarjetas.opcion}"> 
+                                                        <f:selectItem itemValue="1" itemLabel="&nbsp;Pendientes&nbsp;&nbsp;"/> 
+                                                        <f:selectItem itemValue="2" itemLabel="&nbsp;Troqueladas"/>
+                                                        <f:ajax event="change" execute="opcion" render="repTarjetas" listener="#{gc_tarjetas.consultar()}"/>
+                                                    </h:selectOneRadio>
+                                                </h5>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--#Contenido del panel-->
-                                <div class="panel-body"  style=" height: 13cm; overflow-y: auto" >
                                     <!--#Table-->
                                     <h:dataTable id="tarjetas" class="table table-striped" value="#{gc_tarjetas.tarjetas}" var="t">
                                         <h:column>
