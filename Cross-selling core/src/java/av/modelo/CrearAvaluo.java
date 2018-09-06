@@ -91,7 +91,7 @@ public class CrearAvaluo {
             
             
             SimpleDateFormat formatofecha = new SimpleDateFormat("dd/mm/yyyy");
-            ;
+            
             
             em.getTransaction().begin();
             em.merge(inmueble);
