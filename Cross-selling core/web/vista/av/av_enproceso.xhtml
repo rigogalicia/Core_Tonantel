@@ -53,14 +53,15 @@
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:selectOneMenu>
+                                                <h:selectOneMenu id="estado" class="form-control" value="#{av_Enproceso.enproceso.est}" onchange="submit()"
+                                                                 valueChangeListener="#{av_Enproceso.filtrarDatos}">
                                                     <f:selectItem itemValue = "b" itemLabel = "Avaluo en Proceso" />
                                                     <f:selectItem itemValue = "c" itemLabel = "Avaluo Realizado" /> 
                                                     <f:selectItem itemValue = "d" itemLabel = "Avaluo Autorizado" /> 
                                                     <f:selectItem itemValue = "f" itemLabel = "Avaluo Rechazado" /> 
                                                 </h:selectOneMenu>
-                                                #{e.estado}
                                             </f:facet>
+                                            #{e.estado}
                                         </h:column>
                                         <h:column>
                                             <h:commandLink>
