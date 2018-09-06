@@ -64,8 +64,13 @@
                                             #{e.estado}
                                         </h:column>
                                         <h:column>
-                                            <h:commandLink>
+                                            <h:commandLink target="blank_" actionListener="#{av_Enproceso.verDetalleSolicitud(e)}">
                                                 <samp class="glyphicon glyphicon-list-alt"></samp>
+                                            </h:commandLink>
+                                            &nbsp;
+                                            &nbsp;
+                                            <h:commandLink actionListener="#{av_CrearAvaluo.selectSolicitud(e)}">
+                                                <samp class="glyphicon glyphicon-edit"></samp>
                                             </h:commandLink>
                                         </h:column>
                                     </h:dataTable>

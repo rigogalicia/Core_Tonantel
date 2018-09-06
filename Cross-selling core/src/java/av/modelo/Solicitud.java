@@ -1,6 +1,7 @@
 package av.modelo;
 
 import admin.modelo.Colaborador;
+import admin.modelo.ReportConfig;
 import dao.AvAsociado;
 import dao.AvColindante;
 import dao.AvDocumento;
@@ -9,14 +10,25 @@ import dao.AvPropietario;
 import dao.AvPuntocardinal;
 import dao.AvSolicitud;
 import dao.AvTelefono;
+import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperRunManager;
+import patrimonio.modelo.ConexionMySql;
 
 public class Solicitud {
     private AvAsociado asociado = new AvAsociado();
@@ -194,5 +206,35 @@ public class Solicitud {
                 emf.close();
             }
         }
+    }
+    
+    /* Este metodo es utilizado para mostrar el detalle de solicitud */
+    public static void detalle(String numeroSolicitud){ 
+  
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+            
+            String nombreReporte = "av_solicitud.jasper";
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("numeroSolicitud", numeroSolicitud);
+
+            byte[] bytes = JasperRunManager.runReportToPdf(ReportConfig.path_avaluos + nombreReporte, parametros, conexion);
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.setContentType("application/pdf");
+            response.setContentLength(bytes.length);
+            ServletOutputStream outStream = response.getOutputStream();
+            outStream.write(bytes, 0, bytes.length);
+
+            outStream.flush();
+            outStream.close();
+            conexion.close();
+            
+            FacesContext.getCurrentInstance().responseComplete();
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+
     }
 }

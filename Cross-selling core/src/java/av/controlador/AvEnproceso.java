@@ -1,6 +1,7 @@
 
 package av.controlador;
 
+import av.modelo.Solicitud;
 import av.modelo.SolicitudesEnproceso;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ private String userConect;
     listEnproceso = Enproceso.mostrarDatos(); 
     }
     
-    
+    /* Este metodo se utiliza para mostrar el detalle de la solicitud */
+    public void verDetalleSolicitud(SolicitudesEnproceso s){
+        Solicitud.detalle(s.getNumeroSolicitud());
+    }
     
 }
