@@ -1,6 +1,7 @@
 
 package av.controlador;
 
+import av.modelo.Solicitud;
 import av.modelo.SolicitudesGeneradas;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,5 +65,9 @@ public class AvGeneradasBean {
         generadas.setEst(newEst[0]);
         listGeneradas = generadas.mostraDatos(userConect);
     }
-
+    
+    /* Este metodo es utilizado para controlar el detalle de solicitud */
+    public void verDetalleSolicitud(SolicitudesGeneradas s){
+        Solicitud.detalle(s.getNumeroSolicitud());
+    }
 }
