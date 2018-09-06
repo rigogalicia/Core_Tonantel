@@ -69,8 +69,9 @@
                                             </h:commandLink>
                                             &nbsp;
                                             &nbsp;
-                                            <h:commandLink actionListener="#{av_CrearAvaluo.selectSolicitud(e)}">
+                                            <h:commandLink action="/vista/av/av_crearavaluo.xhtml">
                                                 <samp class="glyphicon glyphicon-edit"></samp>
+                                                <f:param name="numeroSolicitud" value="#{e.numeroSolicitud}"/>
                                             </h:commandLink>
                                         </h:column>
                                     </h:dataTable>

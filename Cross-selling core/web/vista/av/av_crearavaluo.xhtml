@@ -18,24 +18,25 @@
                                     <h2>Avaluo Bancario</h2>
                                 </div>
                                 <h:form>
+                                    <h:inputHidden value="#{av_crearavaluo.numeroSolicitud}"/>
                                     <!-- row -->
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="direccionfisica">Dirección física del Inmueble:</h:outputLabel>
-                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off" value="#{av_CrearAvaluo.llenarvaluo.inmueble.direccionFisica}"/>
+                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="coordenadas">Coordenadas:</h:outputLabel>
-                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off" value="#{av_CrearAvaluo.llenarvaluo.inmueble.coordenadas}"/>
+                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <h:outputLabel for="fechainspeccion">Fecha de Inspección:</h:outputLabel>
-                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off" value="#{av_CrearAvaluo.llenarvaluo.fechainspeccion}"/>
+                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off"/>
                                             </div>
                                         </div>
                                     </div>
@@ -411,7 +412,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:commandButton value="Generar Avalúo" class="form-control btn btn-success" actionListener="#{av_CrearAvaluo.insertarDatos}"/>
+                                                <h:commandButton value="Generar Avalúo" class="form-control btn btn-success" actionListener="#{av_crearavaluo.insertarDatos}"/>
                                             </div>
                                         </div>
                                     </div>
