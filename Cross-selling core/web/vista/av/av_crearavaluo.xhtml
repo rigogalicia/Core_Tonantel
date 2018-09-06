@@ -23,19 +23,19 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="direccionfisica">Dirección física del Inmueble:</h:outputLabel>
-                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off"/>
+                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off" value="#{av_CrearAvaluo.llenarvaluo.inmueble.direccionFisica}"/>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="coordenadas">Coordenadas:</h:outputLabel>
-                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off"/>
+                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off" value="#{av_CrearAvaluo.llenarvaluo.inmueble.coordenadas}"/>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <h:outputLabel for="fechainspeccion">Fecha de Inspección:</h:outputLabel>
-                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off"/>
+                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off" value="#{av_CrearAvaluo.llenarvaluo.fechainspeccion}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -47,13 +47,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="aregistrada">Área registrada:</h:outputLabel>
-                                                <h:inputText id="aregistrada" class="form-control" autocomplete="off"/>
+                                                <h:inputText id="aregistrada" class="form-control" autocomplete="off" />
                                             </div>  
                                         </div>            
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="afisica">Área fisica:</h:outputLabel>
-                                                <h:inputText id="afisica" class="form-control" autocomplete="off"/>
+                                                <h:inputText id="afisica" class="form-control" autocomplete="off" />
                                             </div>  
                                         </div>
                                         
@@ -66,7 +66,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="superficie">Superficie Construida:</h:outputLabel>
-                                                <h:inputText id="superficie" class="form-control" autocomplete="off"/>
+                                                <h:inputText id="superficie" class="form-control" autocomplete="off" />
                                             </div>  
                                         </div>
                                     </div>
@@ -76,7 +76,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <h:outputLabel for="exceso">Exceso o Defecto:</h:outputLabel>
-                                            <h:inputText id="exceso" class="form-control" autocomplete="off"/>
+                                            <h:inputText id="exceso" class="form-control" autocomplete="off" />
                                         </div>  
                                     </div>
                                     <div class="col-md-6">
@@ -87,6 +87,334 @@
                                     </div>
                                     </div>
                                     <!-- / row -->
+                                    <hr/>
+                                    <h4>Colindantes Registradas</h4>
+                                    <!-- row -->
+                                    <div class="row">
+                                        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="pCardinal">Punto cardinal:</h:outputLabel>
+                                                <h:selectOneMenu class="form-control input-md"></h:selectOneMenu>   
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="metros">Metros:</h:outputLabel>
+                                                <h:inputText id="metros" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="varas">Varas:</h:outputLabel>
+                                                <h:inputText id="varas" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="ncolindantes">Nombre de los Colindantes:</h:outputLabel>
+                                                <h:inputText id="ncolindantes" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandLink class="btn btn-info form-control">
+                                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /row -->
+                                    <!-- tabla para almacenar los datos de los puntos cardinales -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h:dataTable class="table table-striped">
+                                            <h:column>
+
+                                            </h:column>
+                                            <h:column>
+
+                                            </h:column>
+                                            <h:column>
+
+                                            </h:column>
+                                            <h:column>
+
+                                            </h:column>
+                                            <h:column>
+
+                                            </h:column>
+                                            </h:dataTable>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- / tabla para almacenar los datos de los puntos cardinales -->
+                                    <hr/>
+                                    <h4>Características de la Construcción</h4>
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="muros">Muros:</h:outputLabel>
+                                                <h:inputText id="muros" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="techos">Techos:</h:outputLabel>
+                                                <h:inputText id="techos" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="cielos">Cielos:</h:outputLabel>
+                                                <h:inputText id="cielos" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="pisos">Pisos:</h:outputLabel>
+                                                <h:inputText id="pisos" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                    </div>
+                                    <!-- / row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="niveles">Niveles:</h:outputLabel>
+                                                <h:inputText id="niveles" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="instalacion">Instalaciones eléctricas:</h:outputLabel>
+                                                <h:inputText id="instalacion" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="servicio">Servicio Sanitario:</h:outputLabel>
+                                                <h:inputText id="servicio" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="ambientes">Ambientes:</h:outputLabel>
+                                                <h:inputText id="ambientes" class="form-control" autocomplete="off"/>
+                                            </div>     
+                                        </div>
+                                    </div>
+                                    <!-- row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="agua">Agua:</h:outputLabel>
+                                                <h:inputText id="agua" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <h:outputLabel for="dinmueble">Destino Inmueble:</h:outputLabel>
+                                                <h:inputText id="dinmueble" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <h:outputLabel for="riesgoinmueble">Riesgo del Inmueble:</h:outputLabel>
+                                                <h:inputText id="riesgoinmueble" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h:outputLabel for="facrores">Factores positivos del inmueble:</h:outputLabel>
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h:outputLabel for="observaciones">Observaciones:</h:outputLabel>
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / row -->
+                                    <hr/>
+                                    <h4>Detalle del Área de la construición general</h4>
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <h:outputLabel for="descripcion">Descripcion:</h:outputLabel>
+                                                <h:inputText id="descripcion" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="valor">Valor:</h:outputLabel>
+                                                <h:inputText id="valor" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandLink class="btn btn-info form-control">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                    <!-- /row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h:dataTable class="table table-striped">
+                                                <h:column>
+                                                    
+                                                </h:column>
+                                                <h:column>
+                                                    
+                                                </h:column>
+                                            </h:dataTable>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="total">Total construccion:</h:outputLabel>
+                                                <h:inputText id="total" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / row -->
+                                    <hr/>
+                                    <h4>Avalúo</h4>
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <h:outputLabel for="solar">Solar(m2):</h:outputLabel>
+                                                <h:inputText id="solar" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="valorterreno">Valor(Qm2):</h:outputLabel> 
+                                                <h:inputText id="valorterreno" class="form-control" autocomplete="off"/>
+                                            </div>  
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="totalterrenos">Total Terrenos:</h:outputLabel>
+                                                <h:inputText id="totalterrenos" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="construcciones">Construcciones(m2):</h:outputLabel>
+                                                <h:inputText id="construcciones" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="descrip">Descripcion:</h:outputLabel>
+                                                <h:inputText id="descrip" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="valorcon">Valor(Qm2):</h:outputLabel>
+                                                <h:inputText id="valorcon" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel for="totalc">Total:</h:outputLabel>
+                                                <h:inputText id="totalc" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <h:outputLabel>&nbsp;</h:outputLabel>
+                                            <h:commandLink class="btn btn-info form-control">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                                            </h:commandLink>
+                                        </div>
+                                    </div>
+                                    <!-- row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h:dataTable class="table table-striped">
+                                                <h:column>
+                                                    
+                                                </h:column>
+                                                <h:column>
+                                                    
+                                                </h:column>
+                                                <h:column>
+                                                    
+                                                </h:column>
+                                                <h:column>
+                                                    
+                                                </h:column>
+                                                <h:column>
+                                                    
+                                                </h:column>   
+                                            </h:dataTable>
+                                        </div>
+                                    </div>
+                                    <!-- /row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="totalconstrucciones">Total de Construcciones:</h:outputLabel>
+                                                <h:inputText id="totalconstrucciones" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="sumatotal">Suma Total:</h:outputLabel>
+                                                <h:inputText id="sumatotal" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="redondeado">Redondeado:</h:outputLabel>
+                                                <h:inputText id="redondeado" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:outputLabel for="vbancario">Valor Bancario:</h:outputLabel>
+                                                <h:inputText id="vbancario" class="form-control" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / row -->
+                                    <!-- row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:commandButton value="Generar Avalúo" class="form-control btn btn-success" actionListener="#{av_CrearAvaluo.insertarDatos}"/>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </h:form>
                             </div>
                         </div>

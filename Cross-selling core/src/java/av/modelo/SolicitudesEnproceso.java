@@ -7,7 +7,6 @@ import dao.AvAsociado;
 import dao.AvSolicitud;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,7 +22,7 @@ public class SolicitudesEnproceso {
     private String fechaSolicitad;
     private String estado;
     private String userConect;
-    private String valuador;
+
     private char est;
 
     public String getNumeroSolicitud() {
@@ -82,14 +81,6 @@ public class SolicitudesEnproceso {
         this.userConect = userConect;
     }
 
-    public String getValuador() {
-        return valuador;
-    }
-
-    public void setValuador(String valuador) {
-        this.valuador = valuador;
-    }
-
     public char getEst() {
         return est;
     }
@@ -98,48 +89,43 @@ public class SolicitudesEnproceso {
         this.est = est;
     }
     
-    
-    
     //Metodo utilizado para consultar las solicitudes que se han asiganado los valuadores
     public ArrayList<SolicitudesEnproceso> mostrarDatos(){
         ArrayList<SolicitudesEnproceso> result = new ArrayList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion="SELECT s, a, r "
-                +"FROM AvSolicitud s "
-                +"JOIN s.asociadoCif a "
-                +"JOIN s.numeroSolicitud r"
-                +"WHERE r.usuario = :userConect"
-                +"ON s.estado = : est ";
+        String instruccion="SELECT a, s, p "
+                + "FROM AvAsignacion a "
+                + "JOIN a.solicitudNumeroSolicitud s "
+                + "JOIN s.asociadoCif p "
+                + "WHERE a.usuario = :userConect "
+                + "AND s.estado = :est ";
         
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("userConect", userConect);
         consulta.setParameter("est", est );
-        
-        
         List<Object[]> resultado = consulta.getResultList();
         
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         
         for(Object[] obj: resultado){
-            AvSolicitud s = (AvSolicitud) obj[0];
-            AvAsociado a = (AvAsociado) obj[1];
-            AvAsignacion r = (AvAsignacion) obj[2];
+            AvAsignacion a = (AvAsignacion) obj[0];
+            AvSolicitud s = (AvSolicitud) obj[1];
+            AvAsociado p = (AvAsociado) obj[2];
             
             SolicitudesEnproceso solEnproceso = new SolicitudesEnproceso();
             solEnproceso.setNumeroSolicitud(s.getNumeroSolicitud());
-            solEnproceso.setCif(a.getCif());
-            solEnproceso.setAsociado(a.getNombre());
+            solEnproceso.setCif(p.getCif());
+            solEnproceso.setAsociado(p.getNombre());
             solEnproceso.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
             solEnproceso.setFechaSolicitad(formatoFecha.format(s.getFechahora()));
             solEnproceso.setEstado(EstadoAvaluo.convert(s.getEstado()));
-            solEnproceso.setUserConect(r.getUsuario());
+            solEnproceso.setUserConect(a.getUsuario());
             
             result.add(solEnproceso);
-            
-            
         }
+        
         em.close();
         emf.close();
         
