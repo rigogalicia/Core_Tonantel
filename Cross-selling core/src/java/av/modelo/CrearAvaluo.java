@@ -97,7 +97,7 @@ public class CrearAvaluo {
         try {
             emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
             em = emf.createEntityManager();
-            
+
             em.getTransaction().begin();
             
             
