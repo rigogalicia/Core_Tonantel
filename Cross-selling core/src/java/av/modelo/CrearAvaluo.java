@@ -4,9 +4,7 @@ package av.modelo;
 import dao.AvArea;
 import dao.AvAsignacion;
 import dao.AvAvaluo;
-import dao.AvColindante;
 import dao.AvConstruccion;
-import dao.AvDetalle;
 import dao.AvInmueble;
 import dao.AvSolicitud;
 import java.util.ArrayList;
@@ -17,14 +15,19 @@ import javax.persistence.Persistence;
 public class CrearAvaluo {
     private AvSolicitud solicitud = new AvSolicitud();
     private AvInmueble inmueble = new AvInmueble();
+    private Colindante colindante = new Colindante();
+    private ArrayList<Colindante> colindantes = new ArrayList<>();
     private AvArea area = new AvArea();
-    private ArrayList<AvColindante> colindantes = new ArrayList<>();
     private AvConstruccion construccion = new AvConstruccion();
     private AvAsignacion asignacion = new AvAsignacion();
     private AvAvaluo avaluo = new AvAvaluo();
-    private ArrayList<AvDetalle> detalleAvaluo = new ArrayList<>();
+    private Detalle detalle = new Detalle();
+    private ArrayList<Detalle> detalleAvaluo = new ArrayList<>();
+    
+    public CrearAvaluo() {
+        
+    }
 
-    //metodo constructor para tomar e inicializar el usuario conectado
     public AvSolicitud getSolicitud() {
         return solicitud;
     }
@@ -41,20 +44,28 @@ public class CrearAvaluo {
         this.inmueble = inmueble;
     }
 
+    public Colindante getColindante() {
+        return colindante;
+    }
+
+    public void setColindante(Colindante colindante) {
+        this.colindante = colindante;
+    }
+
+    public ArrayList<Colindante> getColindantes() {
+        return colindantes;
+    }
+
+    public void setColindantes(ArrayList<Colindante> colindantes) {
+        this.colindantes = colindantes;
+    }
+
     public AvArea getArea() {
         return area;
     }
 
     public void setArea(AvArea area) {
         this.area = area;
-    }
-
-    public ArrayList<AvColindante> getColindantes() {
-        return colindantes;
-    }
-
-    public void setColindantes(ArrayList<AvColindante> colindantes) {
-        this.colindantes = colindantes;
     }
 
     public AvConstruccion getConstruccion() {
@@ -81,13 +92,45 @@ public class CrearAvaluo {
         this.avaluo = avaluo;
     }
 
-    public ArrayList<AvDetalle> getDetalleAvaluo() {
+    public Detalle getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(Detalle detalle) {
+        this.detalle = detalle;
+    }
+
+    public ArrayList<Detalle> getDetalleAvaluo() {
         return detalleAvaluo;
     }
 
-    public void setDetalleAvaluo(ArrayList<AvDetalle> detalleAvaluo) {
+    public void setDetalleAvaluo(ArrayList<Detalle> detalleAvaluo) {
         this.detalleAvaluo = detalleAvaluo;
     }
+
+    //Metodo utilizado para agrengar colindates
+    public void agregarColindante(){
+        colindantes.add(colindante);
+        colindante = new Colindante();
+    }
+    
+    //Metodo utilizado para borrar colindantes agregados en la tabla
+    public void quitarColindante(Colindante c){
+        colindantes.remove(c);
+    }
+    
+    //Metodo utilizado par agregar el detalle de areas
+    public void agregarDetalleAvaluo(){
+        detalleAvaluo.add(detalle);
+        detalle = new Detalle();
+    }
+    
+    //Metodo para quitar detalle de avalluo
+    public void quitarDetalleAvaluo(Detalle d){
+        detalleAvaluo.remove(d);
+    }
+    
+
     
     //Metodo par crear el avaluo
     public void crearAvaluo(){
