@@ -2,10 +2,7 @@
 package av.controlador;
 
 import av.modelo.CrearAvaluo;
-import av.modelo.Detalle;
-import av.modelo.SolicitudesEnproceso;
 import dao.AvPuntocardinal;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +23,6 @@ public class AvCrearAvaluoBean {
     private String numeroSolicitud;
     private CrearAvaluo crearAvaluo = new CrearAvaluo();
     ArrayList<SelectItem> puntosCardinales = new ArrayList<>();
-    private ArrayList<Detalle> list = new ArrayList<>();
-    private Detalle detalle = new Detalle();
-    
-    private double totalSolar;
 
     public AvCrearAvaluoBean() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -77,20 +70,6 @@ public class AvCrearAvaluoBean {
     public void setPuntosCardinales(ArrayList<SelectItem> puntosCardinales) {
         this.puntosCardinales = puntosCardinales;
     }
-
-    public double getTotalSolar() {
-        totalSolar = detalle.getValor();
-        return totalSolar;
-    }
-
-    public void setTotalSolar(double totalSolar) {
-        this.totalSolar = totalSolar;
-        
-    }
-    
-    
-    
-    
 
     public void insertarDatos(ActionEvent e){
         System.out.println(numeroSolicitud);

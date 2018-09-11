@@ -21,8 +21,9 @@ public class CrearAvaluo {
     private AvConstruccion construccion = new AvConstruccion();
     private AvAsignacion asignacion = new AvAsignacion();
     private AvAvaluo avaluo = new AvAvaluo();
-    private Detalle detalle = new Detalle();
-    private ArrayList<Detalle> detalleAvaluo = new ArrayList<>();
+    private DetalleAvaluo detalle = new DetalleAvaluo();
+    private ArrayList<DetalleAvaluo> detalleAvaluo = new ArrayList<>();
+    private double sumaTotalDetalle;
     
     public CrearAvaluo() {
         
@@ -92,20 +93,28 @@ public class CrearAvaluo {
         this.avaluo = avaluo;
     }
 
-    public Detalle getDetalle() {
+    public DetalleAvaluo getDetalle() {
         return detalle;
     }
 
-    public void setDetalle(Detalle detalle) {
+    public void setDetalle(DetalleAvaluo detalle) {
         this.detalle = detalle;
     }
 
-    public ArrayList<Detalle> getDetalleAvaluo() {
+    public ArrayList<DetalleAvaluo> getDetalleAvaluo() {
         return detalleAvaluo;
     }
 
-    public void setDetalleAvaluo(ArrayList<Detalle> detalleAvaluo) {
+    public void setDetalleAvaluo(ArrayList<DetalleAvaluo> detalleAvaluo) {
         this.detalleAvaluo = detalleAvaluo;
+    }
+
+    public double getSumaTotalDetalle() {
+        return sumaTotalDetalle;
+    }
+
+    public void setSumaTotalDetalle(double sumaTotalDetalle) {
+        this.sumaTotalDetalle = sumaTotalDetalle;
     }
 
     //Metodo utilizado para agrengar colindates de avaluo
@@ -119,18 +128,28 @@ public class CrearAvaluo {
         colindantes.remove(c);
     }
     
-    //Metodo utilizado par agregar el detalle de areas
-    public void agregarDetalleAvaluo(){
+    // Metodo para agregar detalle de solicitud
+    public void agregarDetalle(){
+        detalle.setDescripcionTipo(detalle.getTipo() == 'a' ? "Solar" : "Construccion");
+        detalle.setTotal(detalle.getMedidas() * detalle.getValor());
         detalleAvaluo.add(detalle);
-        detalle = new Detalle();
+        detalle = new DetalleAvaluo();
+        
+        calcularTotal();
     }
     
-    //Metodo para quitar detalle de avalluo
-    public void quitarDetalleAvaluo(Detalle d){
+    // Metodo para quitar el detalle de solicitud
+    public void quitarDetalle(DetalleAvaluo d){
         detalleAvaluo.remove(d);
     }
     
-
+    // Metodo que es utilizado para calcular la suma total de detalle
+    private void calcularTotal(){
+        sumaTotalDetalle = 0;
+        detalleAvaluo.forEach((d) -> {
+            sumaTotalDetalle += d.getTotal();
+        });
+    }
     
     //Metodo par crear el avaluo
     public void crearAvaluo(){
