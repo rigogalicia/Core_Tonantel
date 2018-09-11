@@ -23,8 +23,6 @@ public class AvCrearAvaluoBean {
     private String numeroSolicitud;
     private CrearAvaluo crearAvaluo = new CrearAvaluo();
     ArrayList<SelectItem> puntosCardinales = new ArrayList<>();
-    
-    private double totalSolar;
 
     public AvCrearAvaluoBean() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -71,10 +69,6 @@ public class AvCrearAvaluoBean {
 
     public void setPuntosCardinales(ArrayList<SelectItem> puntosCardinales) {
         this.puntosCardinales = puntosCardinales;
-    }
-
-    public void setTotalSolar(double totalSolar) {
-        this.totalSolar = totalSolar;
     }
 
     public void insertarDatos(ActionEvent e){
