@@ -34,8 +34,8 @@ public class Solicitud {
     
     // Campos para crear la ficha de negociacion
     private GcFichanegocio fichaNegocio = new GcFichanegocio();
-    private ArrayList<GcVentajas> ventajas = new ArrayList<>();
-    private ArrayList<GcDesventajas> desventajas = new ArrayList<>();
+    private ArrayList<String> ventajas = new ArrayList<>();
+    private ArrayList<String> desventajas = new ArrayList<>();
     
     // Campo para manejo de mensaje de error
     String error = null;
@@ -110,19 +110,19 @@ public class Solicitud {
         this.fichaNegocio = fichaNegocio;
     }
 
-    public ArrayList<GcVentajas> getVentajas() {
+    public ArrayList<String> getVentajas() {
         return ventajas;
     }
 
-    public void setVentajas(ArrayList<GcVentajas> ventajas) {
+    public void setVentajas(ArrayList<String> ventajas) {
         this.ventajas = ventajas;
     }
 
-    public ArrayList<GcDesventajas> getDesventajas() {
+    public ArrayList<String> getDesventajas() {
         return desventajas;
     }
 
-    public void setDesventajas(ArrayList<GcDesventajas> desventajas) {
+    public void setDesventajas(ArrayList<String> desventajas) {
         this.desventajas = desventajas;
     }
 
@@ -135,7 +135,7 @@ public class Solicitud {
     }
 
     /* Metodo utilizado para generar una solicitud */
-    public void generar(){
+    public void generar(boolean isNegociacion){
         EntityManagerFactory emf = null;
         EntityManager em = null;
         try{
@@ -156,8 +156,29 @@ public class Solicitud {
             solicitudGc.setTramiteId(tramiteGc);
             solicitudGc.setTipoclienteId(clienteGc);
             solicitudGc.setRiesgoId(new GcRiesgo(1));
+            solicitudGc.setEst(isNegociacion == true ? 'a' : null);
+            
             em.merge(asociadoGc);
             em.persist(solicitudGc);
+            
+            if(isNegociacion){
+                fichaNegocio.setSolicitudNumeroSolicitud(solicitudGc);
+                em.persist(fichaNegocio);
+                
+                for(String v : ventajas){
+                    GcVentajas gcVentajas = new GcVentajas();
+                    gcVentajas.setDescripcion(v);
+                    gcVentajas.setFichanegocioId(fichaNegocio);
+                    em.persist(gcVentajas);
+                }
+                
+                for(String d : desventajas){
+                    GcDesventajas gcDesventajas = new GcDesventajas();
+                    gcDesventajas.setDescripcion(d);
+                    gcDesventajas.setFichanegocioId(fichaNegocio);
+                    em.persist(gcDesventajas);
+                }
+            }
 
             em.getTransaction().commit();
             
@@ -167,6 +188,7 @@ public class Solicitud {
             e.printStackTrace(System.out);
         }
         catch(Exception e){
+            e.printStackTrace(System.out);
             error = "! No se puede cargar la solicitud, el número de solicitud ya existe en la base de datos";
         }finally{
             if(em != null && emf != null){

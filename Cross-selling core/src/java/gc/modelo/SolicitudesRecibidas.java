@@ -157,7 +157,8 @@ public class SolicitudesRecibidas {
                 + "JOIN s.tramiteId f "
                 + "JOIN s.estadoId e "
                 + "JOIN s.tipoclienteId c "
-                + "WHERE e.id = :estadoGeneradas ";
+                + "WHERE e.id = :estadoGeneradas "
+                + "AND s.est = null ";
         
         if(numeroSolicitud != null){
             if(!numeroSolicitud.isEmpty()){
