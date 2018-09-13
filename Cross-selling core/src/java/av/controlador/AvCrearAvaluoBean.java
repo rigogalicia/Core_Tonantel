@@ -2,6 +2,7 @@
 package av.controlador;
 
 import av.modelo.CrearAvaluo;
+import dao.AvAvaluo;
 import dao.AvPuntocardinal;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,8 @@ public class AvCrearAvaluoBean {
     public void setPuntosCardinales(ArrayList<SelectItem> puntosCardinales) {
         this.puntosCardinales = puntosCardinales;
     }
+    
+
 
     public void insertarDatos(ActionEvent e){
         System.out.println(numeroSolicitud);

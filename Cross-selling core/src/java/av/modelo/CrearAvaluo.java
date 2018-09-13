@@ -24,6 +24,8 @@ public class CrearAvaluo {
     private DetalleAvaluo detalle = new DetalleAvaluo();
     private ArrayList<DetalleAvaluo> detalleAvaluo = new ArrayList<>();
     private double sumaTotalDetalle;
+    private double totalRedondeado;
+     private double valorBancario;
     
     public CrearAvaluo() {
         
@@ -117,6 +119,23 @@ public class CrearAvaluo {
         this.sumaTotalDetalle = sumaTotalDetalle;
     }
 
+    public double getTotalRedondeado() {
+        totalRedondeado = Math.round(sumaTotalDetalle);
+        return totalRedondeado;
+    }
+
+    public void setTotalRedondeado(double totalRedondeado) {
+        this.totalRedondeado = totalRedondeado;
+    }
+
+    public double getValorBancario() {
+        return valorBancario;
+    }
+
+    public void setValorBancario(double valorBancario) {
+        this.valorBancario = valorBancario;
+    }
+    
     //Metodo utilizado para agrengar colindates de avaluo
     public void agregarColindante(){
         colindantes.add(colindante);
@@ -141,14 +160,22 @@ public class CrearAvaluo {
     // Metodo para quitar el detalle de solicitud
     public void quitarDetalle(DetalleAvaluo d){
         detalleAvaluo.remove(d);
+        calcularTotal();
     }
     
     // Metodo que es utilizado para calcular la suma total de detalle
     private void calcularTotal(){
         sumaTotalDetalle = 0;
         detalleAvaluo.forEach((d) -> {
+            
             sumaTotalDetalle += d.getTotal();
         });
+    }
+    
+    //Metodo para calcular el valor bancario
+    public void calcularValorBancario(int valorBan){
+        
+        valorBancario = valorBan * totalRedondeado /100;
     }
     
     //Metodo par crear el avaluo
