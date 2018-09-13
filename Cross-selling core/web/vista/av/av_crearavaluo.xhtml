@@ -327,30 +327,46 @@
                                                 <div class="form-group">
                                                     <h:outputLabel for="sumaT" class="col-md-4">Suma Total:</h:outputLabel>
                                                     <div class="col-md-8">
-                                                    <h:inputText id="sumaT" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.sumaTotalDetalle}" readonly="true"/>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <h:outputLabel for="redondeado" class="col-md-4">Redondeado:</h:outputLabel>
-                                                    <div class="col-md-8">
-                                                        <h:inputText id="redondeado" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.totalRedondeado}" readonly="true"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6"/>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="valorBan" class="col-md-3">Valor Bancario:</h:outputLabel>
-                                                    <div class="col-md-3">
-                                                        <h:inputText id="valorBan" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.valorBancario}"/>
-                                                        <!--<f:ajax event="blur"  execute="valorBan" render="valorBancario"/>-->
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h:inputText id="valorBancario" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.valorBancario}"/>
+                                                        <h:inputText id="sumaT" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.sumaTotalDetalle}" readonly="true"/>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-8"/>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="redondeado" class="col-md-4">Redondeado:</h:outputLabel>
+                                                    <div class="col-md-8">
+                                                        <h:inputText id="redondeado" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.valorRedondeado}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8"/>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="valorBancario" class="col-md-4">Valor %:</h:outputLabel>
+                                                    <div class="col-md-8">
+                                                        <h:inputText id="valorBancario" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.valorBancario}">
+                                                            <f:ajax event="blur" listener="#{av_crearavaluo.calcularTotal}" execute="pnDetalleAvaluo" render="pnDetalleAvaluo"/>
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8"/>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="total" class="col-md-4">Total:</h:outputLabel>
+                                                    <div class="col-md-8">
+                                                        <h:inputText id="total" class="form-control " autocomplete="off" value="#{av_crearavaluo.crearAvaluo.total}" readonly="true"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
                                     </h:panelGroup>
                                     <!-- / panel group -->
                                     <div class="row">

@@ -6,6 +6,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -47,6 +48,10 @@ public class AvAvaluo implements Serializable {
     @Basic(optional = false)
     @Column(name = "valor_bancario")
     private int valorBancario;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @Column(name = "valor_redondeado")
+    private BigDecimal valorRedondeado;
     @JoinColumn(name = "asignacion_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvAsignacion asignacionId;
@@ -63,10 +68,11 @@ public class AvAvaluo implements Serializable {
         this.id = id;
     }
 
-    public AvAvaluo(Integer id, Date fechahora, int valorBancario) {
+    public AvAvaluo(Integer id, Date fechahora, int valorBancario, BigDecimal valorRedondeado) {
         this.id = id;
         this.fechahora = fechahora;
         this.valorBancario = valorBancario;
+        this.valorRedondeado = valorRedondeado;
     }
 
     public Integer getId() {
@@ -91,6 +97,14 @@ public class AvAvaluo implements Serializable {
 
     public void setValorBancario(int valorBancario) {
         this.valorBancario = valorBancario;
+    }
+
+    public BigDecimal getValorRedondeado() {
+        return valorRedondeado;
+    }
+
+    public void setValorRedondeado(BigDecimal valorRedondeado) {
+        this.valorRedondeado = valorRedondeado;
     }
 
     public AvAsignacion getAsignacionId() {

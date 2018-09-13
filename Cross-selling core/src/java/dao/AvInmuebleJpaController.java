@@ -45,6 +45,9 @@ public class AvInmuebleJpaController implements Serializable {
         if (avInmueble.getAvAvaluoList() == null) {
             avInmueble.setAvAvaluoList(new ArrayList<AvAvaluo>());
         }
+        if (avInmueble.getAvConstruccionList() == null) {
+            avInmueble.setAvConstruccionList(new ArrayList<AvConstruccion>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -83,6 +86,12 @@ public class AvInmuebleJpaController implements Serializable {
                 attachedAvAvaluoList.add(avAvaluoListAvAvaluoToAttach);
             }
             avInmueble.setAvAvaluoList(attachedAvAvaluoList);
+            List<AvConstruccion> attachedAvConstruccionList = new ArrayList<AvConstruccion>();
+            for (AvConstruccion avConstruccionListAvConstruccionToAttach : avInmueble.getAvConstruccionList()) {
+                avConstruccionListAvConstruccionToAttach = em.getReference(avConstruccionListAvConstruccionToAttach.getClass(), avConstruccionListAvConstruccionToAttach.getId());
+                attachedAvConstruccionList.add(avConstruccionListAvConstruccionToAttach);
+            }
+            avInmueble.setAvConstruccionList(attachedAvConstruccionList);
             em.persist(avInmueble);
             if (documentoId != null) {
                 documentoId.getAvInmuebleList().add(avInmueble);
@@ -128,6 +137,15 @@ public class AvInmuebleJpaController implements Serializable {
                     oldInmuebleIdOfAvAvaluoListAvAvaluo = em.merge(oldInmuebleIdOfAvAvaluoListAvAvaluo);
                 }
             }
+            for (AvConstruccion avConstruccionListAvConstruccion : avInmueble.getAvConstruccionList()) {
+                AvInmueble oldInmuebleIdOfAvConstruccionListAvConstruccion = avConstruccionListAvConstruccion.getInmuebleId();
+                avConstruccionListAvConstruccion.setInmuebleId(avInmueble);
+                avConstruccionListAvConstruccion = em.merge(avConstruccionListAvConstruccion);
+                if (oldInmuebleIdOfAvConstruccionListAvConstruccion != null) {
+                    oldInmuebleIdOfAvConstruccionListAvConstruccion.getAvConstruccionList().remove(avConstruccionListAvConstruccion);
+                    oldInmuebleIdOfAvConstruccionListAvConstruccion = em.merge(oldInmuebleIdOfAvConstruccionListAvConstruccion);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -154,6 +172,8 @@ public class AvInmuebleJpaController implements Serializable {
             List<AvSolicitud> avSolicitudListNew = avInmueble.getAvSolicitudList();
             List<AvAvaluo> avAvaluoListOld = persistentAvInmueble.getAvAvaluoList();
             List<AvAvaluo> avAvaluoListNew = avInmueble.getAvAvaluoList();
+            List<AvConstruccion> avConstruccionListOld = persistentAvInmueble.getAvConstruccionList();
+            List<AvConstruccion> avConstruccionListNew = avInmueble.getAvConstruccionList();
             List<String> illegalOrphanMessages = null;
             for (AvColindante avColindanteListOldAvColindante : avColindanteListOld) {
                 if (!avColindanteListNew.contains(avColindanteListOldAvColindante)) {
@@ -185,6 +205,14 @@ public class AvInmuebleJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain AvAvaluo " + avAvaluoListOldAvAvaluo + " since its inmuebleId field is not nullable.");
+                }
+            }
+            for (AvConstruccion avConstruccionListOldAvConstruccion : avConstruccionListOld) {
+                if (!avConstruccionListNew.contains(avConstruccionListOldAvConstruccion)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain AvConstruccion " + avConstruccionListOldAvConstruccion + " since its inmuebleId field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -226,6 +254,13 @@ public class AvInmuebleJpaController implements Serializable {
             }
             avAvaluoListNew = attachedAvAvaluoListNew;
             avInmueble.setAvAvaluoList(avAvaluoListNew);
+            List<AvConstruccion> attachedAvConstruccionListNew = new ArrayList<AvConstruccion>();
+            for (AvConstruccion avConstruccionListNewAvConstruccionToAttach : avConstruccionListNew) {
+                avConstruccionListNewAvConstruccionToAttach = em.getReference(avConstruccionListNewAvConstruccionToAttach.getClass(), avConstruccionListNewAvConstruccionToAttach.getId());
+                attachedAvConstruccionListNew.add(avConstruccionListNewAvConstruccionToAttach);
+            }
+            avConstruccionListNew = attachedAvConstruccionListNew;
+            avInmueble.setAvConstruccionList(avConstruccionListNew);
             avInmueble = em.merge(avInmueble);
             if (documentoIdOld != null && !documentoIdOld.equals(documentoIdNew)) {
                 documentoIdOld.getAvInmuebleList().remove(avInmueble);
@@ -287,6 +322,17 @@ public class AvInmuebleJpaController implements Serializable {
                     }
                 }
             }
+            for (AvConstruccion avConstruccionListNewAvConstruccion : avConstruccionListNew) {
+                if (!avConstruccionListOld.contains(avConstruccionListNewAvConstruccion)) {
+                    AvInmueble oldInmuebleIdOfAvConstruccionListNewAvConstruccion = avConstruccionListNewAvConstruccion.getInmuebleId();
+                    avConstruccionListNewAvConstruccion.setInmuebleId(avInmueble);
+                    avConstruccionListNewAvConstruccion = em.merge(avConstruccionListNewAvConstruccion);
+                    if (oldInmuebleIdOfAvConstruccionListNewAvConstruccion != null && !oldInmuebleIdOfAvConstruccionListNewAvConstruccion.equals(avInmueble)) {
+                        oldInmuebleIdOfAvConstruccionListNewAvConstruccion.getAvConstruccionList().remove(avConstruccionListNewAvConstruccion);
+                        oldInmuebleIdOfAvConstruccionListNewAvConstruccion = em.merge(oldInmuebleIdOfAvConstruccionListNewAvConstruccion);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -344,6 +390,13 @@ public class AvInmuebleJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This AvInmueble (" + avInmueble + ") cannot be destroyed since the AvAvaluo " + avAvaluoListOrphanCheckAvAvaluo + " in its avAvaluoList field has a non-nullable inmuebleId field.");
+            }
+            List<AvConstruccion> avConstruccionListOrphanCheck = avInmueble.getAvConstruccionList();
+            for (AvConstruccion avConstruccionListOrphanCheckAvConstruccion : avConstruccionListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This AvInmueble (" + avInmueble + ") cannot be destroyed since the AvConstruccion " + avConstruccionListOrphanCheckAvConstruccion + " in its avConstruccionList field has a non-nullable inmuebleId field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

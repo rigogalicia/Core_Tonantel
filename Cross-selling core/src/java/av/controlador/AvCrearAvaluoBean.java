@@ -2,7 +2,6 @@
 package av.controlador;
 
 import av.modelo.CrearAvaluo;
-import dao.AvAvaluo;
 import dao.AvPuntocardinal;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,8 @@ public class AvCrearAvaluoBean {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map params = facesContext.getExternalContext().getRequestParameterMap();
         numeroSolicitud = params.get("numeroSolicitud").toString();
+        crearAvaluo.getSolicitud().setNumeroSolicitud(numeroSolicitud);
+        crearAvaluo.consultarSolicitud();
     }
 
     public String getNumeroSolicitud() {
@@ -72,7 +73,10 @@ public class AvCrearAvaluoBean {
         this.puntosCardinales = puntosCardinales;
     }
     
-
+    //Metodo para calcular el total del avaluo
+    public void calcularTotal(){
+        crearAvaluo.total();
+    }
 
     public void insertarDatos(ActionEvent e){
         System.out.println(numeroSolicitud);
