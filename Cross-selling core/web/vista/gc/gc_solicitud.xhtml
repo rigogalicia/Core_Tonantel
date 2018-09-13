@@ -27,7 +27,7 @@
                                                 <h:outputLabel for="cif">* Cif:</h:outputLabel>
                                                 <h:message for="cif" style="color: red"/>
                                                 <h:inputText id="cif" class="form-control" value="#{gc_solicitud.solicitud.asociadoGc.cif}" required="true" autocomplete="off" label="&nbsp;!">
-                                                    <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formProceso"/>
+                                                    <f:ajax event="blur" listener="#{gc_solicitud.consultarAsociado}" execute="cif" render="formSolicitud"/>
                                                 </h:inputText>
                                             </div>
                                         </div>
@@ -96,15 +96,15 @@
                                             <div class="form-group">
                                                 <h:outputLabel for="tramiteCredito">* Origen de Tramite:</h:outputLabel>
                                                 <h:message for="tramiteCredito" style="color: red"/>
-                                                <h:selectOneMenu id="tramiteCredito" class="form-control" value="#{gc_solicitud.solicitud.tramiteGc.id}" required="true" label="&nbsp;!">
+                                                <h:selectOneMenu id="tramiteCredito" class="form-control" value="#{gc_solicitud.solicitud.tramiteGc.id}" required="true" label="&nbsp;!" 
+                                                                 onchange="submit()" valueChangeListener="#{gc_solicitud.esNegociacion}">
                                                     <f:selectItem itemLabel="" itemValue=""/>
                                                     <f:selectItems value="#{gc_solicitud.tramiteCredito}"/>
                                                 </h:selectOneMenu>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--
-                                    <h:panelGroup id="pn_fichanegocio">
+                                    <h:panelGroup id="pn_fichanegocio" rendered="#{gc_solicitud.isNegociacion eq true}">
                                         <div class="page-header">
                                             <h2>Ficha de Negociación</h2>
                                         </div>
@@ -112,35 +112,71 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <h:outputLabel for="problematica">Problemática de Crédito:</h:outputLabel>
-                                                    <h:inputTextarea id="problematica" class="form-control" rows="8" value=""/>
+                                                    <h:inputTextarea id="problematica" class="form-control" rows="8" value="#{gc_solicitud.solicitud.fichaNegocio.problematica}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="ventaja">Ventajas:</h:outputLabel>
+                                                    <h:inputText id="ventaja" class="form-control" autocomplete="off" value="#{gc_solicitud.ventaja}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel>&nbsp;</h:outputLabel>
+                                                    <h:commandLink id="addVentaja" class="form-control btn btn-primary" action="#{gc_solicitud.addVentaja()}">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                                                        <f:ajax execute="pn_fichanegocio" render="pn_fichanegocio"/>
+                                                    </h:commandLink>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="ventajasText">Ventajas:</h:outputLabel>
-                                                    <h:inputText id="ventajasText" class="form-control" value="" autocomplete="off">
-                                                        <f:ajax event="blur" listener="" execute="ventajasText" render="pn_fichanegocio"/>
-                                                    </h:inputText>
-                                                    <h:dataTable id="tablaVentajas" class="table" value="" var="v">
+                                                    <h:dataTable id="tablaVentajas" class="table" value="#{gc_solicitud.solicitud.ventajas}" var="v">
                                                         <h:column>
-                                                            
+                                                            ${v}
+                                                        </h:column>
+                                                        <h:column>
+                                                            <h:commandLink id="removeVentaja" action="#{gc_solicitud.removeVentajas(v)}" immediate="true">
+                                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"/>
+                                                            </h:commandLink>
                                                         </h:column>
                                                     </h:dataTable>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-md-11">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="desventaja">Desventajas:</h:outputLabel>
+                                                    <h:inputText id="desventaja" class="form-control" autocomplete="off" value="#{gc_solicitud.desventaja}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel>&nbsp;</h:outputLabel>
+                                                    <h:commandLink id="addDesventaja" class="form-control btn btn-primary" action="#{gc_solicitud.addDesventaja()}">
+                                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"/>
+                                                        <f:ajax execute="pn_fichanegocio" render="pn_fichanegocio"/>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <h:outputLabel for="desventajasText">Desventajas:</h:outputLabel>
-                                                    <h:inputText id="desventajasText" class="form-control" value="" autocomplete="off">
-                                                        <f:ajax event="blur" listener="" execute="desventajasText" render="pn_fichanegocio"/>
-                                                    </h:inputText>
-                                                    <h:dataTable id="desventajas" class="table" value="" var="d">
+                                                    <h:dataTable id="tablaDesventajas" class="table" value="#{gc_solicitud.solicitud.desventajas}" var="d">
                                                         <h:column>
-                                                            
+                                                            ${d}
+                                                        </h:column>
+                                                        <h:column>
+                                                            <h:commandLink id="removeVentaja" action="#{gc_solicitud.removeDesventaja(d)}" immediate="true">
+                                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"/>
+                                                            </h:commandLink>
                                                         </h:column>
                                                     </h:dataTable>
                                                 </div>
@@ -150,12 +186,11 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <h:outputLabel for="condiciones">Condiciones:</h:outputLabel>
-                                                    <h:inputTextarea id="condiciones" class="form-control" rows="8" value=""/>
+                                                    <h:inputTextarea id="condiciones" class="form-control" rows="8" value="${gc_solicitud.solicitud.fichaNegocio.condiciones}"/>
                                                 </div>
                                             </div>
                                         </div>
                                     </h:panelGroup>
-                                    -->
                                     <!--Termina las columnas que contiene Destino,Tipo,Tramite-->
                                     <!--Seccion de Botones-->
                                     <div class="row">

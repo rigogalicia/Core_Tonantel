@@ -1,9 +1,11 @@
 package gc.controlador;
 
 import dao.GcDestino;
+import dao.GcDesventajas;
 import dao.GcTipo;
 import dao.GcTipocliente;
 import dao.GcTramite;
+import dao.GcVentajas;
 import gc.modelo.Destino;
 import gc.modelo.Solicitud;
 import gc.modelo.Tipo;
@@ -24,8 +26,9 @@ public class GcSolicitudBean {
     private ArrayList<SelectItem> tipoCredito = new ArrayList<>();
     private ArrayList<SelectItem> tramiteCredito = new ArrayList<>();
     private ArrayList<SelectItem> tipoCliente = new ArrayList<>();
-    
     private boolean isNegociacion = false;
+    private String ventaja;
+    private String desventaja;
     
     public GcSolicitudBean() {}
 
@@ -96,7 +99,23 @@ public class GcSolicitudBean {
     public void setIsNegociacion(boolean isNegociacion) {
         this.isNegociacion = isNegociacion;
     }
-    
+
+    public String getVentaja() {
+        return ventaja;
+    }
+
+    public void setVentaja(String ventaja) {
+        this.ventaja = ventaja;
+    }
+
+    public String getDesventaja() {
+        return desventaja;
+    }
+
+    public void setDesventaja(String desventaja) {
+        this.desventaja = desventaja;
+    }
+
     /* Valida si el tramite se esta haciendo por negociacion */
     public void esNegociacion(ValueChangeEvent e){
         isNegociacion = false;
@@ -105,9 +124,29 @@ public class GcSolicitudBean {
         }
     }
     
+    /* Metodo para agregar una ventaja a la ficha de negociacion */
+    public void addVentaja(){
+        solicitud.getVentajas().add(ventaja);
+        ventaja = "";
+    }
+    
+    /* Metodo para eliminar una ventaja de la ficha de negociacion */
+    public void removeVentajas(String v){
+        solicitud.getVentajas().remove(v);
+    }
+    
+    public void addDesventaja(){
+        solicitud.getDesventajas().add(desventaja);
+        desventaja = "";
+    }
+    
+    public void removeDesventaja(String d){
+        solicitud.getDesventajas().remove(d);
+    }
+    
     /* Metodo utilizado para generar una nueva solicitud */
     public void generarSolicutid(ActionEvent event){
-        solicitud.generar();
+        solicitud.generar(isNegociacion);
     }
     
     /* Metodo utilizado para consultar los datos del asociado por cif */
