@@ -117,7 +117,7 @@ public class CrearAvaluo {
         this.sumaTotalDetalle = sumaTotalDetalle;
     }
 
-    //Metodo utilizado para agrengar colindates
+    //Metodo utilizado para agrengar colindates de avaluo
     public void agregarColindante(){
         colindantes.add(colindante);
         colindante = new Colindante();
