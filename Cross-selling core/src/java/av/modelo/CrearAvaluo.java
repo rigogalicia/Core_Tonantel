@@ -4,13 +4,17 @@ package av.modelo;
 import dao.AvArea;
 import dao.AvAsignacion;
 import dao.AvAvaluo;
+import dao.AvColindante;
 import dao.AvConstruccion;
 import dao.AvInmueble;
+import dao.AvPuntocardinal;
 import dao.AvSolicitud;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class CrearAvaluo {
     private AvSolicitud solicitud = new AvSolicitud();
@@ -24,8 +28,7 @@ public class CrearAvaluo {
     private DetalleAvaluo detalle = new DetalleAvaluo();
     private ArrayList<DetalleAvaluo> detalleAvaluo = new ArrayList<>();
     private double sumaTotalDetalle;
-    private double totalRedondeado;
-     private double valorBancario;
+    private double total;
     
     public CrearAvaluo() {
         
@@ -119,21 +122,34 @@ public class CrearAvaluo {
         this.sumaTotalDetalle = sumaTotalDetalle;
     }
 
-    public double getTotalRedondeado() {
-        totalRedondeado = Math.round(sumaTotalDetalle);
-        return totalRedondeado;
+    public double getTotal() {
+        return total;
     }
 
-    public void setTotalRedondeado(double totalRedondeado) {
-        this.totalRedondeado = totalRedondeado;
+    public void setTotal(double total) {
+        this.total = total;
     }
-
-    public double getValorBancario() {
-        return valorBancario;
-    }
-
-    public void setValorBancario(double valorBancario) {
-        this.valorBancario = valorBancario;
+    
+    // Este metodo realiza la consulta de la clase avaluo e inmueble
+    public void consultarSolicitud(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT s, i "
+                + "FROM AvSolicitud s "
+                + "JOIN s.inmuebleId i "
+                + "WHERE s.numeroSolicitud = :numeroSolicitud";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numeroSolicitud", solicitud.getNumeroSolicitud());
+        List<Object[]> resultado = consulta.getResultList();
+        
+        for(Object[] obj : resultado){
+            this.solicitud = (AvSolicitud) obj[0];
+            this.inmueble = (AvInmueble) obj[1];
+        }
+        
+        em.close();
+        emf.close();
     }
     
     //Metodo utilizado para agrengar colindates de avaluo
@@ -172,10 +188,9 @@ public class CrearAvaluo {
         });
     }
     
-    //Metodo para calcular el valor bancario
-    public void calcularValorBancario(int valorBan){
-        
-        valorBancario = valorBan * totalRedondeado /100;
+    // Este metodo calcula el total del avaluo tamando en cuenta el valor vancario
+    public void total(){
+        total = (avaluo.getValorRedondeado().doubleValue() * avaluo.getValorBancario()) / 100;
     }
     
     //Metodo par crear el avaluo
@@ -188,6 +203,28 @@ public class CrearAvaluo {
             em = emf.createEntityManager();
 
             em.getTransaction().begin();
+            
+            AvSolicitud solicitudModif = em.find(AvSolicitud.class, solicitud.getNumeroSolicitud());
+            solicitudModif.setEstado('c');
+            AvInmueble inmuebleModif = em.find(AvInmueble.class, inmueble.getId());
+            inmuebleModif.setDireccionFisica(inmueble.getDireccionFisica());
+            inmuebleModif.setCoordenadas(inmueble.getCoordenadas());
+            inmuebleModif.setObservaciones(inmueble.getObservaciones());
+            area.setInmuebleId(inmueble);
+            em.persist(area);
+            for(Colindante colin : colindantes){
+                AvPuntocardinal puntoInsert = new AvPuntocardinal(colin.getPuntoCardinalId());
+                AvColindante colindanteInsert = new AvColindante();
+                colindanteInsert.setMetros(colin.getMetros());
+                colindanteInsert.setVaras(colin.getVaras());
+                colindanteInsert.setNombre(colin.getNombre());
+                colindanteInsert.setTipo('b');
+                colindanteInsert.setInmuebleId(inmueble);
+                colindanteInsert.setPuntocardinalId(puntoInsert);
+                em.persist(colindanteInsert);
+            }
+            construccion.setInmuebleId(inmueble);
+            em.persist(construccion);
             
             
             em.getTransaction().commit();

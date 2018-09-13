@@ -6,9 +6,7 @@
 package dao;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -73,11 +70,9 @@ public class AvConstruccion implements Serializable {
     @Basic(optional = false)
     @Column(name = "factores_positivos")
     private String factoresPositivos;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inmueble")
-    private List<AvConstruccion> avConstruccionList;
-    @JoinColumn(name = "inmueble", referencedColumnName = "id")
+    @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private AvConstruccion inmueble;
+    private AvInmueble inmuebleId;
 
     public AvConstruccion() {
     }
@@ -206,20 +201,12 @@ public class AvConstruccion implements Serializable {
         this.factoresPositivos = factoresPositivos;
     }
 
-    public List<AvConstruccion> getAvConstruccionList() {
-        return avConstruccionList;
+    public AvInmueble getInmuebleId() {
+        return inmuebleId;
     }
 
-    public void setAvConstruccionList(List<AvConstruccion> avConstruccionList) {
-        this.avConstruccionList = avConstruccionList;
-    }
-
-    public AvConstruccion getInmueble() {
-        return inmueble;
-    }
-
-    public void setInmueble(AvConstruccion inmueble) {
-        this.inmueble = inmueble;
+    public void setInmuebleId(AvInmueble inmuebleId) {
+        this.inmuebleId = inmuebleId;
     }
 
     @Override

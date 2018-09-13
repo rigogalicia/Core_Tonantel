@@ -73,6 +73,8 @@ public class AvInmueble implements Serializable {
     private List<AvSolicitud> avSolicitudList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inmuebleId")
     private List<AvAvaluo> avAvaluoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inmuebleId")
+    private List<AvConstruccion> avConstruccionList;
     @JoinColumn(name = "documento_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvDocumento documentoId;
@@ -223,6 +225,14 @@ public class AvInmueble implements Serializable {
 
     public void setAvAvaluoList(List<AvAvaluo> avAvaluoList) {
         this.avAvaluoList = avAvaluoList;
+    }
+
+    public List<AvConstruccion> getAvConstruccionList() {
+        return avConstruccionList;
+    }
+
+    public void setAvConstruccionList(List<AvConstruccion> avConstruccionList) {
+        this.avConstruccionList = avConstruccionList;
     }
 
     public AvDocumento getDocumentoId() {

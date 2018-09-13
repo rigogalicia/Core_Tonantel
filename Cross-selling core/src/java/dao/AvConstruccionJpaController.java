@@ -5,17 +5,15 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -33,37 +31,19 @@ public class AvConstruccionJpaController implements Serializable {
     }
 
     public void create(AvConstruccion avConstruccion) {
-        if (avConstruccion.getAvConstruccionList() == null) {
-            avConstruccion.setAvConstruccionList(new ArrayList<AvConstruccion>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            AvConstruccion inmueble = avConstruccion.getInmueble();
-            if (inmueble != null) {
-                inmueble = em.getReference(inmueble.getClass(), inmueble.getId());
-                avConstruccion.setInmueble(inmueble);
+            AvInmueble inmuebleId = avConstruccion.getInmuebleId();
+            if (inmuebleId != null) {
+                inmuebleId = em.getReference(inmuebleId.getClass(), inmuebleId.getId());
+                avConstruccion.setInmuebleId(inmuebleId);
             }
-            List<AvConstruccion> attachedAvConstruccionList = new ArrayList<AvConstruccion>();
-            for (AvConstruccion avConstruccionListAvConstruccionToAttach : avConstruccion.getAvConstruccionList()) {
-                avConstruccionListAvConstruccionToAttach = em.getReference(avConstruccionListAvConstruccionToAttach.getClass(), avConstruccionListAvConstruccionToAttach.getId());
-                attachedAvConstruccionList.add(avConstruccionListAvConstruccionToAttach);
-            }
-            avConstruccion.setAvConstruccionList(attachedAvConstruccionList);
             em.persist(avConstruccion);
-            if (inmueble != null) {
-                inmueble.getAvConstruccionList().add(avConstruccion);
-                inmueble = em.merge(inmueble);
-            }
-            for (AvConstruccion avConstruccionListAvConstruccion : avConstruccion.getAvConstruccionList()) {
-                AvConstruccion oldInmuebleOfAvConstruccionListAvConstruccion = avConstruccionListAvConstruccion.getInmueble();
-                avConstruccionListAvConstruccion.setInmueble(avConstruccion);
-                avConstruccionListAvConstruccion = em.merge(avConstruccionListAvConstruccion);
-                if (oldInmuebleOfAvConstruccionListAvConstruccion != null) {
-                    oldInmuebleOfAvConstruccionListAvConstruccion.getAvConstruccionList().remove(avConstruccionListAvConstruccion);
-                    oldInmuebleOfAvConstruccionListAvConstruccion = em.merge(oldInmuebleOfAvConstruccionListAvConstruccion);
-                }
+            if (inmuebleId != null) {
+                inmuebleId.getAvConstruccionList().add(avConstruccion);
+                inmuebleId = em.merge(inmuebleId);
             }
             em.getTransaction().commit();
         } finally {
@@ -73,58 +53,26 @@ public class AvConstruccionJpaController implements Serializable {
         }
     }
 
-    public void edit(AvConstruccion avConstruccion) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(AvConstruccion avConstruccion) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             AvConstruccion persistentAvConstruccion = em.find(AvConstruccion.class, avConstruccion.getId());
-            AvConstruccion inmuebleOld = persistentAvConstruccion.getInmueble();
-            AvConstruccion inmuebleNew = avConstruccion.getInmueble();
-            List<AvConstruccion> avConstruccionListOld = persistentAvConstruccion.getAvConstruccionList();
-            List<AvConstruccion> avConstruccionListNew = avConstruccion.getAvConstruccionList();
-            List<String> illegalOrphanMessages = null;
-            for (AvConstruccion avConstruccionListOldAvConstruccion : avConstruccionListOld) {
-                if (!avConstruccionListNew.contains(avConstruccionListOldAvConstruccion)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain AvConstruccion " + avConstruccionListOldAvConstruccion + " since its inmueble field is not nullable.");
-                }
+            AvInmueble inmuebleIdOld = persistentAvConstruccion.getInmuebleId();
+            AvInmueble inmuebleIdNew = avConstruccion.getInmuebleId();
+            if (inmuebleIdNew != null) {
+                inmuebleIdNew = em.getReference(inmuebleIdNew.getClass(), inmuebleIdNew.getId());
+                avConstruccion.setInmuebleId(inmuebleIdNew);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (inmuebleNew != null) {
-                inmuebleNew = em.getReference(inmuebleNew.getClass(), inmuebleNew.getId());
-                avConstruccion.setInmueble(inmuebleNew);
-            }
-            List<AvConstruccion> attachedAvConstruccionListNew = new ArrayList<AvConstruccion>();
-            for (AvConstruccion avConstruccionListNewAvConstruccionToAttach : avConstruccionListNew) {
-                avConstruccionListNewAvConstruccionToAttach = em.getReference(avConstruccionListNewAvConstruccionToAttach.getClass(), avConstruccionListNewAvConstruccionToAttach.getId());
-                attachedAvConstruccionListNew.add(avConstruccionListNewAvConstruccionToAttach);
-            }
-            avConstruccionListNew = attachedAvConstruccionListNew;
-            avConstruccion.setAvConstruccionList(avConstruccionListNew);
             avConstruccion = em.merge(avConstruccion);
-            if (inmuebleOld != null && !inmuebleOld.equals(inmuebleNew)) {
-                inmuebleOld.getAvConstruccionList().remove(avConstruccion);
-                inmuebleOld = em.merge(inmuebleOld);
+            if (inmuebleIdOld != null && !inmuebleIdOld.equals(inmuebleIdNew)) {
+                inmuebleIdOld.getAvConstruccionList().remove(avConstruccion);
+                inmuebleIdOld = em.merge(inmuebleIdOld);
             }
-            if (inmuebleNew != null && !inmuebleNew.equals(inmuebleOld)) {
-                inmuebleNew.getAvConstruccionList().add(avConstruccion);
-                inmuebleNew = em.merge(inmuebleNew);
-            }
-            for (AvConstruccion avConstruccionListNewAvConstruccion : avConstruccionListNew) {
-                if (!avConstruccionListOld.contains(avConstruccionListNewAvConstruccion)) {
-                    AvConstruccion oldInmuebleOfAvConstruccionListNewAvConstruccion = avConstruccionListNewAvConstruccion.getInmueble();
-                    avConstruccionListNewAvConstruccion.setInmueble(avConstruccion);
-                    avConstruccionListNewAvConstruccion = em.merge(avConstruccionListNewAvConstruccion);
-                    if (oldInmuebleOfAvConstruccionListNewAvConstruccion != null && !oldInmuebleOfAvConstruccionListNewAvConstruccion.equals(avConstruccion)) {
-                        oldInmuebleOfAvConstruccionListNewAvConstruccion.getAvConstruccionList().remove(avConstruccionListNewAvConstruccion);
-                        oldInmuebleOfAvConstruccionListNewAvConstruccion = em.merge(oldInmuebleOfAvConstruccionListNewAvConstruccion);
-                    }
-                }
+            if (inmuebleIdNew != null && !inmuebleIdNew.equals(inmuebleIdOld)) {
+                inmuebleIdNew.getAvConstruccionList().add(avConstruccion);
+                inmuebleIdNew = em.merge(inmuebleIdNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -143,7 +91,7 @@ public class AvConstruccionJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -155,21 +103,10 @@ public class AvConstruccionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The avConstruccion with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<AvConstruccion> avConstruccionListOrphanCheck = avConstruccion.getAvConstruccionList();
-            for (AvConstruccion avConstruccionListOrphanCheckAvConstruccion : avConstruccionListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This AvConstruccion (" + avConstruccion + ") cannot be destroyed since the AvConstruccion " + avConstruccionListOrphanCheckAvConstruccion + " in its avConstruccionList field has a non-nullable inmueble field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            AvConstruccion inmueble = avConstruccion.getInmueble();
-            if (inmueble != null) {
-                inmueble.getAvConstruccionList().remove(avConstruccion);
-                inmueble = em.merge(inmueble);
+            AvInmueble inmuebleId = avConstruccion.getInmuebleId();
+            if (inmuebleId != null) {
+                inmuebleId.getAvConstruccionList().remove(avConstruccion);
+                inmuebleId = em.merge(inmuebleId);
             }
             em.remove(avConstruccion);
             em.getTransaction().commit();
