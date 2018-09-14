@@ -101,6 +101,8 @@ public class AvCrearAvaluoBean {
         System.out.println(crearAvaluo.getConstruccion().getRiesgo());
         System.out.println(crearAvaluo.getConstruccion().getFactoresPositivos());
         System.out.println(crearAvaluo.getInmueble().getObservaciones());
+        
+        crearAvaluo.insert();
     }
     
 }
