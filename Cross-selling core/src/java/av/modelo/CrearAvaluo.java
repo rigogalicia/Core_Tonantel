@@ -6,9 +6,11 @@ import dao.AvAsignacion;
 import dao.AvAvaluo;
 import dao.AvColindante;
 import dao.AvConstruccion;
+import dao.AvDetalle;
 import dao.AvInmueble;
 import dao.AvPuntocardinal;
 import dao.AvSolicitud;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -135,8 +137,9 @@ public class CrearAvaluo {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT s, i "
-                + "FROM AvSolicitud s "
+        String instruccion = "SELECT a, s, i "
+                + "FROM AvAsignacion a "
+                + "JOIN a.solicitudNumeroSolicitud s "
                 + "JOIN s.inmuebleId i "
                 + "WHERE s.numeroSolicitud = :numeroSolicitud";
         Query consulta = em.createQuery(instruccion);
@@ -144,8 +147,9 @@ public class CrearAvaluo {
         List<Object[]> resultado = consulta.getResultList();
         
         for(Object[] obj : resultado){
-            this.solicitud = (AvSolicitud) obj[0];
-            this.inmueble = (AvInmueble) obj[1];
+            this.asignacion = (AvAsignacion) obj[0];
+            this.solicitud = (AvSolicitud) obj[1];
+            this.inmueble = (AvInmueble) obj[2];
         }
         
         em.close();
@@ -194,7 +198,8 @@ public class CrearAvaluo {
     }
     
     //Metodo par crear el avaluo
-    public void crearAvaluo(){
+    public void insert(){
+        System.out.println("----------------------Llamo la llamada al metodo---------------------");
         EntityManagerFactory emf = null;
         EntityManager em = null;
         
@@ -225,9 +230,22 @@ public class CrearAvaluo {
             }
             construccion.setInmuebleId(inmueble);
             em.persist(construccion);
-            
+            avaluo.setInmuebleId(inmueble);
+            avaluo.setAsignacionId(asignacion);
+            em.persist(avaluo);
+            for(DetalleAvaluo da : detalleAvaluo){
+                AvDetalle detalleInsert = new AvDetalle();
+                detalleInsert.setDescripcion(da.getDescripcion());
+                detalleInsert.setMedidas(new BigDecimal(da.getMedidas()));
+                detalleInsert.setValor(new BigDecimal(da.getValor()));
+                detalleInsert.setTipo(da.getTipo());
+                detalleInsert.setAvaluoId(avaluo);
+                em.persist(detalleInsert);
+            }
             
             em.getTransaction().commit();
+            
+            System.out.println("----------------------Finaliso con exito el metodo---------------------");
             
         } catch (Exception e) {
             e.printStackTrace(System.out);

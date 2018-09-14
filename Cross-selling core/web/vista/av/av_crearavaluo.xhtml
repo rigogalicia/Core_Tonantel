@@ -37,7 +37,9 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <h:outputLabel for="fechainspeccion">Fecha de Inspección:</h:outputLabel>
-                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.fechahora}"/>
+                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.fechahora}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                </h:inputText>
                                             </div>
                                         </div>
                                     </div>
