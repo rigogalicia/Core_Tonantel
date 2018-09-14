@@ -80,6 +80,7 @@ public class AvCrearAvaluoBean {
 
     public void insertarDatos(ActionEvent e){
         System.out.println(numeroSolicitud);
+        System.out.println(crearAvaluo.getAvaluo().getFechahora());
         System.out.println(crearAvaluo.getArea().getRegistrada());
         System.out.println(crearAvaluo.getArea().getFisica());
         System.out.println(crearAvaluo.getArea().getAvaluar());
