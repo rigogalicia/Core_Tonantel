@@ -199,7 +199,6 @@ public class CrearAvaluo {
     
     //Metodo par crear el avaluo
     public void insert(){
-        System.out.println("----------------------Llamo la llamada al metodo---------------------");
         EntityManagerFactory emf = null;
         EntityManager em = null;
         
@@ -245,7 +244,6 @@ public class CrearAvaluo {
             
             em.getTransaction().commit();
             
-            System.out.println("----------------------Finaliso con exito el metodo---------------------");
             
         } catch (Exception e) {
             e.printStackTrace(System.out);
