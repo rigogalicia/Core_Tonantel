@@ -2,6 +2,7 @@
 package av.controlador;
 
 import av.modelo.AutorizarAvaluo;
+import av.modelo.CrearAvaluo;
 import dao.AvSolicitud;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
@@ -89,4 +90,8 @@ public class AvAutorizarBean {
         }
     }
     
+    // Metodo para mostrar el detalle del avaluo
+    public void detalleAvaluo(String numeroSolicitud){
+        CrearAvaluo.detalle(numeroSolicitud, CrearAvaluo.valuadorResponsable(numeroSolicitud));
+    }
 }

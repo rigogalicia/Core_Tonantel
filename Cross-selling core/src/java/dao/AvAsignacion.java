@@ -43,6 +43,8 @@ public class AvAsignacion implements Serializable {
     @Basic(optional = false)
     @Column(name = "usuario")
     private String usuario;
+    @Column(name = "firma")
+    private String firma;
     @Basic(optional = false)
     @Column(name = "fechahora")
     @Temporal(TemporalType.TIMESTAMP)
@@ -80,6 +82,14 @@ public class AvAsignacion implements Serializable {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
     }
 
     public Date getFechahora() {

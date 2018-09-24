@@ -118,7 +118,6 @@ public class AvCrearAvaluoBean {
         if(isComplit()){
             crearAvaluo.insert();
         }
-        
     }
     
 }

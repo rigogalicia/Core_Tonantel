@@ -1,6 +1,8 @@
 
 package av.modelo;
 
+import admin.modelo.Colaborador;
+import admin.modelo.ReportConfig;
 import dao.AvArea;
 import dao.AvAsignacion;
 import dao.AvAvaluo;
@@ -11,12 +13,21 @@ import dao.AvInmueble;
 import dao.AvPuntocardinal;
 import dao.AvSolicitud;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperRunManager;
+import patrimonio.modelo.ConexionMySql;
 
 public class CrearAvaluo {
     private AvSolicitud solicitud = new AvSolicitud();
@@ -253,6 +264,61 @@ public class CrearAvaluo {
                 emf.close();
             }
         }
+    }
+    
+    /* Este metodo es utilizado para mostrar el detalle de avaluo */
+    public static void detalle(String numeroSolicitud, String nombreValuador){ 
+  
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+            
+            String nombreReporte = "DetalleAvaluo.jasper";
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("numeroSolicitud", numeroSolicitud);
+            parametros.put("Valuador", nombreValuador);
+
+            byte[] bytes = JasperRunManager.runReportToPdf(ReportConfig.path_avaluos + nombreReporte, parametros, conexion);
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.setContentType("application/pdf");
+            response.setContentLength(bytes.length);
+            ServletOutputStream outStream = response.getOutputStream();
+            outStream.write(bytes, 0, bytes.length);
+
+            outStream.flush();
+            outStream.close();
+            conexion.close();
+            
+            FacesContext.getCurrentInstance().responseComplete();
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
+    
+    // Metodo para consultar el nombre del valuador responsable
+    public static String valuadorResponsable(String numeroSolicitud){
+        String result = "";
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT a "
+                + "FROM AvAsignacion a "
+                + "JOIN a.solicitudNumeroSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSol";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSol", numeroSolicitud);
+        List<AvAsignacion> resultado = consulta.getResultList();
+        
+        for(AvAsignacion a : resultado){
+            result = Colaborador.datosColaborador(a.getUsuario()).getNombre();
+        }
+        
+        em.close();
+        emf.close();
+        
+        return result;
     }
     
 }

@@ -52,6 +52,10 @@ public class AvAvaluo implements Serializable {
     @Basic(optional = false)
     @Column(name = "valor_redondeado")
     private BigDecimal valorRedondeado;
+    @Column(name = "autorizador")
+    private String autorizador;
+    @Column(name = "firma_autorizador")
+    private String firmaAutorizador;
     @JoinColumn(name = "asignacion_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvAsignacion asignacionId;
@@ -105,6 +109,22 @@ public class AvAvaluo implements Serializable {
 
     public void setValorRedondeado(BigDecimal valorRedondeado) {
         this.valorRedondeado = valorRedondeado;
+    }
+
+    public String getAutorizador() {
+        return autorizador;
+    }
+
+    public void setAutorizador(String autorizador) {
+        this.autorizador = autorizador;
+    }
+
+    public String getFirmaAutorizador() {
+        return firmaAutorizador;
+    }
+
+    public void setFirmaAutorizador(String firmaAutorizador) {
+        this.firmaAutorizador = firmaAutorizador;
     }
 
     public AvAsignacion getAsignacionId() {
