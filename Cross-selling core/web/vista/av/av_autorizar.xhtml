@@ -68,14 +68,18 @@
                                             #{a.estado}
                                         </h:column>
                                         <h:column>
-                                            <h:commandLink>
+                                            <h:commandLink >
                                                 <samp class="glyphicon glyphicon-list-alt"></samp>
                                             </h:commandLink>
                                             <h:column>
-                                                <samp class="glyphicon glyphicon-ok"></samp>
+                                                <h:commandLink actionListener="#{av_autorizar.autorizar()}">
+                                                    <samp class="glyphicon glyphicon-ok" ></samp>
+                                                </h:commandLink>
                                             </h:column>
                                             <h:column>
-                                                <samp class="glyphicon glyphicon-remove"></samp>
+                                                <h:commandLink actionListener="#{av_autorizar.rechazar()}">
+                                                    <samp class="glyphicon glyphicon-remove" ></samp>
+                                                </h:commandLink>
                                             </h:column>
                                         </h:column>
                                     </h:dataTable>
