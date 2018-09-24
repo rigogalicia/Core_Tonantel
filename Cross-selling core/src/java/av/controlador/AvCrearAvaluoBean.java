@@ -16,13 +16,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-
 @ManagedBean(name = "av_crearavaluo")
 @ViewScoped
 public class AvCrearAvaluoBean {
     private String numeroSolicitud;
     private CrearAvaluo crearAvaluo = new CrearAvaluo();
     ArrayList<SelectItem> puntosCardinales = new ArrayList<>();
+    
+    private String msjColindantes;
+    private String msjDetalle;
 
     public AvCrearAvaluoBean() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -72,6 +74,40 @@ public class AvCrearAvaluoBean {
     public void setPuntosCardinales(ArrayList<SelectItem> puntosCardinales) {
         this.puntosCardinales = puntosCardinales;
     }
+
+    public String getMsjColindantes() {
+        return msjColindantes;
+    }
+
+    public void setMsjColindantes(String msjColindantes) {
+        this.msjColindantes = msjColindantes;
+    }
+
+    public String getMsjDetalle() {
+        return msjDetalle;
+    }
+
+    public void setMsjDetalle(String msjDetalle) {
+        this.msjDetalle = msjDetalle;
+    }
+    
+    
+    //Metodo utilizado para validar el Array de Colindantes
+    public boolean isComplit(){
+        boolean resultado = false;
+        msjColindantes = null;
+        msjDetalle = null;
+        if(crearAvaluo.getColindantes().isEmpty()){
+            msjColindantes = "Ingrese los Datos de Colindantes";
+        }
+        else if(crearAvaluo.getDetalleAvaluo().isEmpty()){
+            msjDetalle = "Ingrese los Datos del Detalle";
+        }
+        else{
+            resultado = true;
+        }
+        return resultado;
+    }
     
     //Metodo para calcular el total del avaluo
     public void calcularTotal(){
@@ -79,29 +115,10 @@ public class AvCrearAvaluoBean {
     }
 
     public void insertarDatos(ActionEvent e){
-        System.out.println(numeroSolicitud);
-        System.out.println(crearAvaluo.getArea().getRegistrada());
-        System.out.println(crearAvaluo.getArea().getFisica());
-        System.out.println(crearAvaluo.getArea().getAvaluar());
-        System.out.println(crearAvaluo.getArea().getConstruida());
-        System.out.println(crearAvaluo.getArea().getExceso());
-        System.out.println(crearAvaluo.getArea().getFrenteyfondo());
+        if(isComplit()){
+            crearAvaluo.insert();
+        }
         
-        System.out.println(crearAvaluo.getConstruccion().getMuro());
-        System.out.println(crearAvaluo.getConstruccion().getTecho());
-        System.out.println(crearAvaluo.getConstruccion().getCielo());
-        System.out.println(crearAvaluo.getConstruccion().getPiso());
-        System.out.println(crearAvaluo.getConstruccion().getNiveles());
-        System.out.println(crearAvaluo.getConstruccion().getElectricidad());
-        System.out.println(crearAvaluo.getConstruccion().getSanitario());
-        System.out.println(crearAvaluo.getConstruccion().getAmbiente());
-        System.out.println(crearAvaluo.getConstruccion().getAgua());
-        System.out.println(crearAvaluo.getConstruccion().getDestino());
-        System.out.println(crearAvaluo.getConstruccion().getRiesgo());
-        System.out.println(crearAvaluo.getConstruccion().getFactoresPositivos());
-        System.out.println(crearAvaluo.getInmueble().getObservaciones());
-        
-        crearAvaluo.insert();
     }
     
 }

@@ -25,19 +25,22 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <h:outputLabel for="direccionfisica">Dirección física del Inmueble:</h:outputLabel>
-                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.inmueble.direccionFisica}"/>
+                                                <h:message for="direccionfisica" style="color: red"/>
+                                                <h:inputText id="direccionfisica" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.inmueble.direccionFisica}" required="true" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <h:outputLabel for="coordenadas">Coordenadas:</h:outputLabel>
-                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.inmueble.coordenadas}"/>
+                                                <h:message for="coordenadas" style="color: red"/>
+                                                <h:inputText id="coordenadas" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.inmueble.coordenadas}" required="true" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <h:outputLabel for="fechainspeccion">Fecha de Inspección:</h:outputLabel>
-                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.fechahora}">
+                                                <h:message for="fechainspeccion" style="color: red"/>
+                                                <h:inputText id="fechainspeccion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.avaluo.fechahora}" required="true" label="&nbsp;!">
                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:inputText>
                                             </div>
@@ -51,26 +54,30 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="aregistrada">Área registrada:</h:outputLabel>
-                                                <h:inputText id="aregistrada" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.registrada}"/>
+                                                <h:message for="aregistrada" style="color: red"/>
+                                                <h:inputText id="aregistrada" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.registrada}" required="true" label="&nbsp;!"/>
                                             </div>  
                                         </div>            
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="afisica">Área fisica:</h:outputLabel>
-                                                <h:inputText id="afisica" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.fisica}"/>
+                                                <h:message for="afisica" style="color: red"/>
+                                                <h:inputText id="afisica" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.fisica}" required="true" label="&nbsp;!"/>
                                             </div>  
                                         </div>
                                         
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="avaluar">Área a valuar:</h:outputLabel>
-                                                <h:inputText id="avaluar" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.avaluar}"/>
+                                                <h:message for="avaluar" style="color: red"/>
+                                                <h:inputText id="avaluar" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.avaluar}" required="true" label="&nbsp;!"/>
                                             </div>  
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="superficie">Superficie Construida:</h:outputLabel>
-                                                <h:inputText id="superficie" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.construida}"/>
+                                                <h:message for="superficie" style="color: red"/>
+                                                <h:inputText id="superficie" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.construida}" required="true" label="&nbsp;!"/>
                                             </div>  
                                         </div>
                                     </div>
@@ -80,13 +87,15 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <h:outputLabel for="exceso">Exceso o Defecto:</h:outputLabel>
-                                            <h:inputText id="exceso" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.exceso}"/>
+                                            <h:message for="exceso" style="color: red"/>
+                                            <h:inputText id="exceso" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.exceso}" required="true" label="&nbsp;!"/>
                                         </div>  
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <h:outputLabel for="mfrente">Medidas de Frente y Fondo:</h:outputLabel>
-                                            <h:inputText id="mfrente" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.frenteyfondo}"/>
+                                            <h:message for="mfrente" style="color: red"/>
+                                            <h:inputText id="mfrente" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.area.frenteyfondo}" required="true" label="&nbsp;!"/>
                                         </div>  
                                     </div>
                                     </div>
@@ -95,6 +104,7 @@
                                     <h4>Colindantes Registradas</h4>
                                     <!-- row -->
                                     <h:panelGroup id="pnColindante">
+                                        <h:outputLabel value="#{av_crearavaluo.msjColindantes}" style="color: red"/>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group">
@@ -166,25 +176,29 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="muros">Muros:</h:outputLabel>
-                                                <h:inputText id="muros" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.muro}"/>
+                                                <h:message for="muros" style="color: red"/>
+                                                <h:inputText id="muros" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.muro}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="techos">Techos:</h:outputLabel>
-                                                <h:inputText id="techos" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.techo}"/>
+                                                <h:message for="techos" style="color: red"/>
+                                                <h:inputText id="techos" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.techo}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="cielos">Cielos:</h:outputLabel>
-                                                <h:inputText id="cielos" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.cielo}"/>
+                                                <h:message for="cielos" style="color: red"/>
+                                                <h:inputText id="cielos" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.cielo}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="pisos">Pisos:</h:outputLabel>
-                                                <h:inputText id="pisos" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.piso}"/>
+                                                <h:message for="pisos" style="color: red"/>
+                                                <h:inputText id="pisos" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.piso}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                     </div>
@@ -194,25 +208,29 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="niveles">Niveles:</h:outputLabel>
-                                                <h:inputText id="niveles" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.niveles}"/>
+                                                <h:message for="niveles" style="color: red"/>
+                                                <h:inputText id="niveles" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.niveles}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="instalacion">Instalaciones eléctricas:</h:outputLabel>
-                                                <h:inputText id="instalacion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.electricidad}"/>
+                                                <h:message for="instalacion" style="color: red"/>
+                                                <h:inputText id="instalacion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.electricidad}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="servicio">Servicio Sanitario:</h:outputLabel>
-                                                <h:inputText id="servicio" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.sanitario}"/>
+                                                <h:message for="servicio" style="color: red"/>
+                                                <h:inputText id="servicio" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.sanitario}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:outputLabel for="ambientes">Ambientes:</h:outputLabel>
-                                                <h:inputText id="ambientes" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.ambiente}"/>
+                                                <h:message for="ambientes" style="color: red"/>
+                                                <h:inputText id="ambientes" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.ambiente}" required="true" label="&nbsp;!"/>
                                             </div>     
                                         </div>
                                     </div>
@@ -222,19 +240,22 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <h:outputLabel for="agua">Agua:</h:outputLabel>
-                                                <h:inputText id="agua" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.agua}"/>
+                                                <h:message for="agua" style="color: red"/>
+                                                <h:inputText id="agua" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.agua}" required="true" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <h:outputLabel for="dinmueble">Destino Inmueble:</h:outputLabel>
-                                                <h:inputText id="dinmueble" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.destino}"/>
+                                                <h:message for="dinmueble" style="color: red"/>
+                                                <h:inputText id="dinmueble" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.destino}" required="true" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <h:outputLabel for="riesgoinmueble">Riesgo del Inmueble:</h:outputLabel>
-                                                <h:inputText id="riesgoinmueble" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.riesgo}"/>
+                                                <h:message for="riesgoinmueble" style="color: red"/>
+                                                <h:inputText id="riesgoinmueble" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.construccion.riesgo}" required="true" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                     </div>
@@ -243,8 +264,9 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <h:outputLabel for="factores">Factores positivos del inmueble:</h:outputLabel>
+                                            <h:message for="factores" style="color: red"/>
                                             <div class="form-group">
-                                                <h:inputTextarea id="factores" class="form-control" rows="3" value="#{av_crearavaluo.crearAvaluo.construccion.factoresPositivos}" ></h:inputTextarea>
+                                                <h:inputTextarea id="factores" class="form-control" rows="3" value="#{av_crearavaluo.crearAvaluo.construccion.factoresPositivos}" required="true" label="&nbsp;" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -259,6 +281,7 @@
                                     <!-- row -->
                                     <!-- panel group -->
                                     <h:panelGroup id="pnDetalleAvaluo">
+                                        <h:outputLabel value="#{av_crearavaluo.msjDetalle}" style="color: red"/>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">

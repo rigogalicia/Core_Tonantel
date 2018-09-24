@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <!-- Panel Principal -->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="page-header">
+                                    <h2>Autorizacion de Avaluos</h2>
+                                </div>
+                                <h:form>
+                                    <h:dataTable class="table table-striped" value="#{av_autorizar.listAutorizar}" var="a">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="autSolicitud">Numero Solicitud</h:outputLabel>
+                                            </f:facet>
+                                            #{a.numeroSolicitud}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="autCif">Cif</h:outputLabel>
+                                            </f:facet>
+                                            #{a.cif}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="autSolicitante">Solicitante</h:outputLabel>
+                                            </f:facet>
+                                            #{a.asociado}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="autValuador">Valuador</h:outputLabel>
+                                            </f:facet>
+                                            #{a.valuador}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="autAgencia">Agencia</h:outputLabel>
+                                            </f:facet>
+                                            #{a.agencia}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="autFecha">Fecha Solicitud</h:outputLabel>
+                                            </f:facet>
+                                            #{a.fechaSolicitud}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:selectOneMenu id="estado" class="form-control" value="#{av_autorizar.autorizar.est}" onchange="submit()"
+                                                                 valueChangeListener="#{av_autorizar.filtrarDatos}">
+                                                    <f:selectItem itemValue = "c" itemLabel = "Avaluo Realizado" /> 
+                                                    <f:selectItem itemValue = "d" itemLabel = "Avaluo Autorizado" /> 
+                                                    <f:selectItem itemValue = "f" itemLabel = "Avaluo Rechazado" /> 
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{a.estado}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink >
+                                                <samp class="glyphicon glyphicon-list-alt"></samp>
+                                            </h:commandLink>
+                                            <h:column>
+                                                <h:commandLink actionListener="#{av_autorizar.autorizar()}">
+                                                    <samp class="glyphicon glyphicon-ok" ></samp>
+                                                </h:commandLink>
+                                            </h:column>
+                                            <h:column>
+                                                <h:commandLink actionListener="#{av_autorizar.rechazar()}">
+                                                    <samp class="glyphicon glyphicon-remove" ></samp>
+                                                </h:commandLink>
+                                            </h:column>
+                                        </h:column>
+                                    </h:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                        <!-- / Panel Principal -->
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
