@@ -18,6 +18,7 @@ public class Colaborador {
     private String agencia;
     private String departamento;
     private String puesto;
+    private String firma;
 
     public String getUsuario() {
         return usuario;
@@ -82,6 +83,14 @@ public class Colaborador {
     public void setPuesto(String puesto) {
         this.puesto = puesto;
     }
+
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
     
     /* Este metodo se utiliza para insertar un nuevo colaborador */
     public void insertar(){
@@ -109,6 +118,13 @@ public class Colaborador {
                 .append("agencia", this.agencia)
                 .append("departamento", this.departamento)
                 .append("puesto", this.puesto)));
+    }
+    
+    /* Metodo para actualizar la direccion de la firma */
+    public void actualizarFirma(){
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        coleccion.updateOne(eq("_id", this.usuario), 
+                new Document("$set", new Document("firma", this.firma)));
     }
     
     /* Metodo utilizado para mostrar todos los registros de los colaboradores */
