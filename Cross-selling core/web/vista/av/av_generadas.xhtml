@@ -53,7 +53,7 @@
                                                <f:selectItem itemValue = "b" itemLabel = "Avaluo en Proceso" />
                                                <f:selectItem itemValue = "c" itemLabel = "Avaluo Realizado" /> 
                                                <f:selectItem itemValue = "d" itemLabel = "Avaluo Autorizado" /> 
-                                               <f:selectItem itemValue = "f" itemLabel = "Avaluo Rechazado" /> 
+                                               <f:selectItem itemValue = "e" itemLabel = "Avaluo Rechazado" /> 
                                             </h:selectOneMenu> 	  
                                         </f:facet>
                                             #{g.estado}
@@ -61,6 +61,11 @@
                                         <h:column>
                                             <h:commandLink target="blank_" actionListener="#{av_Generadas.verDetalleSolicitud(g)}">
                                                 <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandLink target="blank_" actionListener="#{av_autorizar.detalleAvaluo(g.numeroSolicitud)}" rendered="#{g.est == 100 eq true}">
+                                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
                                             </h:commandLink>
                                         </h:column>
                                     </h:dataTable>

@@ -34,7 +34,6 @@ private String userConect;
             } catch (IOException ex) {
                 ex.printStackTrace(System.out);
             }
-            
         }
     }
 

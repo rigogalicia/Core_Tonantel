@@ -62,7 +62,7 @@
                                                                  valueChangeListener="#{av_autorizar.filtrarDatos}">
                                                     <f:selectItem itemValue = "c" itemLabel = "Avaluo Realizado" /> 
                                                     <f:selectItem itemValue = "d" itemLabel = "Avaluo Autorizado" /> 
-                                                    <f:selectItem itemValue = "f" itemLabel = "Avaluo Rechazado" /> 
+                                                    <f:selectItem itemValue = "e" itemLabel = "Avaluo Rechazado" /> 
                                                 </h:selectOneMenu>
                                             </f:facet>
                                             #{a.estado}
@@ -72,12 +72,12 @@
                                                 <samp class="glyphicon glyphicon-list-alt"></samp>
                                             </h:commandLink>
                                             <h:column>
-                                                <h:commandLink actionListener="#{av_autorizar.autorizar()}">
+                                                <h:commandLink actionListener="#{av_autorizar.autorizar(a.numeroSolicitud, a.idAvaluo)}">
                                                     <samp class="glyphicon glyphicon-ok" ></samp>
                                                 </h:commandLink>
                                             </h:column>
                                             <h:column>
-                                                <h:commandLink actionListener="#{av_autorizar.rechazar()}">
+                                                <h:commandLink actionListener="#{av_autorizar.rechazar(a.numeroSolicitud, a.idAvaluo)}">
                                                     <samp class="glyphicon glyphicon-remove" ></samp>
                                                 </h:commandLink>
                                             </h:column>

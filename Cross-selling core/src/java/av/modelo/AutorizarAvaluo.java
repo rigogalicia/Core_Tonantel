@@ -5,6 +5,7 @@ import admin.modelo.Agencia;
 import admin.modelo.Colaborador;
 import dao.AvAsignacion;
 import dao.AvAsociado;
+import dao.AvAvaluo;
 import dao.AvSolicitud;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-
 public class AutorizarAvaluo {
     private String numeroSolicitud;
     private String cif;
@@ -23,7 +23,7 @@ public class AutorizarAvaluo {
     private String agencia;
     private String fechaSolicitud;
     private String estado;
-    
+    private int idAvaluo;
     private char est;
 
     public String getNumeroSolicitud() {
@@ -82,6 +82,14 @@ public class AutorizarAvaluo {
         this.estado = estado;
     }
 
+    public int getIdAvaluo() {
+        return idAvaluo;
+    }
+
+    public void setIdAvaluo(int idAvaluo) {
+        this.idAvaluo = idAvaluo;
+    }
+    
     public char getEst() {
         return est;
     }
@@ -89,20 +97,19 @@ public class AutorizarAvaluo {
     public void setEst(char est) {
         this.est = est;
     }
-    
-    
-    
-    //Metodo utilizado para consusltar los avaluos creados
+
+    // Metodo utilizado para consusltar los avaluos creados
     public ArrayList<AutorizarAvaluo> consultarAvaluo(){
         ArrayList<AutorizarAvaluo> result = new ArrayList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT a, s, p "
-                + "FROM AvAsignacion a "
-                + "JOIN a.solicitudNumeroSolicitud s "
-                + "JOIN s.asociadoCif p "
-                +"WHERE s.estado = :est ";
+        String instruccion = "SELECT a, b, c, d "
+                + "FROM AvAvaluo a "
+                + "JOIN a.asignacionId b "
+                + "JOIN b.solicitudNumeroSolicitud c "
+                + "JOIN c.asociadoCif d "
+                + "WHERE c.estado = :est";
         
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("est", est);
@@ -112,28 +119,28 @@ public class AutorizarAvaluo {
         SimpleDateFormat formatofecha = new SimpleDateFormat("dd/MM/yyyy");
 
         for(Object[] obj: resultado){
-            AvAsignacion a = (AvAsignacion) obj [0];
-            AvSolicitud s = (AvSolicitud) obj [1];
-            AvAsociado p = (AvAsociado) obj [2];
-            
+            AvAvaluo a = (AvAvaluo) obj[0];
+            AvAsignacion b = (AvAsignacion) obj [1];
+            AvSolicitud c = (AvSolicitud) obj [2];
+            AvAsociado d = (AvAsociado) obj [3];
 
-            
             AutorizarAvaluo autAvaluo = new AutorizarAvaluo();
-            Colaborador c = new Colaborador();
             
-            autAvaluo.setNumeroSolicitud(s.getNumeroSolicitud());
-            autAvaluo.setCif(p.getCif());
-            autAvaluo.setAsociado(p.getNombre());
-            autAvaluo.setValuador(a.getUsuario());
-            autAvaluo.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
-            autAvaluo.setFechaSolicitud(formatofecha.format(s.getFechahora()));
-            autAvaluo.setEstado(EstadoAvaluo.convert(s.getEstado()));
+            autAvaluo.setNumeroSolicitud(c.getNumeroSolicitud());
+            autAvaluo.setCif(d.getCif());
+            autAvaluo.setAsociado(d.getNombre());
+            autAvaluo.setValuador(Colaborador.datosColaborador(b.getUsuario()).getNombre());
+            autAvaluo.setAgencia(Agencia.descripcionAgencia(c.getAgencia()));
+            autAvaluo.setFechaSolicitud(formatofecha.format(c.getFechahora()));
+            autAvaluo.setEstado(EstadoAvaluo.convert(c.getEstado()));
+            autAvaluo.setIdAvaluo(a.getId());
             
             result.add(autAvaluo);
         }
         
         em.close();
         emf.close();
+        
         return result;
     }
 }

@@ -101,6 +101,7 @@ public class SolicitudesGeneradas {
             solGen.setNombreAsociado(a.getNombre());
             solGen.setFecha(formatoFecha.format(s.getFechahora()));
             solGen.setEstado(EstadoAvaluo.convert(s.getEstado()));
+            solGen.setEst(s.getEstado());
             
             result.add(solGen);
         }
