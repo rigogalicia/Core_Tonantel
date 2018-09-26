@@ -332,6 +332,23 @@ public class Colaborador {
             return false;
         }
     }
+    
+    public static String urlImagen(String usuario){
+        String result = "";
+        
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", usuario)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document siguiente = cursor.next();
+                result = siguiente.getString("firma");
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return result;
+    }
 
     @Override
     public String toString() {

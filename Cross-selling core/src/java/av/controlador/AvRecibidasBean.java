@@ -61,6 +61,7 @@ public class AvRecibidasBean {
 
             AvAsignacion asignacion = new AvAsignacion();
             asignacion.setUsuario(userConect);
+            asignacion.setFirma(Colaborador.urlImagen(userConect));
             asignacion.setFechahora(new Date());
             asignacion.setSolicitudNumeroSolicitud(new AvSolicitud(s.getNumeroSolicitud()));
 

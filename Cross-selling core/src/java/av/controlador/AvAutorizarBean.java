@@ -115,6 +115,7 @@ public class AvAutorizarBean {
             if(estado == 'd'){
                 AvAvaluo avaluo = em.find(AvAvaluo.class, idAvaluo);
                 avaluo.setAutorizador(userConect);
+                avaluo.setFirmaAutorizador(Colaborador.urlImagen(userConect));
                 enviarCorreo(numeroSolicitud);
             }
             
