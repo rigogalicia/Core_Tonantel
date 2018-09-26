@@ -273,7 +273,7 @@ public class CrearAvaluo {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
             
-            String nombreReporte = "DetalleAvaluo.jasper";
+            String nombreReporte = "av_detalle.jasper";
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("numeroSolicitud", numeroSolicitud);
             parametros.put("Valuador", nombreValuador);

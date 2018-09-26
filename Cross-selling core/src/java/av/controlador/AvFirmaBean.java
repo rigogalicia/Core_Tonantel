@@ -1,6 +1,7 @@
 package av.controlador;
 
 import admin.modelo.Colaborador;
+import admin.modelo.ReportConfig;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -69,7 +70,7 @@ public class AvFirmaBean {
         nombre = colaborador.getNombre();
         usuario = colaborador.getUsuario();
         
-        pathFirma = "/Users/r29galicia/Downloads/upload/" + usuario + ".jpg";
+        pathFirma = ReportConfig.path_avaluos + usuario + ".jpg";
     }
     
     // Este metodo sube la firma al servidor
