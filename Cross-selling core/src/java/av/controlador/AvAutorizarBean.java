@@ -1,10 +1,12 @@
 
 package av.controlador;
 
+import admin.modelo.Colaborador;
 import av.modelo.AutorizarAvaluo;
 import av.modelo.CrearAvaluo;
 import dao.AvAvaluo;
 import dao.AvSolicitud;
+import gc.controlador.Correo;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +25,7 @@ public class AvAutorizarBean {
     private ArrayList<AutorizarAvaluo> listAutorizar = new ArrayList<>();
     private AutorizarAvaluo autorizar = new AutorizarAvaluo();
     private String userConect = "";
+
     
     public AvAutorizarBean() {
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -64,6 +67,27 @@ public class AvAutorizarBean {
         listAutorizar = autorizar.consultarAvaluo();
     }
     
+    //Metodo para Enviar Correos
+    public void enviarCorreo(String numeroSolicitud){
+        
+        for(AutorizarAvaluo a: listAutorizar){
+            if(numeroSolicitud.equals(a.getNumeroSolicitud())){
+                 String msj = "El avaluo correspondiente al numero de solicitud "+ a.getNumeroSolicitud() +" generada el "+ a.getFechaSolicitud() +"\n"
+                        + "perteneciente al asociado "+ a.getAsociado() +" fue autorizado por el jefe de Creditos, \n"
+                        + "ya puedes descargar el avaluo ingresando \n"
+                        + " a Cross-Selling-Core \n"
+                        + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
+                        + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
+
+                 System.out.println("Se ejecuta" + a.getAsesor());
+
+                 Correo correo = new Correo(Colaborador.correoColaborador(a.getAsesor()), "Numeros solicitud" + a.getNumeroSolicitud(), msj);
+                 correo.enviar();
+            }
+        }
+        
+    }
+    
     // Metodo para autorizar Estado
     public void autorizar(String numeroSolicitud, int idAvaluo){
         cambiarEstadoAvaluo(numeroSolicitud, 'd', idAvaluo);
@@ -91,6 +115,7 @@ public class AvAutorizarBean {
             if(estado == 'd'){
                 AvAvaluo avaluo = em.find(AvAvaluo.class, idAvaluo);
                 avaluo.setAutorizador(userConect);
+                enviarCorreo(numeroSolicitud);
             }
             
             em.getTransaction().commit();
