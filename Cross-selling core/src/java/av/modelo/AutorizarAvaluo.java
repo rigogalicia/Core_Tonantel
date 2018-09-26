@@ -23,6 +23,7 @@ public class AutorizarAvaluo {
     private String agencia;
     private String fechaSolicitud;
     private String estado;
+    private String asesor;
     private int idAvaluo;
     private char est;
 
@@ -82,6 +83,14 @@ public class AutorizarAvaluo {
         this.estado = estado;
     }
 
+    public String getAsesor() {
+        return asesor;
+    }
+
+    public void setAsesor(String asesor) {
+        this.asesor = asesor;
+    }
+    
     public int getIdAvaluo() {
         return idAvaluo;
     }
@@ -133,6 +142,7 @@ public class AutorizarAvaluo {
             autAvaluo.setAgencia(Agencia.descripcionAgencia(c.getAgencia()));
             autAvaluo.setFechaSolicitud(formatofecha.format(c.getFechahora()));
             autAvaluo.setEstado(EstadoAvaluo.convert(c.getEstado()));
+            autAvaluo.setAsesor(c.getUsuario());
             autAvaluo.setIdAvaluo(a.getId());
             
             result.add(autAvaluo);

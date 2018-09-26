@@ -6,7 +6,7 @@ import gc.modelo.Negociacion;
 public class Main {
     
     public static void main(String args[]){
-        System.out.println(CrearAvaluo.valuadorResponsable("987654321"));
+        System.out.println(Colaborador.urlImagen("tocomenpm"));
     }
 
 }
