@@ -2,6 +2,7 @@
 package av.controlador;
 
 import av.modelo.CrearAvaluo;
+import av.modelo.DetalleAvaluo;
 import dao.AvPuntocardinal;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class AvCrearAvaluoBean {
     
     private String msjColindantes;
     private String msjDetalle;
+    private String msjConstruccion;
 
     public AvCrearAvaluoBean() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -90,16 +92,25 @@ public class AvCrearAvaluoBean {
     public void setMsjDetalle(String msjDetalle) {
         this.msjDetalle = msjDetalle;
     }
-    
+
+    public String getMsjConstruccion() {
+        return msjConstruccion;
+    }
+
+    public void setMsjConstruccion(String msjConstruccion) {
+        this.msjConstruccion = msjConstruccion;
+    }
     
     //Metodo utilizado para validar el Array de Colindantes
     public boolean isComplit(){
         boolean resultado = false;
         msjColindantes = null;
         msjDetalle = null;
+        msjConstruccion = null;
         if(crearAvaluo.getColindantes().isEmpty()){
             msjColindantes = "Ingrese los Datos de Colindantes";
         }
+
         else if(crearAvaluo.getDetalleAvaluo().isEmpty()){
             msjDetalle = "Ingrese los Datos del Detalle";
         }
