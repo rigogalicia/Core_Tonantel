@@ -4,9 +4,10 @@ public class DetalleAvaluo {
     private String descripcion;
     private double medidas;
     private double valor;
-    private char tipo;
+    private char tipo = 'a';
     private String descripcionTipo;
     private double total;
+   
 
     public String getDescripcion() {
         return descripcion;

@@ -255,7 +255,7 @@ public class CrearAvaluo {
             
             em.getTransaction().commit();
             
-            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_enproceso.xhtml");
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }finally{
