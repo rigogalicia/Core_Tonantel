@@ -25,7 +25,6 @@ import javax.servlet.http.HttpSession;
 public class AvRecibidasBean {
     private ArrayList<SolicitudesRecibidas> listRecibidas = new ArrayList<>();
     private SolicitudesRecibidas recibidas = new SolicitudesRecibidas();
-    
     private String userConect;
     private String error;
 
@@ -43,7 +42,6 @@ public class AvRecibidasBean {
                 ex.printStackTrace(System.out);
             }
         }
-        
     }
 
     public ArrayList<SolicitudesRecibidas> getListRecibidas() {
@@ -114,8 +112,8 @@ public class AvRecibidasBean {
         else{
             error = "! La solicitud ya fue tomada por otro Valuador";
         }
-
-    }  
+    } 
+    
     /* Metodo para consultar el estado actual de la solicitud */
     private boolean isGenerada(String numeroSolicitud){
         boolean result = false;
@@ -126,9 +124,11 @@ public class AvRecibidasBean {
         String instruccion = "SELECT s "
                 + "FROM AvSolicitud s "
                 + "WHERE s.numeroSolicitud = :numSolicitud";
+        
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("numSolicitud", numeroSolicitud);
         List<AvSolicitud> resultado = consulta.getResultList();
+        
         for(AvSolicitud s : resultado){
             if(s.getEstado() == 'a'){
                 result = true;

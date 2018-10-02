@@ -21,8 +21,7 @@ public class SolicitudesGeneradas {
     private char est;
     
     //metodo constructor para tomar la sesion
-    public SolicitudesGeneradas(){
-    }
+    public SolicitudesGeneradas(){}
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
