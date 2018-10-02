@@ -156,7 +156,7 @@ public class Solicitud {
             solicitudGc.setTramiteId(tramiteGc);
             solicitudGc.setTipoclienteId(clienteGc);
             solicitudGc.setRiesgoId(new GcRiesgo(1));
-            solicitudGc.setEst(isNegociacion == true ? 'a' : 'a');
+            solicitudGc.setEst(isNegociacion == true ? null : null);
             
             em.merge(asociadoGc);
             em.persist(solicitudGc);
