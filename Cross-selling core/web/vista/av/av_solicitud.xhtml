@@ -223,12 +223,13 @@
                                     <!-- / row -->
                                     <!-- row -->
                                     <div class="row">                                 
-                                        <div class="col-md-3">
+                                        <div class="col-md-5">
                                             <h:outputLabel for="tipoEscritura">* Tipo de Escritura:</h:outputLabel>
                                             <h:message for="tipoEscritura" style="color: red"/>
                                             <h:selectOneRadio id="tipoEscritura" class="table table-striped" value="#{av_solicitud.solicitudController.documento.tipo}" required="true" label="&nbsp;!">
                                                 <f:selectItem itemValue="a" itemLabel="&nbsp;Publica&nbsp;&nbsp;"/> 
                                                 <f:selectItem itemValue="b" itemLabel="&nbsp;Registrada"/>
+                                                <f:selectItem itemValue="c" itemLabel="&nbsp;Derecho de Posesión"/>
                                                 <f:ajax event="change" listener="#{av_solicitud.tipoDocumento()}" execute="tipoEscritura" render="pnTipo"/>
                                             </h:selectOneRadio> 
                                         </div>
@@ -284,6 +285,30 @@
                                                 </div>
                                             </div>
                                         </h:panelGroup>
+                                        <!-- row -->
+                                        <h:panelGroup rendered="#{av_solicitud.tipoSolicitud == 3 eq true}">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="numeroacta">Numero de Acta:</h:outputLabel>
+                                                        <h:inputText id="numeroacta" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.documento.numeroActa}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="numeroLibro">Numero de Libro:</h:outputLabel>
+                                                        <h:inputText id="numeroLibro" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.documento.numeroLibro}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <h:outputLabel for="otros">Otros:</h:outputLabel>
+                                                        <h:inputText id="otro" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.documento.otros}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </h:panelGroup>
+                                        <!-- / row -->
                                     </h:panelGroup>
                                     <!-- / row -->
                                     <!-- / Datos de la Garantia-->
@@ -296,11 +321,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                    <h:selectOneMenu id="puntoCardinal" class="form-control input-sm" value="#{av_solicitud.solicitudController.colindante.puntoCardinalId}"> 
-                                                        <!--value="#av_solicitud.solicitudController.punto.id}"-->
-                                                        <f:selectItem itemValue="" itemLabel=""/>
-                                                        <f:selectItems value="#{av_solicitud.puntosCardinales}"/>
-                                                    </h:selectOneMenu>
+                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.puntoCardinal}"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -335,7 +356,7 @@
                                             <div class="col-md-12">
                                                 <h:dataTable id="tablacolindante" class="table table-striped" value="#{av_solicitud.solicitudController.colindantes}" var="c">
                                                 <h:column>
-                                                    #{c.puntoCardinalId}
+                                                    #{c.puntoCardinal}
                                                 </h:column>
                                                 <h:column>
                                                     #{c.metros}
@@ -360,7 +381,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:commandButton value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
+                                                <h:commandLink value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
                                             </div>
                                         </div>
                                     </div>

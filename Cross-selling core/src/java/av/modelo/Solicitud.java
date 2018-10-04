@@ -7,7 +7,6 @@ import dao.AvColindante;
 import dao.AvDocumento;
 import dao.AvInmueble;
 import dao.AvPropietario;
-import dao.AvPuntocardinal;
 import dao.AvSolicitud;
 import dao.AvTelefono;
 import java.io.IOException;
@@ -160,13 +159,15 @@ public class Solicitud {
             emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
             em = emf.createEntityManager();
             
-            em.getTransaction().begin();
+            //em.getTransaction().begin();
             Colaborador colaborador = Colaborador.datosColaborador(userConect);
             solicitud.setUsuario(userConect);
             solicitud.setAgencia(colaborador.getAgencia());
             solicitud.setFechahora(new Date());
             solicitud.setEstado('a');
             em.merge(asociado);
+            System.out.println("------------------------------------------------------------");
+            System.out.println(asociado.toString());
             for(String t : telefonos){
                 AvTelefono telefonoBD = new AvTelefono();
                 telefonoBD.setNumero(t);
@@ -184,14 +185,14 @@ public class Solicitud {
                 colindanteDB.setVaras(c.getVaras());
                 colindanteDB.setNombre(c.getNombre());
                 colindanteDB.setTipo('a');
-                colindanteDB.setPuntocardinalId(new AvPuntocardinal(c.getPuntoCardinalId()));
+                colindanteDB.setPuntocardinal(c.getPuntoCardinal());
                 colindanteDB.setInmuebleId(inmueble);
                 em.merge(colindanteDB);
             }
             solicitud.setAsociadoCif(asociado);
             solicitud.setInmuebleId(inmueble);
             em.merge(solicitud);
-            em.getTransaction().commit();
+            //em.getTransaction().commit();
             
             FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_generadas.xhtml");
         }

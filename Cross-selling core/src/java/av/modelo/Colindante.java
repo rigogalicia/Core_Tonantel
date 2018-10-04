@@ -1,17 +1,17 @@
 package av.modelo;
 
 public class Colindante {
-    private String puntoCardinalId;
+    private String puntoCardinal;
     private String metros;
     private String varas;
     private String nombre;
 
-    public String getPuntoCardinalId() {
-        return puntoCardinalId;
+    public String getPuntoCardinal() {
+        return puntoCardinal;
     }
 
-    public void setPuntoCardinalId(String puntoCardinalId) {
-        this.puntoCardinalId = puntoCardinalId;
+    public void setPuntoCardinal(String puntoCardinal) {
+        this.puntoCardinal = puntoCardinal;
     }
 
     public String getMetros() {

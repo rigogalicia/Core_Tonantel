@@ -228,14 +228,14 @@ public class CrearAvaluo {
             area.setInmuebleId(inmueble);
             em.persist(area);
             for(Colindante colin : colindantes){
-                AvPuntocardinal puntoInsert = new AvPuntocardinal(colin.getPuntoCardinalId());
+               
                 AvColindante colindanteInsert = new AvColindante();
                 colindanteInsert.setMetros(colin.getMetros());
                 colindanteInsert.setVaras(colin.getVaras());
                 colindanteInsert.setNombre(colin.getNombre());
                 colindanteInsert.setTipo('b');
                 colindanteInsert.setInmuebleId(inmueble);
-                colindanteInsert.setPuntocardinalId(puntoInsert);
+               // colindanteInsert.setPuntocardinalId(puntoInsert);
                 em.persist(colindanteInsert);
             }
             construccion.setInmuebleId(inmueble);
