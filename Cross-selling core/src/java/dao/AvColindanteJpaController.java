@@ -40,19 +40,10 @@ public class AvColindanteJpaController implements Serializable {
                 inmuebleId = em.getReference(inmuebleId.getClass(), inmuebleId.getId());
                 avColindante.setInmuebleId(inmuebleId);
             }
-            AvPuntocardinal puntocardinalId = avColindante.getPuntocardinalId();
-            if (puntocardinalId != null) {
-                puntocardinalId = em.getReference(puntocardinalId.getClass(), puntocardinalId.getId());
-                avColindante.setPuntocardinalId(puntocardinalId);
-            }
             em.persist(avColindante);
             if (inmuebleId != null) {
                 inmuebleId.getAvColindanteList().add(avColindante);
                 inmuebleId = em.merge(inmuebleId);
-            }
-            if (puntocardinalId != null) {
-                puntocardinalId.getAvColindanteList().add(avColindante);
-                puntocardinalId = em.merge(puntocardinalId);
             }
             em.getTransaction().commit();
         } finally {
@@ -70,15 +61,9 @@ public class AvColindanteJpaController implements Serializable {
             AvColindante persistentAvColindante = em.find(AvColindante.class, avColindante.getId());
             AvInmueble inmuebleIdOld = persistentAvColindante.getInmuebleId();
             AvInmueble inmuebleIdNew = avColindante.getInmuebleId();
-            AvPuntocardinal puntocardinalIdOld = persistentAvColindante.getPuntocardinalId();
-            AvPuntocardinal puntocardinalIdNew = avColindante.getPuntocardinalId();
             if (inmuebleIdNew != null) {
                 inmuebleIdNew = em.getReference(inmuebleIdNew.getClass(), inmuebleIdNew.getId());
                 avColindante.setInmuebleId(inmuebleIdNew);
-            }
-            if (puntocardinalIdNew != null) {
-                puntocardinalIdNew = em.getReference(puntocardinalIdNew.getClass(), puntocardinalIdNew.getId());
-                avColindante.setPuntocardinalId(puntocardinalIdNew);
             }
             avColindante = em.merge(avColindante);
             if (inmuebleIdOld != null && !inmuebleIdOld.equals(inmuebleIdNew)) {
@@ -88,14 +73,6 @@ public class AvColindanteJpaController implements Serializable {
             if (inmuebleIdNew != null && !inmuebleIdNew.equals(inmuebleIdOld)) {
                 inmuebleIdNew.getAvColindanteList().add(avColindante);
                 inmuebleIdNew = em.merge(inmuebleIdNew);
-            }
-            if (puntocardinalIdOld != null && !puntocardinalIdOld.equals(puntocardinalIdNew)) {
-                puntocardinalIdOld.getAvColindanteList().remove(avColindante);
-                puntocardinalIdOld = em.merge(puntocardinalIdOld);
-            }
-            if (puntocardinalIdNew != null && !puntocardinalIdNew.equals(puntocardinalIdOld)) {
-                puntocardinalIdNew.getAvColindanteList().add(avColindante);
-                puntocardinalIdNew = em.merge(puntocardinalIdNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -130,11 +107,6 @@ public class AvColindanteJpaController implements Serializable {
             if (inmuebleId != null) {
                 inmuebleId.getAvColindanteList().remove(avColindante);
                 inmuebleId = em.merge(inmuebleId);
-            }
-            AvPuntocardinal puntocardinalId = avColindante.getPuntocardinalId();
-            if (puntocardinalId != null) {
-                puntocardinalId.getAvColindanteList().remove(avColindante);
-                puntocardinalId = em.merge(puntocardinalId);
             }
             em.remove(avColindante);
             em.getTransaction().commit();

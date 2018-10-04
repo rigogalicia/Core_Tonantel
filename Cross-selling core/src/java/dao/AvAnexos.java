@@ -9,7 +9,11 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -19,37 +23,43 @@ import javax.persistence.Table;
  * @author r29galicia
  */
 @Entity
-@Table(name = "av_puntocardinal")
+@Table(name = "av_anexos")
 @NamedQueries({
-    @NamedQuery(name = "AvPuntocardinal.findAll", query = "SELECT a FROM AvPuntocardinal a")})
-public class AvPuntocardinal implements Serializable {
+    @NamedQuery(name = "AvAnexos.findAll", query = "SELECT a FROM AvAnexos a")})
+public class AvAnexos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private String id;
-    @Basic(optional = false)
+    private Integer id;
     @Column(name = "descripcion")
     private String descripcion;
+    @Basic(optional = false)
+    @Column(name = "url")
+    private String url;
+    @JoinColumn(name = "avaluo_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private AvAvaluo avaluoId;
 
-    public AvPuntocardinal() {
+    public AvAnexos() {
     }
 
-    public AvPuntocardinal(String id) {
+    public AvAnexos(Integer id) {
         this.id = id;
     }
 
-    public AvPuntocardinal(String id, String descripcion) {
+    public AvAnexos(Integer id, String url) {
         this.id = id;
-        this.descripcion = descripcion;
+        this.url = url;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -59,6 +69,22 @@ public class AvPuntocardinal implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public AvAvaluo getAvaluoId() {
+        return avaluoId;
+    }
+
+    public void setAvaluoId(AvAvaluo avaluoId) {
+        this.avaluoId = avaluoId;
     }
 
     @Override
@@ -71,10 +97,10 @@ public class AvPuntocardinal implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AvPuntocardinal)) {
+        if (!(object instanceof AvAnexos)) {
             return false;
         }
-        AvPuntocardinal other = (AvPuntocardinal) object;
+        AvAnexos other = (AvAnexos) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -83,7 +109,7 @@ public class AvPuntocardinal implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.AvPuntocardinal[ id=" + id + " ]";
+        return "dao.AvAnexos[ id=" + id + " ]";
     }
     
 }
