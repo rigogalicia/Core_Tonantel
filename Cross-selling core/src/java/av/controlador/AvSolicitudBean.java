@@ -100,9 +100,15 @@ public class AvSolicitudBean {
         if(solicitudController.getTelefonos().isEmpty()){
             msjTelefono = "Ingrese almenos un teléfono";
         }
-        else if(solicitudController.getColindantes().isEmpty()){
+        else if(solicitudController.getDocumento().getTipo() == 'a'){
+            if(solicitudController.getColindantes().isEmpty()){
             msjColindante = "Ingrese los datos de colindates";
+            }
+            else{
+                result = true;
+            }
         }
+
         else{
             result = true;
         }
