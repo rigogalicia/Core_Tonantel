@@ -40,7 +40,6 @@ public class AvSolicitud implements Serializable {
     @Basic(optional = false)
     @Column(name = "monto")
     private String monto;
-    @Basic(optional = false)
     @Column(name = "numero_credito")
     private String numeroCredito;
     @Basic(optional = false)
@@ -75,10 +74,9 @@ public class AvSolicitud implements Serializable {
         this.numeroSolicitud = numeroSolicitud;
     }
 
-    public AvSolicitud(String numeroSolicitud, String monto, String numeroCredito, String usuario, String agencia, Date fechahora, Character estado, Character reavaluo) {
+    public AvSolicitud(String numeroSolicitud, String monto, String usuario, String agencia, Date fechahora, Character estado, Character reavaluo) {
         this.numeroSolicitud = numeroSolicitud;
         this.monto = monto;
-        this.numeroCredito = numeroCredito;
         this.usuario = usuario;
         this.agencia = agencia;
         this.fechahora = fechahora;

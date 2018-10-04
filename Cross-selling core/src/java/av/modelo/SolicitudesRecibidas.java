@@ -117,6 +117,4 @@ public class SolicitudesRecibidas {
         return result;
     }
     
-    
-    
 }

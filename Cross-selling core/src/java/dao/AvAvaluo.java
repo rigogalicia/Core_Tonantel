@@ -56,12 +56,17 @@ public class AvAvaluo implements Serializable {
     private String autorizador;
     @Column(name = "firma_autorizador")
     private String firmaAutorizador;
+    @Column(name = "fecha_autorizacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAutorizacion;
     @JoinColumn(name = "asignacion_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvAsignacion asignacionId;
     @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvInmueble inmuebleId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "avaluoId")
+    private List<AvAnexos> avAnexosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "avaluoId")
     private List<AvDetalle> avDetalleList;
 
@@ -127,6 +132,14 @@ public class AvAvaluo implements Serializable {
         this.firmaAutorizador = firmaAutorizador;
     }
 
+    public Date getFechaAutorizacion() {
+        return fechaAutorizacion;
+    }
+
+    public void setFechaAutorizacion(Date fechaAutorizacion) {
+        this.fechaAutorizacion = fechaAutorizacion;
+    }
+
     public AvAsignacion getAsignacionId() {
         return asignacionId;
     }
@@ -141,6 +154,14 @@ public class AvAvaluo implements Serializable {
 
     public void setInmuebleId(AvInmueble inmuebleId) {
         this.inmuebleId = inmuebleId;
+    }
+
+    public List<AvAnexos> getAvAnexosList() {
+        return avAnexosList;
+    }
+
+    public void setAvAnexosList(List<AvAnexos> avAnexosList) {
+        this.avAnexosList = avAnexosList;
     }
 
     public List<AvDetalle> getAvDetalleList() {

@@ -104,7 +104,7 @@ public class SolicitudesEnproceso {
         
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("userConect", userConect);
-        consulta.setParameter("est", est );
+        consulta.setParameter("est", est);
         List<Object[]> resultado = consulta.getResultList();
         
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");

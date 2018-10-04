@@ -5,18 +5,16 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import dao.exceptions.PreexistingEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -34,29 +32,11 @@ public class AvPuntocardinalJpaController implements Serializable {
     }
 
     public void create(AvPuntocardinal avPuntocardinal) throws PreexistingEntityException, Exception {
-        if (avPuntocardinal.getAvColindanteList() == null) {
-            avPuntocardinal.setAvColindanteList(new ArrayList<AvColindante>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<AvColindante> attachedAvColindanteList = new ArrayList<AvColindante>();
-            for (AvColindante avColindanteListAvColindanteToAttach : avPuntocardinal.getAvColindanteList()) {
-                avColindanteListAvColindanteToAttach = em.getReference(avColindanteListAvColindanteToAttach.getClass(), avColindanteListAvColindanteToAttach.getId());
-                attachedAvColindanteList.add(avColindanteListAvColindanteToAttach);
-            }
-            avPuntocardinal.setAvColindanteList(attachedAvColindanteList);
             em.persist(avPuntocardinal);
-            for (AvColindante avColindanteListAvColindante : avPuntocardinal.getAvColindanteList()) {
-                AvPuntocardinal oldPuntocardinalIdOfAvColindanteListAvColindante = avColindanteListAvColindante.getPuntocardinalId();
-                avColindanteListAvColindante.setPuntocardinalId(avPuntocardinal);
-                avColindanteListAvColindante = em.merge(avColindanteListAvColindante);
-                if (oldPuntocardinalIdOfAvColindanteListAvColindante != null) {
-                    oldPuntocardinalIdOfAvColindanteListAvColindante.getAvColindanteList().remove(avColindanteListAvColindante);
-                    oldPuntocardinalIdOfAvColindanteListAvColindante = em.merge(oldPuntocardinalIdOfAvColindanteListAvColindante);
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             if (findAvPuntocardinal(avPuntocardinal.getId()) != null) {
@@ -70,45 +50,12 @@ public class AvPuntocardinalJpaController implements Serializable {
         }
     }
 
-    public void edit(AvPuntocardinal avPuntocardinal) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(AvPuntocardinal avPuntocardinal) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            AvPuntocardinal persistentAvPuntocardinal = em.find(AvPuntocardinal.class, avPuntocardinal.getId());
-            List<AvColindante> avColindanteListOld = persistentAvPuntocardinal.getAvColindanteList();
-            List<AvColindante> avColindanteListNew = avPuntocardinal.getAvColindanteList();
-            List<String> illegalOrphanMessages = null;
-            for (AvColindante avColindanteListOldAvColindante : avColindanteListOld) {
-                if (!avColindanteListNew.contains(avColindanteListOldAvColindante)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain AvColindante " + avColindanteListOldAvColindante + " since its puntocardinalId field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<AvColindante> attachedAvColindanteListNew = new ArrayList<AvColindante>();
-            for (AvColindante avColindanteListNewAvColindanteToAttach : avColindanteListNew) {
-                avColindanteListNewAvColindanteToAttach = em.getReference(avColindanteListNewAvColindanteToAttach.getClass(), avColindanteListNewAvColindanteToAttach.getId());
-                attachedAvColindanteListNew.add(avColindanteListNewAvColindanteToAttach);
-            }
-            avColindanteListNew = attachedAvColindanteListNew;
-            avPuntocardinal.setAvColindanteList(avColindanteListNew);
             avPuntocardinal = em.merge(avPuntocardinal);
-            for (AvColindante avColindanteListNewAvColindante : avColindanteListNew) {
-                if (!avColindanteListOld.contains(avColindanteListNewAvColindante)) {
-                    AvPuntocardinal oldPuntocardinalIdOfAvColindanteListNewAvColindante = avColindanteListNewAvColindante.getPuntocardinalId();
-                    avColindanteListNewAvColindante.setPuntocardinalId(avPuntocardinal);
-                    avColindanteListNewAvColindante = em.merge(avColindanteListNewAvColindante);
-                    if (oldPuntocardinalIdOfAvColindanteListNewAvColindante != null && !oldPuntocardinalIdOfAvColindanteListNewAvColindante.equals(avPuntocardinal)) {
-                        oldPuntocardinalIdOfAvColindanteListNewAvColindante.getAvColindanteList().remove(avColindanteListNewAvColindante);
-                        oldPuntocardinalIdOfAvColindanteListNewAvColindante = em.merge(oldPuntocardinalIdOfAvColindanteListNewAvColindante);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -126,7 +73,7 @@ public class AvPuntocardinalJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(String id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -137,17 +84,6 @@ public class AvPuntocardinalJpaController implements Serializable {
                 avPuntocardinal.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The avPuntocardinal with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            List<AvColindante> avColindanteListOrphanCheck = avPuntocardinal.getAvColindanteList();
-            for (AvColindante avColindanteListOrphanCheckAvColindante : avColindanteListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This AvPuntocardinal (" + avPuntocardinal + ") cannot be destroyed since the AvColindante " + avColindanteListOrphanCheckAvColindante + " in its avColindanteList field has a non-nullable puntocardinalId field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(avPuntocardinal);
             em.getTransaction().commit();

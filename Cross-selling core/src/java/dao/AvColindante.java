@@ -44,12 +44,12 @@ public class AvColindante implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo")
     private Character tipo;
+    @Basic(optional = false)
+    @Column(name = "puntocardinal")
+    private String puntocardinal;
     @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AvInmueble inmuebleId;
-    @JoinColumn(name = "puntocardinal_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private AvPuntocardinal puntocardinalId;
 
     public AvColindante() {
     }
@@ -58,10 +58,11 @@ public class AvColindante implements Serializable {
         this.id = id;
     }
 
-    public AvColindante(Integer id, String nombre, Character tipo) {
+    public AvColindante(Integer id, String nombre, Character tipo, String puntocardinal) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
+        this.puntocardinal = puntocardinal;
     }
 
     public Integer getId() {
@@ -104,20 +105,20 @@ public class AvColindante implements Serializable {
         this.tipo = tipo;
     }
 
+    public String getPuntocardinal() {
+        return puntocardinal;
+    }
+
+    public void setPuntocardinal(String puntocardinal) {
+        this.puntocardinal = puntocardinal;
+    }
+
     public AvInmueble getInmuebleId() {
         return inmuebleId;
     }
 
     public void setInmuebleId(AvInmueble inmuebleId) {
         this.inmuebleId = inmuebleId;
-    }
-
-    public AvPuntocardinal getPuntocardinalId() {
-        return puntocardinalId;
-    }
-
-    public void setPuntocardinalId(AvPuntocardinal puntocardinalId) {
-        this.puntocardinalId = puntocardinalId;
     }
 
     @Override

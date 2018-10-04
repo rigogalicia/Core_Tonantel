@@ -2,7 +2,6 @@
 package av.controlador;
 
 import av.modelo.CrearAvaluo;
-import av.modelo.DetalleAvaluo;
 import dao.AvPuntocardinal;
 import java.util.ArrayList;
 import java.util.List;

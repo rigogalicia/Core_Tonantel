@@ -1,11 +1,9 @@
 package gc.controlador;
 
 import dao.GcDestino;
-import dao.GcDesventajas;
 import dao.GcTipo;
 import dao.GcTipocliente;
 import dao.GcTramite;
-import dao.GcVentajas;
 import gc.modelo.Destino;
 import gc.modelo.Solicitud;
 import gc.modelo.Tipo;

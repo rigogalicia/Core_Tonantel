@@ -33,6 +33,9 @@ public class AvAvaluoJpaController implements Serializable {
     }
 
     public void create(AvAvaluo avAvaluo) {
+        if (avAvaluo.getAvAnexosList() == null) {
+            avAvaluo.setAvAnexosList(new ArrayList<AvAnexos>());
+        }
         if (avAvaluo.getAvDetalleList() == null) {
             avAvaluo.setAvDetalleList(new ArrayList<AvDetalle>());
         }
@@ -50,6 +53,12 @@ public class AvAvaluoJpaController implements Serializable {
                 inmuebleId = em.getReference(inmuebleId.getClass(), inmuebleId.getId());
                 avAvaluo.setInmuebleId(inmuebleId);
             }
+            List<AvAnexos> attachedAvAnexosList = new ArrayList<AvAnexos>();
+            for (AvAnexos avAnexosListAvAnexosToAttach : avAvaluo.getAvAnexosList()) {
+                avAnexosListAvAnexosToAttach = em.getReference(avAnexosListAvAnexosToAttach.getClass(), avAnexosListAvAnexosToAttach.getId());
+                attachedAvAnexosList.add(avAnexosListAvAnexosToAttach);
+            }
+            avAvaluo.setAvAnexosList(attachedAvAnexosList);
             List<AvDetalle> attachedAvDetalleList = new ArrayList<AvDetalle>();
             for (AvDetalle avDetalleListAvDetalleToAttach : avAvaluo.getAvDetalleList()) {
                 avDetalleListAvDetalleToAttach = em.getReference(avDetalleListAvDetalleToAttach.getClass(), avDetalleListAvDetalleToAttach.getId());
@@ -64,6 +73,15 @@ public class AvAvaluoJpaController implements Serializable {
             if (inmuebleId != null) {
                 inmuebleId.getAvAvaluoList().add(avAvaluo);
                 inmuebleId = em.merge(inmuebleId);
+            }
+            for (AvAnexos avAnexosListAvAnexos : avAvaluo.getAvAnexosList()) {
+                AvAvaluo oldAvaluoIdOfAvAnexosListAvAnexos = avAnexosListAvAnexos.getAvaluoId();
+                avAnexosListAvAnexos.setAvaluoId(avAvaluo);
+                avAnexosListAvAnexos = em.merge(avAnexosListAvAnexos);
+                if (oldAvaluoIdOfAvAnexosListAvAnexos != null) {
+                    oldAvaluoIdOfAvAnexosListAvAnexos.getAvAnexosList().remove(avAnexosListAvAnexos);
+                    oldAvaluoIdOfAvAnexosListAvAnexos = em.merge(oldAvaluoIdOfAvAnexosListAvAnexos);
+                }
             }
             for (AvDetalle avDetalleListAvDetalle : avAvaluo.getAvDetalleList()) {
                 AvAvaluo oldAvaluoIdOfAvDetalleListAvDetalle = avDetalleListAvDetalle.getAvaluoId();
@@ -92,9 +110,19 @@ public class AvAvaluoJpaController implements Serializable {
             AvAsignacion asignacionIdNew = avAvaluo.getAsignacionId();
             AvInmueble inmuebleIdOld = persistentAvAvaluo.getInmuebleId();
             AvInmueble inmuebleIdNew = avAvaluo.getInmuebleId();
+            List<AvAnexos> avAnexosListOld = persistentAvAvaluo.getAvAnexosList();
+            List<AvAnexos> avAnexosListNew = avAvaluo.getAvAnexosList();
             List<AvDetalle> avDetalleListOld = persistentAvAvaluo.getAvDetalleList();
             List<AvDetalle> avDetalleListNew = avAvaluo.getAvDetalleList();
             List<String> illegalOrphanMessages = null;
+            for (AvAnexos avAnexosListOldAvAnexos : avAnexosListOld) {
+                if (!avAnexosListNew.contains(avAnexosListOldAvAnexos)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain AvAnexos " + avAnexosListOldAvAnexos + " since its avaluoId field is not nullable.");
+                }
+            }
             for (AvDetalle avDetalleListOldAvDetalle : avDetalleListOld) {
                 if (!avDetalleListNew.contains(avDetalleListOldAvDetalle)) {
                     if (illegalOrphanMessages == null) {
@@ -114,6 +142,13 @@ public class AvAvaluoJpaController implements Serializable {
                 inmuebleIdNew = em.getReference(inmuebleIdNew.getClass(), inmuebleIdNew.getId());
                 avAvaluo.setInmuebleId(inmuebleIdNew);
             }
+            List<AvAnexos> attachedAvAnexosListNew = new ArrayList<AvAnexos>();
+            for (AvAnexos avAnexosListNewAvAnexosToAttach : avAnexosListNew) {
+                avAnexosListNewAvAnexosToAttach = em.getReference(avAnexosListNewAvAnexosToAttach.getClass(), avAnexosListNewAvAnexosToAttach.getId());
+                attachedAvAnexosListNew.add(avAnexosListNewAvAnexosToAttach);
+            }
+            avAnexosListNew = attachedAvAnexosListNew;
+            avAvaluo.setAvAnexosList(avAnexosListNew);
             List<AvDetalle> attachedAvDetalleListNew = new ArrayList<AvDetalle>();
             for (AvDetalle avDetalleListNewAvDetalleToAttach : avDetalleListNew) {
                 avDetalleListNewAvDetalleToAttach = em.getReference(avDetalleListNewAvDetalleToAttach.getClass(), avDetalleListNewAvDetalleToAttach.getId());
@@ -137,6 +172,17 @@ public class AvAvaluoJpaController implements Serializable {
             if (inmuebleIdNew != null && !inmuebleIdNew.equals(inmuebleIdOld)) {
                 inmuebleIdNew.getAvAvaluoList().add(avAvaluo);
                 inmuebleIdNew = em.merge(inmuebleIdNew);
+            }
+            for (AvAnexos avAnexosListNewAvAnexos : avAnexosListNew) {
+                if (!avAnexosListOld.contains(avAnexosListNewAvAnexos)) {
+                    AvAvaluo oldAvaluoIdOfAvAnexosListNewAvAnexos = avAnexosListNewAvAnexos.getAvaluoId();
+                    avAnexosListNewAvAnexos.setAvaluoId(avAvaluo);
+                    avAnexosListNewAvAnexos = em.merge(avAnexosListNewAvAnexos);
+                    if (oldAvaluoIdOfAvAnexosListNewAvAnexos != null && !oldAvaluoIdOfAvAnexosListNewAvAnexos.equals(avAvaluo)) {
+                        oldAvaluoIdOfAvAnexosListNewAvAnexos.getAvAnexosList().remove(avAnexosListNewAvAnexos);
+                        oldAvaluoIdOfAvAnexosListNewAvAnexos = em.merge(oldAvaluoIdOfAvAnexosListNewAvAnexos);
+                    }
+                }
             }
             for (AvDetalle avDetalleListNewAvDetalle : avDetalleListNew) {
                 if (!avDetalleListOld.contains(avDetalleListNewAvDetalle)) {
@@ -179,6 +225,13 @@ public class AvAvaluoJpaController implements Serializable {
                 throw new NonexistentEntityException("The avAvaluo with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<AvAnexos> avAnexosListOrphanCheck = avAvaluo.getAvAnexosList();
+            for (AvAnexos avAnexosListOrphanCheckAvAnexos : avAnexosListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This AvAvaluo (" + avAvaluo + ") cannot be destroyed since the AvAnexos " + avAnexosListOrphanCheckAvAnexos + " in its avAnexosList field has a non-nullable avaluoId field.");
+            }
             List<AvDetalle> avDetalleListOrphanCheck = avAvaluo.getAvDetalleList();
             for (AvDetalle avDetalleListOrphanCheckAvDetalle : avDetalleListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

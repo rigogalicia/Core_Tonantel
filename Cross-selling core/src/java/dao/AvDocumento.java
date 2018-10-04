@@ -47,6 +47,12 @@ public class AvDocumento implements Serializable {
     private String folio;
     @Column(name = "libro")
     private String libro;
+    @Column(name = "numero_acta")
+    private String numeroActa;
+    @Column(name = "numero_libro")
+    private String numeroLibro;
+    @Column(name = "otros")
+    private String otros;
     @Column(name = "tipo")
     private Character tipo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "documentoId")
@@ -113,6 +119,30 @@ public class AvDocumento implements Serializable {
 
     public void setLibro(String libro) {
         this.libro = libro;
+    }
+
+    public String getNumeroActa() {
+        return numeroActa;
+    }
+
+    public void setNumeroActa(String numeroActa) {
+        this.numeroActa = numeroActa;
+    }
+
+    public String getNumeroLibro() {
+        return numeroLibro;
+    }
+
+    public void setNumeroLibro(String numeroLibro) {
+        this.numeroLibro = numeroLibro;
+    }
+
+    public String getOtros() {
+        return otros;
+    }
+
+    public void setOtros(String otros) {
+        this.otros = otros;
     }
 
     public Character getTipo() {

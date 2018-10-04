@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 public class AvGeneradasBean {
     private ArrayList<SolicitudesGeneradas> listGeneradas = new ArrayList<>();
     private SolicitudesGeneradas generadas = new SolicitudesGeneradas();
-    
     private String userConect;
 
     public AvGeneradasBean() {
