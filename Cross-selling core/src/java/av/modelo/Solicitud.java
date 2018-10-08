@@ -159,15 +159,13 @@ public class Solicitud {
             emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
             em = emf.createEntityManager();
             
-            //em.getTransaction().begin();
+            em.getTransaction().begin();
             Colaborador colaborador = Colaborador.datosColaborador(userConect);
             solicitud.setUsuario(userConect);
             solicitud.setAgencia(colaborador.getAgencia());
             solicitud.setFechahora(new Date());
             solicitud.setEstado('a');
             em.merge(asociado);
-            System.out.println("------------------------------------------------------------");
-            System.out.println(asociado.toString());
             for(String t : telefonos){
                 AvTelefono telefonoBD = new AvTelefono();
                 telefonoBD.setNumero(t);
@@ -192,7 +190,7 @@ public class Solicitud {
             solicitud.setAsociadoCif(asociado);
             solicitud.setInmuebleId(inmueble);
             em.merge(solicitud);
-            //em.getTransaction().commit();
+            em.getTransaction().commit();
             
             FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_generadas.xhtml");
         }
