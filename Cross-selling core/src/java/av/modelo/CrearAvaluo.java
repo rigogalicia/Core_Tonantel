@@ -10,7 +10,6 @@ import dao.AvColindante;
 import dao.AvConstruccion;
 import dao.AvDetalle;
 import dao.AvInmueble;
-import dao.AvPuntocardinal;
 import dao.AvSolicitud;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -228,14 +227,13 @@ public class CrearAvaluo {
             area.setInmuebleId(inmueble);
             em.persist(area);
             for(Colindante colin : colindantes){
-               
                 AvColindante colindanteInsert = new AvColindante();
                 colindanteInsert.setMetros(colin.getMetros());
                 colindanteInsert.setVaras(colin.getVaras());
                 colindanteInsert.setNombre(colin.getNombre());
                 colindanteInsert.setTipo('b');
                 colindanteInsert.setInmuebleId(inmueble);
-               // colindanteInsert.setPuntocardinalId(puntoInsert);
+                colindanteInsert.setPuntocardinal(colin.getPuntoCardinal());
                 em.persist(colindanteInsert);
             }
             construccion.setInmuebleId(inmueble);
