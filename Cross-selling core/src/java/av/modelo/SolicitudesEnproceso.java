@@ -4,6 +4,7 @@ package av.modelo;
 import admin.modelo.Agencia;
 import dao.AvAsignacion;
 import dao.AvAsociado;
+import dao.AvInmueble;
 import dao.AvSolicitud;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import javax.persistence.Query;
 public class SolicitudesEnproceso {
     private String numeroSolicitud;
     private String asociado;
-    private String cif;
+    private String direccionRegistrada;
     private String agencia;
     private String fechaSolicitad;
     private String estado;
@@ -41,13 +42,14 @@ public class SolicitudesEnproceso {
         this.asociado = asociado;
     }
 
-    public String getCif() {
-        return cif;
+    public String getDireccionRegistrada() {
+        return direccionRegistrada;
     }
 
-    public void setCif(String cif) {
-        this.cif = cif;
+    public void setDireccionRegistrada(String direccionRegistrada) {
+        this.direccionRegistrada = direccionRegistrada;
     }
+
 
     public String getAgencia() {
         return agencia;
@@ -95,10 +97,11 @@ public class SolicitudesEnproceso {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion="SELECT a, s, p "
+        String instruccion="SELECT a, s, p, i "
                 + "FROM AvAsignacion a "
                 + "JOIN a.solicitudNumeroSolicitud s "
                 + "JOIN s.asociadoCif p "
+                + "JOIN s.inmuebleId i "
                 + "WHERE a.usuario = :userConect "
                 + "AND s.estado = :est ";
         
@@ -113,10 +116,11 @@ public class SolicitudesEnproceso {
             AvAsignacion a = (AvAsignacion) obj[0];
             AvSolicitud s = (AvSolicitud) obj[1];
             AvAsociado p = (AvAsociado) obj[2];
+            AvInmueble i = (AvInmueble) obj[3];
             
             SolicitudesEnproceso solEnproceso = new SolicitudesEnproceso();
             solEnproceso.setNumeroSolicitud(s.getNumeroSolicitud());
-            solEnproceso.setCif(p.getCif());
+            solEnproceso.setDireccionRegistrada(i.getDireccionRegistrada());
             solEnproceso.setAsociado(p.getNombre());
             solEnproceso.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
             solEnproceso.setFechaSolicitad(formatoFecha.format(s.getFechahora()));

@@ -124,7 +124,7 @@ public class AvRecibidasBean {
         }
         else{
             if(s.getFechaVisita() == null){
-                msjFecha = "Ingrese fecha de verificacion";
+                msjFecha = "Ingrese fecha en que realizara la visita";
             }
         }
     } 
