@@ -31,7 +31,7 @@
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputLabel for="direccion">Direccion</h:outputLabel>
+                                                <h:outputLabel for="direccion">Direccion Registrada</h:outputLabel>
                                             </f:facet>
                                             #{r.direccionRegistrada}
                                         </h:column>
@@ -55,7 +55,7 @@
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputLabel for="fechaVisita">Fecha de visita</h:outputLabel>
+                                                <h:outputLabel for="fechaVisita">Fecha de visita(dd-MM-yyyy)</h:outputLabel>
                                             </f:facet>
                                             <h:inputText id="fechaVisita" class="form-control" autocomplete="off" value="#{r.fechaVisita}">
                                                 <f:convertDateTime pattern="dd-MM-yyyy"/>
