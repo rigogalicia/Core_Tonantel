@@ -109,11 +109,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                    <h:selectOneMenu id="puntoCardinal" class="form-control input-md" value="#{av_crearavaluo.crearAvaluo.colindante.puntoCardinalId}"> 
-                                                        <!--value="#av_solicitud.solicitudController.punto.id}"-->
-                                                        <f:selectItem itemValue="" itemLabel=""/>
-                                                        <f:selectItems value="#{av_crearavaluo.puntosCardinales}"/>
-                                                    </h:selectOneMenu>
+                                                    <h:inputText id="puntoCardinal" class="form-control" value="#{av_crearavaluo.crearAvaluo.colindante.puntoCardinal}"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -148,7 +144,7 @@
                                             <div class="col-md-12">
                                                 <h:dataTable id="tablacolindante" class="table table-striped" value="#{av_crearavaluo.crearAvaluo.colindantes}" var="c">
                                                 <h:column>
-                                                    #{c.puntoCardinalId}
+                                                    #{c.puntoCardinal}
                                                 </h:column>
                                                 <h:column>
                                                     #{c.metros}
