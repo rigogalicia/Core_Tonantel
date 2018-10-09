@@ -28,8 +28,8 @@ public class AvRecibidasBean {
     private SolicitudesRecibidas recibidas = new SolicitudesRecibidas();
     private String userConect;
     private String error;
-    private String msjFecha;
     private String fechaVisita;
+    private String msjFecha;
 
 
 
@@ -64,14 +64,6 @@ public class AvRecibidasBean {
         this.error = error;
     }
 
-    public String getMsjFecha() {
-        return msjFecha;
-    }
-
-    public void setMsjFecha(String msjFecha) {
-        this.msjFecha = msjFecha;
-    }
-
     public String getFechaVisita() {
         return fechaVisita;
     }
@@ -79,11 +71,19 @@ public class AvRecibidasBean {
     public void setFechaVisita(String fechaVisita) {
         this.fechaVisita = fechaVisita;
     }
+
+    public String getMsjFecha() {
+        return msjFecha;
+    }
+
+    public void setMsjFecha(String msjFecha) {
+        this.msjFecha = msjFecha;
+    }
     
     //Metodo para consultar las solicitudes generadas
     public void asignarAvaluo(SolicitudesRecibidas s){
         error = null;
-        if(isGenerada(s.getNumeroSolicitud())){
+        if(isGenerada(s.getNumeroSolicitud()) && ValidarFecha(fechaVisita)){
             EntityManagerFactory emf = null;
             EntityManager em = null;
             try {
@@ -91,14 +91,22 @@ public class AvRecibidasBean {
                 em = emf.createEntityManager();
 
                 em.getTransaction().begin();
+                Date date = null;
+                if(!fechaVisita.equals("")){
+                    SimpleDateFormat formatofecha = new SimpleDateFormat("dd-MM-yyyy");
+                    
+                    try {
+                        date = formatofecha.parse(fechaVisita);
+                    } catch (Exception e) {
+                    }
+                }
                 
-                SimpleDateFormat formatofecha = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = formatofecha.parse(fechaVisita);
                 AvAsignacion asignacion = new AvAsignacion();
                 asignacion.setUsuario(userConect);
                 asignacion.setFirma(Colaborador.urlImagen(userConect));
                 asignacion.setFechahora(new Date());
                 asignacion.setFechaVisita(date);
+                
                 asignacion.setSolicitudNumeroSolicitud(new AvSolicitud(s.getNumeroSolicitud()));
 
                 AvSolicitud solicitud = em.find(AvSolicitud.class, s.getNumeroSolicitud());
@@ -132,12 +140,8 @@ public class AvRecibidasBean {
                 }
             }
         }
-        else if(ingresarFecha()){
-            
-        }
         else{
             error = "! La solicitud ya fue tomada por otro Valuador";
-            
         }
     } 
     
@@ -168,16 +172,15 @@ public class AvRecibidasBean {
         return result;
     }
     /*Metodo para validar que ingrese fecha de visita*/
-    public boolean ingresarFecha(){
+    public boolean ValidarFecha(String fecha){
         boolean resultado = false;
-        
-        if(fechaVisita.isEmpty()){
-            msjFecha = "Ingrese una fecha";   
+        if(fecha.equals("") ){
+             error = "Ingrese la fecha";
         }
         else{
-            resultado = true;
+           resultado = true;
+             
         }
-
         return resultado;
     }
 }
