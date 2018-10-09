@@ -3,6 +3,7 @@ package av.modelo;
 
 import admin.modelo.Agencia;
 import dao.AvAsociado;
+import dao.AvInmueble;
 import dao.AvSolicitud;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class SolicitudesRecibidas {
     private String fechaSolicitud;
     private String estado;
     private String Asesor;
+    private String direccionRegistrada;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -78,6 +80,15 @@ public class SolicitudesRecibidas {
     public void setAsesor(String Asesor) {
         this.Asesor = Asesor;
     }
+
+    public String getDireccionRegistrada() {
+        return direccionRegistrada;
+    }
+
+    public void setDireccionRegistrada(String direccionRegistrada) {
+        this.direccionRegistrada = direccionRegistrada;
+    }
+
     
     //Metodo utilizado para consultar todas las solucitudes generadas
     public ArrayList<SolicitudesRecibidas> mostrarDato(){
@@ -85,9 +96,10 @@ public class SolicitudesRecibidas {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT s, a "
+        String instruccion = "SELECT s, a, i "
                 +"FROM AvSolicitud s "
                 +"JOIN s.asociadoCif a "
+                +"JOIN s.inmuebleId i "
                 +"WHERE s.estado = 'a' "; 
                 
         Query consulta = em.createQuery(instruccion);
@@ -99,6 +111,7 @@ public class SolicitudesRecibidas {
         for(Object[] obj: resultado){
            AvSolicitud s = (AvSolicitud) obj[0];
            AvAsociado a = (AvAsociado) obj[1];
+           AvInmueble i = (AvInmueble) obj[2];
            
            SolicitudesRecibidas solrecibidas = new SolicitudesRecibidas();
            solrecibidas.setNumeroSolicitud(s.getNumeroSolicitud());
@@ -107,6 +120,7 @@ public class SolicitudesRecibidas {
            solrecibidas.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
            solrecibidas.setFechaSolicitud(formatoFecha.format(s.getFechahora()));
            solrecibidas.setAsesor(s.getUsuario());
+           solrecibidas.setDireccionRegistrada(i.getDireccionRegistrada());
            
            result.add(solrecibidas);
         }

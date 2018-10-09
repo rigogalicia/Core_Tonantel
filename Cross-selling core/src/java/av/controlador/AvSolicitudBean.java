@@ -1,6 +1,6 @@
 package av.controlador;
 
-import av.modelo.Colindante;
+
 import av.modelo.Solicitud;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -73,9 +73,9 @@ public class AvSolicitudBean {
         if(solicitudController.getTelefonos().isEmpty()){
             msjTelefono = "Ingrese almenos un teléfono";
         }
-        else if(solicitudController.getDocumento().getTipo() == 'a'){
-            if(solicitudController.getColindantes().isEmpty()){
-            msjColindante = "Ingrese los datos de colindates";
+        else if(solicitudController.getDocumento().getTipo() == 'a' || solicitudController.getDocumento().getTipo() == 'c'){
+                if(solicitudController.getColindantes().isEmpty()){
+                msjColindante = "Ingrese los datos de colindates";
             }
             else{
                 result = true;
@@ -94,11 +94,6 @@ public class AvSolicitudBean {
         if(isComplit()){
             solicitudController.crearSolicitud();
         }
-//    for(Colindante c: solicitudController.getColindantes()){
-//        System.out.println("" + c.getPuntoCardinal());
-//        System.out.println("" + c.getNombre());
-//        System.out.println("" + c.getMetros());
-//    }
         
     }
 }

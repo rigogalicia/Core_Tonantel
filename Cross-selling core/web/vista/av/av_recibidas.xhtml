@@ -18,10 +18,11 @@
                             <div class="panel-body">
                                 <div class="page-header">
                                     <h2>Solicitudes Recibidas<small style="color: red">#{av_Recibidas.error}</small></h2>
+                                    <h:outputLabel for="msj"><small style="color: red">#{av_Recibidas.msjFecha}</small></h:outputLabel>   
                                 </div>
                                 <!-- Tabla de Recibidos -->
-                                <h:form>                            
-                                    <h:dataTable class="table table-striped" value="#{av_Recibidas.listRecibidas}" var="r">
+                                <h:form> 
+                                    <h:dataTable id="tablaRecibidas" class="table table-striped" value="#{av_Recibidas.listRecibidas}" var="r">
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="numerosolicitud">Número de Solicitud</h:outputLabel>
@@ -30,9 +31,9 @@
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputLabel for="cif">Cif</h:outputLabel>
+                                                <h:outputLabel for="direccion">Direccion</h:outputLabel>
                                             </f:facet>
-                                            #{r.cif}
+                                            #{r.direccionRegistrada}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
@@ -53,11 +54,18 @@
                                             #{r.fechaSolicitud}
                                         </h:column>
                                         <h:column>
+                                            <f:facet name="header">
+                                                <h:outputLabel for="fechaVisita">Fecha de visita</h:outputLabel>
+                                            </f:facet>
+                                            <h:inputText id="fechaVisita" class="form-control" autocomplete="off" value="#{av_Recibidas.fechaVisita}"/>
+                                        </h:column>
+                                        <h:column>
                                             <h:commandLink actionListener="#{av_Recibidas.asignarAvaluo(r)}">
-                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>   
                                             </h:commandLink>
                                         </h:column>
-                                    </h:dataTable>
+                                    </h:dataTable>  
+                                    
                                 </h:form>
                                 <!-- / Tabla de Recibidos -->
                             </div>
