@@ -57,7 +57,9 @@
                                             <f:facet name="header">
                                                 <h:outputLabel for="fechaVisita">Fecha de visita</h:outputLabel>
                                             </f:facet>
-                                            <h:inputText id="fechaVisita" class="form-control" autocomplete="off" value="#{av_Recibidas.fechaVisita}"/>
+                                            <h:inputText id="fechaVisita" class="form-control" autocomplete="off" value="#{r.fechaVisita}">
+                                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                            </h:inputText>
                                         </h:column>
                                         <h:column>
                                             <h:commandLink actionListener="#{av_Recibidas.asignarAvaluo(r)}">

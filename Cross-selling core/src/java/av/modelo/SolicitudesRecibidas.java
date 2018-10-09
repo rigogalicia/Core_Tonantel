@@ -7,6 +7,7 @@ import dao.AvInmueble;
 import dao.AvSolicitud;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,6 +25,7 @@ public class SolicitudesRecibidas {
     private String estado;
     private String Asesor;
     private String direccionRegistrada;
+    private Date fechaVisita;
 
     public String getNumeroSolicitud() {
         return numeroSolicitud;
@@ -89,7 +91,14 @@ public class SolicitudesRecibidas {
         this.direccionRegistrada = direccionRegistrada;
     }
 
-    
+    public Date getFechaVisita() {
+        return fechaVisita;
+    }
+
+    public void setFechaVisita(Date fechaVisita) {
+        this.fechaVisita = fechaVisita;
+    }
+
     //Metodo utilizado para consultar todas las solucitudes generadas
     public ArrayList<SolicitudesRecibidas> mostrarDato(){
         ArrayList<SolicitudesRecibidas> result = new ArrayList<>();
