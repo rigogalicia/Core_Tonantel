@@ -99,9 +99,10 @@ public class AvRecibidasBean {
 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_enproceso.xhtml");
 
-                String msj = "La solicitud de Avaluo numero "+s.getNumeroSolicitud()+" generada el "+s.getFechaSolicitud()+"\n"
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                String msj = "La solicitud de Avaluo numero "+s.getNumeroSolicitud()+" generada el "+ s.getFechaSolicitud()+"\n"
                         + "pertenece al asociado "+ s.getAsociado()+" fue asignada a\n"
-                        + "un valuador de créditos para su debido proceso de aprobación, para\n"
+                        + "un valuador el caul programo la visita para el dia " + formato.format(s.getFechaVisita()) + " para\n"
                         + "un mejor seguimiento ingresa a la aplicacion Crosselling Core\n"
                         + "que puedes ingresar en el siguiente enlace:\n\n"
                         + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"

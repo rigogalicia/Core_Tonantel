@@ -1,12 +1,17 @@
 
 package av.controlador;
 
+import admin.modelo.ReportConfig;
 import av.modelo.CrearAvaluo;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.Part;
 
 @ManagedBean(name = "av_crearavaluo")
 @ViewScoped
@@ -17,6 +22,12 @@ public class AvCrearAvaluoBean {
     private String msjColindantes;
     private String msjDetalle;
     private String msjConstruccion;
+    
+    private Part file;
+    private String pathAnexo = "";
+    private boolean upladed;
+    private String nombreImagen = "";
+    private int num = 1;
 
     public AvCrearAvaluoBean() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -24,6 +35,7 @@ public class AvCrearAvaluoBean {
         numeroSolicitud = params.get("numeroSolicitud").toString();
         crearAvaluo.getSolicitud().setNumeroSolicitud(numeroSolicitud);
         crearAvaluo.consultarSolicitud();
+        
     }
 
     public String getNumeroSolicitud() {
@@ -65,6 +77,32 @@ public class AvCrearAvaluoBean {
     public void setMsjConstruccion(String msjConstruccion) {
         this.msjConstruccion = msjConstruccion;
     }
+
+    public Part getFile() {
+        return file;
+    }
+
+    public void setFile(Part file) {
+        this.file = file;
+    }
+
+    public String getPathAnexo() {
+        return pathAnexo;
+    }
+
+    public void setPathAnexo(String pathAnexo) {
+        this.pathAnexo = pathAnexo;
+    }
+
+    public boolean isUpladed() {
+        return upladed;
+    }
+
+    public void setUpladed(boolean upladed) {
+        this.upladed = upladed;
+    }
+    
+    
     
     //Metodo utilizado para validar el Array de Colindantes
     public boolean isComplit(){
@@ -93,6 +131,34 @@ public class AvCrearAvaluoBean {
     public void insertarDatos(ActionEvent e){
         if(isComplit()){
             crearAvaluo.insert();
+        }
+    }
+    //Metodo para cargar imagenes
+    public void subirAnexos(){
+        nombreImagen = numeroSolicitud + "_" + num++;
+        try {
+            pathAnexo = "C:\\Users\\Desarrollo\\Documents\\Reportes\\" + nombreImagen +".jpg";
+            
+            InputStream input = file.getInputStream();
+            File f = new File(pathAnexo);
+            
+            if(!f.exists()){
+                f.createNewFile();
+            }
+            FileOutputStream output = new FileOutputStream(f);
+            byte[] buffer = new byte[1024];
+            int length;
+            while((length = input.read(buffer)) > 0){
+                output.write(buffer, 0, length);
+            }
+  
+            input.close();
+            output.close();
+            
+            crearAvaluo.agregarAnexos(pathAnexo, nombreImagen);
+            
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
         }
     }
     
