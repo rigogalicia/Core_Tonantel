@@ -1,11 +1,9 @@
 package av.controlador;
 
-
 import av.modelo.Solicitud;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-
 
 @ManagedBean(name = "av_solicitud")
 @ViewScoped

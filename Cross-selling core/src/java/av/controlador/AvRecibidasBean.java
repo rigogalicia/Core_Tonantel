@@ -9,6 +9,7 @@ import gc.controlador.Correo;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -74,7 +75,10 @@ public class AvRecibidasBean {
     //Metodo para consultar las solicitudes generadas
     public void asignarAvaluo(SolicitudesRecibidas s){
         error = null;
-        if(isGenerada(s.getNumeroSolicitud()) && s.getFechaVisita() != null){
+        s.setFechaVisita(agregarDiaFecha(s.getFechaVisita()));
+       
+        if(isGenerada(s.getNumeroSolicitud()) && s.getFechaVisita() != null && 
+                s.getFechaVisita().compareTo(new Date()) == 1){
             EntityManagerFactory emf = null;
             EntityManager em = null;
             try {
@@ -100,10 +104,10 @@ public class AvRecibidasBean {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_enproceso.xhtml");
 
                 SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                String msj = "La solicitud de Avaluo numero "+s.getNumeroSolicitud()+" generada el "+ s.getFechaSolicitud()+"\n"
+                String msj = "La solicitud de Avalúo número "+s.getNumeroSolicitud()+" generada el "+ s.getFechaSolicitud()+"\n"
                         + "pertenece al asociado "+ s.getAsociado()+" fue asignada a\n"
-                        + "un valuador el caul programo la visita para el dia " + formato.format(s.getFechaVisita()) + " para\n"
-                        + "un mejor seguimiento ingresa a la aplicacion Crosselling Core\n"
+                        + "un valuador el cual programó la visita para el día " + formato.format(s.getFechaVisita()) + " para\n"
+                        + "un mejor seguimiento ingresa a la aplicación Crosselling Core\n"
                         + "que puedes ingresar en el siguiente enlace:\n\n"
                         + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
                         + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
@@ -126,6 +130,9 @@ public class AvRecibidasBean {
         else{
             if(s.getFechaVisita() == null){
                 msjFecha = "Ingrese fecha en que realizara la visita";
+            }
+            if(s.getFechaVisita().compareTo(new Date()) == -1){
+                msjFecha = "La fecha de visita tiene que ser mayor o igual a la fecha actual";
             }
         }
     } 
@@ -158,6 +165,14 @@ public class AvRecibidasBean {
         emf.close();
 
         return result;
+    }
+    
+    // Funcion para agregar un dia a fecha de visita
+    private Date agregarDiaFecha(Date fecha){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.DATE, 1);
+        return calendar.getTime();
     }
 
 }

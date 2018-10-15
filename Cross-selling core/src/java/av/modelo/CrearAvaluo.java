@@ -3,7 +3,6 @@ package av.modelo;
 
 import admin.modelo.Colaborador;
 import admin.modelo.ReportConfig;
-import dao.AvAnexos;
 import dao.AvArea;
 import dao.AvAsignacion;
 import dao.AvAvaluo;
@@ -307,7 +306,7 @@ public class CrearAvaluo {
             String nombreReporte = "av_detalle.jasper";
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("numeroSolicitud", numeroSolicitud);
-            parametros.put("Valuador", nombreValuador);
+            parametros.put("valuador", nombreValuador);
 
             byte[] bytes = JasperRunManager.runReportToPdf(ReportConfig.path_avaluos + nombreReporte, parametros, conexion);
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();

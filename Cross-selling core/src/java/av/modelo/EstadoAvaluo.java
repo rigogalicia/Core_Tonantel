@@ -8,23 +8,23 @@ public class EstadoAvaluo {
         
         switch(est){
             case 'a':
-                result = "Avaluo Solicitado";
+                result = "Avalúo Solicitado";
                 break;
                 
             case 'b':
-                result = "Avaluo en Proceso";
+                result = "Avalúo en Proceso";
                 break;
                 
             case 'c':
-                result = "Avaluo Realizado";
+                result = "Avalúo Realizado";
                 break;
                 
             case 'd':
-                result = "Avaluo Autorizado";
+                result = "Avalúo Autorizado";
                 break;
                 
             case 'e':
-                result = "Avaluo Rechazado";
+                result = "Avalúo Rechazado";
                 break;
         }
         

@@ -1,7 +1,6 @@
 
 package av.controlador;
 
-import admin.modelo.ReportConfig;
 import av.modelo.CrearAvaluo;
 import java.io.File;
 import java.io.FileOutputStream;
