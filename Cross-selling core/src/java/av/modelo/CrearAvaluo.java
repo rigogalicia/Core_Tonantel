@@ -3,6 +3,7 @@ package av.modelo;
 
 import admin.modelo.Colaborador;
 import admin.modelo.ReportConfig;
+import dao.AvAnexos;
 import dao.AvArea;
 import dao.AvAsignacion;
 import dao.AvAvaluo;
@@ -39,6 +40,8 @@ public class CrearAvaluo {
     private AvAvaluo avaluo = new AvAvaluo();
     private DetalleAvaluo detalle = new DetalleAvaluo();
     private ArrayList<DetalleAvaluo> detalleAvaluo = new ArrayList<>();
+    private ArrayList<AnexosAvaluo> listAnexos = new ArrayList<>();
+    private AnexosAvaluo anexos = new AnexosAvaluo();
     private double sumaTotalDetalle;
     private double total;
     
@@ -126,6 +129,22 @@ public class CrearAvaluo {
         this.detalleAvaluo = detalleAvaluo;
     }
 
+    public ArrayList<AnexosAvaluo> getListAnexos() {
+        return listAnexos;
+    }
+
+    public void setListAnexos(ArrayList<AnexosAvaluo> listAnexos) {
+        this.listAnexos = listAnexos;
+    }
+
+    public AnexosAvaluo getAnexos() {
+        return anexos;
+    }
+
+    public void setAnexos(AnexosAvaluo anexos) {
+        this.anexos = anexos;
+    }
+
     public double getSumaTotalDetalle() {
         return sumaTotalDetalle;
     }
@@ -191,6 +210,20 @@ public class CrearAvaluo {
     public void quitarDetalle(DetalleAvaluo d){
         detalleAvaluo.remove(d);
         calcularTotal();
+    }
+    
+    //Metodo para llenar anexos del avaluo
+    public void agregarAnexos(String path, String nombreImagen){
+        anexos.setDescripcion(anexos.getDescripcion());
+        anexos.setUrl(path);
+        anexos.setNombreImagen(nombreImagen);
+        listAnexos.add(anexos);
+        anexos = new AnexosAvaluo();
+    }
+    
+    //Metodo para quitar anello
+    public void quitarAnexo(AnexosAvaluo a){
+        listAnexos.remove(a);
     }
     
     // Metodo que es utilizado para calcular la suma total de detalle
