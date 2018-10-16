@@ -2,6 +2,7 @@
 package av.controlador;
 
 import admin.modelo.ReportConfig;
+import av.modelo.AnexosAvaluo;
 import av.modelo.CrearAvaluo;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,8 +23,11 @@ public class AvCrearAvaluoBean {
     private String msjColindantes;
     private String msjDetalle;
     private String msjConstruccion;
+    private String msjAnexos;
+    
     
     private Part file;
+    private String dir;
     private String pathAnexo = "";
     private boolean upladed;
     private String nombreImagen = "";
@@ -78,12 +82,28 @@ public class AvCrearAvaluoBean {
         this.msjConstruccion = msjConstruccion;
     }
 
+    public String getMsjAnexos() {
+        return msjAnexos;
+    }
+
+    public void setMsjAnexos(String msjAnexos) {
+        this.msjAnexos = msjAnexos;
+    }
+
     public Part getFile() {
         return file;
     }
 
     public void setFile(Part file) {
         this.file = file;
+    }
+
+    public String getDir() {
+        return dir;
+    }
+
+    public void setDir(String dir) {
+        this.dir = dir;
     }
 
     public String getPathAnexo() {
@@ -117,12 +137,13 @@ public class AvCrearAvaluoBean {
         else if(crearAvaluo.getDetalleAvaluo().isEmpty()){
             msjDetalle = "Ingrese los Datos del Detalle";
         }
+
         else{
             resultado = true;
         }
         return resultado;
     }
-    
+ 
     //Metodo para calcular el total del avaluo
     public void calcularTotal(){
         crearAvaluo.total();
@@ -133,11 +154,34 @@ public class AvCrearAvaluoBean {
             crearAvaluo.insert();
         }
     }
+    
+    //Metodo para validar el Array Anexos
+    public boolean isAnexo(){
+        msjAnexos = null;
+        boolean resultado = false;
+        if(crearAvaluo.getListAnexos().isEmpty()){
+            msjAnexos = "Ingrese los anexos para poder continuar";
+        }
+        else{
+            resultado = true;
+        }
+        return resultado;
+    }
+    
+    //Metodo para enviar Imaganes a base de datos
+    public void insertAnexo(ActionEvent e){
+        if(isAnexo()){
+           crearAvaluo.insertAnexos(); 
+        }
+        
+    }
+    
     //Metodo para cargar imagenes
     public void subirAnexos(){
         nombreImagen = numeroSolicitud + "_" + num++;
         try {
-            pathAnexo = "C:\\Users\\Desarrollo\\Documents\\Reportes\\" + nombreImagen +".jpg";
+            dir = "C:\\Users\\Desarrollo\\Documents\\Reportes\\";
+            pathAnexo = dir + nombreImagen +".jpg";
             
             InputStream input = file.getInputStream();
             File f = new File(pathAnexo);
@@ -161,5 +205,13 @@ public class AvCrearAvaluoBean {
             e.printStackTrace(System.out);
         }
     }
+    public void borrarFichero(AnexosAvaluo a){
+          File f = new File(a.getUrl());
+          if(f.exists()){
+               f.delete();
+          }
+        crearAvaluo.quitarAnexo(a);  
+    }
+
     
 }
