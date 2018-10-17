@@ -3,6 +3,7 @@ package av.modelo;
 
 import admin.modelo.Colaborador;
 import admin.modelo.ReportConfig;
+import dao.AvAnexos;
 import dao.AvArea;
 import dao.AvAsignacion;
 import dao.AvAvaluo;
@@ -39,10 +40,12 @@ public class CrearAvaluo {
     private AvAvaluo avaluo = new AvAvaluo();
     private DetalleAvaluo detalle = new DetalleAvaluo();
     private ArrayList<DetalleAvaluo> detalleAvaluo = new ArrayList<>();
-    private ArrayList<AnexosAvaluo> listAnexos = new ArrayList<>();
     private AnexosAvaluo anexos = new AnexosAvaluo();
+    private ArrayList<AnexosAvaluo> listAnexos = new ArrayList<>();
     private double sumaTotalDetalle;
     private double total;
+    
+    private String msjInsertar;
     
     public CrearAvaluo() {
         
@@ -128,14 +131,6 @@ public class CrearAvaluo {
         this.detalleAvaluo = detalleAvaluo;
     }
 
-    public ArrayList<AnexosAvaluo> getListAnexos() {
-        return listAnexos;
-    }
-
-    public void setListAnexos(ArrayList<AnexosAvaluo> listAnexos) {
-        this.listAnexos = listAnexos;
-    }
-
     public AnexosAvaluo getAnexos() {
         return anexos;
     }
@@ -144,6 +139,14 @@ public class CrearAvaluo {
         this.anexos = anexos;
     }
 
+    public ArrayList<AnexosAvaluo> getListAnexos() {
+        return listAnexos;
+    }
+
+    public void setListAnexos(ArrayList<AnexosAvaluo> listAnexos) {
+        this.listAnexos = listAnexos;
+    }
+        
     public double getSumaTotalDetalle() {
         return sumaTotalDetalle;
     }
@@ -158,6 +161,14 @@ public class CrearAvaluo {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getMsjInsertar() {
+        return msjInsertar;
+    }
+
+    public void setMsjInsertar(String msjInsertar) {
+        this.msjInsertar = msjInsertar;
     }
     
     // Este metodo realiza la consulta de la clase avaluo e inmueble
@@ -283,9 +294,41 @@ public class CrearAvaluo {
                 em.persist(detalleInsert);
             }
             
-            em.getTransaction().commit();
             
+            em.getTransaction().commit();
+            msjInsertar = "Datos enviados Exitosamente! ahora puedes adjuntar los anexos al avaluo";
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }finally{
+            if(emf != null && em != null){
+                em.close();
+                emf.close();
+            }
+        }
+    }
+    
+    //Metodo para insertar Anexos 
+    public void insertAnexos(){
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        
+        try {
+            emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+            em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            
+            for(AnexosAvaluo anex: listAnexos){
+                AvAnexos anexosInsert = new AvAnexos();
+                anexosInsert.setDescripcion(anex.getDescripcion());
+                anexosInsert.setUrl(anex.getUrl());
+                anexosInsert.setAvaluoId(avaluo);
+                em.persist(anexosInsert);
+            }
+            
+            em.getTransaction().commit();
             FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_enproceso.xhtml");
+            
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }finally{

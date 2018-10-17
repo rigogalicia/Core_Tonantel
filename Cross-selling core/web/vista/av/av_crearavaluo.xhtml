@@ -18,7 +18,7 @@
                                 <div class="page-header">
                                     <h2>Avaluo Bancario</h2>
                                 </div>
-                                <h:form enctype="multipart/form-data">
+                                <h:form>
                                     <h:inputHidden value="#{av_crearavaluo.numeroSolicitud}"/>
                                     <!-- row -->
                                     <div class="row">
@@ -376,57 +376,8 @@
                                                 </div>
                                             </div>
                                         </div>  
-                                    </h:panelGroup>
-                                    <!-- / panel group -->
-                                    <hr/>
-                                    <h3>Anexos</h3>
-                                    <!-- row -->
-                                    <h:panelGroup id="pnAnexos">
-                                        <!-- row -->
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="andescripcion">Descrepcion:</h:outputLabel>
-                                                    <h:inputText id="andescripcion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.anexos.descripcion}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <h:outputLabel for="firma">Seleccione Anexo:</h:outputLabel>
-                                                    <h:inputFile id="firma" value="#{av_crearavaluo.file}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <h:outputLabel>&nbsp;</h:outputLabel>
-                                                    <h:commandLink value="Subir" class="form-control btn btn-primary" actionListener="#{av_crearavaluo.subirAnexos()}">
-                                                        <f:ajax execute="pnAnexos" render="pnAnexos"/>
-                                                    </h:commandLink>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- / row -->
-                                        <!-- row tabla -->
-                                        <!-- row -->
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h:dataTable class="table table-striped" value="#{av_crearavaluo.crearAvaluo.listAnexos}" var="a">
-                                                    <h:column>
-                                                        #{a.descripcion}
-                                                    </h:column>
-                                                    <h:column>
-                                                        #{a.nombreImagen}
-                                                    </h:column>
-                                                    <h:column>
-                                                        <h:commandLink immediate="true" actionListener="#{av_crearavaluo.crearAvaluo.quitarAnexo(a)}">
-                                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"/>
-                                                        </h:commandLink>
-                                                    </h:column> 
-                                                </h:dataTable>
-                                            </div>
-                                        </div>
-                                        <!-- / row tabla -->
-                                    </h:panelGroup>
+                                            
+                                        </h:panelGroup>
                                         <br/>
                                         <div class="row">   
                                             <div class="col-md-3">
@@ -435,6 +386,65 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <h:outputLabel value="#{av_crearavaluo.crearAvaluo.msjInsertar}" style="color: red"/>
+                                </h:form>
+                                <!-- / panel group -->
+                                <hr/>
+                                <h3>Anexos</h3>
+                                <h:form id="forAnexos" enctype="multipart/form-data">
+                                        <!-- row -->
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="andescripcion">Descrepcion:</h:outputLabel>
+                                                    <h:inputText id="andescripcion" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.anexos.descripcion}"/>
+                                                </div>
+                                            </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <h:outputLabel for="firma">Seleccione Anexo:</h:outputLabel>
+                                                <h:inputFile id="firma" value="#{av_crearavaluo.file}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandLink value="Subir" class="form-control btn btn-primary" actionListener="#{av_crearavaluo.subirAnexos()}">
+                                                <f:ajax execute="forAnexos" render="forAnexos"/>
+                                            </h:commandLink>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <!-- / row -->
+                                        <!-- row tabla -->
+                                        <!-- row -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h:dataTable class="table table-striped" value="#{av_crearavaluo.crearAvaluo.listAnexos}" var="a">
+                                                    <h:column>
+                                                    #{a.descripcion}
+                                                    </h:column>
+                                                    <h:column>
+                                                    #{a.nombreImagen}
+                                                    </h:column>
+                                                    <h:column>
+                                                        <h:commandLink  action="#{av_crearavaluo.borrarFichero(a)}" immediate="true">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"/>
+                                                        </h:commandLink>
+                                                    </h:column> 
+                                                </h:dataTable>
+                                            </div>
+                                        </div>
+                                        <!-- / row tabla -->
+                                        <br/>
+                                        <div class="row">   
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <h:commandLink value="Enviar Anexos" class="form-control btn btn-success" actionListener="#{av_crearavaluo.insertAnexo}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h:outputLabel value="#{av_crearavaluo.msjAnexos}" style="color: red"/>
                                 </h:form>
                             </div>
                         </div>
