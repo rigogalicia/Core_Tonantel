@@ -126,6 +126,7 @@ public class SolicitudesEnproceso {
             solEnproceso.setFechaSolicitad(formatoFecha.format(s.getFechahora()));
             solEnproceso.setEstado(EstadoAvaluo.convert(s.getEstado()));
             solEnproceso.setUserConect(a.getUsuario());
+            solEnproceso.setEst(s.getEstado());
             
             result.add(solEnproceso);
         }
