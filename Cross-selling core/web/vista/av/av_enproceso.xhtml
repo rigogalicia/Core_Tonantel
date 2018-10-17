@@ -69,9 +69,12 @@
                                             </h:commandLink>
                                             &nbsp;
                                             &nbsp;
-                                            <!-- coment -->
-                                            
-                                            <h:commandLink action="/vista/av/av_crearavaluo.xhtml">
+                                            <h:commandLink target="blank_" actionListener="#{av_autorizar.detalleAvaluo(e.numeroSolicitud)}" rendered="#{e.est != 98 eq true}">
+                                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+                                            </h:commandLink>
+                                            &nbsp;
+                                            &nbsp;
+                                            <h:commandLink action="/vista/av/av_crearavaluo.xhtml" rendered="#{e.est == 98 eq true}">
                                                 <samp class="glyphicon glyphicon-edit"></samp>
                                                 <f:param name="numeroSolicitud" value="#{e.numeroSolicitud}"/>
                                             </h:commandLink>
