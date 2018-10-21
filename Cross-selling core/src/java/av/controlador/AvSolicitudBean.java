@@ -96,8 +96,6 @@ public class AvSolicitudBean {
     }
     
     public void consultarDatos(){
-        
         solicitudController.consultarSolicitud();
-        
     }
 }

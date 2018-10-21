@@ -327,7 +327,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.puntoCardinal}"/>
+                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.puntocardinal}"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -362,7 +362,7 @@
                                             <div class="col-md-12">
                                                 <h:dataTable id="tablacolindante" class="table table-striped" value="#{av_solicitud.solicitudController.colindantes}" var="c">
                                                 <h:column>
-                                                    #{c.puntoCardinal}
+                                                    #{c.puntocardinal}
                                                 </h:column>
                                                 <h:column>
                                                     #{c.metros}
