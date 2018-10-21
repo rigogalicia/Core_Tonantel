@@ -15,11 +15,13 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -203,6 +205,60 @@ public class Solicitud {
             }
         }
     }
+    
+    //Metodo para consultar los datos de la solictud
+    public void consultarSolicitud(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+      
+        String instruccion =  "SELECT s, a, i, p, d "
+                + "FROM AvSolicitud s "
+                + "JOIN s.asociadoCif a "
+                + "JOIN s.inmuebleId i "
+                + "JOIN i.propietarioDpi p "
+                + "JOIN i.documentoId  d "
+                + "WHERE s.numeroSolicitud = :numSolicitud ";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
+        List<Object[]> resultado = consulta.getResultList();
+        
+        for(Object[] objeto: resultado){
+            solicitud = (AvSolicitud) objeto[0];
+            asociado  = (AvAsociado) objeto[1];
+            inmueble = (AvInmueble) objeto[2];
+            propietario = (AvPropietario) objeto[3];
+            documento = (AvDocumento) objeto[4];
+        }
+        listTelefonos();
+        em.close();
+        emf.close();
+    }
+    
+    //Metodo para obtener el listado de telefonos
+    public ArrayList<String> listTelefonos(){
+        //ArrayList<AvTelefono> result = new ArrayList<>();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT s, a, t "
+                + "FROM AvSolicitud s "
+                + "JOIN s.asociadoCif a "
+                + "JOIN a.cif t " 
+                + "WHERE s.numeroSolicitud = :numSolicitud ";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
+        List<String> resultado = consulta.getResultList();
+        for(String  t: resultado){
+            telefonos.add(t);            
+        }
+        
+        em.close();
+        emf.close();
+        
+        return telefonos;
+        }
     
     /* Este metodo es utilizado para mostrar el detalle de solicitud */
     public static void detalle(String numeroSolicitud){ 

@@ -24,7 +24,9 @@
                                             <div class="form-group">
                                                 <h:outputLabel for="numeroSolicitud" >* Número Solicitud:</h:outputLabel>
                                                 <h:message for="numeroSolicitud" style="color: red"/>
-                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}" required="true" label="&nbsp;!"/>
+                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}" required="true" label="&nbsp;!">
+                                                    <f:ajax event="blur" listener="#{av_solicitud.consultarDatos()}" execute="numeroSolicitud" render="formSolicitudAv"/>
+                                                </h:inputText>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -91,6 +93,7 @@
                                     </div>
                                     <!-- / direccion-->
                                     <!-- row telefono-->
+                                    
                                     <h:panelGroup id="pnTelefono">
                                         <div class="row">
                                             <div class="col-md-4">
@@ -128,6 +131,7 @@
                                     <!--Datos del Propietario-->
                                     <h4>Datos del Propietario</h4>
                                     <!--row-->
+                                    <h:inputHidden id="idpropietario" value="#{av_solicitud.solicitudController.propietario.dpi}"/>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -150,6 +154,7 @@
                                     <!--Datos de la Garantia-->
                                     <h4>Datos de la Garantia</h4>
                                     <!-- row -->
+                                    <h:inputHidden id="idinmueble" value="#{av_solicitud.solicitudController.inmueble.id}"/>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -222,6 +227,7 @@
                                     </div>
                                     <!-- / row -->
                                     <!-- row -->
+                                    <h:inputHidden id="iddocumento" value="#{av_solicitud.solicitudController.documento.id}"/>
                                     <div class="row">                                 
                                         <div class="col-md-5">
                                             <h:outputLabel for="tipoEscritura">* Tipo de Escritura:</h:outputLabel>
