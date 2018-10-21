@@ -8,7 +8,7 @@ import javax.faces.bean.SessionScoped;
 public class VersionBean {
     private String institucion = "Cooperativa Tonantel R.L";
     private String autor = "Investigación y Desarrollo de Tecnología";
-    private String numero = "1.1";
+    private String numero = "1.2";
     
     public VersionBean() {
     }
