@@ -31,9 +31,9 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:outputLabel for="numeroCredito">* Número de Crédito:</h:outputLabel>
+                                                <h:outputLabel for="numeroCredito">Número de Crédito:</h:outputLabel>
                                                 <h:message for="numeroCredito" style="color: red"/>
-                                                <h:inputText id="numeroCredito" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroCredito}" required="true" label="&nbsp;!"/>
+                                                <h:inputText id="numeroCredito" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroCredito}" label="&nbsp;!"/>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -93,7 +93,7 @@
                                     </div>
                                     <!-- / direccion-->
                                     <!-- row telefono-->
-                                    
+                                   
                                     <h:panelGroup id="pnTelefono">
                                         <div class="row">
                                             <div class="col-md-4">
@@ -247,7 +247,7 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <h:outputLabel for="escrituraPublica">Escritura publica:</h:outputLabel>
+                                                        <h:outputLabel for="escrituraPublica">Escritura publica No.:</h:outputLabel>
                                                         <h:inputText id="escrituraPublica" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.documento.numero}"/>
                                                     </div>
                                                 </div>
@@ -327,7 +327,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.puntoCardinal}"/>
+                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.colindante.puntocardinal}"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -362,7 +362,7 @@
                                             <div class="col-md-12">
                                                 <h:dataTable id="tablacolindante" class="table table-striped" value="#{av_solicitud.solicitudController.colindantes}" var="c">
                                                 <h:column>
-                                                    #{c.puntoCardinal}
+                                                    #{c.puntocardinal}
                                                 </h:column>
                                                 <h:column>
                                                     #{c.metros}

@@ -136,6 +136,6 @@ public class AvAutorizarBean {
     
     // Metodo para mostrar el detalle del avaluo
     public void detalleAvaluo(String numeroSolicitud){
-        CrearAvaluo.detalle(numeroSolicitud, CrearAvaluo.valuadorResponsable(numeroSolicitud));
+        CrearAvaluo.detalle(numeroSolicitud, CrearAvaluo.valuadorResponsable(numeroSolicitud), CrearAvaluo.autorizadorResponsable(numeroSolicitud));
     }
 }

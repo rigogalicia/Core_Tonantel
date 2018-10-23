@@ -27,7 +27,6 @@ public class AvCrearAvaluoBean {
     
     
     private Part file;
-    private String dir;
     private String pathAnexo = "";
     private boolean upladed;
     private String nombreImagen = "";
@@ -98,14 +97,6 @@ public class AvCrearAvaluoBean {
         this.file = file;
     }
 
-    public String getDir() {
-        return dir;
-    }
-
-    public void setDir(String dir) {
-        this.dir = dir;
-    }
-
     public String getPathAnexo() {
         return pathAnexo;
     }
@@ -121,8 +112,6 @@ public class AvCrearAvaluoBean {
     public void setUpladed(boolean upladed) {
         this.upladed = upladed;
     }
-    
-    
     
     //Metodo utilizado para validar el Array de Colindantes
     public boolean isComplit(){
@@ -180,8 +169,7 @@ public class AvCrearAvaluoBean {
     public void subirAnexos(){
         nombreImagen = numeroSolicitud + "_" + num++;
         try {
-            dir = "C:\\Users\\Desarrollo\\Documents\\Reportes\\";
-            pathAnexo = dir + nombreImagen +".jpg";
+            pathAnexo = ReportConfig.path_avaluos + nombreImagen +".jpg";
             
             InputStream input = file.getInputStream();
             File f = new File(pathAnexo);
@@ -213,5 +201,4 @@ public class AvCrearAvaluoBean {
         crearAvaluo.quitarAnexo(a);  
     }
 
-    
 }

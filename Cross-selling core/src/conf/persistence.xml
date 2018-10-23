@@ -54,7 +54,7 @@
         <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
         <property name="javax.persistence.jdbc.password" value="Ton@nte1"/>
         <roperty name="javax.persistence.schema-generation.database.action" value="create"/>
-       
+        
         <!--
         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://34.197.122.60:3306/coretecnology?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
         <property name="javax.persistence.jdbc.user" value="AppTonantel"/>

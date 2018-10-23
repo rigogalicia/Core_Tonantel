@@ -12,6 +12,7 @@ import dao.AvTelefono;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,8 +36,8 @@ public class Solicitud {
     private AvDocumento documento = new AvDocumento();
     private AvPropietario propietario = new AvPropietario();
     private AvInmueble inmueble = new AvInmueble();
-    private Colindante colindante = new Colindante();
-    private ArrayList<Colindante> colindantes = new ArrayList<>();
+    private AvColindante colindante = new AvColindante();
+    private ArrayList<AvColindante> colindantes = new ArrayList<>();
     private AvSolicitud solicitud = new AvSolicitud();
     private String userConect;
     
@@ -105,19 +106,19 @@ public class Solicitud {
         this.inmueble = inmueble;
     }
 
-    public Colindante getColindante() {
+    public AvColindante getColindante() {
         return colindante;
     }
 
-    public void setColindante(Colindante colindante) {
+    public void setColindante(AvColindante colindante) {
         this.colindante = colindante;
     }
 
-    public ArrayList<Colindante> getColindantes() {
+    public ArrayList<AvColindante> getColindantes() {
         return colindantes;
     }
 
-    public void setColindantes(ArrayList<Colindante> colindantes) {
+    public void setColindantes(ArrayList<AvColindante> colindantes) {
         this.colindantes = colindantes;
     }
     
@@ -143,11 +144,11 @@ public class Solicitud {
     // Agrega un registro en el array de colindante
     public void agregarColindante(){
         colindantes.add(colindante);
-        colindante = new Colindante();
+        colindante = new AvColindante();
     }
     
     // Elimina un registro de el array de colindante
-    public void quitarColindante(Colindante c){
+    public void quitarColindante(AvColindante c){
         colindantes.remove(c);
     }
     
@@ -168,26 +169,23 @@ public class Solicitud {
             solicitud.setFechahora(new Date());
             solicitud.setEstado('a');
             em.merge(asociado);
+            eliminarTelefonos(asociado.getCif());
             for(String t : telefonos){
                 AvTelefono telefonoBD = new AvTelefono();
                 telefonoBD.setNumero(t);
                 telefonoBD.setAsociadoCif(asociado);
                 em.merge(telefonoBD);
             }
+            
             em.merge(propietario);
             em.merge(documento);
             inmueble.setPropietarioDpi(propietario);
             inmueble.setDocumentoId(documento);
             em.merge(inmueble);
-            for(Colindante c : colindantes){
-                AvColindante colindanteDB = new AvColindante();
-                colindanteDB.setMetros(c.getMetros());
-                colindanteDB.setVaras(c.getVaras());
-                colindanteDB.setNombre(c.getNombre());
-                colindanteDB.setTipo('a');
-                colindanteDB.setPuntocardinal(c.getPuntoCardinal());
-                colindanteDB.setInmuebleId(inmueble);
-                em.merge(colindanteDB);
+            for(AvColindante c : colindantes){
+                c.setTipo('a');
+                c.setInmuebleId(inmueble);
+                em.merge(c);
             }
             solicitud.setAsociadoCif(asociado);
             solicitud.setInmuebleId(inmueble);
@@ -211,7 +209,6 @@ public class Solicitud {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-      
         String instruccion =  "SELECT s, a, i, p, d "
                 + "FROM AvSolicitud s "
                 + "JOIN s.asociadoCif a "
@@ -232,34 +229,72 @@ public class Solicitud {
             documento = (AvDocumento) objeto[4];
             
         }
-        //listTelefonos();
+        
+        listTelefonos(asociado.getCif());
+        listaColindantes(inmueble);
+
         em.close();
         emf.close();
     }
     
     //Metodo para obtener el listado de telefonos
-    public ArrayList<String> listTelefonos(){
-        //ArrayList<AvTelefono> result = new ArrayList<>();
+    private void listTelefonos(String cif){
+        telefonos.clear();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT s, a, t "
-                + "FROM AvSolicitud s "
-                + "JOIN s.asociadoCif a "
-                + "JOIN a.cif t " 
-                + "WHERE s.numeroSolicitud = :numSolicitud ";
+        String instruccion = "SELECT t "
+                + "FROM AvTelefono t "
+                + "JOIN t.asociadoCif a "
+                + "WHERE a.cif = :cif";
         Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
-        List<String> resultado = consulta.getResultList();
-        for(String  t: resultado){
-            telefonos.add(t);            
+        consulta.setParameter("cif", cif);
+        List<AvTelefono> resultado = consulta.getResultList();
+        for(AvTelefono  t: resultado){
+            telefonos.add(t.getNumero());
         }
         
         em.close();
         emf.close();
+    }
+    
+    // Metodo para consultar los registros de punto cardinal
+    private void listaColindantes(AvInmueble inmueble){
+        colindantes.clear();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
         
-        return telefonos;
+        String instruccion = "SELECT c "
+                + "FROM AvColindante c "
+                + "JOIN c.inmuebleId i "
+                + "WHERE i.id = :idInmueble";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("idInmueble", inmueble.getId());
+        List<AvColindante> resultado = consulta.getResultList();
+        for(AvColindante  c: resultado){
+            colindantes.add(c);
         }
+        
+        em.close();
+        emf.close();
+    }
+    
+    // Metodo para eliminar los telefonos de un cif
+    private void eliminarTelefonos(String cif){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+            
+            Statement st = conexion.createStatement();
+            st.execute("DELETE FROM av_telefono WHERE asociado_cif = '"+cif+"'");
+            
+            conexion.close();
+           
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
     
     /* Este metodo es utilizado para mostrar el detalle de solicitud */
     public static void detalle(String numeroSolicitud){ 

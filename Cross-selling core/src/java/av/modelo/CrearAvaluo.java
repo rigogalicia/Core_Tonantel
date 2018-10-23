@@ -12,7 +12,6 @@ import dao.AvConstruccion;
 import dao.AvDetalle;
 import dao.AvInmueble;
 import dao.AvSolicitud;
-import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -171,8 +170,6 @@ public class CrearAvaluo {
     public void setMsjInsertar(String msjInsertar) {
         this.msjInsertar = msjInsertar;
     }
-    
-    
     
     // Este metodo realiza la consulta de la clase avaluo e inmueble
     public void consultarSolicitud(){
@@ -343,7 +340,7 @@ public class CrearAvaluo {
     }
     
     /* Este metodo es utilizado para mostrar el detalle de avaluo */
-    public static void detalle(String numeroSolicitud, String nombreValuador){ 
+    public static void detalle(String numeroSolicitud, String nombreValuador, String autorizadorResponsable){ 
   
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -352,7 +349,8 @@ public class CrearAvaluo {
             String nombreReporte = "av_detalle.jasper";
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("numeroSolicitud", numeroSolicitud);
-            parametros.put("Valuador", nombreValuador);
+            parametros.put("valuador", nombreValuador);
+            parametros.put("autorizador", autorizadorResponsable);
 
             byte[] bytes = JasperRunManager.runReportToPdf(ReportConfig.path_avaluos + nombreReporte, parametros, conexion);
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -397,4 +395,28 @@ public class CrearAvaluo {
         return result;
     }
     
+    // Metodo para consultar el nombre del valuador responsable
+    public static String autorizadorResponsable(String numeroSolicitud){
+        String result = "";
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT a "
+                + "FROM AvAvaluo a "
+                + "JOIN a.asignacionId g "
+                + "JOIN g.solicitudNumeroSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSol ";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSol", numeroSolicitud);
+        List<AvAvaluo> resultado = consulta.getResultList();
+        for(AvAvaluo a : resultado){
+            result = Colaborador.datosColaborador(a.getAutorizador()).getNombre();
+        }
+        
+        em.close();
+        emf.close();
+        
+        return result;
+    }
 }

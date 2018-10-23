@@ -1,11 +1,9 @@
 package av.controlador;
 
-
 import av.modelo.Solicitud;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-
 
 @ManagedBean(name = "av_solicitud")
 @ViewScoped
@@ -92,13 +90,13 @@ public class AvSolicitudBean {
     /* Este metodo controla el insert de la solicitud */
     public void insertarDatos(ActionEvent e){
         if(isComplit()){
+            
             solicitudController.crearSolicitud();
         }
         
     }
     
     public void consultarDatos(){
-        
         solicitudController.consultarSolicitud();
         
     }
