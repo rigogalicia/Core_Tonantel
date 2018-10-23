@@ -230,8 +230,9 @@ public class Solicitud {
             inmueble = (AvInmueble) objeto[2];
             propietario = (AvPropietario) objeto[3];
             documento = (AvDocumento) objeto[4];
+            
         }
-        listTelefonos();
+        //listTelefonos();
         em.close();
         emf.close();
     }
