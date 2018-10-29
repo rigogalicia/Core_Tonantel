@@ -41,6 +41,11 @@ public class Solicitud {
     private AvSolicitud solicitud = new AvSolicitud();
     private String userConect;
     
+    
+    private boolean btnGenerar = false;
+    private boolean btnUpdate = false;
+    private String msjConsultar;
+    
     //Metodo contstructor
     public Solicitud(){
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -128,7 +133,32 @@ public class Solicitud {
 
     public void setSolicitud(AvSolicitud solicitud) {
         this.solicitud = solicitud;
-    }    
+    }
+
+    public boolean isBtnGenerar() {
+        return btnGenerar;
+    }
+
+    public void setBtnGenerar(boolean btnGenerar) {
+        this.btnGenerar = btnGenerar;
+    }
+
+    public boolean isBtnUpdate() {
+        return btnUpdate;
+    }
+
+    public void setBtnUpdate(boolean btnUpdate) {
+        this.btnUpdate = btnUpdate;
+    }
+    
+    public String getMsjConsultar() {
+        return msjConsultar;
+    }
+
+    public void setMsjConsultar(String msjConsultar) {
+        this.msjConsultar = msjConsultar;
+    }
+    
     // Metodo para agregar un numero de telefono
     public void agregarTelefono(){
         telefonos.add(telefono);
@@ -204,8 +234,6 @@ public class Solicitud {
     
     //Metodo para consultar los datos de la solictud
     public void consultarSolicitud(){
-        boolean result = false;
-                    
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
@@ -229,12 +257,27 @@ public class Solicitud {
             documento = (AvDocumento) objeto[4];
             
         }
-        
         listTelefonos(asociado.getCif());
         listaColindantes(inmueble);
+            //validamos el resultado de la consulta
+            if(resultado.isEmpty()){
+                btnGenerar = true;
+                btnUpdate = false;
+            }
+            else if(!resultado.isEmpty() && !solicitud.getEstado().equals('d') && !solicitud.getEstado().equals('e')){
+                btnGenerar = false;
+                btnUpdate = true;
+                
+            }
+            else{
+                btnGenerar = false;
+                btnUpdate = false;
+                
+                msjConsultar = "El estado actual de la solicitud no permite modificarla";
+            }
+
         em.close();
         emf.close();
-
         }
     
     //Metodo para obtener el listado de telefonos
@@ -320,7 +363,7 @@ public class Solicitud {
         EntityManagerFactory emf = null;
         EntityManager em = null;
         
-        try{
+            try{
             emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
             em = emf.createEntityManager();
             
