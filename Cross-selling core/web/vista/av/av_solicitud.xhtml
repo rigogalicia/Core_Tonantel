@@ -93,7 +93,6 @@
                                     </div>
                                     <!-- / direccion-->
                                     <!-- row telefono-->
-                                   
                                     <h:panelGroup id="pnTelefono">
                                         <div class="row">
                                             <div class="col-md-4">
@@ -388,6 +387,11 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <h:commandLink value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <h:commandLink value="Actualizar" class="form-control btn btn-facebook" actionListener="#{av_solicitud.updateSolicitud}" rendered="#{av_solicitud.consultarDatos() != null eq true}"/>
                                             </div>
                                         </div>
                                     </div>

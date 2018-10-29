@@ -55,7 +55,7 @@ public class Solicitud {
                 ex.printStackTrace(System.out);
             }
         }
-    
+        
     }
 
     public AvAsociado getAsociado() {
@@ -128,8 +128,7 @@ public class Solicitud {
 
     public void setSolicitud(AvSolicitud solicitud) {
         this.solicitud = solicitud;
-    }
-    
+    }    
     // Metodo para agregar un numero de telefono
     public void agregarTelefono(){
         telefonos.add(telefono);
@@ -169,7 +168,6 @@ public class Solicitud {
             solicitud.setFechahora(new Date());
             solicitud.setEstado('a');
             em.merge(asociado);
-            eliminarTelefonos(asociado.getCif());
             for(String t : telefonos){
                 AvTelefono telefonoBD = new AvTelefono();
                 telefonoBD.setNumero(t);
@@ -206,6 +204,8 @@ public class Solicitud {
     
     //Metodo para consultar los datos de la solictud
     public void consultarSolicitud(){
+        boolean result = false;
+                    
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
@@ -220,7 +220,7 @@ public class Solicitud {
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
         List<Object[]> resultado = consulta.getResultList();
-        
+
         for(Object[] objeto: resultado){
             solicitud = (AvSolicitud) objeto[0];
             asociado  = (AvAsociado) objeto[1];
@@ -232,10 +232,10 @@ public class Solicitud {
         
         listTelefonos(asociado.getCif());
         listaColindantes(inmueble);
-
         em.close();
         emf.close();
-    }
+
+        }
     
     //Metodo para obtener el listado de telefonos
     private void listTelefonos(String cif){
@@ -284,10 +284,29 @@ public class Solicitud {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
-            
+
             Statement st = conexion.createStatement();
             st.execute("DELETE FROM av_telefono WHERE asociado_cif = '"+cif+"'");
+
+            st.close();
+            conexion.close();
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+       }
+       
+    }
+    
+//  Metodo para eliminar las colindantes
+    private void eliminarColindantes(int inmuebleid){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+
+            Statement st = conexion.createStatement();
+            st.execute("DELETE FROM av_colindante WHERE inmueble_id = '"+inmuebleid+"'");
             
+            st.close();
             conexion.close();
            
         }
@@ -296,6 +315,57 @@ public class Solicitud {
         }
     }
     
+    //Metodo utilizdo para actualizar la solicitud de avaluos
+    public void updateSolicitud(){
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        
+        try{
+            emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+            em = emf.createEntityManager();
+            
+            em.getTransaction().begin();
+            Colaborador colaborador = Colaborador.datosColaborador(userConect);
+            solicitud.setUsuario(userConect);
+            solicitud.setAgencia(colaborador.getAgencia());
+            solicitud.setFechahora(new Date());
+            em.merge(asociado);
+            eliminarTelefonos(asociado.getCif());
+            for(String t : telefonos){
+                AvTelefono telefonoBD = new AvTelefono();
+                telefonoBD.setNumero(t);
+                telefonoBD.setAsociadoCif(asociado);
+                em.merge(telefonoBD);
+            }
+            
+            em.merge(propietario);
+            em.merge(documento);
+            inmueble.setPropietarioDpi(propietario);
+            inmueble.setDocumentoId(documento);
+            em.merge(inmueble);
+            eliminarColindantes(inmueble.getId());
+            for(AvColindante c : colindantes){
+                c.setTipo('a');
+                c.setInmuebleId(inmueble);
+                em.merge(c);
+            }
+            solicitud.setAsociadoCif(asociado);
+            solicitud.setInmuebleId(inmueble);
+            em.merge(solicitud);
+            em.getTransaction().commit();
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_generadas.xhtml");
+        }
+        catch(IOException e){
+            e.printStackTrace(System.out);
+        }finally{
+            if(emf != null && em != null){
+                em.close();
+                emf.close();
+            }
+        }
+    }
+  
     /* Este metodo es utilizado para mostrar el detalle de solicitud */
     public static void detalle(String numeroSolicitud){ 
   

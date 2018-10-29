@@ -90,14 +90,20 @@ public class AvSolicitudBean {
     /* Este metodo controla el insert de la solicitud */
     public void insertarDatos(ActionEvent e){
         if(isComplit()){
-            
             solicitudController.crearSolicitud();
         }
         
     }
     
+    //Metodo controlador de consultar los datos de la solicitud
     public void consultarDatos(){
         solicitudController.consultarSolicitud();
-        
+    }
+    
+    //Metodo que controla el update de la solicitud
+    public void updateSolicitud(){
+        if(isComplit()){
+            solicitudController.updateSolicitud();
+        }
     }
 }
