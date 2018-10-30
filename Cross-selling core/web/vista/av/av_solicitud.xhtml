@@ -17,6 +17,7 @@
                                 <h:form id="formSolicitudAv">
                                     <div class="page-header">
                                         <h2>Solicitud de Avaluos</h2>
+                                        <h:outputLabel value="#{av_solicitud.solicitudController.msjConsultar}" style="color: red"/>
                                     </div>
                                     <!--Datos Solicitud-->
                                     <div class="row">
@@ -24,7 +25,7 @@
                                             <div class="form-group">
                                                 <h:outputLabel for="numeroSolicitud" >* Número Solicitud:</h:outputLabel>
                                                 <h:message for="numeroSolicitud" style="color: red"/>
-                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}" required="true" label="&nbsp;!">
+                                                <h:inputText id="numeroSolicitud" class="form-control" autocomplete="off" value="#{av_solicitud.solicitudController.solicitud.numeroSolicitud}" required="true" label="&nbsp;!" readonly="#{av_solicitud.solicitudController.btnUpdate == true eq true}">
                                                     <f:ajax event="blur" listener="#{av_solicitud.consultarDatos()}" execute="numeroSolicitud" render="formSolicitudAv"/>
                                                 </h:inputText>
                                             </div>
@@ -386,12 +387,12 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:commandLink value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}"/>
+                                                <h:commandLink value="Generar Solicitud" class="form-control btn btn-success" actionListener="#{av_solicitud.insertarDatos}" rendered="#{av_solicitud.solicitudController.btnGenerar}"/>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <h:commandLink value="Actualizar" class="form-control btn btn-facebook" actionListener="#{av_solicitud.updateSolicitud}" rendered="#{av_solicitud.consultarDatos() != null eq true}"/>
+                                                <h:commandLink value="Actualizar" class="form-control btn btn-facebook" actionListener="#{av_solicitud.updateSolicitud}" rendered="#{av_solicitud.solicitudController.btnUpdate}"/>
                                             </div>
                                         </div>
                                     </div>

@@ -273,7 +273,7 @@ public class Solicitud {
                 btnGenerar = false;
                 btnUpdate = false;
                 
-                msjConsultar = "El estado actual de la solicitud no permite modificarla";
+                msjConsultar = "El estado actual de la solicitud no permite modificación.";
             }
 
         em.close();
