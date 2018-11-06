@@ -15,7 +15,9 @@ import dao.AvSolicitud;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +29,14 @@ import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JasperRunManager;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import patrimonio.modelo.ConexionMySql;
 
 public class CrearAvaluo {
     private AvSolicitud solicitud = new AvSolicitud();
     private AvInmueble inmueble = new AvInmueble();
-    private Colindante colindante = new Colindante();
-    private ArrayList<Colindante> colindantes = new ArrayList<>();
+    private AvColindante colindante = new AvColindante();
+    private ArrayList<AvColindante> colindantes = new ArrayList<>();
     private AvArea area = new AvArea();
     private AvConstruccion construccion = new AvConstruccion();
     private AvAsignacion asignacion = new AvAsignacion();
@@ -67,19 +70,19 @@ public class CrearAvaluo {
         this.inmueble = inmueble;
     }
 
-    public Colindante getColindante() {
+    public AvColindante getColindante() {
         return colindante;
     }
 
-    public void setColindante(Colindante colindante) {
+    public void setColindante(AvColindante colindante) {
         this.colindante = colindante;
     }
 
-    public ArrayList<Colindante> getColindantes() {
+    public ArrayList<AvColindante> getColindantes() {
         return colindantes;
     }
 
-    public void setColindantes(ArrayList<Colindante> colindantes) {
+    public void setColindantes(ArrayList<AvColindante> colindantes) {
         this.colindantes = colindantes;
     }
 
@@ -176,29 +179,77 @@ public class CrearAvaluo {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
         
-        String instruccion = "SELECT a, s, i "
-                + "FROM AvAsignacion a "
-                + "JOIN a.solicitudNumeroSolicitud s "
-                + "JOIN s.inmuebleId i "
-                + "WHERE s.numeroSolicitud = :numeroSolicitud";
-        Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("numeroSolicitud", solicitud.getNumeroSolicitud());
+        String instruccion = "SELECT S.numero_solicitud numeroSolicitud, "
+                + "I.id inmuebleId, "
+                + "I.direccion_fisica direccionFisica, "
+                + "I.coordenadas Coordenadas, "
+                + "R.avaluar areaAvaluar, "
+                + "R.construida areaConstruida, "
+                + "R.exceso areaExceso, "
+                + "R.fisica areaFisica, "
+                + "R.frenteyfondo medidasFrenteFondo, "
+                + "R.id AreaId, "
+                + "R.registrada areaRegistrada "
+                + "FROM av_solicitud S "
+                + "JOIN av_inmueble I "
+                + "ON S.inmueble_id = I.id "
+                + "JOIN av_area R "
+                + "ON R.inmueble_id = I.id "
+                + "WHERE S.numero_solicitud = '"+solicitud.getNumeroSolicitud()+"' ";
+
+        Query consulta = em.createNativeQuery(instruccion);
         List<Object[]> resultado = consulta.getResultList();
+//        
+        for(Object[] obj: resultado){
+            solicitud.setNumeroSolicitud((String) obj[0]);
+            inmueble.setId((int) obj[1]);
+            inmueble.setDireccionFisica((String) obj[2]);
+            inmueble.setCoordenadas((String) obj[3]);
+            area.setAvaluar((String) obj[4]);
+            area.setConstruida((String) obj[5]);
+            area.setExceso((String) obj[6]);
+            area.setFisica((String) obj[7]);
+            area.setFrenteyfondo((String) obj[8]);
+            area.setId((int) obj[9]);
+        }
+//        
+//        
+//        
+//        listaColindantes(inmueble);
         
-        for(Object[] obj : resultado){
-            this.asignacion = (AvAsignacion) obj[0];
-            this.solicitud = (AvSolicitud) obj[1];
-            this.inmueble = (AvInmueble) obj[2];
+        em.close();
+        emf.close();
+    }
+    
+    //Metodo para consultar los registros de punto cardinal
+    private void listaColindantes(AvInmueble inmueble){
+        colindantes.clear();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT c "
+                + "FROM AvColindante c "
+                + "JOIN c.inmuebleId i "
+                + "WHERE i.id = :idInmueble";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("idInmueble", inmueble.getId());
+        List<AvColindante> resultado = consulta.getResultList();
+        for(AvColindante  c: resultado){
+            colindantes.add(c);
         }
         
         em.close();
         emf.close();
     }
     
+    //Metodo para consultar los registros del detalle del avaluo
+    private void listDetalle(){
+        
+    }
     //Metodo utilizado para agrengar colindates de avaluo
     public void agregarColindante(){
         colindantes.add(colindante);
-        colindante = new Colindante();
+        colindante = new AvColindante();
     }
     
     //Metodo utilizado para borrar colindantes agregados en la tabla
@@ -269,15 +320,10 @@ public class CrearAvaluo {
             inmuebleModif.setObservaciones(inmueble.getObservaciones());
             area.setInmuebleId(inmueble);
             em.persist(area);
-            for(Colindante colin : colindantes){
-                AvColindante colindanteInsert = new AvColindante();
-                colindanteInsert.setMetros(colin.getMetros());
-                colindanteInsert.setVaras(colin.getVaras());
-                colindanteInsert.setNombre(colin.getNombre());
-                colindanteInsert.setTipo('b');
-                colindanteInsert.setInmuebleId(inmueble);
-                colindanteInsert.setPuntocardinal(colin.getPuntoCardinal());
-                em.persist(colindanteInsert);
+            for(AvColindante colin : colindantes){
+                    colin.setTipo('b');
+                    colin.setInmuebleId(inmueble);
+                    em.persist(colin);
             }
             construccion.setInmuebleId(inmueble);
             em.persist(construccion);
