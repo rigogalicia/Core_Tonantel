@@ -183,18 +183,37 @@ public class CrearAvaluo {
                 + "I.id inmuebleId, "
                 + "I.direccion_fisica direccionFisica, "
                 + "I.coordenadas Coordenadas, "
+                + "I.observaciones observaciones, "
                 + "R.avaluar areaAvaluar, "
                 + "R.construida areaConstruida, "
                 + "R.exceso areaExceso, "
                 + "R.fisica areaFisica, "
                 + "R.frenteyfondo medidasFrenteFondo, "
                 + "R.id AreaId, "
-                + "R.registrada areaRegistrada "
+                + "R.registrada areaRegistrada, "
+                + "C.agua agua, "
+                + "C.ambiente ambientes, "
+                + "C.cielo cielos, "
+                + "C.destino destino, "
+                + "C.electricidad servicoElectrico, "
+                + "C.factores_positivos factoresPositivos, "
+                + "C.id construccionId, "
+                + "C.muro muros, "
+                + "C.niveles niveles, "
+                + "C.piso pisos, "
+                + "C.riesgo riesgoInmueble, "
+                + "C.sanitario servicioSanitario, "
+                + "C.techo techos,"
+                + "V.fechahora fehcainspeccion "
                 + "FROM av_solicitud S "
                 + "JOIN av_inmueble I "
                 + "ON S.inmueble_id = I.id "
                 + "JOIN av_area R "
                 + "ON R.inmueble_id = I.id "
+                + "JOIN av_construccion C "
+                + "ON C.inmueble_id = I.id "
+                + "JOIN av_avaluo as V "
+                + "ON V.inmueble_id = I.id "
                 + "WHERE S.numero_solicitud = '"+solicitud.getNumeroSolicitud()+"' ";
 
         Query consulta = em.createNativeQuery(instruccion);
@@ -205,17 +224,33 @@ public class CrearAvaluo {
             inmueble.setId((int) obj[1]);
             inmueble.setDireccionFisica((String) obj[2]);
             inmueble.setCoordenadas((String) obj[3]);
-            area.setAvaluar((String) obj[4]);
-            area.setConstruida((String) obj[5]);
-            area.setExceso((String) obj[6]);
-            area.setFisica((String) obj[7]);
-            area.setFrenteyfondo((String) obj[8]);
-            area.setId((int) obj[9]);
+            inmueble.setObservaciones((String) obj[4]);
+            area.setAvaluar((String) obj[5]);
+            area.setConstruida((String) obj[6]);
+            area.setExceso((String) obj[7]);
+            area.setFisica((String) obj[8]);
+            area.setFrenteyfondo((String) obj[9]);
+            area.setId((int) obj[10]);
+            area.setRegistrada((String) obj[11]);
+            construccion.setAgua((String) obj[12]);
+            construccion.setAmbiente((String) obj[13]);
+            construccion.setCielo((String) obj[14]);
+            construccion.setDestino((String) obj[15]);
+            construccion.setElectricidad((String) obj[16]);
+            construccion.setFactoresPositivos((String) obj[17]);
+            construccion.setId((int) obj[18]);
+            construccion.setMuro((String) obj[19]);
+            construccion.setNiveles((String) obj[20]);
+            construccion.setPiso((String) obj[21]);
+            construccion.setRiesgo((String) obj[22]);
+            construccion.setSanitario((String) obj[23]);
+            construccion.setTecho((String) obj[24]);
+            avaluo.setFechahora((Date) obj[25]);
+            
         }
-//        
-//        
-//        
-//        listaColindantes(inmueble);
+        
+        listaColindantes(inmueble);
+//        listaDetalleConstruccion(inmueble);
         
         em.close();
         emf.close();
@@ -238,6 +273,26 @@ public class CrearAvaluo {
             colindantes.add(c);
         }
         
+        em.close();
+        emf.close();
+    }
+    
+    //Metodo para consultar el detalle de la construccion
+    private void listaDetalleConstruccion(AvInmueble inmueble){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT v, i "
+                + "FROM AvAvaluo v "
+                + "JOIN v.inmuebleId i "
+                + "WHERE i.id = :idInmueble";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("idInmueble", inmueble.getId());
+        List<DetalleAvaluo> resultado = consulta.getResultList();
+        for(DetalleAvaluo d: resultado){
+            detalleAvaluo.add(d);
+        }
         em.close();
         emf.close();
     }
