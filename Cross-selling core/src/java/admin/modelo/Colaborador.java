@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.apache.commons.codec.digest.DigestUtils;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.model.Sorts;
 import java.util.regex.Pattern;
 
 public class Colaborador {
@@ -131,7 +132,7 @@ public class Colaborador {
     public ArrayList<Colaborador> mostrarColaboradores(){
         ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
-        MongoCursor<Document> cursor = coleccion.find().iterator();
+        MongoCursor<Document> cursor = coleccion.find().sort(Sorts.orderBy(Sorts.ascending("nombre"))).iterator();
         try{
             while(cursor.hasNext()){
                 Document siguiente = cursor.next();
