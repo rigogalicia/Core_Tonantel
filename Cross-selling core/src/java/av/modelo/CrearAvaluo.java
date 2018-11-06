@@ -15,7 +15,6 @@ import dao.AvSolicitud;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JasperRunManager;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import patrimonio.modelo.ConexionMySql;
 
 public class CrearAvaluo {
