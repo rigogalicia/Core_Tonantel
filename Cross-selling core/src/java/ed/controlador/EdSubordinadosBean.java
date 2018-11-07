@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
@@ -14,8 +15,8 @@ import javax.servlet.http.HttpSession;
 public class EdSubordinadosBean {
     private String userConect;
     private ArrayList<SelectItem> listaColaboradores = new ArrayList<>();
-    private Colaborador colaborador;
-    private Colaborador subordinado;
+    private Colaborador colaborador = new Colaborador();
+    private Colaborador subordinado = new Colaborador();
     
     public EdSubordinadosBean() {
         // Metodo constructor de la clase
@@ -47,14 +48,6 @@ public class EdSubordinadosBean {
         this.listaColaboradores = listaColaboradores;
     }
 
-    public Colaborador getColaborador() {
-        return colaborador;
-    }
-
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
-    }
-
     public Colaborador getSubordinado() {
         return subordinado;
     }
@@ -63,4 +56,30 @@ public class EdSubordinadosBean {
         this.subordinado = subordinado;
     }
 
+    public Colaborador getColaborador() {
+        return colaborador;
+    }
+
+    public void setColaborador(Colaborador colaborador) {
+        this.colaborador = colaborador;
+    }
+    
+    /* Metodo para consultar los datos del colaborador Jefe */
+    public void selectColaborador(ValueChangeEvent e){
+        colaborador.setUsuario(e.getNewValue().toString());
+        colaborador = colaborador.consultarPorUsuario();
+    }
+    
+    /* Metodo para agregar subordinados al objeto de colaborador */
+    public void addSubordinados(){
+        subordinado = Colaborador.datosColaborador(subordinado.getUsuario());
+        colaborador.getSubordinados().add(subordinado);
+        colaborador.agregarSubordinados();
+    }
+
+    /* Metodo para eliminar un registro de subordinados */
+    public void deleteSubordinado(Colaborador c){
+        colaborador.getSubordinados().remove(c);
+        colaborador.agregarSubordinados();
+    }
 }

@@ -11,6 +11,7 @@ import com.mongodb.client.model.Sorts;
 import java.util.regex.Pattern;
 
 public class Colaborador {
+    private final String COLLECTION = "colaboradores";
     private String usuario;
     private String clave;
     private String nombre;
@@ -20,6 +21,7 @@ public class Colaborador {
     private String departamento;
     private String puesto;
     private String firma;
+    private ArrayList<Colaborador> subordinados = new ArrayList<>();
 
     public String getUsuario() {
         return usuario;
@@ -92,10 +94,18 @@ public class Colaborador {
     public void setFirma(String firma) {
         this.firma = firma;
     }
+
+    public ArrayList<Colaborador> getSubordinados() {
+        return subordinados;
+    }
+
+    public void setSubordinados(ArrayList<Colaborador> subordinados) {
+        this.subordinados = subordinados;
+    }
     
     /* Este metodo se utiliza para insertar un nuevo colaborador */
     public void insertar(){
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
         
         Document doc = new Document("_id", this.usuario)
                 .append("clave", DigestUtils.md5Hex(this.clave))
@@ -111,7 +121,7 @@ public class Colaborador {
     
     /* Este metodo se utiliza para actualizar los datos de un colaborador */
     public void update(){
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
         coleccion.updateOne(eq("_id", this.usuario), 
                 new Document("$set", new Document("nombre", this.nombre)
                 .append("correo", this.correo)
@@ -121,9 +131,22 @@ public class Colaborador {
                 .append("puesto", this.puesto)));
     }
     
+    /* Este metodo se utiliza para agregar subordinados a un colaborador */
+    public void agregarSubordinados() {
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
+        
+        ArrayList<Document> docSubordinados = new ArrayList<>();
+        for(Colaborador c : subordinados) {
+            docSubordinados.add(new Document("idColaborador", c.getUsuario())
+            .append("nombre", c.getNombre()));
+        }
+        
+        coleccion.updateOne(eq("_id", usuario), new Document("$set", new Document("subordinados", docSubordinados)));
+    }
+    
     /* Metodo para actualizar la direccion de la firma */
     public void actualizarFirma(){
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
         coleccion.updateOne(eq("_id", this.usuario), 
                 new Document("$set", new Document("firma", this.firma)));
     }
@@ -131,7 +154,7 @@ public class Colaborador {
     /* Metodo utilizado para mostrar todos los registros de los colaboradores */
     public ArrayList<Colaborador> mostrarColaboradores(){
         ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
         MongoCursor<Document> cursor = coleccion.find().sort(Sorts.orderBy(Sorts.ascending("nombre"))).iterator();
         try{
             while(cursor.hasNext()){
@@ -206,7 +229,7 @@ public class Colaborador {
     /* Metodo para mostrar los datos del colaborador */
     public Colaborador datosColaborador(){
         Colaborador resultado = new Colaborador();
-        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
         MongoCursor<Document> cursor = coleccion.find(eq("operador", operador)).iterator();
         try{
             while(cursor.hasNext()){
@@ -219,6 +242,41 @@ public class Colaborador {
                 resultado.setAgencia(next.getString("agencia"));
                 resultado.setDepartamento(next.getString("departamento"));
                 resultado.setPuesto(next.getString("puesto"));
+            }
+        }finally{
+            cursor.close();
+        }
+        
+        return resultado;
+    }
+    
+    /* Metodo para mostrar los datos del colaborador */
+    public Colaborador consultarPorUsuario(){
+        Colaborador resultado = new Colaborador();
+        MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION);
+        MongoCursor<Document> cursor = coleccion.find(eq("_id", usuario)).iterator();
+        try{
+            while(cursor.hasNext()){
+                Document next = cursor.next();
+                resultado.setUsuario(next.getString("_id"));
+                resultado.setClave(next.getString("clave"));
+                resultado.setNombre(next.getString("nombre"));
+                resultado.setCorreo(next.getString("correo"));
+                resultado.setOperador(next.getInteger("operador"));
+                resultado.setAgencia(next.getString("agencia"));
+                resultado.setDepartamento(next.getString("departamento"));
+                resultado.setPuesto(next.getString("puesto"));
+                
+                ArrayList<Document> listSubordinados = (ArrayList<Document>) next.get("subordinados");
+                
+                if(listSubordinados != null) {
+                    for(Document docSubordinados : listSubordinados){
+                        Colaborador colaboradorSubordinado = new Colaborador();
+                        colaboradorSubordinado.setUsuario(docSubordinados.getString("idColaborador"));
+                        colaboradorSubordinado.setNombre(docSubordinados.getString("nombre"));
+                        resultado.getSubordinados().add(colaboradorSubordinado);
+                    }
+                }
             }
         }finally{
             cursor.close();
@@ -334,6 +392,7 @@ public class Colaborador {
         }
     }
     
+    /* Metodo para consultar la URL de la imagen de firma para modulo de avaluos */
     public static String urlImagen(String usuario){
         String result = "";
         
