@@ -57,7 +57,6 @@ public class Privilegio {
     
     /* Metodo creado para actualizar un registro del documento de privilegios */
     public void update(){
-        System.out.println("Se ejecuto el metodo de actualizar");
         MongoCollection<Document> coleccion = ConexionMongo.getInstance().getDatabase().getCollection("privilegios");
         coleccion.updateOne(eq("_id", id), 
                 new Document("$set", new Document("descripcion", descripcion)
