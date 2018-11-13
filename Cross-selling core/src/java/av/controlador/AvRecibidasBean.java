@@ -34,6 +34,7 @@ public class AvRecibidasBean {
 
 
     public AvRecibidasBean() {
+       
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if(sesion.getAttribute("userConect") != null){
             userConect = sesion.getAttribute("userConect").toString();
@@ -72,13 +73,13 @@ public class AvRecibidasBean {
         this.msjFecha = msjFecha;
     }
     
-    //Metodo para consultar las solicitudes generadas
+    //Metodo para consultar y asignarse solicitudes generadas
     public void asignarAvaluo(SolicitudesRecibidas s){
         error = null;
         s.setFechaVisita(agregarDiaFecha(s.getFechaVisita()));
        
         if(isGenerada(s.getNumeroSolicitud()) && s.getFechaVisita() != null && 
-                s.getFechaVisita().compareTo(new Date()) == 1){
+            s.getFechaVisita().compareTo(new Date()) == 1){
             EntityManagerFactory emf = null;
             EntityManager em = null;
             try {
@@ -102,20 +103,10 @@ public class AvRecibidasBean {
                 em.getTransaction().commit();
 
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_enproceso.xhtml");
+                enviarCorreo(s);
 
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                String msj = "La solicitud de Avalúo número "+s.getNumeroSolicitud()+" generada el "+ s.getFechaSolicitud()+"\n"
-                        + "pertenece al asociado "+ s.getAsociado()+" fue asignada a\n"
-                        + "un valuador el cual programó la visita para el día " + formato.format(s.getFechaVisita()) + " para\n"
-                        + "un mejor seguimiento ingresa a la aplicación Crosselling Core\n"
-                        + "que puedes ingresar en el siguiente enlace:\n\n"
-                        + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
-                        + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
 
-                Correo correo = new Correo(Colaborador.correoColaborador(s.getAsesor()), "No.solicitud" + s.getNumeroSolicitud(), msj);
-                correo.enviar();
-
-                listRecibidas = recibidas.mostrarDato();
+                 listRecibidas = recibidas.mostrarDato();
 
             } catch (Exception e) {
                 e.printStackTrace(System.out);
@@ -136,7 +127,21 @@ public class AvRecibidasBean {
             }
         }
     } 
-    
+    //Metodo para enviar el correo que notifica a quien fue asignada la solicitud
+    private void enviarCorreo(SolicitudesRecibidas s){
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        String msj = "La solicitud de Avalúo número "+s.getNumeroSolicitud()+" generada el "+ s.getFechaSolicitud()+"\n"
+                + "que pertenece al asociado "+ s.getAsociado()+", fue asignada a\n" + Colaborador.datosColaborador(userConect).getNombre() +"\n"
+                + "el cual programó la visita para el día " + formato.format(s.getFechaVisita()) + ", para\n"
+                + "un mejor seguimiento ingresa a la aplicación Crosselling Core\n"
+                + "que puedes ingresar en el siguiente enlace:\n\n"
+                + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
+                + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
+
+
+         Correo correo = new Correo(Colaborador.correoColaborador(s.getAsesor()), "Numero solicitud" + s.getNumeroSolicitud(), msj);
+         correo.enviar();
+    }
     /* Metodo para consultar el estado actual de la solicitud */
     private boolean isGenerada(String numeroSolicitud){
         boolean result = false;

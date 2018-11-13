@@ -79,7 +79,6 @@ public class AvAutorizarBean {
                         + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
                         + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
 
-                 System.out.println("Se ejecuta" + a.getAsesor());
 
                  Correo correo = new Correo(Colaborador.correoColaborador(a.getAsesor()), "Numeros solicitud" + a.getNumeroSolicitud(), msj);
                  correo.enviar();

@@ -15,12 +15,13 @@ import dao.AvSolicitud;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.text.SimpleDateFormat;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,7 +30,6 @@ import javax.persistence.Query;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JasperRunManager;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import patrimonio.modelo.ConexionMySql;
 
 public class CrearAvaluo {
@@ -48,6 +48,8 @@ public class CrearAvaluo {
     private double sumaTotalDetalle;
     private double total;
     
+    private boolean btnGenerar = true;
+    private boolean btnUpdate = false;
     private String msjInsertar;
     
     public CrearAvaluo() {
@@ -166,12 +168,55 @@ public class CrearAvaluo {
         this.total = total;
     }
 
+    public boolean isBtnGenerar() {
+        return btnGenerar;
+    }
+
+    public void setBtnGenerar(boolean btnGenerar) {
+        this.btnGenerar = btnGenerar;
+    }
+
+    public boolean isBtnUpdate() {
+        return btnUpdate;
+    }
+
+    public void setBtnUpdate(boolean btnUpdate) {
+        this.btnUpdate = btnUpdate;
+    }
+    
     public String getMsjInsertar() {
         return msjInsertar;
     }
 
     public void setMsjInsertar(String msjInsertar) {
         this.msjInsertar = msjInsertar;
+    }
+    
+    //Metodo para tomar el id que trae de asigancion, solicicitud e inmueble la solicitud
+    public void consultar(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+
+          String instruccion ="SELECT a, s, i "
+                  + "FROM AvAsignacion a "
+                  + "JOIN a.solicitudNumeroSolicitud s "
+                  + "JOIN s.inmuebleId i "
+                  + "WHERE s.numeroSolicitud = :numSolicitud ";
+
+     
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
+        List<Object[]> resultado = consulta.getResultList();
+        for(Object[] objeto: resultado){    
+            asignacion = (AvAsignacion)objeto[0];
+            solicitud = (AvSolicitud) objeto[1];              
+            inmueble= (AvInmueble) objeto[2];
+
+        }
+        
+        em.close();
+        emf.close();
     }
     
     // Este metodo realiza la consulta de la clase avaluo e inmueble
@@ -203,8 +248,12 @@ public class CrearAvaluo {
                 + "C.piso pisos, "
                 + "C.riesgo riesgoInmueble, "
                 + "C.sanitario servicioSanitario, "
-                + "C.techo techos,"
-                + "V.fechahora fehcainspeccion "
+                + "C.techo techos, "
+                + "V.fechahora fehcainspeccion, "
+                + "V.valor_bancario valorbancario, "
+                + "V.valor_redonDeado valorRedondeado, "
+                + "V.id avaluoId,"
+                + "A.id avaluoId "
                 + "FROM av_solicitud S "
                 + "JOIN av_inmueble I "
                 + "ON S.inmueble_id = I.id "
@@ -214,93 +263,67 @@ public class CrearAvaluo {
                 + "ON C.inmueble_id = I.id "
                 + "JOIN av_avaluo as V "
                 + "ON V.inmueble_id = I.id "
+                + "JOIN av_asignacion A "
+                + "ON V.asignacion_id = A.id "
                 + "WHERE S.numero_solicitud = '"+solicitud.getNumeroSolicitud()+"' ";
+           
 
         Query consulta = em.createNativeQuery(instruccion);
         List<Object[]> resultado = consulta.getResultList();
 //        
-        for(Object[] obj: resultado){
-            solicitud.setNumeroSolicitud((String) obj[0]);
-            inmueble.setId((int) obj[1]);
-            inmueble.setDireccionFisica((String) obj[2]);
-            inmueble.setCoordenadas((String) obj[3]);
-            inmueble.setObservaciones((String) obj[4]);
-            area.setAvaluar((String) obj[5]);
-            area.setConstruida((String) obj[6]);
-            area.setExceso((String) obj[7]);
-            area.setFisica((String) obj[8]);
-            area.setFrenteyfondo((String) obj[9]);
-            area.setId((int) obj[10]);
-            area.setRegistrada((String) obj[11]);
-            construccion.setAgua((String) obj[12]);
-            construccion.setAmbiente((String) obj[13]);
-            construccion.setCielo((String) obj[14]);
-            construccion.setDestino((String) obj[15]);
-            construccion.setElectricidad((String) obj[16]);
-            construccion.setFactoresPositivos((String) obj[17]);
-            construccion.setId((int) obj[18]);
-            construccion.setMuro((String) obj[19]);
-            construccion.setNiveles((String) obj[20]);
-            construccion.setPiso((String) obj[21]);
-            construccion.setRiesgo((String) obj[22]);
-            construccion.setSanitario((String) obj[23]);
-            construccion.setTecho((String) obj[24]);
-            avaluo.setFechahora((Date) obj[25]);
+        if(!resultado.isEmpty()){
+            for(Object[] obj: resultado){
+                solicitud.setNumeroSolicitud((String) obj[0]);
+                inmueble.setId((int) obj[1]);
+                inmueble.setDireccionFisica((String) obj[2]);
+                inmueble.setCoordenadas((String) obj[3]);
+                inmueble.setObservaciones((String) obj[4]);
+                area.setAvaluar((String) obj[5]);
+                area.setConstruida((String) obj[6]);
+                area.setExceso((String) obj[7]);
+                area.setFisica((String) obj[8]);
+                area.setFrenteyfondo((String) obj[9]);
+                area.setId((int) obj[10]);
+                area.setRegistrada((String) obj[11]);
+                construccion.setAgua((String) obj[12]);
+                construccion.setAmbiente((String) obj[13]);
+                construccion.setCielo((String) obj[14]);
+                construccion.setDestino((String) obj[15]);
+                construccion.setElectricidad((String) obj[16]);
+                construccion.setFactoresPositivos((String) obj[17]);
+                construccion.setId((int) obj[18]);
+                construccion.setMuro((String) obj[19]);
+                construccion.setNiveles((String) obj[20]);
+                construccion.setPiso((String) obj[21]);
+                construccion.setRiesgo((String) obj[22]);
+                construccion.setSanitario((String) obj[23]);
+                construccion.setTecho((String) obj[24]);
+                avaluo.setFechahora((Date) obj[25]);
+                avaluo.setValorBancario((int) obj[26]);
+                avaluo.setValorRedondeado((BigDecimal) obj[27]);
+                avaluo.setId((int) obj[28]);
+                asignacion.setId((int) obj[29]);
+
+               
+
+            }
+           
+            listaColindantes(inmueble);
+            listaDetalleConstruccion(inmueble);
+            listaAnexos(avaluo); 
             
+            //Validamos el resultado para validar botones
+            if(!resultado.isEmpty()){
+                btnGenerar = false;
+                btnUpdate = true;
+            }
         }
-        
-        listaColindantes(inmueble);
-//        listaDetalleConstruccion(inmueble);
-        
+
+
         em.close();
         emf.close();
     }
     
-    //Metodo para consultar los registros de punto cardinal
-    private void listaColindantes(AvInmueble inmueble){
-        colindantes.clear();
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
-        
-        String instruccion = "SELECT c "
-                + "FROM AvColindante c "
-                + "JOIN c.inmuebleId i "
-                + "WHERE i.id = :idInmueble";
-        Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("idInmueble", inmueble.getId());
-        List<AvColindante> resultado = consulta.getResultList();
-        for(AvColindante  c: resultado){
-            colindantes.add(c);
-        }
-        
-        em.close();
-        emf.close();
-    }
-    
-    //Metodo para consultar el detalle de la construccion
-    private void listaDetalleConstruccion(AvInmueble inmueble){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
-        
-        String instruccion = "SELECT v, i "
-                + "FROM AvAvaluo v "
-                + "JOIN v.inmuebleId i "
-                + "WHERE i.id = :idInmueble";
-        
-        Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("idInmueble", inmueble.getId());
-        List<DetalleAvaluo> resultado = consulta.getResultList();
-        for(DetalleAvaluo d: resultado){
-            detalleAvaluo.add(d);
-        }
-        em.close();
-        emf.close();
-    }
-    
-    //Metodo para consultar los registros del detalle del avaluo
-    private void listDetalle(){
-        
-    }
     //Metodo utilizado para agrengar colindates de avaluo
     public void agregarColindante(){
         colindantes.add(colindante);
@@ -308,7 +331,7 @@ public class CrearAvaluo {
     }
     
     //Metodo utilizado para borrar colindantes agregados en la tabla
-    public void quitarColindante(Colindante c){
+    public void quitarColindante(AvColindante c){
         colindantes.remove(c);
     }
     
@@ -330,11 +353,16 @@ public class CrearAvaluo {
     
     //Metodo para llenar anexos del avaluo
     public void agregarAnexos(String path, String nombreImagen){
+        //nombreImagen = nombreImagen(anexos.getUrl()+ num ++) ;
         anexos.setDescripcion(anexos.getDescripcion());
         anexos.setUrl(path);
         anexos.setNombreImagen(nombreImagen);
         listAnexos.add(anexos);
+       
         anexos = new AnexosAvaluo();
+        
+
+        
     }
     
     //Metodo para quitar anello
@@ -356,6 +384,154 @@ public class CrearAvaluo {
         total = (avaluo.getValorRedondeado().doubleValue() * avaluo.getValorBancario()) / 100;
     }
     
+        //Metodo para consultar los registros de punto cardinal
+    private void listaColindantes(AvInmueble inmueble){
+        char est = 'b';
+        colindantes.clear();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT c "
+                + "FROM AvColindante c "
+                + "JOIN c.inmuebleId i "
+                + "WHERE i.id = :idInmueble "
+                + "AND c.tipo = :est ";
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("idInmueble", inmueble.getId());
+        consulta.setParameter("est", est);
+        List<AvColindante> resultado = consulta.getResultList();
+        for(AvColindante  c: resultado){
+            colindantes.add(c);
+        }
+        
+        em.close();
+        emf.close();
+    }
+    
+    //Metodo para consultar el detalle de la construccion
+    private void listaDetalleConstruccion(AvInmueble inmiuble){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT d "
+                + "FROM AvDetalle d "
+                + "JOIN d.avaluoId v "
+                + "JOIN v.inmuebleId i "
+                + "WHERE i.id = :idInmueble";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("idInmueble", inmiuble.getId());
+        List<AvDetalle> resultado = consulta.getResultList();
+        
+        for(AvDetalle d: resultado){
+           
+           DetalleAvaluo dd = new DetalleAvaluo();
+           dd.setDescripcion(d.getDescripcion());
+           dd.setDescripcionTipo(d.getTipo()== 'a' ? "Solar" : "Construccion");
+           dd.setMedidas(Double.parseDouble(d.getMedidas().toString()));
+           dd.setValor(Double.parseDouble(d.getValor().toString()));
+           dd.setTotal(dd.getMedidas() * dd.getValor());
+           detalleAvaluo.add(dd);
+        }
+        calcularTotal();
+        total();
+        em.close();
+        emf.close();
+    }
+    
+    //Metodo para listar de nuevo los anexos
+    public void listaAnexos(AvAvaluo avaluo){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+       
+        String instruccion = "SELECT a "
+                + "FROM AvAnexos a "
+                + "JOIN a.avaluoId v "
+                + "WHERE v.id = :idAvaluo ";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("idAvaluo", avaluo.getId());
+        List<AvAnexos> resultado = consulta.getResultList();
+        
+        for(AvAnexos a: resultado){
+            AnexosAvaluo an = new AnexosAvaluo();
+
+            an.setNombreImagen(nombreImagen(a.getUrl()));
+            an.setDescripcion(a.getDescripcion()); 
+            an.setUrl(a.getUrl());
+            listAnexos.add(an);
+        }
+
+        em.close();
+        emf.close();
+    }
+    
+    /* Metodo para obtener el nombre de la imagen tomando como base el path de la base de datos */
+    private String nombreImagen(String pathDB) {
+        String resultado = "";
+        
+        StringTokenizer token = new StringTokenizer(pathDB, "\\");
+        while(token.hasMoreTokens()) {
+            resultado = token.nextToken();
+        }
+        
+        return resultado;
+    }
+    
+    //  Metodo para eliminar las colindantes
+    private void eliminarColindantes(int inmuebleid){
+        try{
+            char tipo = 'b';
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+
+            Statement st = conexion.createStatement();
+            st.execute("DELETE FROM av_colindante WHERE inmueble_id = '"+inmuebleid+"' AND tipo = '"+tipo+"' ");
+            
+            st.close();
+            conexion.close();
+           
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
+    
+    //  Metodo para eliminar las colindantes
+    private void eliminarDetalle(int avaluoid){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+
+            Statement st = conexion.createStatement();
+            st.execute("DELETE FROM av_detalle WHERE avaluo_id = '"+avaluoid+"'");
+            
+            st.close();
+            conexion.close();
+           
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
+        
+    //Metodo para eliminar los anexos de 
+    public void eliminarListAnexos(int avaluoid){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
+
+            Statement st = conexion.createStatement();
+            st.execute("DELETE FROM av_anexos WHERE avaluo_id = '"+avaluoid+"'");
+            
+            st.close();
+            conexion.close();
+           
+        }
+        catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
     //Metodo par crear el avaluo
     public void insert(){
         EntityManagerFactory emf = null;
@@ -366,7 +542,6 @@ public class CrearAvaluo {
             em = emf.createEntityManager();
 
             em.getTransaction().begin();
-            
             AvSolicitud solicitudModif = em.find(AvSolicitud.class, solicitud.getNumeroSolicitud());
             solicitudModif.setEstado('c');
             AvInmueble inmuebleModif = em.find(AvInmueble.class, inmueble.getId());
@@ -375,16 +550,19 @@ public class CrearAvaluo {
             inmuebleModif.setObservaciones(inmueble.getObservaciones());
             area.setInmuebleId(inmueble);
             em.persist(area);
+            //eliminarColindantes(inmueble.getId());
             for(AvColindante colin : colindantes){
                     colin.setTipo('b');
                     colin.setInmuebleId(inmueble);
                     em.persist(colin);
+                    
             }
             construccion.setInmuebleId(inmueble);
             em.persist(construccion);
             avaluo.setInmuebleId(inmueble);
             avaluo.setAsignacionId(asignacion);
             em.persist(avaluo);
+            //eliminarDetalle(avaluo.getId());
             for(DetalleAvaluo da : detalleAvaluo){
                 AvDetalle detalleInsert = new AvDetalle();
                 detalleInsert.setDescripcion(da.getDescripcion());
@@ -397,6 +575,7 @@ public class CrearAvaluo {
             
             
             em.getTransaction().commit();
+            
             msjInsertar = "Datos enviados Exitosamente! ahora puedes adjuntar los anexos al avaluo";
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -408,6 +587,64 @@ public class CrearAvaluo {
         }
     }
     
+    //Metodo par actualziar el formulario
+    public void updateAvaluo(){
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
+        
+        try {
+            emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+            em = emf.createEntityManager();
+
+            em.getTransaction().begin();
+            AvSolicitud solicitudModif = em.find(AvSolicitud.class, solicitud.getNumeroSolicitud());
+            AvInmueble inmuebleModif = em.find(AvInmueble.class, inmueble.getId());
+            AvAvaluo avaluoModi = em.find(AvAvaluo.class, avaluo.getId());
+            
+            inmuebleModif.setDireccionFisica(inmueble.getDireccionFisica());
+            inmuebleModif.setCoordenadas(inmueble.getCoordenadas());
+            inmuebleModif.setObservaciones(inmueble.getObservaciones());
+
+            area.setInmuebleId(inmueble);
+            em.merge(area);
+            eliminarColindantes(inmueble.getId());
+            for(AvColindante colin : colindantes){
+                    colin.setTipo('b');
+                    colin.setInmuebleId(inmueble);
+                    em.merge(colin);
+                    
+            }
+            construccion.setInmuebleId(inmueble);
+            em.merge(construccion);
+            avaluo.setInmuebleId(inmueble);
+            avaluo.setAsignacionId(asignacion);
+            em.merge(avaluo);
+            eliminarDetalle(avaluo.getId());
+            for(DetalleAvaluo da : detalleAvaluo){
+                AvDetalle detalleInsert = new AvDetalle();
+                detalleInsert.setDescripcion(da.getDescripcion());
+                detalleInsert.setMedidas(new BigDecimal(da.getMedidas()));
+                detalleInsert.setValor(new BigDecimal(da.getValor()));
+                detalleInsert.setTipo(da.getTipo());
+                detalleInsert.setAvaluoId(avaluo);
+                em.merge(detalleInsert);
+            }
+            
+            
+            em.getTransaction().commit();
+            
+            msjInsertar = "Datos Actualizados exitosamente!";
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }finally{
+            if(emf != null && em != null){
+                em.close();
+                emf.close();
+            }
+        } 
+    }
+    
+    
     //Metodo para insertar Anexos 
     public void insertAnexos(){
         EntityManagerFactory emf = null;
@@ -418,13 +655,13 @@ public class CrearAvaluo {
             em = emf.createEntityManager();
             
             em.getTransaction().begin();
-            
+            eliminarListAnexos(avaluo.getId());
             for(AnexosAvaluo anex: listAnexos){
                 AvAnexos anexosInsert = new AvAnexos();
                 anexosInsert.setDescripcion(anex.getDescripcion());
                 anexosInsert.setUrl(anex.getUrl());
                 anexosInsert.setAvaluoId(avaluo);
-                em.persist(anexosInsert);
+                em.merge(anexosInsert);
             }
             
             em.getTransaction().commit();

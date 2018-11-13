@@ -74,7 +74,7 @@
                                             </h:commandLink>
                                             &nbsp;
                                             &nbsp;
-                                            <h:commandLink action="/vista/av/av_crearavaluo.xhtml" rendered="#{e.est == 98 eq true}">
+                                            <h:commandLink action="/vista/av/av_crearavaluo.xhtml" rendered="#{e.est == 98 eq true || e.est == 99 eq true}">
                                                 <samp class="glyphicon glyphicon-edit"></samp>
                                                 <f:param name="numeroSolicitud" value="#{e.numeroSolicitud}"/>
                                             </h:commandLink>

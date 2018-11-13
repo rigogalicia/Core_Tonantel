@@ -181,6 +181,11 @@ public class Solicitud {
         colindantes.remove(c);
     }
     
+    //Metodo para limpiar el tipo de documento
+    public void limpiarDocumento(){
+        documento = new AvDocumento();
+    }
+    
     /* Este metodo crea una solicitud, envia los datos a la base de datos
     Por medio de una transaccion*/
     public void crearSolicitud(){
@@ -303,6 +308,7 @@ public class Solicitud {
     
     // Metodo para consultar los registros de punto cardinal
     private void listaColindantes(AvInmueble inmueble){
+        char est = 'a';
         colindantes.clear();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
@@ -310,9 +316,11 @@ public class Solicitud {
         String instruccion = "SELECT c "
                 + "FROM AvColindante c "
                 + "JOIN c.inmuebleId i "
-                + "WHERE i.id = :idInmueble";
+                + "WHERE i.id = :idInmueble "
+                + "AND c.tipo = :est ";
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("idInmueble", inmueble.getId());
+        consulta.setParameter("est", est);
         List<AvColindante> resultado = consulta.getResultList();
         for(AvColindante  c: resultado){
             colindantes.add(c);
@@ -343,11 +351,12 @@ public class Solicitud {
 //  Metodo para eliminar las colindantes
     private void eliminarColindantes(int inmuebleid){
         try{
+            char tipo = 'a';
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection(ConexionMySql.URL, ConexionMySql.USERNAME, ConexionMySql.PASSWORD);
 
             Statement st = conexion.createStatement();
-            st.execute("DELETE FROM av_colindante WHERE inmueble_id = '"+inmuebleid+"'");
+            st.execute("DELETE FROM av_colindante WHERE inmueble_id = '"+inmuebleid+"' AND tipo = '"+tipo+"' ");
             
             st.close();
             conexion.close();

@@ -19,7 +19,11 @@
                                     <h2>Avaluo Bancario</h2>
                                 </div>
                                 <h:form>
-                                    <h:inputHidden value="#{av_crearavaluo.numeroSolicitud}"/>
+                                    <h:inputHidden id="solicitudid" value="#{av_crearavaluo.numeroSolicitud}"/>
+                                    <h:inputHidden id="idinmueble" value="#{av_crearavaluo.crearAvaluo.inmueble.id}"/>
+                                    <h:inputHidden id="idasigancion" value="#{av_crearavaluo.crearAvaluo.asignacion.id}"/>
+                                    <h:inputHidden id="idavaluo" value="#{av_crearavaluo.crearAvaluo.avaluo.id}"/>
+                                    <h:inputHidden id="idcolindnat" value="#{av_crearavaluo.crearAvaluo.colindante.id}"/>
                                     <!-- row -->
                                     <div class="row">
                                         <div class="col-md-6">
@@ -50,6 +54,7 @@
                                     <hr/>
                                     <h4>Área</h4>
                                     <!-- row -->
+                                    <h:inputHidden id="idArea" value="#{av_crearavaluo.crearAvaluo.area.id}"/>
                                     <div class="row">    
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -109,7 +114,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <h:outputLabel for="puntoCardinal">Punto cardinal</h:outputLabel>
-                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.colindante.puntoCardinal}"/>
+                                                    <h:inputText id="puntoCardinal" class="form-control" autocomplete="off" value="#{av_crearavaluo.crearAvaluo.colindante.puntocardinal}"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -144,7 +149,7 @@
                                             <div class="col-md-12">
                                                 <h:dataTable id="tablacolindante" class="table table-striped" value="#{av_crearavaluo.crearAvaluo.colindantes}" var="c">
                                                 <h:column>
-                                                    #{c.puntoCardinal}
+                                                    #{c.puntocardinal}
                                                 </h:column>
                                                 <h:column>
                                                     #{c.metros}
@@ -168,6 +173,7 @@
                                     <hr/>
                                     <h4>Características de la Construcción</h4>
                                     <!-- row -->
+                                    <h:inputHidden id="idConstruccion" value="#{av_crearavaluo.crearAvaluo.construccion.id}"/>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
@@ -304,7 +310,7 @@
                                         </div>
                                         <!-- / row -->
                                         <!-- row -->
-                                        <div class="row">
+                                                                                <div class="row">
                                             <div class="col-md-12">
                                                 <h:dataTable class="table table-striped" value="#{av_crearavaluo.crearAvaluo.detalleAvaluo}" var="d">
                                                     <h:column>
@@ -382,7 +388,12 @@
                                         <div class="row">   
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <h:commandLink value="Generar Avalúo" class="form-control btn btn-success" actionListener="#{av_crearavaluo.insertarDatos}"/>
+                                                    <h:commandLink value="Generar Avalúo" class="form-control btn btn-success" actionListener="#{av_crearavaluo.insertarDatos}" rendered="#{av_crearavaluo.crearAvaluo.btnGenerar}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <h:commandLink value="Actualizar" class="form-control btn btn-facebook" actionListener="#{av_crearavaluo.update()}" rendered="#{av_crearavaluo.crearAvaluo.btnUpdate}"/>
                                                 </div>
                                             </div>
                                         </div>

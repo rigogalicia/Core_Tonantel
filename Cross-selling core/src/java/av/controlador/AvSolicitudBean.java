@@ -52,12 +52,15 @@ public class AvSolicitudBean {
         if(null != solicitudController.getDocumento().getTipo())switch (solicitudController.getDocumento().getTipo()) {
             case 'a':
                 tipoSolicitud = 1;
+                solicitudController.limpiarDocumento();
                 break;
             case 'b':
                 tipoSolicitud = 2;
+                solicitudController.limpiarDocumento();
                 break;
             default:
                 tipoSolicitud = 3;
+                solicitudController.limpiarDocumento();
                 break;
         }
     }
@@ -67,13 +70,13 @@ public class AvSolicitudBean {
         boolean result = false;
         msjTelefono = null;
         msjColindante = null;
-        
         if(solicitudController.getTelefonos().isEmpty()){
             msjTelefono = "Ingrese almenos un teléfono";
         }
         else if(solicitudController.getDocumento().getTipo() == 'a' || solicitudController.getDocumento().getTipo() == 'c'){
                 if(solicitudController.getColindantes().isEmpty()){
                 msjColindante = "Ingrese los datos de colindates";
+                
             }
             else{
                 result = true;
@@ -86,11 +89,11 @@ public class AvSolicitudBean {
         
         return result;
     }
-    
+        
     /* Este metodo controla el insert de la solicitud */
     public void insertarDatos(ActionEvent e){
         if(isComplit()){
-            solicitudController.crearSolicitud();
+                solicitudController.crearSolicitud();
         }
         
     }
@@ -103,7 +106,7 @@ public class AvSolicitudBean {
     //Metodo que controla el update de la solicitud
     public void updateSolicitud(){
         if(isComplit()){
-            solicitudController.updateSolicitud();
-        }
+           solicitudController.updateSolicitud();  
+        }       
     }
 }

@@ -2,6 +2,7 @@
 package av.modelo;
 
 import admin.modelo.Agencia;
+import admin.modelo.Colaborador;
 import dao.AvAsociado;
 import dao.AvInmueble;
 import dao.AvSolicitud;
@@ -18,7 +19,7 @@ import javax.persistence.Query;
 
 public class SolicitudesRecibidas {
     private String numeroSolicitud;
-    private String cif;
+    private String nombreAsesor;
     private String asociado;
     private String agencia;
     private String fechaSolicitud;
@@ -35,12 +36,12 @@ public class SolicitudesRecibidas {
         this.numeroSolicitud = numeroSolicitud;
     }
 
-    public String getCif() {
-        return cif;
+    public String getNombreAsesor() {
+        return nombreAsesor;
     }
 
-    public void setCif(String cif) {
-        this.cif = cif;
+    public void setNombreAsesor(String nombreAsesor) {
+        this.nombreAsesor = nombreAsesor;
     }
 
     public String getAsociado() {
@@ -124,7 +125,7 @@ public class SolicitudesRecibidas {
            
            SolicitudesRecibidas solrecibidas = new SolicitudesRecibidas();
            solrecibidas.setNumeroSolicitud(s.getNumeroSolicitud());
-           solrecibidas.setCif(a.getCif());
+           solrecibidas.setNombreAsesor(Colaborador.datosColaborador(s.getUsuario()).getNombre());
            solrecibidas.setAsociado(a.getNombre());
            solrecibidas.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
            solrecibidas.setFechaSolicitud(formatoFecha.format(s.getFechahora()));

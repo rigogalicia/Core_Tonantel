@@ -38,6 +38,9 @@ public class AvCrearAvaluoBean {
         numeroSolicitud = params.get("numeroSolicitud").toString();
         crearAvaluo.getSolicitud().setNumeroSolicitud(numeroSolicitud);
         crearAvaluo.consultarSolicitud();
+        crearAvaluo.consultar();
+
+
         
     }
 
@@ -144,6 +147,12 @@ public class AvCrearAvaluoBean {
         }
     }
     
+    public void update(){
+        if(isComplit()){
+            crearAvaluo.updateAvaluo();
+        }
+    }
+    
     //Metodo para validar el Array Anexos
     public boolean isAnexo(){
         msjAnexos = null;
@@ -162,14 +171,16 @@ public class AvCrearAvaluoBean {
         if(isAnexo()){
            crearAvaluo.insertAnexos(); 
         }
-        
+           
     }
     
     //Metodo para cargar imagenes
     public void subirAnexos(){
-        nombreImagen = numeroSolicitud + "_" + num++;
+        nombreImagen = numeroSolicitud + "_" + num++ + ".jpg";
         try {
-            pathAnexo = ReportConfig.path_avaluos + nombreImagen +".jpg";
+            pathAnexo = ReportConfig.path_avaluos + nombreImagen;
+//            String dir ="C:\\Users\\Desarrollo\\Desktop\\avaluo\\"+ nombreImagen;
+//            pathAnexo = dir;
             
             InputStream input = file.getInputStream();
             File f = new File(pathAnexo);
@@ -193,6 +204,7 @@ public class AvCrearAvaluoBean {
             e.printStackTrace(System.out);
         }
     }
+    
     public void borrarFichero(AnexosAvaluo a){
           File f = new File(a.getUrl());
           if(f.exists()){
@@ -200,5 +212,6 @@ public class AvCrearAvaluoBean {
           }
         crearAvaluo.quitarAnexo(a);  
     }
+
 
 }
