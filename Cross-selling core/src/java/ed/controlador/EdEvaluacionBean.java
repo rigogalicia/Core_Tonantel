@@ -4,19 +4,35 @@ import ed.modelo.Aspecto;
 import ed.modelo.Conducta;
 import ed.modelo.Evaluacion;
 import ed.modelo.Ponderacion;
+import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean(name = "ed_evaluacion")
 @ViewScoped
 public class EdEvaluacionBean {
+    private String userConect;
     private Evaluacion evaluacion = new Evaluacion();
     private Aspecto aspecto = new Aspecto();
     private Conducta conducta = new Conducta();
     private Ponderacion ponderacion = new Ponderacion();
     
     public EdEvaluacionBean() {
-        
+        // Metodo constructor de la clase
+        HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if(sesion.getAttribute("userConect") != null){
+            userConect = sesion.getAttribute("userConect").toString();
+        }
+        else
+        {
+            try {
+               FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/index.xhtml"); 
+            } catch (IOException ex) {
+                ex.printStackTrace(System.out);
+            }
+        }
     }
 
     public Evaluacion getEvaluacion() {
@@ -86,7 +102,7 @@ public class EdEvaluacionBean {
     
     /* Metodo utilizado para insertar un registro de evaluacion */
     public void agregarEvaluacion() {
-        evaluacion.setEstado('a');
+        evaluacion.setEstado("Activa");
         evaluacion.insert();
     }
 }

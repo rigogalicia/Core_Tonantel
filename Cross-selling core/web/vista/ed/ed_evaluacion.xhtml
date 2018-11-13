@@ -16,20 +16,22 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="page-header">
-                                    <h2>CREAR EVALUACION</h2>
+                                    <h2>CREAR EVALUACIÓN</h2>
                                 </div>
                                 <h:form>
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <h:outputLabel for="nombreEvaluacion">Nombre Evaluación:</h:outputLabel>
-                                                <h:inputText id="nombreEvaluacion" class="form-control" value="#{ed_evaluacion.evaluacion.nombre}"/>
+                                                <h:outputLabel for="nombreEvaluacion">* Nombre de la Evaluación:</h:outputLabel>
+                                                <h:message for="nombreEvaluacion" style="color: red"/>
+                                                <h:inputText id="nombreEvaluacion" class="form-control" value="#{ed_evaluacion.evaluacion.nombre}" autocomplete="off" label="&nbsp;!" required="true"/>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                  <h:outputLabel for="fechaLimite">Fecha Limite: dd/MM/yyyy</h:outputLabel>
-                                                  <h:inputText id="fechaLimite" class="form-control" value="#{ed_evaluacion.evaluacion.fechaFin}">
+                                                  <h:outputLabel for="fechaLimite">* Fecha Limite: dd/MM/yyyy</h:outputLabel>
+                                                  <h:message for="fechaLimite" style="color: red"/>
+                                                  <h:inputText id="fechaLimite" class="form-control" value="#{ed_evaluacion.evaluacion.fechaFin}" autocomplete="off" label="&nbsp;!" required="true">
                                                       <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                   </h:inputText>
                                             </div>
@@ -38,29 +40,36 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <h:outputLabel for="instrucciones">Instrucciones:</h:outputLabel>
-                                                <h:inputTextarea id="instrucciones" class="form-control" rows="5" value="#{ed_evaluacion.evaluacion.instrucciones}"/>
+                                                <h:outputLabel for="instrucciones">* Instrucciones:</h:outputLabel>
+                                                <h:message for="instrucciones" style="color: red"/>
+                                                <h:inputTextarea id="instrucciones" class="form-control" rows="5" value="#{ed_evaluacion.evaluacion.instrucciones}" label="&nbsp;" required="true">
+                                                    <f:validateLength minimum="5"/>
+                                                </h:inputTextarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="page-header">
-                                                <h3>CONFIGURACION - CUALITATIVO</h3>
+                                                <h3>CONFIGURACIÓN CUALITATIVO</h3>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <h:outputLabel for="descCualitativo">Descripción Cualitativo:</h:outputLabel>
-                                                <h:inputText id="descCualitativo" class="form-control" value="#{ed_evaluacion.evaluacion.cualitativo.descripcion}"/>
+                                                <h:outputLabel for="descCualitativo">* Descripción Cualitativo:</h:outputLabel>
+                                                <h:message for="descCualitativo" style="color: red"/>
+                                                <h:inputText id="descCualitativo" class="form-control" value="#{ed_evaluacion.evaluacion.cualitativo.descripcion}" autocomplete="off" label="&nbsp;" required="true"/>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <h:outputLabel for="pesoCualitativo">Peso:</h:outputLabel>
-                                                <h:inputText id="pesoCualitativo" class="form-control" value="#{ed_evaluacion.evaluacion.cualitativo.peso}"/>
+                                                <h:outputLabel for="pesoCualitativo">* Peso:</h:outputLabel>
+                                                <h:message for="pesoCualitativo" style="color: red"/>
+                                                <h:inputText id="pesoCualitativo" class="form-control" value="#{ed_evaluacion.evaluacion.cualitativo.peso}" autocomplete="off" label="&nbsp;" required="true">
+                                                    <f:validateLongRange minimum="0" maximum="100"/>
+                                                </h:inputText>
                                             </div>
                                         </div>
                                     </div>
@@ -70,13 +79,16 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <h:outputLabel for="descConductas">Descripción Conductas:</h:outputLabel>
-                                                    <h:inputText id="descConductas" class="form-control" value="#{ed_evaluacion.conducta.descripcion}"/>
+                                                    <h:inputText id="descConductas" class="form-control" value="#{ed_evaluacion.conducta.descripcion}" autocomplete="off"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <h:outputLabel>Peso:</h:outputLabel>
-                                                    <h:inputText id="pesoConductas" class="form-control" value="#{ed_evaluacion.conducta.peso}"/>
+                                                    <h:message for="pesoConductas" style="color: red"/>
+                                                    <h:inputText id="pesoConductas" class="form-control" value="#{ed_evaluacion.conducta.peso}" autocomplete="off" label="&nbsp;!">
+                                                        <f:validateLongRange minimum="0" maximum="100"/>
+                                                    </h:inputText>
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
@@ -110,13 +122,16 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <h:outputLabel for="descAspectos">Descripción de Aspectos:</h:outputLabel>
-                                                    <h:inputText id="descAspectos" class="form-control" value="#{ed_evaluacion.aspecto.descripcion}"/>
+                                                    <h:inputText id="descAspectos" class="form-control" value="#{ed_evaluacion.aspecto.descripcion}" autocomplete="off"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <h:outputLabel for="pesoAspecto">Peso:</h:outputLabel>
-                                                    <h:inputText id="pesoAspecto" class="form-control" value="#{ed_evaluacion.aspecto.peso}"/>
+                                                    <h:message for="pesoAspecto" style="color: red"/>
+                                                    <h:inputText id="pesoAspecto" class="form-control" value="#{ed_evaluacion.aspecto.peso}" autocomplete="off" label="&nbsp;!">
+                                                        <f:validateLongRange minimum="0" maximum="100"/>
+                                                    </h:inputText>
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
@@ -142,6 +157,7 @@
                                                             #{c.descripcion}
                                                         </h:column>
                                                         <h:column>
+                                                            <f:facet name="header">#{a.peso}</f:facet>
                                                             #{c.peso}
                                                         </h:column>
                                                     </h:dataTable>
@@ -154,13 +170,16 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <h:outputLabel>Descripción Ponderación:</h:outputLabel>
-                                                    <h:inputText id="descPonderacion" class="form-control" value="#{ed_evaluacion.ponderacion.descripcion}"/>
+                                                    <h:inputText id="descPonderacion" class="form-control" value="#{ed_evaluacion.ponderacion.descripcion}" autocomplete="off"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <h:outputLabel>Peso:</h:outputLabel>
-                                                    <h:inputText id="pesoPonderacion" class="form-control" value="#{ed_evaluacion.ponderacion.peso}"/>
+                                                    <h:message for="pesoPonderacion" style="color: red"/>
+                                                    <h:inputText id="pesoPonderacion" class="form-control" value="#{ed_evaluacion.ponderacion.peso}" label="&nbsp;!" autocomplete="off">
+                                                        <f:validateLongRange minimum="0" maximum="100"/>
+                                                    </h:inputText>
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
@@ -192,76 +211,10 @@
                                         </div>
                                     </h:panelGroup>
                                     <hr/>
-                                    <!--
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title">Conductas</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-md-8">
-                                                            <div class="form-group">
-                                                                <h:outputLabel for="aspectoSelect">Seleccione Aspecto:</h:outputLabel>
-                                                                <h:selectOneMenu id="aspectoSelect" class="form-control">
-                                                                    <f:selectItem itemLabel="" itemValue=""/>
-                                                                </h:selectOneMenu>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-8">
-                                                            <div class="form-group">
-                                                                <h:outputLabel for="descConductas">Descripción Conductas:</h:outputLabel>
-                                                                <h:inputText id="descConductas" class="form-control"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="form-group">
-                                                                <h:outputLabel for="pesoConductas">Peso:</h:outputLabel>
-                                                                <h:inputText id="pesoConductas" class="form-control"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <h:outputLabel>&nbsp;</h:outputLabel>
-                                                            <h:commandButton id="btnAddConductas" class="form-control btn btn-primary" value="Agregar"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h3 class="panel-title">Ponderación Respuestas</h3>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="row">
-                                                        <div class="col-md-8">
-                                                            <h:outputLabel for="descPonderacion">Descripción Ponderación:</h:outputLabel>
-                                                            <h:inputText id="descPonderacion" class="form-control"/>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <h:outputLabel for="pesoPonderacion">Peso:</h:outputLabel>
-                                                            <h:inputText id="pesoPonderacion" class="form-control"/>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <h:outputLabel>&nbsp;</h:outputLabel>
-                                                            <h:commandButton id="btnAddPonderacion" class="form-control btn btn-primary" value="Agregar"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    -->
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <h:commandButton id="btnGuardar" class="form-control btn btn-success" value="Guardar Cambios" actionListener="#{ed_evaluacion.agregarEvaluacion()}"/>
+                                                <h:commandLink id="btnGuardar" class="form-control btn btn-success" value="Guardar Cambios" actionListener="#{ed_evaluacion.agregarEvaluacion()}"/>
                                             </div>
                                         </div>
                                     </div>

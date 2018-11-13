@@ -2,7 +2,7 @@ package ed.modelo;
 
 public class Conducta {
     private String descripcion;
-    private String peso;
+    private int peso;
 
     public String getDescripcion() {
         return descripcion;
@@ -12,11 +12,11 @@ public class Conducta {
         this.descripcion = descripcion;
     }
 
-    public String getPeso() {
+    public int getPeso() {
         return peso;
     }
 
-    public void setPeso(String peso) {
+    public void setPeso(int peso) {
         this.peso = peso;
     }
 
