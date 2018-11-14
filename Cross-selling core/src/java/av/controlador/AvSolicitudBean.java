@@ -1,9 +1,11 @@
 package av.controlador;
 
 import av.modelo.Solicitud;
+import dao.AvSolicitud;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import org.apache.poi.hssf.record.PageBreakRecord;
 
 @ManagedBean(name = "av_solicitud")
 @ViewScoped
@@ -99,8 +101,10 @@ public class AvSolicitudBean {
     }
     
     //Metodo controlador de consultar los datos de la solicitud
-    public void consultarDatos(){
+    public void consultarDatos(){       
+        
         solicitudController.consultarSolicitud();
+   
     }
     
     //Metodo que controla el update de la solicitud

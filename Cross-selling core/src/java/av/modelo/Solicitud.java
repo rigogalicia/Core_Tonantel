@@ -248,22 +248,32 @@ public class Solicitud {
                 + "JOIN s.inmuebleId i "
                 + "JOIN i.propietarioDpi p "
                 + "JOIN i.documentoId  d "
-                + "WHERE s.numeroSolicitud = :numSolicitud ";
+                + "WHERE s.numeroSolicitud = :numSolicitud "
+                + "AND s.usuario = :usuarioconectado";
         
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
+        consulta.setParameter("usuarioconectado", userConect);
         List<Object[]> resultado = consulta.getResultList();
-
-        for(Object[] objeto: resultado){
+        //Inicializmos cada objeto de clase para limpiar el formulario
+            solicitud = new AvSolicitud();
+            asociado = new AvAsociado();
+            documento = new AvDocumento();
+            colindante = new AvColindante();
+            inmueble = new AvInmueble();
+            propietario = new AvPropietario();
+       //llenamos los objetos con los datos que nos devuelve la consulta     
+            for(Object[] objeto: resultado){
             solicitud = (AvSolicitud) objeto[0];
             asociado  = (AvAsociado) objeto[1];
             inmueble = (AvInmueble) objeto[2];
             propietario = (AvPropietario) objeto[3];
             documento = (AvDocumento) objeto[4];
             
-        }
+        }         
         listTelefonos(asociado.getCif());
         listaColindantes(inmueble);
+
             //validamos el resultado de la consulta
             if(resultado.isEmpty()){
                 btnGenerar = true;
@@ -280,9 +290,10 @@ public class Solicitud {
                 
                 msjConsultar = "El estado actual de la solicitud no permite modificación.";
             }
-
+        
         em.close();
         emf.close();
+       
         }
     
     //Metodo para obtener el listado de telefonos
