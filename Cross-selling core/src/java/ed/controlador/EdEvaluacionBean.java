@@ -5,15 +5,19 @@ import ed.modelo.Conducta;
 import ed.modelo.Evaluacion;
 import ed.modelo.Ponderacion;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
 @ManagedBean(name = "ed_evaluacion")
 @ViewScoped
 public class EdEvaluacionBean {
     private String userConect;
+    private ArrayList<SelectItem> aspectosSelect = new ArrayList<>();
+    private ArrayList<SelectItem> conductasSelect = new ArrayList<>();
     private Evaluacion evaluacion = new Evaluacion();
     private Aspecto aspecto = new Aspecto();
     private Conducta conducta = new Conducta();
@@ -33,6 +37,30 @@ public class EdEvaluacionBean {
                 ex.printStackTrace(System.out);
             }
         }
+    }
+
+    public ArrayList<SelectItem> getAspectosSelect() {
+        aspectosSelect.clear();
+        aspectosSelect.add(new SelectItem("Autoevaluación", "Autoevaluación"));
+        aspectosSelect.add(new SelectItem("Especificas", "Jefe Inmediato"));
+        aspectosSelect.add(new SelectItem("Complementarias", "Colaboradores"));
+        return aspectosSelect;
+    }
+
+    public void setAspectosSelect(ArrayList<SelectItem> aspectosSelect) {
+        this.aspectosSelect = aspectosSelect;
+    }
+
+    public ArrayList<SelectItem> getConductasSelect() {
+        conductasSelect.clear();
+        conductasSelect.add(new SelectItem("Conductas Genéricas", "Conductas Genéricas"));
+        conductasSelect.add(new SelectItem("Conductas Específicas", "Conductas Específicas"));
+        conductasSelect.add(new SelectItem("Conductas Complementarias", "Conductas Complementarias"));
+        return conductasSelect;
+    }
+
+    public void setConductasSelect(ArrayList<SelectItem> conductasSelect) {
+        this.conductasSelect = conductasSelect;
     }
 
     public Evaluacion getEvaluacion() {
@@ -102,7 +130,12 @@ public class EdEvaluacionBean {
     
     /* Metodo utilizado para insertar un registro de evaluacion */
     public void agregarEvaluacion() {
-        evaluacion.setEstado("Activa");
-        evaluacion.insert();
+        try {
+            evaluacion.setEstado("Activa");
+            evaluacion.insert();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/ed/ed_evaluaciones.xhtml");
+        } catch(IOException e) {
+            e.printStackTrace(System.out);
+        }
     }
 }

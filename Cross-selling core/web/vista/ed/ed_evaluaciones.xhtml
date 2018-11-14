@@ -18,16 +18,25 @@
                             <div class="page-header">
                                 <h2>Evaluaciones</h2>
                             </div>
-                            <h:dataTable id="tabla_evaluaciones" class="table table-striped" value="#{ed_evaluaciones.evaluaciones}" var="e">
-                                <h:column>
-                                    <f:facet name="header">Evaluación</f:facet>
-                                    #{e.nombre}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Estado</f:facet>
-                                    #{e.estado}
-                                </h:column>
-                            </h:dataTable>
+                            <h:form>
+                                <h:dataTable id="tabla_evaluaciones" class="table table-striped" value="#{ed_evaluaciones.evaluaciones}" var="e">
+                                    <h:column>
+                                        <f:facet name="header">Evaluación</f:facet>
+                                        #{e.nombre}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Estado</f:facet>
+                                        #{e.estado}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Opciones</f:facet>
+                                        <h:commandLink action="/vista/ed/ed_interrogantes.xhtml">
+                                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                            <f:param name="Evaluacion" value="#{e.id}"/>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
                         </div>
                     </div>
                         

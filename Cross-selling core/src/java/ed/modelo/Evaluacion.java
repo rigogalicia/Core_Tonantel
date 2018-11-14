@@ -7,12 +7,15 @@ package ed.modelo;
 import admin.modelo.ConexionMongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Sorts;
 import java.util.ArrayList;
 import java.util.Date;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 public class Evaluacion {
     private final String COLLECTION_NAME = "ed_evaluacion";
+    private ObjectId id;
     private String nombre;
     private Date fechaInicio = new Date();
     private Date fechaFin;
@@ -20,6 +23,14 @@ public class Evaluacion {
     private String estado;
     private ArrayList<Ponderacion> ponderaciones = new ArrayList<>();
     private Cualitativo cualitativo = new Cualitativo();
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -105,12 +116,13 @@ public class Evaluacion {
     public ArrayList<Evaluacion> mostrarEvaluaciones() {
         ArrayList<Evaluacion> result = new ArrayList<>();
         MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection(COLLECTION_NAME);
-        MongoCursor<Document> cursor = collection.find().iterator();
+        MongoCursor<Document> cursor = collection.find().sort(Sorts.orderBy(Sorts.descending("fechaInicio"))).iterator();
         
         try {
             while(cursor.hasNext()) {
                 Document next = cursor.next();
                 Evaluacion e = new Evaluacion();
+                e.setId(next.getObjectId("_id"));
                 e.setNombre(next.getString("nombre"));
                 e.setFechaInicio(next.getDate("fechaInicio"));
                 e.setFechaFin(next.getDate("fechaFin"));

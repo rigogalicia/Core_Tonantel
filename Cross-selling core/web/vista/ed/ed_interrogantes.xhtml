@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h:form>
+                                <div class="page-header">
+                                    <h3>Interrogantes</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <h:outputLabel for="conducta">Seleccione una conducta:</h:outputLabel>
+                                            <h:selectOneMenu id="conducta" class="form-control">
+                                                <f:selectItem itemValue="" itemLabel=""/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <h:outputLabel for="puesto">Seleccione un puesto:</h:outputLabel>
+                                            <h:selectOneMenu id="puesto" class="form-control">
+                                                <f:selectItem itemValue="Todos" itemLabel="Todos"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <h:outputLabel for="lider">Lider:</h:outputLabel>
+                                            <h:selectOneRadio id="lider" class="table table-striped">
+                                                <f:selectItem itemValue="SI" itemLabel="&nbsp;Si"/>
+                                                <f:selectItem itemValue="NO" itemLabel="&nbsp;No"/>
+                                            </h:selectOneRadio>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <h:outputLabel for="descInterrogante">Descripcion de Interrogante:</h:outputLabel>
+                                            <h:inputText id="descInterrogante" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:outputLabel>&nbsp;</h:outputLabel>
+                                        <h:commandLink id="btnAgregarInterrogante" class="form-control btn btn-primary">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </h:commandLink>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <h:outputLabel>&nbsp;</h:outputLabel>
+                                        <h:commandLink id="btnAgregarInterrogantes" class="form-control btn btn-primary">
+                                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                        
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -92,7 +92,6 @@ public class AvSolicitudBean {
         if(isComplit()){
             solicitudController.crearSolicitud();
         }
-        
     }
     
     //Metodo controlador de consultar los datos de la solicitud
