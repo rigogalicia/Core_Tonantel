@@ -52,6 +52,10 @@ public class AvAsignacion implements Serializable {
     @Column(name = "fecha_visita")
     @Temporal(TemporalType.DATE)
     private Date fechaVisita;
+    @Column(name = "asignador")
+    private String asignador;
+    @Column(name = "observacion")
+    private String observacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asignacionId")
     private List<AvAvaluo> avAvaluoList;
     @JoinColumn(name = "solicitud_numero_solicitud", referencedColumnName = "numero_solicitud")
@@ -109,6 +113,22 @@ public class AvAsignacion implements Serializable {
 
     public void setFechaVisita(Date fechaVisita) {
         this.fechaVisita = fechaVisita;
+    }
+
+    public String getAsignador() {
+        return asignador;
+    }
+
+    public void setAsignador(String asignador) {
+        this.asignador = asignador;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 
     public List<AvAvaluo> getAvAvaluoList() {
