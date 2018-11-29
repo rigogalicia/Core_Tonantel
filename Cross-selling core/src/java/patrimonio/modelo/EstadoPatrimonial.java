@@ -3,6 +3,10 @@
  */
 package patrimonio.modelo;
 
+
+
+
+
 import dao.PtmActivo;
 import dao.PtmBienesinmuebles;
 import dao.PtmBienesmuebles;
