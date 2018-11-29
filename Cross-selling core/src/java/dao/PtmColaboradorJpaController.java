@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 public class PtmColaboradorJpaController implements Serializable {
 
@@ -119,22 +119,6 @@ public class PtmColaboradorJpaController implements Serializable {
             List<PtmEstadopatrimonial> ptmEstadopatrimonialListOld = persistentPtmColaborador.getPtmEstadopatrimonialList();
             List<PtmEstadopatrimonial> ptmEstadopatrimonialListNew = ptmColaborador.getPtmEstadopatrimonialList();
             List<String> illegalOrphanMessages = null;
-            for (PtmCurso ptmCursoListOldPtmCurso : ptmCursoListOld) {
-                if (!ptmCursoListNew.contains(ptmCursoListOldPtmCurso)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PtmCurso " + ptmCursoListOldPtmCurso + " since its ptmColaboradorDpi field is not nullable.");
-                }
-            }
-            for (PtmHijo ptmHijoListOldPtmHijo : ptmHijoListOld) {
-                if (!ptmHijoListNew.contains(ptmHijoListOldPtmHijo)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PtmHijo " + ptmHijoListOldPtmHijo + " since its ptmColaboradorDpi field is not nullable.");
-                }
-            }
             for (PtmEstadopatrimonial ptmEstadopatrimonialListOldPtmEstadopatrimonial : ptmEstadopatrimonialListOld) {
                 if (!ptmEstadopatrimonialListNew.contains(ptmEstadopatrimonialListOldPtmEstadopatrimonial)) {
                     if (illegalOrphanMessages == null) {
@@ -168,6 +152,12 @@ public class PtmColaboradorJpaController implements Serializable {
             ptmEstadopatrimonialListNew = attachedPtmEstadopatrimonialListNew;
             ptmColaborador.setPtmEstadopatrimonialList(ptmEstadopatrimonialListNew);
             ptmColaborador = em.merge(ptmColaborador);
+            for (PtmCurso ptmCursoListOldPtmCurso : ptmCursoListOld) {
+                if (!ptmCursoListNew.contains(ptmCursoListOldPtmCurso)) {
+                    ptmCursoListOldPtmCurso.setPtmColaboradorDpi(null);
+                    ptmCursoListOldPtmCurso = em.merge(ptmCursoListOldPtmCurso);
+                }
+            }
             for (PtmCurso ptmCursoListNewPtmCurso : ptmCursoListNew) {
                 if (!ptmCursoListOld.contains(ptmCursoListNewPtmCurso)) {
                     PtmColaborador oldPtmColaboradorDpiOfPtmCursoListNewPtmCurso = ptmCursoListNewPtmCurso.getPtmColaboradorDpi();
@@ -177,6 +167,12 @@ public class PtmColaboradorJpaController implements Serializable {
                         oldPtmColaboradorDpiOfPtmCursoListNewPtmCurso.getPtmCursoList().remove(ptmCursoListNewPtmCurso);
                         oldPtmColaboradorDpiOfPtmCursoListNewPtmCurso = em.merge(oldPtmColaboradorDpiOfPtmCursoListNewPtmCurso);
                     }
+                }
+            }
+            for (PtmHijo ptmHijoListOldPtmHijo : ptmHijoListOld) {
+                if (!ptmHijoListNew.contains(ptmHijoListOldPtmHijo)) {
+                    ptmHijoListOldPtmHijo.setPtmColaboradorDpi(null);
+                    ptmHijoListOldPtmHijo = em.merge(ptmHijoListOldPtmHijo);
                 }
             }
             for (PtmHijo ptmHijoListNewPtmHijo : ptmHijoListNew) {
@@ -231,20 +227,6 @@ public class PtmColaboradorJpaController implements Serializable {
                 throw new NonexistentEntityException("The ptmColaborador with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<PtmCurso> ptmCursoListOrphanCheck = ptmColaborador.getPtmCursoList();
-            for (PtmCurso ptmCursoListOrphanCheckPtmCurso : ptmCursoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This PtmColaborador (" + ptmColaborador + ") cannot be destroyed since the PtmCurso " + ptmCursoListOrphanCheckPtmCurso + " in its ptmCursoList field has a non-nullable ptmColaboradorDpi field.");
-            }
-            List<PtmHijo> ptmHijoListOrphanCheck = ptmColaborador.getPtmHijoList();
-            for (PtmHijo ptmHijoListOrphanCheckPtmHijo : ptmHijoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This PtmColaborador (" + ptmColaborador + ") cannot be destroyed since the PtmHijo " + ptmHijoListOrphanCheckPtmHijo + " in its ptmHijoList field has a non-nullable ptmColaboradorDpi field.");
-            }
             List<PtmEstadopatrimonial> ptmEstadopatrimonialListOrphanCheck = ptmColaborador.getPtmEstadopatrimonialList();
             for (PtmEstadopatrimonial ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial : ptmEstadopatrimonialListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -254,6 +236,16 @@ public class PtmColaboradorJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<PtmCurso> ptmCursoList = ptmColaborador.getPtmCursoList();
+            for (PtmCurso ptmCursoListPtmCurso : ptmCursoList) {
+                ptmCursoListPtmCurso.setPtmColaboradorDpi(null);
+                ptmCursoListPtmCurso = em.merge(ptmCursoListPtmCurso);
+            }
+            List<PtmHijo> ptmHijoList = ptmColaborador.getPtmHijoList();
+            for (PtmHijo ptmHijoListPtmHijo : ptmHijoList) {
+                ptmHijoListPtmHijo.setPtmColaboradorDpi(null);
+                ptmHijoListPtmHijo = em.merge(ptmHijoListPtmHijo);
             }
             em.remove(ptmColaborador);
             em.getTransaction().commit();

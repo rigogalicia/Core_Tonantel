@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dao.exceptions.IllegalOrphanException;
 import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -19,7 +18,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 public class PtmActivoJpaController implements Serializable {
 
@@ -64,7 +63,7 @@ public class PtmActivoJpaController implements Serializable {
         }
     }
 
-    public void edit(PtmActivo ptmActivo) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(PtmActivo ptmActivo) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -72,18 +71,6 @@ public class PtmActivoJpaController implements Serializable {
             PtmActivo persistentPtmActivo = em.find(PtmActivo.class, ptmActivo.getIdactivo());
             List<PtmEstadopatrimonial> ptmEstadopatrimonialListOld = persistentPtmActivo.getPtmEstadopatrimonialList();
             List<PtmEstadopatrimonial> ptmEstadopatrimonialListNew = ptmActivo.getPtmEstadopatrimonialList();
-            List<String> illegalOrphanMessages = null;
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListOldPtmEstadopatrimonial : ptmEstadopatrimonialListOld) {
-                if (!ptmEstadopatrimonialListNew.contains(ptmEstadopatrimonialListOldPtmEstadopatrimonial)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain PtmEstadopatrimonial " + ptmEstadopatrimonialListOldPtmEstadopatrimonial + " since its ptmActivoIdactivo field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             List<PtmEstadopatrimonial> attachedPtmEstadopatrimonialListNew = new ArrayList<PtmEstadopatrimonial>();
             for (PtmEstadopatrimonial ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach : ptmEstadopatrimonialListNew) {
                 ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach = em.getReference(ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach.getClass(), ptmEstadopatrimonialListNewPtmEstadopatrimonialToAttach.getPtmEstadopatrimonialPK());
@@ -92,6 +79,12 @@ public class PtmActivoJpaController implements Serializable {
             ptmEstadopatrimonialListNew = attachedPtmEstadopatrimonialListNew;
             ptmActivo.setPtmEstadopatrimonialList(ptmEstadopatrimonialListNew);
             ptmActivo = em.merge(ptmActivo);
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListOldPtmEstadopatrimonial : ptmEstadopatrimonialListOld) {
+                if (!ptmEstadopatrimonialListNew.contains(ptmEstadopatrimonialListOldPtmEstadopatrimonial)) {
+                    ptmEstadopatrimonialListOldPtmEstadopatrimonial.setPtmActivoIdactivo(null);
+                    ptmEstadopatrimonialListOldPtmEstadopatrimonial = em.merge(ptmEstadopatrimonialListOldPtmEstadopatrimonial);
+                }
+            }
             for (PtmEstadopatrimonial ptmEstadopatrimonialListNewPtmEstadopatrimonial : ptmEstadopatrimonialListNew) {
                 if (!ptmEstadopatrimonialListOld.contains(ptmEstadopatrimonialListNewPtmEstadopatrimonial)) {
                     PtmActivo oldPtmActivoIdactivoOfPtmEstadopatrimonialListNewPtmEstadopatrimonial = ptmEstadopatrimonialListNewPtmEstadopatrimonial.getPtmActivoIdactivo();
@@ -120,7 +113,7 @@ public class PtmActivoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -132,16 +125,10 @@ public class PtmActivoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The ptmActivo with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<PtmEstadopatrimonial> ptmEstadopatrimonialListOrphanCheck = ptmActivo.getPtmEstadopatrimonialList();
-            for (PtmEstadopatrimonial ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial : ptmEstadopatrimonialListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This PtmActivo (" + ptmActivo + ") cannot be destroyed since the PtmEstadopatrimonial " + ptmEstadopatrimonialListOrphanCheckPtmEstadopatrimonial + " in its ptmEstadopatrimonialList field has a non-nullable ptmActivoIdactivo field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<PtmEstadopatrimonial> ptmEstadopatrimonialList = ptmActivo.getPtmEstadopatrimonialList();
+            for (PtmEstadopatrimonial ptmEstadopatrimonialListPtmEstadopatrimonial : ptmEstadopatrimonialList) {
+                ptmEstadopatrimonialListPtmEstadopatrimonial.setPtmActivoIdactivo(null);
+                ptmEstadopatrimonialListPtmEstadopatrimonial = em.merge(ptmEstadopatrimonialListPtmEstadopatrimonial);
             }
             em.remove(ptmActivo);
             em.getTransaction().commit();

@@ -1,29 +1,17 @@
 package admin.modelo;
 
-import av.controlador.AvCrearAvaluoBean;
-import av.controlador.AvRecibidasBean;
-import av.modelo.CrearAvaluo;
-import av.modelo.Solicitud;
+import av.modelo.Supervision;
 import dao.AvSolicitud;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import patrimonio.modelo.ConexionMySql;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class Main {
     
-    public static void main(String args[]) throws ParseException{
-        CrearAvaluo a = new CrearAvaluo();
-
-        AvCrearAvaluoBean v = new AvCrearAvaluoBean();
-        AvRecibidasBean r = new AvRecibidasBean();
-        AvSolicitud s = new AvSolicitud();
-
-  
-
+    public static void main(String args[]) {
+        Supervision s = new Supervision();
         
     }
 

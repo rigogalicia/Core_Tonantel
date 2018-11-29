@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "gc_solicitud")
@@ -51,8 +51,6 @@ public class GcSolicitud implements Serializable {
     private Date fecha;
     @Column(name = "est")
     private Character est;
-    @Column(name = "id_agencia")
-    private String idAgencia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
     private List<GcFichanegocio> gcFichanegocioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitudNumeroSolicitud")
@@ -133,14 +131,6 @@ public class GcSolicitud implements Serializable {
 
     public void setEst(Character est) {
         this.est = est;
-    }
-
-    public String getIdAgencia() {
-        return idAgencia;
-    }
-
-    public void setIdAgencia(String idAgencia) {
-        this.idAgencia = idAgencia;
     }
 
     public List<GcFichanegocio> getGcFichanegocioList() {

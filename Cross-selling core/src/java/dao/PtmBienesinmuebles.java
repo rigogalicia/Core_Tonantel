@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_bienesinmuebles")
@@ -35,25 +35,20 @@ public class PtmBienesinmuebles implements Serializable {
     @Basic(optional = false)
     @Column(name = "idbienesinmuebles")
     private Integer idbienesinmuebles;
-    @Basic(optional = false)
-    @Column(name = "ubicacion")
-    private String ubicacion;
-    @Basic(optional = false)
-    @Column(name = "medidas")
-    private String medidas;
-    @Basic(optional = false)
     @Column(name = "hipotecado")
     private Character hipotecado;
-    @Basic(optional = false)
     @Column(name = "lugar_hipoteca")
     private String lugarHipoteca;
-    @Basic(optional = false)
+    @Column(name = "medidas")
+    private String medidas;
     @Column(name = "tipo")
     private Character tipo;
+    @Column(name = "ubicacion")
+    private String ubicacion;
     @JoinColumns({
-        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")
-        , @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi")})
-    @ManyToOne(optional = false)
+        @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi"),
+        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")})
+    @ManyToOne
     private PtmEstadopatrimonial ptmEstadopatrimonial;
 
     public PtmBienesinmuebles() {
@@ -63,37 +58,12 @@ public class PtmBienesinmuebles implements Serializable {
         this.idbienesinmuebles = idbienesinmuebles;
     }
 
-    public PtmBienesinmuebles(Integer idbienesinmuebles, String ubicacion, String medidas, Character hipotecado, String lugarHipoteca, Character tipo) {
-        this.idbienesinmuebles = idbienesinmuebles;
-        this.ubicacion = ubicacion;
-        this.medidas = medidas;
-        this.hipotecado = hipotecado;
-        this.lugarHipoteca = lugarHipoteca;
-        this.tipo = tipo;
-    }
-
     public Integer getIdbienesinmuebles() {
         return idbienesinmuebles;
     }
 
     public void setIdbienesinmuebles(Integer idbienesinmuebles) {
         this.idbienesinmuebles = idbienesinmuebles;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
-
-    public String getMedidas() {
-        return medidas;
-    }
-
-    public void setMedidas(String medidas) {
-        this.medidas = medidas;
     }
 
     public Character getHipotecado() {
@@ -112,12 +82,28 @@ public class PtmBienesinmuebles implements Serializable {
         this.lugarHipoteca = lugarHipoteca;
     }
 
+    public String getMedidas() {
+        return medidas;
+    }
+
+    public void setMedidas(String medidas) {
+        this.medidas = medidas;
+    }
+
     public Character getTipo() {
         return tipo;
     }
 
     public void setTipo(Character tipo) {
         this.tipo = tipo;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     public PtmEstadopatrimonial getPtmEstadopatrimonial() {

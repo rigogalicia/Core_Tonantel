@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 public class AvPuntocardinalJpaController implements Serializable {
 

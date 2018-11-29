@@ -18,7 +18,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 public class GcRiesgoJpaController implements Serializable {
 

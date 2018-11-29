@@ -6,7 +6,7 @@
 package dao;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_prestamo")
@@ -39,23 +39,19 @@ public class PtmPrestamo implements Serializable {
     @Basic(optional = false)
     @Column(name = "idprestamo")
     private Integer idprestamo;
-    @Basic(optional = false)
-    @Column(name = "institucion")
-    private String institucion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @Column(name = "monto")
-    private BigDecimal monto;
-    @Basic(optional = false)
-    @Column(name = "saldo")
-    private BigDecimal saldo;
     @Column(name = "fecha_vencimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaVencimiento;
+    @Column(name = "institucion")
+    private String institucion;
+    @Column(name = "monto")
+    private BigInteger monto;
+    @Column(name = "saldo")
+    private BigInteger saldo;
     @JoinColumns({
-        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")
-        , @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi")})
-    @ManyToOne(optional = false)
+        @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi"),
+        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")})
+    @ManyToOne
     private PtmEstadopatrimonial ptmEstadopatrimonial;
 
     public PtmPrestamo() {
@@ -63,13 +59,6 @@ public class PtmPrestamo implements Serializable {
 
     public PtmPrestamo(Integer idprestamo) {
         this.idprestamo = idprestamo;
-    }
-
-    public PtmPrestamo(Integer idprestamo, String institucion, BigDecimal monto, BigDecimal saldo) {
-        this.idprestamo = idprestamo;
-        this.institucion = institucion;
-        this.monto = monto;
-        this.saldo = saldo;
     }
 
     public Integer getIdprestamo() {
@@ -80,6 +69,14 @@ public class PtmPrestamo implements Serializable {
         this.idprestamo = idprestamo;
     }
 
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
     public String getInstitucion() {
         return institucion;
     }
@@ -88,28 +85,20 @@ public class PtmPrestamo implements Serializable {
         this.institucion = institucion;
     }
 
-    public BigDecimal getMonto() {
+    public BigInteger getMonto() {
         return monto;
     }
 
-    public void setMonto(BigDecimal monto) {
+    public void setMonto(BigInteger monto) {
         this.monto = monto;
     }
 
-    public BigDecimal getSaldo() {
+    public BigInteger getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(BigDecimal saldo) {
+    public void setSaldo(BigInteger saldo) {
         this.saldo = saldo;
-    }
-
-    public Date getFechaVencimiento() {
-        return fechaVencimiento;
-    }
-
-    public void setFechaVencimiento(Date fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
     }
 
     public PtmEstadopatrimonial getPtmEstadopatrimonial() {

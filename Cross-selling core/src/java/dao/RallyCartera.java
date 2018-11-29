@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "rally_cartera")
@@ -32,60 +32,35 @@ public class RallyCartera implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcartera")
     private Integer idcartera;
-    @Basic(optional = false)
-    @Column(name = "fecha_proximo_pago")
-    private String fechaProximoPago;
-    @Basic(optional = false)
-    @Column(name = "numero_prestamo")
-    private String numeroPrestamo;
-    @Basic(optional = false)
-    @Column(name = "indicador_moroso")
-    private String indicadorMoroso;
-    @Basic(optional = false)
-    @Column(name = "codigo_cliente")
-    private String codigoCliente;
-    @Basic(optional = false)
-    @Column(name = "nombre_cliente")
-    private String nombreCliente;
-    @Basic(optional = false)
+    @Column(name = "asesor_financiero")
+    private Integer asesorFinanciero;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "capital_desembolsado")
+    private Float capitalDesembolsado;
     @Column(name = "celular")
     private String celular;
-    @Basic(optional = false)
+    @Column(name = "codigo_cliente")
+    private String codigoCliente;
     @Column(name = "dias_mora")
-    private int diasMora;
-    @Basic(optional = false)
+    private Integer diasMora;
+    @Column(name = "fecha_proximo_pago")
+    private String fechaProximoPago;
+    @Column(name = "indicador_moroso")
+    private String indicadorMoroso;
     @Column(name = "monto_original")
-    private float montoOriginal;
-    @Basic(optional = false)
-    @Column(name = "capital_desembolsado")
-    private float capitalDesembolsado;
-    @Basic(optional = false)
+    private Float montoOriginal;
+    @Column(name = "nombre_cliente")
+    private String nombreCliente;
+    @Column(name = "numero_prestamo")
+    private String numeroPrestamo;
     @Column(name = "saldo_actual")
-    private float saldoActual;
-    @Basic(optional = false)
-    @Column(name = "asesor_financiero")
-    private int asesorFinanciero;
+    private Float saldoActual;
 
     public RallyCartera() {
     }
 
     public RallyCartera(Integer idcartera) {
         this.idcartera = idcartera;
-    }
-
-    public RallyCartera(Integer idcartera, String fechaProximoPago, String numeroPrestamo, String indicadorMoroso, String codigoCliente, String nombreCliente, String celular, int diasMora, float montoOriginal, float capitalDesembolsado, float saldoActual, int asesorFinanciero) {
-        this.idcartera = idcartera;
-        this.fechaProximoPago = fechaProximoPago;
-        this.numeroPrestamo = numeroPrestamo;
-        this.indicadorMoroso = indicadorMoroso;
-        this.codigoCliente = codigoCliente;
-        this.nombreCliente = nombreCliente;
-        this.celular = celular;
-        this.diasMora = diasMora;
-        this.montoOriginal = montoOriginal;
-        this.capitalDesembolsado = capitalDesembolsado;
-        this.saldoActual = saldoActual;
-        this.asesorFinanciero = asesorFinanciero;
     }
 
     public Integer getIdcartera() {
@@ -96,44 +71,20 @@ public class RallyCartera implements Serializable {
         this.idcartera = idcartera;
     }
 
-    public String getFechaProximoPago() {
-        return fechaProximoPago;
+    public Integer getAsesorFinanciero() {
+        return asesorFinanciero;
     }
 
-    public void setFechaProximoPago(String fechaProximoPago) {
-        this.fechaProximoPago = fechaProximoPago;
+    public void setAsesorFinanciero(Integer asesorFinanciero) {
+        this.asesorFinanciero = asesorFinanciero;
     }
 
-    public String getNumeroPrestamo() {
-        return numeroPrestamo;
+    public Float getCapitalDesembolsado() {
+        return capitalDesembolsado;
     }
 
-    public void setNumeroPrestamo(String numeroPrestamo) {
-        this.numeroPrestamo = numeroPrestamo;
-    }
-
-    public String getIndicadorMoroso() {
-        return indicadorMoroso;
-    }
-
-    public void setIndicadorMoroso(String indicadorMoroso) {
-        this.indicadorMoroso = indicadorMoroso;
-    }
-
-    public String getCodigoCliente() {
-        return codigoCliente;
-    }
-
-    public void setCodigoCliente(String codigoCliente) {
-        this.codigoCliente = codigoCliente;
-    }
-
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public void setCapitalDesembolsado(Float capitalDesembolsado) {
+        this.capitalDesembolsado = capitalDesembolsado;
     }
 
     public String getCelular() {
@@ -144,44 +95,68 @@ public class RallyCartera implements Serializable {
         this.celular = celular;
     }
 
-    public int getDiasMora() {
+    public String getCodigoCliente() {
+        return codigoCliente;
+    }
+
+    public void setCodigoCliente(String codigoCliente) {
+        this.codigoCliente = codigoCliente;
+    }
+
+    public Integer getDiasMora() {
         return diasMora;
     }
 
-    public void setDiasMora(int diasMora) {
+    public void setDiasMora(Integer diasMora) {
         this.diasMora = diasMora;
     }
 
-    public float getMontoOriginal() {
+    public String getFechaProximoPago() {
+        return fechaProximoPago;
+    }
+
+    public void setFechaProximoPago(String fechaProximoPago) {
+        this.fechaProximoPago = fechaProximoPago;
+    }
+
+    public String getIndicadorMoroso() {
+        return indicadorMoroso;
+    }
+
+    public void setIndicadorMoroso(String indicadorMoroso) {
+        this.indicadorMoroso = indicadorMoroso;
+    }
+
+    public Float getMontoOriginal() {
         return montoOriginal;
     }
 
-    public void setMontoOriginal(float montoOriginal) {
+    public void setMontoOriginal(Float montoOriginal) {
         this.montoOriginal = montoOriginal;
     }
 
-    public float getCapitalDesembolsado() {
-        return capitalDesembolsado;
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
-    public void setCapitalDesembolsado(float capitalDesembolsado) {
-        this.capitalDesembolsado = capitalDesembolsado;
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
-    public float getSaldoActual() {
+    public String getNumeroPrestamo() {
+        return numeroPrestamo;
+    }
+
+    public void setNumeroPrestamo(String numeroPrestamo) {
+        this.numeroPrestamo = numeroPrestamo;
+    }
+
+    public Float getSaldoActual() {
         return saldoActual;
     }
 
-    public void setSaldoActual(float saldoActual) {
+    public void setSaldoActual(Float saldoActual) {
         this.saldoActual = saldoActual;
-    }
-
-    public int getAsesorFinanciero() {
-        return asesorFinanciero;
-    }
-
-    public void setAsesorFinanciero(int asesorFinanciero) {
-        this.asesorFinanciero = asesorFinanciero;
     }
 
     @Override

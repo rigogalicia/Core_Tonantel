@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 public class AvAnexosJpaController implements Serializable {
 

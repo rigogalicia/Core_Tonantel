@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.Part;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 
 @ManagedBean(name = "av_crearavaluo")
 @ViewScoped
@@ -38,10 +39,7 @@ public class AvCrearAvaluoBean {
         numeroSolicitud = params.get("numeroSolicitud").toString();
         crearAvaluo.getSolicitud().setNumeroSolicitud(numeroSolicitud);
         crearAvaluo.consultarSolicitud();
-        crearAvaluo.consultar();
-
-
-        
+        crearAvaluo.consultar();   
     }
 
     public String getNumeroSolicitud() {
@@ -178,20 +176,22 @@ public class AvCrearAvaluoBean {
     public void subirAnexos(){
         nombreImagen = numeroSolicitud + "_" + num++ + ".jpg";
         try {
-            pathAnexo = ReportConfig.path_avaluos + nombreImagen;
+              pathAnexo = ReportConfig.path_avaluos + nombreImagen;
 //            String dir ="C:\\Users\\Desarrollo\\Desktop\\avaluo\\"+ nombreImagen;
 //            pathAnexo = dir;
-            
+      
             InputStream input = file.getInputStream();
             File f = new File(pathAnexo);
-            
+           
             if(!f.exists()){
                 f.createNewFile();
             }
+  
             FileOutputStream output = new FileOutputStream(f);
             byte[] buffer = new byte[1024];
+            
             int length;
-            while((length = input.read(buffer)) > 0){
+            while((length = input.read(buffer)) > 0 ){
                 output.write(buffer, 0, length);
             }
   

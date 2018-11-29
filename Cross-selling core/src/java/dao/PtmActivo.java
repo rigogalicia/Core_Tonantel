@@ -6,10 +6,9 @@
 package dao;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +21,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_activo")
@@ -36,68 +35,47 @@ public class PtmActivo implements Serializable {
     @Basic(optional = false)
     @Column(name = "idactivo")
     private Integer idactivo;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
     @Column(name = "caja")
-    private BigDecimal caja;
-    @Basic(optional = false)
+    private BigInteger caja;
     @Column(name = "cuenta_ahorro_bancos")
-    private BigDecimal cuentaAhorroBancos;
-    @Basic(optional = false)
+    private BigInteger cuentaAhorroBancos;
     @Column(name = "cuenta_ahorro_tonantel")
-    private BigDecimal cuentaAhorroTonantel;
-    @Basic(optional = false)
+    private BigInteger cuentaAhorroTonantel;
     @Column(name = "cuenta_aportaciones_tonantel")
-    private BigDecimal cuentaAportacionesTonantel;
-    @Basic(optional = false)
+    private BigInteger cuentaAportacionesTonantel;
     @Column(name = "cuenta_cheques_bancos")
-    private BigDecimal cuentaChequesBancos;
-    @Basic(optional = false)
+    private BigInteger cuentaChequesBancos;
     @Column(name = "cuenta_fondo_retiro")
-    private BigDecimal cuentaFondoRetiro;
-    @Basic(optional = false)
+    private BigInteger cuentaFondoRetiro;
     @Column(name = "cuenta_plazo_fijo_tonantel")
-    private BigDecimal cuentaPlazoFijoTonantel;
-    @Basic(optional = false)
+    private BigInteger cuentaPlazoFijoTonantel;
     @Column(name = "cuenta_por_cobrar")
-    private BigDecimal cuentaPorCobrar;
-    @Basic(optional = false)
+    private BigInteger cuentaPorCobrar;
     @Column(name = "cultivos")
-    private BigDecimal cultivos;
-    @Basic(optional = false)
-    @Column(name = "mipromesa")
-    private BigDecimal mipromesa;
-    @Basic(optional = false)
+    private BigInteger cultivos;
     @Column(name = "ganado")
-    private BigDecimal ganado;
-    @Basic(optional = false)
+    private BigInteger ganado;
     @Column(name = "maquinaria_equipo")
-    private BigDecimal maquinariaEquipo;
-    @Basic(optional = false)
+    private BigInteger maquinariaEquipo;
     @Column(name = "materia_prima")
-    private BigDecimal materiaPrima;
-    @Basic(optional = false)
+    private BigInteger materiaPrima;
     @Column(name = "menaje_cristaleria")
-    private BigDecimal menajeCristaleria;
-    @Basic(optional = false)
+    private BigInteger menajeCristaleria;
     @Column(name = "mercaderia")
-    private BigDecimal mercaderia;
-    @Basic(optional = false)
+    private BigInteger mercaderia;
+    @Column(name = "mipromesa")
+    private BigInteger mipromesa;
     @Column(name = "mobiliario")
-    private BigDecimal mobiliario;
-    @Basic(optional = false)
+    private BigInteger mobiliario;
     @Column(name = "otros_activos")
-    private BigDecimal otrosActivos;
-    @Basic(optional = false)
+    private BigInteger otrosActivos;
     @Column(name = "terrenos")
-    private BigDecimal terrenos;
-    @Basic(optional = false)
+    private BigInteger terrenos;
     @Column(name = "vehiculos")
-    private BigDecimal vehiculos;
-    @Basic(optional = false)
+    private BigInteger vehiculos;
     @Column(name = "vivienda")
-    private BigDecimal vivienda;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmActivoIdactivo")
+    private BigInteger vivienda;
+    @OneToMany(mappedBy = "ptmActivoIdactivo")
     private List<PtmEstadopatrimonial> ptmEstadopatrimonialList;
 
     public PtmActivo() {
@@ -105,30 +83,6 @@ public class PtmActivo implements Serializable {
 
     public PtmActivo(Integer idactivo) {
         this.idactivo = idactivo;
-    }
-
-    public PtmActivo(Integer idactivo, BigDecimal caja, BigDecimal cuentaAhorroBancos, BigDecimal cuentaAhorroTonantel, BigDecimal cuentaAportacionesTonantel, BigDecimal cuentaChequesBancos, BigDecimal cuentaFondoRetiro, BigDecimal cuentaPlazoFijoTonantel, BigDecimal cuentaPorCobrar, BigDecimal cultivos, BigDecimal mipromesa, BigDecimal ganado, BigDecimal maquinariaEquipo, BigDecimal materiaPrima, BigDecimal menajeCristaleria, BigDecimal mercaderia, BigDecimal mobiliario, BigDecimal otrosActivos, BigDecimal terrenos, BigDecimal vehiculos, BigDecimal vivienda) {
-        this.idactivo = idactivo;
-        this.caja = caja;
-        this.cuentaAhorroBancos = cuentaAhorroBancos;
-        this.cuentaAhorroTonantel = cuentaAhorroTonantel;
-        this.cuentaAportacionesTonantel = cuentaAportacionesTonantel;
-        this.cuentaChequesBancos = cuentaChequesBancos;
-        this.cuentaFondoRetiro = cuentaFondoRetiro;
-        this.cuentaPlazoFijoTonantel = cuentaPlazoFijoTonantel;
-        this.cuentaPorCobrar = cuentaPorCobrar;
-        this.cultivos = cultivos;
-        this.mipromesa = mipromesa;
-        this.ganado = ganado;
-        this.maquinariaEquipo = maquinariaEquipo;
-        this.materiaPrima = materiaPrima;
-        this.menajeCristaleria = menajeCristaleria;
-        this.mercaderia = mercaderia;
-        this.mobiliario = mobiliario;
-        this.otrosActivos = otrosActivos;
-        this.terrenos = terrenos;
-        this.vehiculos = vehiculos;
-        this.vivienda = vivienda;
     }
 
     public Integer getIdactivo() {
@@ -139,163 +93,163 @@ public class PtmActivo implements Serializable {
         this.idactivo = idactivo;
     }
 
-    public BigDecimal getCaja() {
+    public BigInteger getCaja() {
         return caja;
     }
 
-    public void setCaja(BigDecimal caja) {
+    public void setCaja(BigInteger caja) {
         this.caja = caja;
     }
 
-    public BigDecimal getCuentaAhorroBancos() {
+    public BigInteger getCuentaAhorroBancos() {
         return cuentaAhorroBancos;
     }
 
-    public void setCuentaAhorroBancos(BigDecimal cuentaAhorroBancos) {
+    public void setCuentaAhorroBancos(BigInteger cuentaAhorroBancos) {
         this.cuentaAhorroBancos = cuentaAhorroBancos;
     }
 
-    public BigDecimal getCuentaAhorroTonantel() {
+    public BigInteger getCuentaAhorroTonantel() {
         return cuentaAhorroTonantel;
     }
 
-    public void setCuentaAhorroTonantel(BigDecimal cuentaAhorroTonantel) {
+    public void setCuentaAhorroTonantel(BigInteger cuentaAhorroTonantel) {
         this.cuentaAhorroTonantel = cuentaAhorroTonantel;
     }
 
-    public BigDecimal getCuentaAportacionesTonantel() {
+    public BigInteger getCuentaAportacionesTonantel() {
         return cuentaAportacionesTonantel;
     }
 
-    public void setCuentaAportacionesTonantel(BigDecimal cuentaAportacionesTonantel) {
+    public void setCuentaAportacionesTonantel(BigInteger cuentaAportacionesTonantel) {
         this.cuentaAportacionesTonantel = cuentaAportacionesTonantel;
     }
 
-    public BigDecimal getCuentaChequesBancos() {
+    public BigInteger getCuentaChequesBancos() {
         return cuentaChequesBancos;
     }
 
-    public void setCuentaChequesBancos(BigDecimal cuentaChequesBancos) {
+    public void setCuentaChequesBancos(BigInteger cuentaChequesBancos) {
         this.cuentaChequesBancos = cuentaChequesBancos;
     }
 
-    public BigDecimal getCuentaFondoRetiro() {
+    public BigInteger getCuentaFondoRetiro() {
         return cuentaFondoRetiro;
     }
 
-    public void setCuentaFondoRetiro(BigDecimal cuentaFondoRetiro) {
+    public void setCuentaFondoRetiro(BigInteger cuentaFondoRetiro) {
         this.cuentaFondoRetiro = cuentaFondoRetiro;
     }
 
-    public BigDecimal getCuentaPlazoFijoTonantel() {
+    public BigInteger getCuentaPlazoFijoTonantel() {
         return cuentaPlazoFijoTonantel;
     }
 
-    public void setCuentaPlazoFijoTonantel(BigDecimal cuentaPlazoFijoTonantel) {
+    public void setCuentaPlazoFijoTonantel(BigInteger cuentaPlazoFijoTonantel) {
         this.cuentaPlazoFijoTonantel = cuentaPlazoFijoTonantel;
     }
 
-    public BigDecimal getCuentaPorCobrar() {
+    public BigInteger getCuentaPorCobrar() {
         return cuentaPorCobrar;
     }
 
-    public void setCuentaPorCobrar(BigDecimal cuentaPorCobrar) {
+    public void setCuentaPorCobrar(BigInteger cuentaPorCobrar) {
         this.cuentaPorCobrar = cuentaPorCobrar;
     }
 
-    public BigDecimal getCultivos() {
+    public BigInteger getCultivos() {
         return cultivos;
     }
 
-    public void setCultivos(BigDecimal cultivos) {
+    public void setCultivos(BigInteger cultivos) {
         this.cultivos = cultivos;
     }
 
-    public BigDecimal getMipromesa() {
-        return mipromesa;
-    }
-
-    public void setMipromesa(BigDecimal mipromesa) {
-        this.mipromesa = mipromesa;
-    }
-
-    public BigDecimal getGanado() {
+    public BigInteger getGanado() {
         return ganado;
     }
 
-    public void setGanado(BigDecimal ganado) {
+    public void setGanado(BigInteger ganado) {
         this.ganado = ganado;
     }
 
-    public BigDecimal getMaquinariaEquipo() {
+    public BigInteger getMaquinariaEquipo() {
         return maquinariaEquipo;
     }
 
-    public void setMaquinariaEquipo(BigDecimal maquinariaEquipo) {
+    public void setMaquinariaEquipo(BigInteger maquinariaEquipo) {
         this.maquinariaEquipo = maquinariaEquipo;
     }
 
-    public BigDecimal getMateriaPrima() {
+    public BigInteger getMateriaPrima() {
         return materiaPrima;
     }
 
-    public void setMateriaPrima(BigDecimal materiaPrima) {
+    public void setMateriaPrima(BigInteger materiaPrima) {
         this.materiaPrima = materiaPrima;
     }
 
-    public BigDecimal getMenajeCristaleria() {
+    public BigInteger getMenajeCristaleria() {
         return menajeCristaleria;
     }
 
-    public void setMenajeCristaleria(BigDecimal menajeCristaleria) {
+    public void setMenajeCristaleria(BigInteger menajeCristaleria) {
         this.menajeCristaleria = menajeCristaleria;
     }
 
-    public BigDecimal getMercaderia() {
+    public BigInteger getMercaderia() {
         return mercaderia;
     }
 
-    public void setMercaderia(BigDecimal mercaderia) {
+    public void setMercaderia(BigInteger mercaderia) {
         this.mercaderia = mercaderia;
     }
 
-    public BigDecimal getMobiliario() {
+    public BigInteger getMipromesa() {
+        return mipromesa;
+    }
+
+    public void setMipromesa(BigInteger mipromesa) {
+        this.mipromesa = mipromesa;
+    }
+
+    public BigInteger getMobiliario() {
         return mobiliario;
     }
 
-    public void setMobiliario(BigDecimal mobiliario) {
+    public void setMobiliario(BigInteger mobiliario) {
         this.mobiliario = mobiliario;
     }
 
-    public BigDecimal getOtrosActivos() {
+    public BigInteger getOtrosActivos() {
         return otrosActivos;
     }
 
-    public void setOtrosActivos(BigDecimal otrosActivos) {
+    public void setOtrosActivos(BigInteger otrosActivos) {
         this.otrosActivos = otrosActivos;
     }
 
-    public BigDecimal getTerrenos() {
+    public BigInteger getTerrenos() {
         return terrenos;
     }
 
-    public void setTerrenos(BigDecimal terrenos) {
+    public void setTerrenos(BigInteger terrenos) {
         this.terrenos = terrenos;
     }
 
-    public BigDecimal getVehiculos() {
+    public BigInteger getVehiculos() {
         return vehiculos;
     }
 
-    public void setVehiculos(BigDecimal vehiculos) {
+    public void setVehiculos(BigInteger vehiculos) {
         this.vehiculos = vehiculos;
     }
 
-    public BigDecimal getVivienda() {
+    public BigInteger getVivienda() {
         return vivienda;
     }
 
-    public void setVivienda(BigDecimal vivienda) {
+    public void setVivienda(BigInteger vivienda) {
         this.vivienda = vivienda;
     }
 

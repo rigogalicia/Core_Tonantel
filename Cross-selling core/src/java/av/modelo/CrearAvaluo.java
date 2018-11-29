@@ -470,7 +470,7 @@ public class CrearAvaluo {
     private String nombreImagen(String pathDB) {
         String resultado = "";
         
-        StringTokenizer token = new StringTokenizer(pathDB, "\\");
+        StringTokenizer token = new StringTokenizer(pathDB, "/");
         while(token.hasMoreTokens()) {
             resultado = token.nextToken();
         }

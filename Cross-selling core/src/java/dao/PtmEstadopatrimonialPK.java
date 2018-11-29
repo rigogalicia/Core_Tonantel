@@ -12,31 +12,23 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Embeddable
 public class PtmEstadopatrimonialPK implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "anio")
-    private int anio;
-    @Basic(optional = false)
     @Column(name = "colaborador_dpi")
     private String colaboradorDpi;
+    @Basic(optional = false)
+    @Column(name = "anio")
+    private int anio;
 
     public PtmEstadopatrimonialPK() {
     }
 
-    public PtmEstadopatrimonialPK(int anio, String colaboradorDpi) {
-        this.anio = anio;
+    public PtmEstadopatrimonialPK(String colaboradorDpi, int anio) {
         this.colaboradorDpi = colaboradorDpi;
-    }
-
-    public int getAnio() {
-        return anio;
-    }
-
-    public void setAnio(int anio) {
         this.anio = anio;
     }
 
@@ -48,11 +40,19 @@ public class PtmEstadopatrimonialPK implements Serializable {
         this.colaboradorDpi = colaboradorDpi;
     }
 
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) anio;
         hash += (colaboradorDpi != null ? colaboradorDpi.hashCode() : 0);
+        hash += (int) anio;
         return hash;
     }
 
@@ -63,10 +63,10 @@ public class PtmEstadopatrimonialPK implements Serializable {
             return false;
         }
         PtmEstadopatrimonialPK other = (PtmEstadopatrimonialPK) object;
-        if (this.anio != other.anio) {
+        if ((this.colaboradorDpi == null && other.colaboradorDpi != null) || (this.colaboradorDpi != null && !this.colaboradorDpi.equals(other.colaboradorDpi))) {
             return false;
         }
-        if ((this.colaboradorDpi == null && other.colaboradorDpi != null) || (this.colaboradorDpi != null && !this.colaboradorDpi.equals(other.colaboradorDpi))) {
+        if (this.anio != other.anio) {
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class PtmEstadopatrimonialPK implements Serializable {
 
     @Override
     public String toString() {
-        return "dao.PtmEstadopatrimonialPK[ anio=" + anio + ", colaboradorDpi=" + colaboradorDpi + " ]";
+        return "dao.PtmEstadopatrimonialPK[ colaboradorDpi=" + colaboradorDpi + ", anio=" + anio + " ]";
     }
     
 }

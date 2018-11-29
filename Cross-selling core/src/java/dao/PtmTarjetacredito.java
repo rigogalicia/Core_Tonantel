@@ -6,7 +6,7 @@
 package dao;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_tarjetacredito")
@@ -36,17 +36,14 @@ public class PtmTarjetacredito implements Serializable {
     @Basic(optional = false)
     @Column(name = "idtarjetacredito")
     private Integer idtarjetacredito;
-    @Basic(optional = false)
     @Column(name = "institucion")
     private String institucion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
     @Column(name = "limite")
-    private BigDecimal limite;
+    private BigInteger limite;
     @JoinColumns({
-        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")
-        , @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi")})
-    @ManyToOne(optional = false)
+        @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi"),
+        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")})
+    @ManyToOne
     private PtmEstadopatrimonial ptmEstadopatrimonial;
 
     public PtmTarjetacredito() {
@@ -54,12 +51,6 @@ public class PtmTarjetacredito implements Serializable {
 
     public PtmTarjetacredito(Integer idtarjetacredito) {
         this.idtarjetacredito = idtarjetacredito;
-    }
-
-    public PtmTarjetacredito(Integer idtarjetacredito, String institucion, BigDecimal limite) {
-        this.idtarjetacredito = idtarjetacredito;
-        this.institucion = institucion;
-        this.limite = limite;
     }
 
     public Integer getIdtarjetacredito() {
@@ -78,11 +69,11 @@ public class PtmTarjetacredito implements Serializable {
         this.institucion = institucion;
     }
 
-    public BigDecimal getLimite() {
+    public BigInteger getLimite() {
         return limite;
     }
 
-    public void setLimite(BigDecimal limite) {
+    public void setLimite(BigInteger limite) {
         this.limite = limite;
     }
 

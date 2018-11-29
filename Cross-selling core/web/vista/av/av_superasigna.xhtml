@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <!-- encabezado -->
+                                <div class="page-header">
+                                    <h2>Asignar Solicitud<small style="color: red">#{av_asignar.supervision.error}</small></h2>
+                                    <h:outputLabel for="msj"><small style="color: red">#{av_asignar.supervision.msjFecha}</small></h:outputLabel>
+                                </div>
+                            <!-- / encabezado -->
+                                <h:form id="contAsignar">
+                                    <h:inputHidden id="numerosolicitudid" value="#{av_asignar.supervision.numSolicitud}"></h:inputHidden>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="supNumeroS" value="Num.Solicitud"/>
+                                                <h:inputText id="supNumeroS" class="form-control" value="#{av_asignar.supervision.numSolicitud}" disabled="true"/>
+                                            </div>
+                                        </div>             
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="supFechaAsignar" value="Fecha Visita"/>
+                                                <h:inputText id="supFechaAsignar" class="form-control" autocomplete="off" value="#{av_asignar.supervision.fechaVisita}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="supValuador" value="Valuador"/>
+                                                <h:selectOneMenu id="estado" class="form-control" value="#{av_asignar.supervision.valuador}">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{av_asignar.valuadores}"/> 
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h:outputLabel for="supObservaciones" value="Observaciones" />
+                                            <h:inputTextarea class="form-control" rows="3" value="#{av_asignar.supervision.observaciones}"/>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <h:commandLink value="Asignar Avaluo" class="btn btn-facebook" actionListener="#{av_asignar.asiganrValuador()}"/>
+                                                
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <footer class="main-footer">
+                    <div class="pull-right hidden-xs">
+                        <b>Versión</b> #{version.numero}
+                    </div>
+                    <strong>Copyright &copy; 2018</strong> #{version.autor}
+                    <strong>#{version.institucion}</strong>
+                </footer>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

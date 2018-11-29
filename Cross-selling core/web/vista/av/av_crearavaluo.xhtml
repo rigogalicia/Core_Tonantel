@@ -6,9 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="./../principal.xhtml">
-
             <ui:define name="content">
                 <div class="content-wrapper">
                     <section class="content">
@@ -403,6 +401,7 @@
                                 <hr/>
                                 <h3>Anexos</h3>
                                 <h:form id="forAnexos" enctype="multipart/form-data">
+                                     
                                         <!-- row -->
                                         <div class="row">
                                             <div class="col-md-5">
@@ -414,7 +413,9 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <h:outputLabel for="firma">Seleccione Anexo:</h:outputLabel>
-                                                <h:inputFile id="firma" value="#{av_crearavaluo.file}"/>
+                                                <h:inputFile id="firma" value="#{av_crearavaluo.file}">
+                                                   <!-- <f:passThroughAttribute name="accep"/>-->
+                                                </h:inputFile>
                                             </div>
                                         </div>
                                         <div class="col-md-2">

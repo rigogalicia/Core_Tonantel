@@ -111,5 +111,22 @@ public class Puesto {
        return listaPuestos;
     }
     
+        /* Metodo que devuelve el id del departamento, consultado por nombre */
+    public static String idPuesto(String nombrePuesto){
+        String result = "";
+        MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("puestos");
+        MongoCursor<Document> cursor = collection.find(eq("nombre", nombrePuesto)).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document next = cursor.next();
+                result = next.getObjectId("_id").toString();
+            }
+        }
+        finally{
+            cursor.close();
+        }
+        return result;
+    }
+    
     
 }

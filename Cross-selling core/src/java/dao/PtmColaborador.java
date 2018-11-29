@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_colaborador")
@@ -32,43 +32,37 @@ public class PtmColaborador implements Serializable {
     @Basic(optional = false)
     @Column(name = "dpi")
     private String dpi;
-    @Column(name = "nit")
-    private String nit;
-    @Basic(optional = false)
-    @Column(name = "nombre")
-    private String nombre;
-    @Basic(optional = false)
-    @Column(name = "domicilio")
-    private String domicilio;
-    @Basic(optional = false)
-    @Column(name = "edad")
-    private int edad;
-    @Basic(optional = false)
-    @Column(name = "telefono1")
-    private String telefono1;
-    @Column(name = "telefono2")
-    private String telefono2;
-    @Basic(optional = false)
-    @Column(name = "estado_civil")
-    private Character estadoCivil;
-    @Column(name = "conyuge")
-    private String conyuge;
-    @Basic(optional = false)
-    @Column(name = "dependientes")
-    private int dependientes;
-    @Column(name = "departamento")
-    private String departamento;
-    @Column(name = "profesion")
-    private String profesion;
-    @Column(name = "gradoactual")
-    private String gradoactual;
     @Column(name = "carrera")
     private String carrera;
     @Column(name = "centroestudio")
     private String centroestudio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaboradorDpi")
+    @Column(name = "conyuge")
+    private String conyuge;
+    @Column(name = "departamento")
+    private String departamento;
+    @Column(name = "dependientes")
+    private Integer dependientes;
+    @Column(name = "domicilio")
+    private String domicilio;
+    @Column(name = "edad")
+    private Integer edad;
+    @Column(name = "estado_civil")
+    private Character estadoCivil;
+    @Column(name = "gradoactual")
+    private String gradoactual;
+    @Column(name = "nit")
+    private String nit;
+    @Column(name = "nombre")
+    private String nombre;
+    @Column(name = "profesion")
+    private String profesion;
+    @Column(name = "telefono1")
+    private String telefono1;
+    @Column(name = "telefono2")
+    private String telefono2;
+    @OneToMany(mappedBy = "ptmColaboradorDpi")
     private List<PtmCurso> ptmCursoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaboradorDpi")
+    @OneToMany(mappedBy = "ptmColaboradorDpi")
     private List<PtmHijo> ptmHijoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmColaborador")
     private List<PtmEstadopatrimonial> ptmEstadopatrimonialList;
@@ -80,22 +74,84 @@ public class PtmColaborador implements Serializable {
         this.dpi = dpi;
     }
 
-    public PtmColaborador(String dpi, String nombre, String domicilio, int edad, String telefono1, Character estadoCivil, int dependientes) {
-        this.dpi = dpi;
-        this.nombre = nombre;
-        this.domicilio = domicilio;
-        this.edad = edad;
-        this.telefono1 = telefono1;
-        this.estadoCivil = estadoCivil;
-        this.dependientes = dependientes;
-    }
-
     public String getDpi() {
         return dpi;
     }
 
     public void setDpi(String dpi) {
         this.dpi = dpi;
+    }
+
+    public String getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
+    }
+
+    public String getCentroestudio() {
+        return centroestudio;
+    }
+
+    public void setCentroestudio(String centroestudio) {
+        this.centroestudio = centroestudio;
+    }
+
+    public String getConyuge() {
+        return conyuge;
+    }
+
+    public void setConyuge(String conyuge) {
+        this.conyuge = conyuge;
+    }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
+
+    public Integer getDependientes() {
+        return dependientes;
+    }
+
+    public void setDependientes(Integer dependientes) {
+        this.dependientes = dependientes;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public Character getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public void setEstadoCivil(Character estadoCivil) {
+        this.estadoCivil = estadoCivil;
+    }
+
+    public String getGradoactual() {
+        return gradoactual;
+    }
+
+    public void setGradoactual(String gradoactual) {
+        this.gradoactual = gradoactual;
     }
 
     public String getNit() {
@@ -114,20 +170,12 @@ public class PtmColaborador implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getDomicilio() {
-        return domicilio;
+    public String getProfesion() {
+        return profesion;
     }
 
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
     public String getTelefono1() {
@@ -144,70 +192,6 @@ public class PtmColaborador implements Serializable {
 
     public void setTelefono2(String telefono2) {
         this.telefono2 = telefono2;
-    }
-
-    public Character getEstadoCivil() {
-        return estadoCivil;
-    }
-
-    public void setEstadoCivil(Character estadoCivil) {
-        this.estadoCivil = estadoCivil;
-    }
-
-    public String getConyuge() {
-        return conyuge;
-    }
-
-    public void setConyuge(String conyuge) {
-        this.conyuge = conyuge;
-    }
-
-    public int getDependientes() {
-        return dependientes;
-    }
-
-    public void setDependientes(int dependientes) {
-        this.dependientes = dependientes;
-    }
-
-    public String getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
-    }
-
-    public String getProfesion() {
-        return profesion;
-    }
-
-    public void setProfesion(String profesion) {
-        this.profesion = profesion;
-    }
-
-    public String getGradoactual() {
-        return gradoactual;
-    }
-
-    public void setGradoactual(String gradoactual) {
-        this.gradoactual = gradoactual;
-    }
-
-    public String getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
-
-    public String getCentroestudio() {
-        return centroestudio;
-    }
-
-    public void setCentroestudio(String centroestudio) {
-        this.centroestudio = centroestudio;
     }
 
     public List<PtmCurso> getPtmCursoList() {

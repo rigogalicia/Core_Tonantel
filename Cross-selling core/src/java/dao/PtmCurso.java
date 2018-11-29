@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_curso")
@@ -34,14 +34,12 @@ public class PtmCurso implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcurso")
     private Integer idcurso;
-    @Basic(optional = false)
-    @Column(name = "descripcion")
-    private String descripcion;
-    @Basic(optional = false)
     @Column(name = "centroestudio")
     private String centroestudio;
+    @Column(name = "descripcion")
+    private String descripcion;
     @JoinColumn(name = "ptm_colaborador_dpi", referencedColumnName = "dpi")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private PtmColaborador ptmColaboradorDpi;
 
     public PtmCurso() {
@@ -49,12 +47,6 @@ public class PtmCurso implements Serializable {
 
     public PtmCurso(Integer idcurso) {
         this.idcurso = idcurso;
-    }
-
-    public PtmCurso(Integer idcurso, String descripcion, String centroestudio) {
-        this.idcurso = idcurso;
-        this.descripcion = descripcion;
-        this.centroestudio = centroestudio;
     }
 
     public Integer getIdcurso() {
@@ -65,20 +57,20 @@ public class PtmCurso implements Serializable {
         this.idcurso = idcurso;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public String getCentroestudio() {
         return centroestudio;
     }
 
     public void setCentroestudio(String centroestudio) {
         this.centroestudio = centroestudio;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public PtmColaborador getPtmColaboradorDpi() {

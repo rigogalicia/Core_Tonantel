@@ -69,13 +69,13 @@ public class Correo {
             m.addBodyPart(texto);
             
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("crosseling.core@cooperativa-tonantel.com.gt"));
+            message.setFrom(new InternetAddress("cross.selling@cooperativa-tonantel.com.gt"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(direccionDeCorreo));
             message.setSubject(asunto);
             message.setContent(m);
             
             Transport t = session.getTransport("smtp"); 
-            t.connect("crosseling.core@cooperativa-tonantel.com.gt","Ton@nte1");
+            t.connect("cross.selling@cooperativa-tonantel.com.gt","Tempor@1.*49");
             t.sendMessage(message, message.getAllRecipients());
             t.close();
         }   

@@ -6,10 +6,9 @@
 package dao;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +21,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_pasivo")
@@ -36,20 +35,15 @@ public class PtmPasivo implements Serializable {
     @Basic(optional = false)
     @Column(name = "idpasivo")
     private Integer idpasivo;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
     @Column(name = "creditos_casa_comercial")
-    private BigDecimal creditosCasaComercial;
-    @Basic(optional = false)
+    private BigInteger creditosCasaComercial;
     @Column(name = "deuda_particulares")
-    private BigDecimal deudaParticulares;
-    @Basic(optional = false)
+    private BigInteger deudaParticulares;
     @Column(name = "prestamo_corto_largo_plazo")
-    private BigDecimal prestamoCortoLargoPlazo;
-    @Basic(optional = false)
+    private BigInteger prestamoCortoLargoPlazo;
     @Column(name = "proveedores")
-    private BigDecimal proveedores;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmPasivoIdpasivo")
+    private BigInteger proveedores;
+    @OneToMany(mappedBy = "ptmPasivoIdpasivo")
     private List<PtmEstadopatrimonial> ptmEstadopatrimonialList;
 
     public PtmPasivo() {
@@ -57,14 +51,6 @@ public class PtmPasivo implements Serializable {
 
     public PtmPasivo(Integer idpasivo) {
         this.idpasivo = idpasivo;
-    }
-
-    public PtmPasivo(Integer idpasivo, BigDecimal creditosCasaComercial, BigDecimal deudaParticulares, BigDecimal prestamoCortoLargoPlazo, BigDecimal proveedores) {
-        this.idpasivo = idpasivo;
-        this.creditosCasaComercial = creditosCasaComercial;
-        this.deudaParticulares = deudaParticulares;
-        this.prestamoCortoLargoPlazo = prestamoCortoLargoPlazo;
-        this.proveedores = proveedores;
     }
 
     public Integer getIdpasivo() {
@@ -75,35 +61,35 @@ public class PtmPasivo implements Serializable {
         this.idpasivo = idpasivo;
     }
 
-    public BigDecimal getCreditosCasaComercial() {
+    public BigInteger getCreditosCasaComercial() {
         return creditosCasaComercial;
     }
 
-    public void setCreditosCasaComercial(BigDecimal creditosCasaComercial) {
+    public void setCreditosCasaComercial(BigInteger creditosCasaComercial) {
         this.creditosCasaComercial = creditosCasaComercial;
     }
 
-    public BigDecimal getDeudaParticulares() {
+    public BigInteger getDeudaParticulares() {
         return deudaParticulares;
     }
 
-    public void setDeudaParticulares(BigDecimal deudaParticulares) {
+    public void setDeudaParticulares(BigInteger deudaParticulares) {
         this.deudaParticulares = deudaParticulares;
     }
 
-    public BigDecimal getPrestamoCortoLargoPlazo() {
+    public BigInteger getPrestamoCortoLargoPlazo() {
         return prestamoCortoLargoPlazo;
     }
 
-    public void setPrestamoCortoLargoPlazo(BigDecimal prestamoCortoLargoPlazo) {
+    public void setPrestamoCortoLargoPlazo(BigInteger prestamoCortoLargoPlazo) {
         this.prestamoCortoLargoPlazo = prestamoCortoLargoPlazo;
     }
 
-    public BigDecimal getProveedores() {
+    public BigInteger getProveedores() {
         return proveedores;
     }
 
-    public void setProveedores(BigDecimal proveedores) {
+    public void setProveedores(BigInteger proveedores) {
         this.proveedores = proveedores;
     }
 

@@ -186,6 +186,20 @@ public class Solicitud {
         documento = new AvDocumento();
     }
     
+    //Metodo para limpiar el formulario solicitud
+    public void limpiarSolicitud(){
+        //Inicializmos cada objeto de clase para limpiar el formulario
+        solicitud.setMonto(null);
+        solicitud.setNumeroCredito(null);
+        solicitud.setReavaluo(null);
+        asociado = new AvAsociado();
+        documento = new AvDocumento();
+        inmueble = new AvInmueble();
+        propietario = new AvPropietario();
+        colindantes = new ArrayList<>();
+        telefonos = new ArrayList<>();
+    }
+    
     /* Este metodo crea una solicitud, envia los datos a la base de datos
     Por medio de una transaccion*/
     public void crearSolicitud(){
@@ -210,19 +224,19 @@ public class Solicitud {
                 em.merge(telefonoBD);
             }
             
-            em.merge(propietario);
-            em.merge(documento);
+            em.persist(propietario);
+            em.persist(documento);
             inmueble.setPropietarioDpi(propietario);
             inmueble.setDocumentoId(documento);
-            em.merge(inmueble);
+            em.persist(inmueble);
             for(AvColindante c : colindantes){
                 c.setTipo('a');
                 c.setInmuebleId(inmueble);
-                em.merge(c);
+                em.persist(c);
             }
             solicitud.setAsociadoCif(asociado);
             solicitud.setInmuebleId(inmueble);
-            em.merge(solicitud);
+            em.persist(solicitud);
             em.getTransaction().commit();
             
             FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_generadas.xhtml");
@@ -235,6 +249,40 @@ public class Solicitud {
                 emf.close();
             }
         }
+    }
+    
+    // Metodo para consultar si existe la solicitud
+    public boolean existeSolicitud() {
+        boolean result = false;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT s "
+                + "FROM AvSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSolicitud "
+                + "AND s.usuario != :usrConect";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
+        consulta.setParameter("usrConect", this.userConect);
+        List<AvSolicitud> resultado = consulta.getResultList();
+        
+        for(AvSolicitud s : resultado) {
+            result = true;
+            solicitud = new AvSolicitud();
+            asociado = new AvAsociado();
+            documento = new AvDocumento();
+            inmueble = new AvInmueble();
+            propietario = new AvPropietario();
+            colindantes = new ArrayList<>();
+            telefonos = new ArrayList<>();
+            break;
+        }
+        
+        em.close();
+        emf.close();
+        
+        return result;
     }
     
     //Metodo para consultar los datos de la solictud
@@ -250,51 +298,46 @@ public class Solicitud {
                 + "JOIN i.documentoId  d "
                 + "WHERE s.numeroSolicitud = :numSolicitud "
                 + "AND s.usuario = :usuarioconectado";
-        
+
         Query consulta = em.createQuery(instruccion);
         consulta.setParameter("numSolicitud", solicitud.getNumeroSolicitud());
         consulta.setParameter("usuarioconectado", userConect);
         List<Object[]> resultado = consulta.getResultList();
-        //Inicializmos cada objeto de clase para limpiar el formulario
-            solicitud = new AvSolicitud();
-            asociado = new AvAsociado();
-            documento = new AvDocumento();
-            colindante = new AvColindante();
-            inmueble = new AvInmueble();
-            propietario = new AvPropietario();
-       //llenamos los objetos con los datos que nos devuelve la consulta     
-            for(Object[] objeto: resultado){
+        
+        //llamamos al metod que limpia el formulario
+        limpiarSolicitud();
+        //llenamos los objetos con los datos que nos devuelve la consulta     
+        for(Object[] objeto: resultado){
             solicitud = (AvSolicitud) objeto[0];
             asociado  = (AvAsociado) objeto[1];
             inmueble = (AvInmueble) objeto[2];
             propietario = (AvPropietario) objeto[3];
             documento = (AvDocumento) objeto[4];
+        }
             
-        }         
         listTelefonos(asociado.getCif());
         listaColindantes(inmueble);
 
-            //validamos el resultado de la consulta
-            if(resultado.isEmpty()){
-                btnGenerar = true;
-                btnUpdate = false;
-            }
-            else if(!resultado.isEmpty() && !solicitud.getEstado().equals('d') && !solicitud.getEstado().equals('e')){
-                btnGenerar = false;
-                btnUpdate = true;
-                
-            }
-            else{
-                btnGenerar = false;
-                btnUpdate = false;
-                
-                msjConsultar = "El estado actual de la solicitud no permite modificación.";
-            }
+        //validamos el resultado de la consulta
+        if(resultado.isEmpty()){
+            btnGenerar = true;
+            btnUpdate = false;
+        }
+        else if(!resultado.isEmpty() && !solicitud.getEstado().equals('d') && !solicitud.getEstado().equals('e')){
+            btnGenerar = false;
+            btnUpdate = true;
+        }
+        else{
+            btnGenerar = false;
+            btnUpdate = false;
+
+            msjConsultar = "El estado actual de la solicitud no permite modificación.";
+        }
         
         em.close();
         emf.close();
        
-        }
+    }
     
     //Metodo para obtener el listado de telefonos
     private void listTelefonos(String cif){
@@ -458,4 +501,5 @@ public class Solicitud {
         }
 
     }
+
 }

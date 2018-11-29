@@ -275,6 +275,32 @@ public class Colaborador {
         return listaUsuarios;
     }
     
+    /* Metodo utilizado para mostrar los los colaboradores por Puesto */
+    public static ArrayList<Colaborador> ColaboradoresPorPuesto(String puest){
+        ArrayList<Colaborador> listaUsuarios = new ArrayList<>();
+        MongoCollection<Document> collection = ConexionMongo.getInstance().getDatabase().getCollection("colaboradores");
+        MongoCursor<Document> cursor = collection.find(eq("puesto", puest)).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document siguiente = cursor.next();
+                Colaborador u = new Colaborador();
+                u.setUsuario(siguiente.getString("_id"));
+                u.setClave(siguiente.getString("clave"));
+                u.setNombre(siguiente.getString("nombre"));
+                u.setCorreo(siguiente.getString("correo"));
+                u.setOperador(siguiente.getInteger("operador"));
+                u.setAgencia(siguiente.getString("agencia"));
+                u.setDepartamento(siguiente.getString("departamento"));
+                u.setPuesto(siguiente.getString("puesto"));
+                
+                listaUsuarios.add(u);
+                
+            }
+        } finally {
+            cursor.close();
+        }
+        return  listaUsuarios;
+    }
     /* Metodo utilizado para mostrar la agencia en la que trabaja el colaborador */
     public static String agenciaColaborador(String user){
         String result = null;

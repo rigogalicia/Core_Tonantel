@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "rally_seguimiento_cartera")
@@ -35,33 +35,21 @@ public class RallySeguimientoCartera implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
     @Column(name = "asesor")
     private String asesor;
-    @Basic(optional = false)
-    @Column(name = "numero_prestamo")
-    private String numeroPrestamo;
-    @Basic(optional = false)
     @Column(name = "comentario")
     private String comentario;
-    @Basic(optional = false)
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @Column(name = "numero_prestamo")
+    private String numeroPrestamo;
 
     public RallySeguimientoCartera() {
     }
 
     public RallySeguimientoCartera(Integer id) {
         this.id = id;
-    }
-
-    public RallySeguimientoCartera(Integer id, String asesor, String numeroPrestamo, String comentario, Date fecha) {
-        this.id = id;
-        this.asesor = asesor;
-        this.numeroPrestamo = numeroPrestamo;
-        this.comentario = comentario;
-        this.fecha = fecha;
     }
 
     public Integer getId() {
@@ -80,14 +68,6 @@ public class RallySeguimientoCartera implements Serializable {
         this.asesor = asesor;
     }
 
-    public String getNumeroPrestamo() {
-        return numeroPrestamo;
-    }
-
-    public void setNumeroPrestamo(String numeroPrestamo) {
-        this.numeroPrestamo = numeroPrestamo;
-    }
-
     public String getComentario() {
         return comentario;
     }
@@ -102,6 +82,14 @@ public class RallySeguimientoCartera implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public String getNumeroPrestamo() {
+        return numeroPrestamo;
+    }
+
+    public void setNumeroPrestamo(String numeroPrestamo) {
+        this.numeroPrestamo = numeroPrestamo;
     }
 
     @Override

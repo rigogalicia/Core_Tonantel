@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_bienesmuebles")
@@ -35,22 +35,18 @@ public class PtmBienesmuebles implements Serializable {
     @Basic(optional = false)
     @Column(name = "idbienesmuebles")
     private Integer idbienesmuebles;
-    @Basic(optional = false)
-    @Column(name = "marca")
-    private String marca;
-    @Basic(optional = false)
-    @Column(name = "tipo")
-    private String tipo;
-    @Basic(optional = false)
     @Column(name = "anio")
     private String anio;
-    @Basic(optional = false)
+    @Column(name = "marca")
+    private String marca;
     @Column(name = "modelo")
     private String modelo;
+    @Column(name = "tipo")
+    private String tipo;
     @JoinColumns({
-        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")
-        , @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi")})
-    @ManyToOne(optional = false)
+        @JoinColumn(name = "estadopatrimonial_colaborador_dpi", referencedColumnName = "colaborador_dpi"),
+        @JoinColumn(name = "estadopatrimonial_anio", referencedColumnName = "anio")})
+    @ManyToOne
     private PtmEstadopatrimonial ptmEstadopatrimonial;
 
     public PtmBienesmuebles() {
@@ -58,14 +54,6 @@ public class PtmBienesmuebles implements Serializable {
 
     public PtmBienesmuebles(Integer idbienesmuebles) {
         this.idbienesmuebles = idbienesmuebles;
-    }
-
-    public PtmBienesmuebles(Integer idbienesmuebles, String marca, String tipo, String anio, String modelo) {
-        this.idbienesmuebles = idbienesmuebles;
-        this.marca = marca;
-        this.tipo = tipo;
-        this.anio = anio;
-        this.modelo = modelo;
     }
 
     public Integer getIdbienesmuebles() {
@@ -76,22 +64,6 @@ public class PtmBienesmuebles implements Serializable {
         this.idbienesmuebles = idbienesmuebles;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public String getAnio() {
         return anio;
     }
@@ -100,12 +72,28 @@ public class PtmBienesmuebles implements Serializable {
         this.anio = anio;
     }
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
     public String getModelo() {
         return modelo;
     }
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public PtmEstadopatrimonial getPtmEstadopatrimonial() {

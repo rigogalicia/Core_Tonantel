@@ -8,8 +8,6 @@ package dao;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -24,7 +22,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_estadopatrimonial")
@@ -40,25 +38,24 @@ public class PtmEstadopatrimonial implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Basic(optional = false)
     @Column(name = "usuario")
     private String usuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
+    @OneToMany(mappedBy = "ptmEstadopatrimonial")
     private List<PtmBienesmuebles> ptmBienesmueblesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
+    @OneToMany(mappedBy = "ptmEstadopatrimonial")
     private List<PtmTarjetacredito> ptmTarjetacreditoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
+    @OneToMany(mappedBy = "ptmEstadopatrimonial")
     private List<PtmPrestamo> ptmPrestamoList;
     @JoinColumn(name = "ptm_activo_idactivo", referencedColumnName = "idactivo")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private PtmActivo ptmActivoIdactivo;
     @JoinColumn(name = "colaborador_dpi", referencedColumnName = "dpi", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PtmColaborador ptmColaborador;
     @JoinColumn(name = "ptm_pasivo_idpasivo", referencedColumnName = "idpasivo")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private PtmPasivo ptmPasivoIdpasivo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ptmEstadopatrimonial")
+    @OneToMany(mappedBy = "ptmEstadopatrimonial")
     private List<PtmBienesinmuebles> ptmBienesinmueblesList;
 
     public PtmEstadopatrimonial() {
@@ -68,13 +65,8 @@ public class PtmEstadopatrimonial implements Serializable {
         this.ptmEstadopatrimonialPK = ptmEstadopatrimonialPK;
     }
 
-    public PtmEstadopatrimonial(PtmEstadopatrimonialPK ptmEstadopatrimonialPK, String usuario) {
-        this.ptmEstadopatrimonialPK = ptmEstadopatrimonialPK;
-        this.usuario = usuario;
-    }
-
-    public PtmEstadopatrimonial(int anio, String colaboradorDpi) {
-        this.ptmEstadopatrimonialPK = new PtmEstadopatrimonialPK(anio, colaboradorDpi);
+    public PtmEstadopatrimonial(String colaboradorDpi, int anio) {
+        this.ptmEstadopatrimonialPK = new PtmEstadopatrimonialPK(colaboradorDpi, anio);
     }
 
     public PtmEstadopatrimonialPK getPtmEstadopatrimonialPK() {

@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author r29galicia
+ * @author Desarrollo
  */
 @Entity
 @Table(name = "ptm_hijo")
@@ -34,14 +34,12 @@ public class PtmHijo implements Serializable {
     @Basic(optional = false)
     @Column(name = "idhijo")
     private Integer idhijo;
-    @Basic(optional = false)
+    @Column(name = "edad")
+    private Integer edad;
     @Column(name = "nombre")
     private String nombre;
-    @Basic(optional = false)
-    @Column(name = "edad")
-    private int edad;
     @JoinColumn(name = "ptm_colaborador_dpi", referencedColumnName = "dpi")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private PtmColaborador ptmColaboradorDpi;
 
     public PtmHijo() {
@@ -49,12 +47,6 @@ public class PtmHijo implements Serializable {
 
     public PtmHijo(Integer idhijo) {
         this.idhijo = idhijo;
-    }
-
-    public PtmHijo(Integer idhijo, String nombre, int edad) {
-        this.idhijo = idhijo;
-        this.nombre = nombre;
-        this.edad = edad;
     }
 
     public Integer getIdhijo() {
@@ -65,20 +57,20 @@ public class PtmHijo implements Serializable {
         this.idhijo = idhijo;
     }
 
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
     }
 
     public PtmColaborador getPtmColaboradorDpi() {
