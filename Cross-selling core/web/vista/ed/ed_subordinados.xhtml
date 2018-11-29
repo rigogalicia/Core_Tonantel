@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        
+                        <!-- Panel principal -->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="page-header">
+                                    <h3>Administrar Subordinados</h3>
+                                </div>
+                                <h:form>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <h:outputLabel for="colaborador">Colaborador:</h:outputLabel>
+                                                <h:message for="colaborador" style="color: red"/>
+                                                <h:selectOneMenu id="colaborador" class="form-control" value="#{ed_subordinados.colaborador.usuario}"
+                                                                 onchange="submit()" valueChangeListener="#{ed_subordinados.selectColaborador}" label="&nbsp;!" required="true">
+                                                    <f:selectItem itemValue="" itemLabel=""/>
+                                                    <f:selectItems value="#{ed_subordinados.listaColaboradores}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <h:outputLabel for="subordinado">Colaborador Subordinado:</h:outputLabel>
+                                                <h:selectOneMenu id="subordinado" class="form-control" value="#{ed_subordinados.subordinado.usuario}" label="&nbsp;!" required="true">
+                                                    <f:selectItem itemValue="" itemLabel=""/>
+                                                    <f:selectItems value="#{ed_subordinados.listaColaboradores}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <h:outputLabel>&nbsp;</h:outputLabel>
+                                                <h:commandButton id="btnAgregarSubordinado" class="form-control btn btn-success" value="Agregar" actionListener="#{ed_subordinados.addSubordinados()}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <h:dataTable id="listaSubordinados" class="table table-striped" value="#{ed_subordinados.colaborador.subordinados}" var="s">
+                                                <h:column>
+                                                    <f:facet name="header">#{ed_subordinados.colaborador.nombre}</f:facet>
+                                                    #{s.nombre}
+                                                </h:column>
+                                                <h:column>
+                                                    <h:commandLink id="btnQuitarSubordinado" actionListener="#{ed_subordinados.deleteSubordinado(s)}">
+                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                </h:column>
+                                            </h:dataTable>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                        
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

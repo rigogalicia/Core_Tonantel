@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Desarrollo
+ * @author r29galicia
  */
 @Entity
 @Table(name = "av_asignacion")

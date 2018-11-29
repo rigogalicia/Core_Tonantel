@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../principal.xhtml">
+
+            <ui:define name="content">
+                <div class="content-wrapper">
+                    <section class="content">
+                        
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="page-header">
+                                    <h2>CREAR EVALUACIÓN</h2>
+                                </div>
+                                <h:form>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <h:outputLabel for="nombreEvaluacion">* Nombre de la Evaluación:</h:outputLabel>
+                                                <h:message for="nombreEvaluacion" style="color: red"/>
+                                                <h:inputText id="nombreEvaluacion" class="form-control" value="#{ed_evaluacion.evaluacion.nombre}" autocomplete="off" label="&nbsp;!" required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                  <h:outputLabel for="fechaLimite">* Fecha Limite: dd/MM/yyyy</h:outputLabel>
+                                                  <h:message for="fechaLimite" style="color: red"/>
+                                                  <h:inputText id="fechaLimite" class="form-control" value="#{ed_evaluacion.evaluacion.fechaFin}" autocomplete="off" label="&nbsp;!" required="true">
+                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                  </h:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <h:outputLabel for="instrucciones">* Instrucciones:</h:outputLabel>
+                                                <h:message for="instrucciones" style="color: red"/>
+                                                <h:inputTextarea id="instrucciones" class="form-control" rows="5" value="#{ed_evaluacion.evaluacion.instrucciones}" label="&nbsp;" required="true">
+                                                    <f:validateLength minimum="5"/>
+                                                </h:inputTextarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="page-header">
+                                                <h3>CONFIGURACIÓN CUALITATIVO</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <h:outputLabel for="descCualitativo">* Descripción Cualitativo:</h:outputLabel>
+                                                <h:message for="descCualitativo" style="color: red"/>
+                                                <h:inputText id="descCualitativo" class="form-control" value="#{ed_evaluacion.evaluacion.cualitativo.descripcion}" autocomplete="off" label="&nbsp;" required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:outputLabel for="pesoCualitativo">* Peso:</h:outputLabel>
+                                                <h:message for="pesoCualitativo" style="color: red"/>
+                                                <h:inputText id="pesoCualitativo" class="form-control" value="#{ed_evaluacion.evaluacion.cualitativo.peso}" autocomplete="off" label="&nbsp;" required="true">
+                                                    <f:validateLongRange minimum="0" maximum="100"/>
+                                                </h:inputText>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <h:panelGroup id="panel_conductas">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="descConductas">Descripción Conductas:</h:outputLabel>
+                                                    <h:selectOneMenu id="descConductas" class="form-control" value="#{ed_evaluacion.conducta.descripcion}">
+                                                        <f:selectItem itemValue="" itemLabel=""/>
+                                                        <f:selectItems value="#{ed_evaluacion.conductasSelect}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="pesoConductas">Peso:</h:outputLabel>
+                                                    <h:message for="pesoConductas" style="color: red"/>
+                                                    <h:inputText id="pesoConductas" class="form-control" value="#{ed_evaluacion.conducta.peso}" autocomplete="off" label="&nbsp;!">
+                                                        <f:validateLongRange minimum="0" maximum="100"/>
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel>&nbsp;</h:outputLabel>
+                                                    <h:commandLink actionListener="#{ed_evaluacion.addConducta()}">
+                                                        <span class="glyphicon glyphicon-plus form-control btn btn-primary" aria-hidden="true"></span>
+                                                        <f:ajax execute="panel_conductas" render="panel_conductas"/>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h:dataTable id="tabla_conductas" class="table table-striped" value="#{ed_evaluacion.aspecto.conductas}" var="c">
+                                                    <h:column>
+                                                        #{c.descripcion}
+                                                    </h:column>
+                                                    <h:column>
+                                                        #{c.peso}
+                                                    </h:column>
+                                                    <h:column>
+                                                        <h:commandLink actionListener="#{ed_evaluacion.deleteConducta(c)}">
+                                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                        </h:commandLink>
+                                                    </h:column>
+                                                </h:dataTable>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="descAspectos">Descripción de Aspectos:</h:outputLabel>
+                                                    <h:selectOneMenu id="descAspectos" class="form-control" value="#{ed_evaluacion.aspecto.descripcion}">
+                                                        <f:selectItem itemValue="" itemLabel=""/>
+                                                        <f:selectItems value="#{ed_evaluacion.aspectosSelect}"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="pesoAspecto">Peso:</h:outputLabel>
+                                                    <h:message for="pesoAspecto" style="color: red"/>
+                                                    <h:inputText id="pesoAspecto" class="form-control" value="#{ed_evaluacion.aspecto.peso}" autocomplete="off" label="&nbsp;!">
+                                                        <f:validateLongRange minimum="0" maximum="100"/>
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel>&nbsp;</h:outputLabel>
+                                                    <h:commandLink actionListener="#{ed_evaluacion.addAspectos()}">
+                                                        <span class="glyphicon glyphicon-plus form-control btn btn-primary" aria-hidden="true"></span>
+                                                        <f:ajax execute="panel_conductas" render="panel_conductas"/>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <ui:repeat id="listAspectos" value="#{ed_evaluacion.evaluacion.cualitativo.aspectos}" var="a">
+                                                    <h:commandLink actionListener="#{ed_evaluacion.deleteAspecto(a)}">
+                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                    </h:commandLink>
+                                                    <h:dataTable class="table table-striped" value="#{a.conductas}" var="c">
+                                                        <h:column>
+                                                            <f:facet name="header">#{a.descripcion}</f:facet>
+                                                            #{c.descripcion}
+                                                        </h:column>
+                                                        <h:column>
+                                                            <f:facet name="header">#{a.peso}</f:facet>
+                                                            #{c.peso}
+                                                        </h:column>
+                                                    </h:dataTable>
+                                                </ui:repeat>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                    <h:panelGroup id="panel_ponderacion">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="page-header">
+                                                    <h2><small>Ponderación de Respuestas</small></h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="descPonderacion">Descripción:</h:outputLabel>
+                                                    <h:inputText id="descPonderacion" class="form-control" value="#{ed_evaluacion.ponderacion.descripcion}" autocomplete="off"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <h:outputLabel for="pesoPonderacion">Peso:</h:outputLabel>
+                                                    <h:message for="pesoPonderacion" style="color: red"/>
+                                                    <h:inputText id="pesoPonderacion" class="form-control" value="#{ed_evaluacion.ponderacion.peso}" label="&nbsp;!" autocomplete="off">
+                                                        <f:validateLongRange minimum="0" maximum="100"/>
+                                                    </h:inputText>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <h:outputLabel>&nbsp;</h:outputLabel>
+                                                    <h:commandLink actionListener="#{ed_evaluacion.addPonderacion()}">
+                                                        <span class="glyphicon glyphicon-plus form-control btn btn-primary" aria-hidden="true"></span>
+                                                        <f:ajax execute="panel_ponderacion" render="panel_ponderacion"/>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h:dataTable id="tabla_ponderacion" class="table table-striped" value="#{ed_evaluacion.evaluacion.ponderaciones}" var="p">
+                                                    <h:column>
+                                                        #{p.descripcion}
+                                                    </h:column>
+                                                    <h:column>
+                                                        #{p.peso}
+                                                    </h:column>
+                                                    <h:column>
+                                                        <h:commandLink actionListener="#{ed_evaluacion.deletePonderacion(p)}">
+                                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                        </h:commandLink>
+                                                    </h:column>
+                                                </h:dataTable>
+                                            </div>
+                                        </div>
+                                    </h:panelGroup>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <h:commandLink id="btnGuardar" class="form-control btn btn-success" value="Guardar Cambios" actionListener="#{ed_evaluacion.agregarEvaluacion()}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                        
+                    </section>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
