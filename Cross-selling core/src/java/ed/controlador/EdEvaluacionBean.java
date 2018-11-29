@@ -42,8 +42,8 @@ public class EdEvaluacionBean {
     public ArrayList<SelectItem> getAspectosSelect() {
         aspectosSelect.clear();
         aspectosSelect.add(new SelectItem("Autoevaluación", "Autoevaluación"));
-        aspectosSelect.add(new SelectItem("Especificas", "Jefe Inmediato"));
-        aspectosSelect.add(new SelectItem("Complementarias", "Colaboradores"));
+        aspectosSelect.add(new SelectItem("Jefe Inmediato", "Jefe Inmediato"));
+        aspectosSelect.add(new SelectItem("Colaboradores", "Colaboradores"));
         return aspectosSelect;
     }
 
