@@ -75,10 +75,8 @@ public class AvAutorizarBean {
                  String msj = "El avaluo correspondiente al numero de solicitud "+ a.getNumeroSolicitud() +" generada el "+ a.getFechaSolicitud() +"\n"
                         + "perteneciente al asociado "+ a.getAsociado() +" fue autorizado por el jefe de Creditos, \n"
                         + "ya puedes descargar el avaluo ingresando \n"
-                        + " a Cross-Selling-Core \n"
-                        + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
+                        + " a Cross-Selling-Core \n\n"
                         + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
-
 
                  Correo correo = new Correo(Colaborador.correoColaborador(a.getAsesor()), "Numeros solicitud" + a.getNumeroSolicitud(), msj);
                  correo.enviar();

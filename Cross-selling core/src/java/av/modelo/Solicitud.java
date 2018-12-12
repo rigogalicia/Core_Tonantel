@@ -224,7 +224,7 @@ public class Solicitud {
                 em.merge(telefonoBD);
             }
             
-            em.persist(propietario);
+            em.merge(propietario);
             em.persist(documento);
             inmueble.setPropietarioDpi(propietario);
             inmueble.setDocumentoId(documento);

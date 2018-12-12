@@ -30,16 +30,18 @@
                                         </div>             
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <h:outputLabel for="supFechaAsignar" value="Fecha Visita"/>
-                                                <h:inputText id="supFechaAsignar" class="form-control" autocomplete="off" value="#{av_asignar.supervision.fechaVisita}">
+                                                <h:outputLabel for="supFechaAsignar" value="*Fecha Visita (dd-MM-yyyy)"/>
+                                                <h:message for="supFechaAsignar" style="color: red"/>
+                                                <h:inputText id="supFechaAsignar" class="form-control" autocomplete="off" value="#{av_asignar.supervision.fechaVisita}" required="true" label="&nbsp;!">
                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:inputText>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <h:outputLabel for="supValuador" value="Valuador"/>
-                                                <h:selectOneMenu id="estado" class="form-control" value="#{av_asignar.supervision.valuador}">
+                                                <h:outputLabel for="supValuador" value="*Valuador"/>
+                                                <h:message for="supValuador" style="color: red"/>
+                                                <h:selectOneMenu id="supValuador" class="form-control" value="#{av_asignar.supervision.valuador}" required="true" label="&nbsp;!">
                                                     <f:selectItem itemLabel="" itemValue=""/>
                                                     <f:selectItems value="#{av_asignar.valuadores}"/> 
                                                 </h:selectOneMenu>
@@ -55,8 +57,8 @@
                                     <br/>
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <h:commandLink value="Asignar Avaluo" class="btn btn-facebook" actionListener="#{av_asignar.asiganrValuador()}"/>
-                                                
+                                            <h:commandLink value="Asignar Avaluo" id="btnAsig" class="btn btn-facebook" actionListener="#{av_asignar.asiganrValuador()}" rendered="#{av_asignar.supervision.btnAsignar}"/>
+                                            <h:commandLink value="Reasignar Avaluo" id="btnRea" class="btn btn-success" actionListener="#{av_asignar.reasignarValuador()}" rendered="#{av_asignar.supervision.btnReasignar}"/>
                                         </div>
                                     </div>
                                 </h:form>

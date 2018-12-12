@@ -2,6 +2,7 @@
 package av.modelo;
 
 import admin.modelo.Colaborador;
+import admin.modelo.Puesto;
 import admin.modelo.ReportConfig;
 import dao.AvAnexos;
 import dao.AvArea;
@@ -12,6 +13,7 @@ import dao.AvConstruccion;
 import dao.AvDetalle;
 import dao.AvInmueble;
 import dao.AvSolicitud;
+import gc.controlador.Correo;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -303,8 +305,6 @@ public class CrearAvaluo {
                 avaluo.setValorRedondeado((BigDecimal) obj[27]);
                 avaluo.setId((int) obj[28]);
                 asignacion.setId((int) obj[29]);
-
-               
 
             }
            
@@ -666,6 +666,7 @@ public class CrearAvaluo {
             
             em.getTransaction().commit();
             FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_enproceso.xhtml");
+            enviarCorreo();
             
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -675,6 +676,18 @@ public class CrearAvaluo {
                 emf.close();
             }
         }
+    }
+    
+   // Metodo utilizado para enviar correo que notificara al enncargado de autorizar avaluos
+    public void enviarCorreo(){
+        for(Colaborador c : Colaborador.ColaboradoresPorPuesto(Puesto.idPuesto("Jefe de Créditos y Cobros"))){
+            String msj = "Tienes un nuevo avaluó por revisar, realizado por  " + Colaborador.datosColaborador(asignacion.getUsuario()).getNombre() + " \n"
+                + "para un mejor seguimiento ingresa a Crosselling Core.\n\n"
+                + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
+        
+        Correo correo = new Correo(Colaborador.correoColaborador(c.getUsuario()), "Numero Solicitud " + solicitud.getNumeroSolicitud() , msj);
+        correo.enviar();
+        }  
     }
     
     /* Este metodo es utilizado para mostrar el detalle de avaluo */

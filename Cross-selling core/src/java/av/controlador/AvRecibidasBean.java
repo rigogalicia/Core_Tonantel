@@ -36,7 +36,7 @@ public class AvRecibidasBean {
     public AvRecibidasBean() {
        
         HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        if(sesion.getAttribute("userConect") != null){
+        if(sesion.getAttribute("userConect") != null){      
             userConect = sesion.getAttribute("userConect").toString();
             listRecibidas = recibidas.mostrarDato();
         }
@@ -135,7 +135,6 @@ public class AvRecibidasBean {
                 + "el cual programó la visita para el día " + formato.format(s.getFechaVisita()) + ", para\n"
                 + "un mejor seguimiento ingresa a la aplicación Crosselling Core\n"
                 + "que puedes ingresar en el siguiente enlace:\n\n"
-                + "https://core.app-tonantel.com/Cross-selling_core\n\n\n"
                 + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
 
 

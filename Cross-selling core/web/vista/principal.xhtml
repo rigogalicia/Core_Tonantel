@@ -143,7 +143,8 @@
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_enproceso.xhtml" rendered="#{b.forma == 'avEnproceso' eq true}"/>
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_autorizar.xhtml" rendered="#{b.forma == 'avAutorizar' eq true}"/>
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_firmas.xhtml" rendered="#{b.forma == 'avFirmas' eq true}"/>
-                                                        
+                                                        <h:commandLink value=" + #{b.descripcion}" action="/vista/av/av_supervision.xhtml" rendered="#{b.forma == 'avSupervision' eq true}"/>
+
                                                         <!-- Privilegios que corresponden al módulo Evaluación de Desempeño -->
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/ed/ed_subordinados.xhtml" rendered="#{b.forma == 'edSubordinados' eq true}"/>
                                                         <h:commandLink value=" + #{b.descripcion}" action="/vista/ed/ed_evaluacion.xhtml" rendered="#{b.forma == 'edEvaluacion' eq true}"/>

@@ -8,11 +8,15 @@ import dao.AvAsociado;
 import dao.AvInmueble;
 import dao.AvSolicitud;
 import gc.controlador.Correo;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -34,10 +38,17 @@ public class Supervision {
     
     //Atributos para llenar la asignacion
     private String valuador;
+    private String asignador;
     private Date fechaVisita;
     private String observaciones;
     private String msjFecha;
     private String error;
+    private Date fecha;
+    
+    private boolean btnAsignar = false;
+    private boolean btnReasignar = false;
+    
+    //Objetos de clases
     private Supervision supervision; 
     private AvAsignacion asignacion;
 
@@ -121,6 +132,22 @@ public class Supervision {
         this.valuador = valuador;
     }
 
+    public String getAsignador() {
+        return asignador;
+    }
+
+    public void setAsignador(String asignador) {
+        this.asignador = asignador;
+    }
+
+    public AvAsignacion getAsignacion() {
+        return asignacion;
+    }
+
+    public void setAsignacion(AvAsignacion asignacion) {
+        this.asignacion = asignacion;
+    }
+    
     public Date getFechaVisita() {
         return fechaVisita;
     }
@@ -152,58 +179,323 @@ public class Supervision {
     public void setError(String error) {
         this.error = error;
     }
+
+    public boolean isBtnAsignar() {
+        return btnAsignar;
+    }
+
+    public void setBtnAsignar(boolean btnAsignar) {
+        this.btnAsignar = btnAsignar;
+    }
+
+    public boolean isBtnReasignar() {
+        return btnReasignar;
+    }
+
+    public void setBtnReasignar(boolean btnReasignar) {
+        this.btnReasignar = btnReasignar;
+    }
     
     //Metodo utilizado para consultar todas las solicitudes generadas
     public ArrayList<Supervision> mostrarSolicitud(){
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         ArrayList<Supervision> result = new ArrayList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
         EntityManager em = emf.createEntityManager();
-        
-        String instruccion = "SELECT s, a, i "
-                +"FROM AvSolicitud s "
-                +"JOIN s.asociadoCif a "
-                +"JOIN s.inmuebleId i "
-                +"WHERE s.estado = :est ";
-        
-        Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("est", est);
-        
-        List<Object[]> resultado = consulta.getResultList();
-        
-        for(Object[] obj: resultado){
-            AvSolicitud s = (AvSolicitud) obj[0];
-            AvAsociado a = (AvAsociado) obj[1];
-            AvInmueble i = (AvInmueble) obj[2];
-            
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            
-            Supervision sup = new Supervision();
-            sup.setNumSolicitud(s.getNumeroSolicitud());
-            sup.setSolicitante(a.getNombre());
-            sup.setDireccion(i.getDireccionRegistrada());
-            sup.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
-            sup.setAsesorNombre(Colaborador.datosColaborador(s.getUsuario()).getNombre());
-            sup.setAsesor(s.getUsuario());
-            sup.setFechaSolicitud(formato.format(s.getFechahora()));
-            sup.setEstado(EstadoAvaluo.convert(s.getEstado()));
-            sup.setEst(s.getEstado());
-            
-            result.add(sup);
 
+        if(est == 'a'){
+            String instrucciona = "SELECT s, a, i "
+                    +"FROM AvSolicitud s "
+                    +"JOIN s.asociadoCif a "
+                    +"JOIN s.inmuebleId i "
+                    +"WHERE s.estado = :est ";
+            
+                    if(numSolicitud != null){
+                        if(!numSolicitud.isEmpty()){
+                            instrucciona += "AND s.numeroSolicitud = '"+numSolicitud+"' ";
+                        }
+                    }
+           
+                    if(agencia != null){
+                        String obtengo = null;
+                        if(!agencia.isEmpty()){
+                            for(Agencia a: Agencia.buscarAgencias(agencia)){
+                                obtengo = a.getId().toString();  
+                            }
+                            instrucciona += "AND s.agencia = '"+obtengo+"' ";
+                        }
+                    }
+           
+                    if(asesorNombre != null){
+                        String obtengo = null;
+                        if(!asesorNombre.isEmpty()){
+                            for(Colaborador c: Colaborador.buscarColaboradores(asesorNombre)){
+                                obtengo= c.getUsuario();
+                            }
+                            instrucciona += "AND s.usuario = '"+obtengo+"' ";
+                        }
+                    }
+             
+            Query consulta = em.createQuery(instrucciona);
+            consulta.setParameter("est", est);
+        
+            List<Object[]> resultado = consulta.getResultList();
+        
+            for(Object[] obj: resultado){
+                AvSolicitud s = (AvSolicitud) obj[0];
+                AvAsociado a = (AvAsociado) obj[1];
+                AvInmueble i = (AvInmueble) obj[2];
+
+                Supervision sup = new Supervision();
+                sup.setNumSolicitud(s.getNumeroSolicitud());
+                sup.setSolicitante(a.getNombre());
+                sup.setDireccion(i.getDireccionRegistrada());
+                sup.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
+                sup.setAsesorNombre(Colaborador.datosColaborador(s.getUsuario()).getNombre());
+                sup.setAsesor(s.getUsuario());
+                sup.setFechaSolicitud(formato.format(s.getFechahora()));
+                sup.setEstado(EstadoAvaluo.convert(s.getEstado()));
+                sup.setEst(s.getEstado());
+
+                result.add(sup);
+            }
         }
+        else if(est != 'a'){
+            String instruccionb = "SELECT g, s, a, i "
+                    + "FROM AvAsignacion g "
+                    + "JOIN g.solicitudNumeroSolicitud s "
+                    + "JOIN s.asociadoCif a "
+                    + "JOIN s.inmuebleId i "
+                    + "WHERE s.estado = :est ";
+                    
+            if(numSolicitud != null){
+                if(!numSolicitud.isEmpty()){
+                    instruccionb += "AND s.numeroSolicitud = '"+numSolicitud+"' ";
+                }
+            }
+            
+            if(agencia != null){             
+                String obtengo = null;
+
+                if(!agencia.isEmpty()){
+                    for(Agencia a: Agencia.buscarAgencias(agencia)){
+                        obtengo = a.getId().toString();  
+                    }
+                    instruccionb += "AND s.agencia = '"+obtengo+"' ";
+                }
+            }
+           
+            if(asesorNombre != null){
+                String obtengo = null;
+                
+                if(!asesorNombre.isEmpty()){
+                    for(Colaborador c: Colaborador.buscarColaboradores(asesorNombre)){
+                        obtengo= c.getUsuario();
+                    }
+                    
+                    instruccionb += "AND s.usuario = '"+obtengo+"' ";
+                }
+            }
+            
+            if(valuador != null){
+                
+                if(!valuador.isEmpty()){
+                    instruccionb += "AND g.usuario = '"+valuador+"' ";
+                }
+            }
+            
+            Query consulta = em.createQuery(instruccionb);
+            consulta.setParameter("est", est);
+
+            List<Object[]> resultado = consulta.getResultList();
+        
+            for(Object[] obj: resultado){
+                AvAsignacion g =(AvAsignacion)obj[0];
+                AvSolicitud s = (AvSolicitud) obj[1];
+                AvAsociado a = (AvAsociado) obj[2];
+                AvInmueble i = (AvInmueble) obj[3];
+
+                Supervision sup = new Supervision();
+                sup.setNumSolicitud(s.getNumeroSolicitud());
+                sup.setSolicitante(a.getNombre());
+                sup.setDireccion(i.getDireccionRegistrada());
+                sup.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
+                sup.setAsesorNombre(Colaborador.datosColaborador(s.getUsuario()).getNombre());
+                sup.setAsesor(s.getUsuario());
+                sup.setFechaSolicitud(formato.format(s.getFechahora()));
+                sup.setEstado(EstadoAvaluo.convert(s.getEstado()));
+                sup.setEst(s.getEstado());
+                sup.setValuador(Colaborador.datosColaborador(g.getUsuario()).getNombre());
+
+                result.add(sup);
+            }
+            
+        }
+        
         em.close();
         emf.close();
         
         return result;
     }
     
+    //Metodo para consultar si ya fue tomado el avaluo
+    public boolean isGenerada(String numeroSolicitud){
+        boolean result = false;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+
+        String instruccion = "SELECT s "
+                + "FROM AvSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSolicitud";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", numeroSolicitud);
+        List<AvSolicitud> resultado = consulta.getResultList();
+        
+        for(AvSolicitud s : resultado){
+            if(s.getEstado() == 'a'){
+                result = true;
+            }
+            else{
+                error = "! La solicitud ya fue tomada por otro Valuador";
+            }
+        }
+
+        em.close();
+        emf.close();
+        
+        return result;
+    }
+    
+    //Metodo utilizado para consultar l
+    public Supervision consultarSolicitud(){
+        supervision = new Supervision();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+        String instruccion = "SELECT s, a "
+            + "FROM AvSolicitud s "
+            + "JOIN s.asociadoCif a "
+            + "WHERE s.numeroSolicitud = :numSolicitud ";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", numSolicitud);
+        
+        List<Object[]> resultado = consulta.getResultList();
+        for(Object[] obj: resultado){
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+            AvSolicitud s = (AvSolicitud) obj[0];
+            AvAsociado a = (AvAsociado) obj[1];
+
+            supervision.setNumSolicitud(s.getNumeroSolicitud());
+            supervision.setAsesorNombre(Colaborador.datosColaborador(s.getUsuario()).getNombre());
+            supervision.setAsesor(s.getUsuario());
+            supervision.setFechaSolicitud(formato.format(s.getFechahora()));
+            supervision.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
+            supervision.setSolicitante(a.getNombre());
+                       
+            if(s.getEstado() == 'a'){
+                btnAsignar = true;
+            }
+            else if(s.getEstado() == 'b'){
+                consultarId();
+                btnReasignar = true;
+            }
+            else{
+                btnAsignar = false;
+                btnReasignar = false;
+            }
+                          
+        }
+        em.close();
+        emf.close();
+        
+        return supervision;
+    }
+    
+    //Metodo utilizado para tomar el Id de la solicitud a reasignar
+    public AvAsignacion consultarId(){
+        asignacion = new AvAsignacion();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
+        EntityManager em = emf.createEntityManager();
+        
+            String instruccion = "SELECT g, s "
+                + "FROM AvAsignacion g "
+                + "JOIN g.solicitudNumeroSolicitud s "
+                + "WHERE s.numeroSolicitud = :numSolicitud ";
+        
+        Query consulta = em.createQuery(instruccion);
+        consulta.setParameter("numSolicitud", numSolicitud);
+        
+        List<Object[]> resultado = consulta.getResultList();
+        for(Object[] obj: resultado){
+            asignacion = (AvAsignacion) obj[0];
+        }
+        
+        return asignacion;
+    }
     
     //Metodo para asignar un avaluo
-    public void asiganrAvaluo(){
+    public void asignar(){
        error = null;
-       Date fecha;
        fecha = agregarDiaFecha(fechaVisita);
        if(isGenerada(numSolicitud) && fecha != null && fecha.compareTo(new Date()) == 1){
+           EntityManagerFactory emf = null;
+           EntityManager em = null;
+
+           try {
+               emf =  Persistence.createEntityManagerFactory("Cross-selling_corePU");
+               em = emf.createEntityManager();
+
+               em.getTransaction().begin();
+
+               AvAsignacion asig = new AvAsignacion();
+               asig.setAsignador(asignador);
+               asig.setObservacion(observaciones);
+               asig.setUsuario(valuador);
+               asig.setFirma(Colaborador.urlImagen(valuador));
+               asig.setFechaVisita(fecha);
+               asig.setFechahora(new Date());
+               asig.setSolicitudNumeroSolicitud(new AvSolicitud(numSolicitud));
+
+               AvSolicitud solicitud = em.find(AvSolicitud.class, numSolicitud);
+               solicitud.setEstado('b');
+
+               em.persist(asig);
+               em.getTransaction().commit();
+
+               FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_supervision.xhtml");
+               enviarCorreoAsesor();
+               enviarCorreoValuador();
+
+
+           } catch (Exception e) {
+               e.printStackTrace(System.out);
+           }
+           finally{
+                if(emf != null && em != null){
+                    em.close();
+                    emf.close();
+                }
+            }
+
+        }
+        else{
+            if(fecha == null){
+                msjFecha = "Ingrese fecha en que realizara la visita";
+            }
+            if(fecha.compareTo(new Date()) == -1){
+                msjFecha = "La fecha de visita tiene que ser mayor o igual a la fecha actual";
+            }
+        }
+    }
+    
+    //Metodo utilizado para reasignar una solicitud de avaluo
+    public void reasignar(){
+       error = null;
+       fecha = agregarDiaFecha(fechaVisita);
+       if(fecha != null && fecha.compareTo(new Date()) == 1){
            EntityManagerFactory emf = null;
            EntityManager em = null;
            
@@ -213,17 +505,20 @@ public class Supervision {
                
                em.getTransaction().begin();
                
-               asignacion = new AvAsignacion();
-               asignacion.setUsuario(valuador);
-               asignacion.setFirma(Colaborador.urlImagen(valuador));
-               asignacion.setFechaVisita(fecha);
-               asignacion.setFechahora(new Date());
-               asignacion.setSolicitudNumeroSolicitud(new AvSolicitud(numSolicitud));
+               AvAsignacion asig = new AvAsignacion();
+               asig.setAsignador(asignador);
+               asig.setId(asignacion.getId());
+               asig.setObservacion(observaciones);
+               asig.setUsuario(valuador);
+               asig.setFirma(Colaborador.urlImagen(valuador));
+               asig.setFechaVisita(fecha);
+               asig.setFechahora(new Date());
+               asig.setSolicitudNumeroSolicitud(new AvSolicitud(numSolicitud));
                
                AvSolicitud solicitud = em.find(AvSolicitud.class, numSolicitud);
                solicitud.setEstado('b');
                
-               em.persist(asignacion);
+               em.merge(asig);
                em.getTransaction().commit();
 
                FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/vista/av/av_supervision.xhtml");
@@ -251,81 +546,16 @@ public class Supervision {
             }
         }
     }
-    
-    //Metodo para consultar si ya fue tomado el avaluo
-    public boolean isGenerada(String numeroSolicitud){
-        boolean result = false;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
-
-        String instruccion = "SELECT s "
-                + "FROM AvSolicitud s "
-                + "WHERE s.numeroSolicitud = :numSolicitud";
-        
-        Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("numSolicitud", numeroSolicitud);
-        List<AvSolicitud> resultado = consulta.getResultList();
-        
-        for(AvSolicitud s : resultado){
-            if(s.getEstado() == 'a'){
-                result = true;
-            }
-            else{
-                error = "! La solicitud ya fue tomada por otro Valuador";
-
-            }
-        }
-
-        em.close();
-        emf.close();
-        return result;
-    }
-    
-    //Metodo utilizado para consultar la solicitu
-    public Supervision consultarSolicitud(){
-        supervision = new Supervision();
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cross-selling_corePU");
-        EntityManager em = emf.createEntityManager();
-        
-        String instruccion ="SELECT s, a "
-                + "FROM AvSolicitud s "
-                + "JOIN s.asociadoCif a "
-                + "WHERE s.numeroSolicitud = :numSolicitud ";
-        
-        Query consulta = em.createQuery(instruccion);
-        consulta.setParameter("numSolicitud", numSolicitud);
-        
-        List<Object[]> resultado = consulta.getResultList();
-        for(Object[] obj: resultado){
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            AvSolicitud s = (AvSolicitud) obj[0];
-            AvAsociado a = (AvAsociado) obj[1];
-            
-            supervision.setNumSolicitud(s.getNumeroSolicitud());
-            supervision.setAsesorNombre(Colaborador.datosColaborador(s.getUsuario()).getNombre());
-            supervision.setAsesor(s.getUsuario());
-            supervision.setFechaSolicitud(formato.format(s.getFechahora()));
-            supervision.setAgencia(Agencia.descripcionAgencia(s.getAgencia()));
-            supervision.setSolicitante(a.getNombre());
-            
-                       
-        }
-        em.close();
-        emf.close();
-        
-        return supervision;
-    }
-
     //Metodo para enviar el correo que notifica a quien fue asignada la solicitud
     private void enviarCorreoAsesor(){
+      
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             if(supervision.getNumSolicitud().equals(numSolicitud)){
                String msj = "La solicitud de Avalúo número "+ supervision.getNumSolicitud() +" generada el "+ supervision.getFechaSolicitud() +"\n"
-                + "que pertenece al asociado "+ supervision.getSolicitante() +", fue asignada a\n" + Colaborador.datosColaborador(asignacion.getUsuario()).getNombre() +"\n"
-                + "el cual programó la visita para el día " + formato.format(asignacion.getFechaVisita()) + ", para\n"
+                + "que pertenece al asociado "+ supervision.getSolicitante() +", fue asignada a\n" + Colaborador.datosColaborador(valuador).getNombre() +"\n"
+                + "el cual programó la visita para el día " + formato.format(fecha) + ", para\n"
                 + "un mejor seguimiento ingresa a la aplicación Crosselling Core.\n\n "
                 + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
-               
 
          Correo correo = new Correo(Colaborador.correoColaborador(supervision.getAsesor()), "Numero solicitud " + supervision.getNumSolicitud(), msj);
          correo.enviar(); 
@@ -335,17 +565,22 @@ public class Supervision {
     //Metodo para enviar correo a valuador
     public void enviarCorreoValuador(){
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
+        String mensajeObeservacion = "";
         if(supervision.getNumSolicitud().equals(numSolicitud)){
+            if(!observaciones.equals("")){
+                mensajeObeservacion = "Observación:\n\n"
+                     + observaciones + "\n\n";
+            }
             String msjValuador ="La solicutd de Avalúo número " + supervision.getNumSolicitud() + " generada el " + supervision.getFechaSolicitud() + "\n"
                + "por el asesor " + Colaborador.datosColaborador(supervision.getAsesor()).getNombre() + " de la agenica " + supervision.getAgencia() + "\n"
                + "que pertenece al asociado " + supervision.getSolicitante() + "\n"
-               + "se te fue asignada por el encargado de creditos, el cual programo la fehca de visita " + "\n"
-               + "para el " + formato.format(asignacion.getFechaVisita()) + "\n"
-               + "para un mejor seguimiento ingresa a Crosselling Core.\n\n "
+               + "se te fue asignada por el encargado de créditos, el cual programo la fecha de visita " + "\n"
+               + "para el " + formato.format(fecha) + "\n"
+               + "para un mejor seguimiento ingresa a Crosselling Core.\n\n"
+               + mensajeObeservacion + "\n\n"
                + "Copyright © Investigación y Desarrollo de Tecnología Cooperativa Tonantel R.L";
             
-            Correo correoAvaluo = new Correo(Colaborador.correoColaborador(asignacion.getUsuario()), "Numero solicitud " + supervision.getNumSolicitud(), msjValuador);
+            Correo correoAvaluo = new Correo(Colaborador.correoColaborador(valuador), "Numero solicitud " + supervision.getNumSolicitud(), msjValuador);
             correoAvaluo.enviar();
         }
     }

@@ -39,7 +39,8 @@ public class AvCrearAvaluoBean {
         numeroSolicitud = params.get("numeroSolicitud").toString();
         crearAvaluo.getSolicitud().setNumeroSolicitud(numeroSolicitud);
         crearAvaluo.consultarSolicitud();
-        crearAvaluo.consultar();   
+        crearAvaluo.consultar();
+
     }
 
     public String getNumeroSolicitud() {
@@ -176,10 +177,10 @@ public class AvCrearAvaluoBean {
     public void subirAnexos(){
         nombreImagen = numeroSolicitud + "_" + num++ + ".jpg";
         try {
-              pathAnexo = ReportConfig.path_avaluos + nombreImagen;
+            pathAnexo = ReportConfig.path_avaluos + nombreImagen;
 //            String dir ="C:\\Users\\Desarrollo\\Desktop\\avaluo\\"+ nombreImagen;
 //            pathAnexo = dir;
-      
+//      
             InputStream input = file.getInputStream();
             File f = new File(pathAnexo);
            

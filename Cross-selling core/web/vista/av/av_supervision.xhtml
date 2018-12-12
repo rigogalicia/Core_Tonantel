@@ -26,42 +26,61 @@
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="SupSolicitud" value="Num.Solicitud"/>
-                                                <h:inputText id="NumSolicitud" class="form-control"></h:inputText>
+                                                <h:inputText id="SupSolicitud" class="form-control" value="#{av_supervision.supervision.numSolicitud}">
+                                                    <f:ajax event="blur" listener="#{av_supervision.buscarPorCampos()}" execute="SupSolicitud" render="supervision"/>
+                                                </h:inputText>
                                             </f:facet>
                                              #{s.numSolicitud}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="SupSolicitante" value="Solicitante"/>
-                                                <h:inputText id="SupSolicitante" class="form-control"></h:inputText>
+                                                <h:inputText id="SupSolicitante" class="form-control" disabled="true"></h:inputText>
                                             </f:facet>
                                             #{s.solicitante}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="SupDireccion" value="Dir Registrada"/>
-                                                <h:inputText id="SupDireccion" class="form-control"></h:inputText>
+                                                <h:inputText id="SupDireccion" class="form-control" disabled="true"></h:inputText>
                                             </f:facet>
                                             #{s.direccion}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="SupAgencia" value="Agencia"/>
-                                                <h:inputText id="supAgencia" class="form-control"></h:inputText>
+                                                <h:inputText id="supAgencia" class="form-control" value="#{av_supervision.supervision.agencia}">
+                                                    <f:ajax event="blur" listener="#{av_supervision.buscarPorCampos()}" execute="supAgencia" render="supervision"/>
+                                                </h:inputText>
                                             </f:facet>
                                             #{s.agencia}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="SupAsesor" value="Asesor"/>
-                                                <h:inputText id="SupAsesor" class="form-control"></h:inputText>
+                                                <h:inputText id="SupAsesor" class="form-control" value="#{av_supervision.supervision.asesorNombre}">
+                                                    <f:ajax event="blur" listener="#{av_supervision.buscarPorCampos()}" execute="SupAsesor" render="supervision"/>
+                                                </h:inputText>
                                             </f:facet>
                                             #{s.asesorNombre}
+                                        </h:column>
+                                        <h:column rendered="#{av_supervision.supervision.est == '97' eq false}">
+                                            <f:facet name="header">
+                                                <h:outputLabel for="Supvaluador" value="Valuador"/>
+                                                <h:selectOneMenu id="supValuador" class="form-control" value="#{av_supervision.supervision.valuador}" label="&nbsp;!">
+                                                    <f:selectItem itemLabel="" itemValue=""/>
+                                                    <f:selectItems value="#{av_supervision.valuador}"/> 
+                                                    <f:ajax event="change" listener="#{av_supervision.buscarPorCampos()}" execute="supValuador" render="supervision"/>
+                                                </h:selectOneMenu>
+                                            </f:facet>
+                                            #{s.valuador}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputLabel for="SupFecha" value="Fecha Solicitud"/>
-                                                <h:inputText id="SupFecha" class="form-control"></h:inputText>
+                                                <h:inputText id="SupFecha" class="form-control" value="#{av_supervision.supervision.fechaSolicitud}" disabled="true">
+                                                    <f:ajax event="blur" listener="#{av_supervision.buscarPorCampos()}" execute="SupFecha" render="supervision"/>
+                                                </h:inputText>
                                             </f:facet>
                                             #{s.fechaSolicitud}
                                         </h:column>
@@ -80,6 +99,10 @@
                                             #{s.estado} 
                                         </h:column>
                                         <h:column>
+                                            <h:commandLink target="blank_" actionListener="#{av_supervision.verDetalleSolicitud(s)}">
+                                                <samp class="glyphicon glyphicon-list-alt"></samp>
+                                            </h:commandLink>
+                                           
                                             <h:commandLink action="/vista/av/av_superasigna.xhtml" rendered="#{av_supervision.supervision.est == '97' || av_supervision.supervision.est == '98'}">
                                                 <samp class="glyphicon glyphicon-ok" aria-hidden="true"/>
                                                 <f:param name="numeroSolicitud" value="#{s.numSolicitud}"/>

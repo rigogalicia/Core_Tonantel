@@ -4,12 +4,14 @@ package av.controlador;
 import admin.modelo.Colaborador;
 import admin.modelo.Puesto;
 import av.modelo.Supervision;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 
 
@@ -19,12 +21,26 @@ public class AvAsignarBean {
 private Supervision supervision = new Supervision();
 private ArrayList<SelectItem> valuadores =new ArrayList<>();
 
+private String userConect;
+
     public AvAsignarBean() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession sesion= (HttpSession) facesContext.getExternalContext().getSession(true);
         Map params = facesContext.getExternalContext().getRequestParameterMap();
-        
-        supervision.setNumSolicitud(params.get("numeroSolicitud").toString());
-        supervision.consultarSolicitud();
+        if(sesion.getAttribute("userConect")!= null){
+            userConect = sesion.getAttribute("userConect").toString();
+            supervision.setAsignador(userConect);
+            supervision.setNumSolicitud(params.get("numeroSolicitud").toString());
+            supervision.consultarSolicitud();
+  
+        }
+        else{
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/Cross-selling_core/faces/index.xhtml");
+            } catch (IOException ex) {
+                ex.printStackTrace(System.out);
+            }
+        } 
     }
 
     public Supervision getSupervision() {
@@ -48,9 +64,12 @@ private ArrayList<SelectItem> valuadores =new ArrayList<>();
     public void setValuadores(ArrayList<SelectItem> valuadores) {
         this.valuadores = valuadores;
     }
-
+    
     public void asiganrValuador(){
-        supervision.asiganrAvaluo();
+        supervision.asignar();
     }
-
+    
+    public void reasignarValuador(){
+        supervision.reasignar();
+    }
 }
