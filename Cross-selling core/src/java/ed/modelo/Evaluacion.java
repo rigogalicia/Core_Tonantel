@@ -99,7 +99,7 @@ public class Evaluacion {
                     .append("peso", p.getPeso()));
         }
         
-        Document documento = new Document("nombre", nombre)
+        Document documento = new Document("nombreEvaluacion", nombre)
                 .append("fechaInicio", fechaInicio)
                 .append("fechaFin", fechaFin)
                 .append("instrucciones", instrucciones)
@@ -123,7 +123,7 @@ public class Evaluacion {
                 Document next = cursor.next();
                 Evaluacion e = new Evaluacion();
                 e.setId(next.getObjectId("_id"));
-                e.setNombre(next.getString("nombre"));
+                e.setNombre(next.getString("nombreEvaluacion"));
                 e.setFechaInicio(next.getDate("fechaInicio"));
                 e.setFechaFin(next.getDate("fechaFin"));
                 e.setInstrucciones(next.getString("instrucciones"));
